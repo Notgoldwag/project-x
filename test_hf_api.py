@@ -20,7 +20,7 @@ def test_hf_api():
     print("Hugging Face API Test")
     print("=" * 60)
     
-    # Check configuration
+    # Check configurations
     print("\n1️⃣ Checking configuration...")
     if not HF_API_TOKEN:
         print("❌ HF_API_TOKEN not found in .env file!")
