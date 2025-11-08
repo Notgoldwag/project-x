@@ -1683,7 +1683,7 @@ This document, this very text you are reading, is a collaboration. A testament t
             // Add AI response
             const aiResponse = data.reply || 'Sorry, I could not generate a response at the moment.';
             addMessage(aiResponse, false);
-            
+
             // Show additional info if available
             if (data.note) {
               console.warn('⚠️ Configuration note from server:', data.note);
@@ -1763,7 +1763,7 @@ This document, this very text you are reading, is a collaboration. A testament t
                   const testData = await testResponse.json();
                   console.log('✅ Flask proxy is accessible');
                   console.log('📦 Test response:', testData);
-                  
+
                   // Send a visible test message
                   console.log('🧪 Test #2: Sending visible ping message...');
                   chatInput.value = 'ping';
