@@ -1,282 +1,238 @@
 <!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-    <!--=============== REMIXICONS ===============-->
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.2.0/remixicon.css"
-    />
-
-    <!--=============== CSS ===============-->
-    <link rel="stylesheet" href="../static/css/styles.css" />
-    <link rel="stylesheet" href="../static/css/extra.css" />
-
-    <title>Login/Registration</title>
-  </head>
-
-  <body>
-    <!--=============== ANIMATED BACKGROUND ===============-->
-    <div class="lava-background">
-      <div class="lava-blob blob-1"></div>
-      <div class="lava-blob blob-2"></div>
-      <div class="lava-blob blob-3"></div>
-    </div>
-    <div class="particle-overlay"></div>
-
-    <!--=============== WELCOME MESSAGE ===============-->
-    <div class="welcome-message">
-      <h1>Welcome to Project X</h1>
-    </div>
-
-    <!--=============== LOGIN IMAGE ===============-->
-    <svg
-      class="login__blob"
-      viewBox="0 0 566 840"
-      xmlns="http://www.w3.org/2000/svg"
-    >
-      <mask id="mask0" mask-type="alpha">
-        <path
-          d="M342.407 73.6315C388.53 56.4007 394.378 17.3643 391.538 
-            0H566V840H0C14.5385 834.991 100.266 804.436 77.2046 707.263C49.6393 
-            591.11 115.306 518.927 176.468 488.873C363.385 397.026 156.98 302.824 
-            167.945 179.32C173.46 117.209 284.755 95.1699 342.407 73.6315Z"
-        />
-      </mask>
-
-      <g mask="url(#mask0)">
-        <path
-          d="M342.407 73.6315C388.53 56.4007 394.378 17.3643 391.538 
-            0H566V840H0C14.5385 834.991 100.266 804.436 77.2046 707.263C49.6393 
-            591.11 115.306 518.927 176.468 488.873C363.385 397.026 156.98 302.824 
-            167.945 179.32C173.46 117.209 284.755 95.1699 342.407 73.6315Z"
-        />
-
-        <!-- Insert your image (recommended size: 1000 x 1200) -->
-        <image class="login__img" href="../static/images/bgintro.png" />
-      </g>
-    </svg>
-
-    <!--=============== LOGIN ===============-->
-    <div class="login container grid" id="loginAccessRegister">
-      <!--===== LOGIN ACCESS =====-->
-      <div class="login__access">
-        <h1 class="login__title">Login</h1>
-
-        <div class="login__area">
-          <form action="" class="login__form">
-            <div class="login__content grid">
-              <div class="login__box">
-                <input
-                  type="email"
-                  id="email"
-                  required
-                  placeholder=" "
-                  class="login__input"
-                />
-                <label for="email" class="login__label">Email</label>
-
-                <i class="ri-mail-fill login__icon"></i>
-              </div>
-
-              <div class="login__box">
-                <input
-                  type="password"
-                  id="password"
-                  required
-                  placeholder=" "
-                  class="login__input"
-                />
-                <label for="password" class="login__label">Password</label>
-
-                <i
-                  class="ri-eye-off-fill login__icon login__password"
-                  id="loginPassword"
-                ></i>
-              </div>
-            </div>
-
-            <button type="submit" class="login__button">Login</button>
-          </form>
-
-          <p class="login__switch">
-            Don't have an account?
-            <button id="loginButtonRegister">Create Account</button>
-          </p>
-        </div>
-        <button
-          id="googleLoginButton"
-          class="login__button"
-          style="background: #db4437; color: white; margin-top: 10px"
-        >
-          <i class="ri-google-fill" style="margin-right: 8px"></i> Continue with
-          Google
-        </button>
-        <button id="githubLoginButton" class="login__button" 
-        style="background: #333; color: white; margin-top: 10px;">
-  <i class="ri-github-fill" style="margin-right: 8px;"></i> Continue with GitHub
-</button>
-
-      </div>
-
-      <!--===== REGISTER =====-->
-      <div class="login__register">
-        <br />
-        <br />
-
-        <h1 class="login__title">Create New Account</h1>
-
-        <div class="login__area">
-          <form action="" class="login__form" id="WealthifyRegister">
-            <div class="login__content grid">
-              <div class="login__group grid">
-                <div class="login__box">
-                  <input
-                    type="text"
-                    id="fullName"
-                    required
-                    placeholder=" "
-                    class="login__input"
-                  />
-                  <label for="fullName" class="login__label">Full Name</label>
-
-                  <i class="ri-user-fill login__icon"></i>
-                </div>
-              </div>
-
-              <div class="login__box">
-                <input
-                  type="email"
-                  id="emailCreate"
-                  required
-                  placeholder=" "
-                  class="login__input"
-                />
-                <label for="emailCreate" class="login__label">Email</label>
-
-                <i class="ri-mail-fill login__icon"></i>
-              </div>
-
-              <div class="login__box">
-                <input
-                  type="password"
-                  id="passwordCreate"
-                  required
-                  placeholder=" "
-                  class="login__input"
-                />
-                <label for="passwordCreate" class="login__label"
-                  >Password</label
-                >
-
-                <i
-                  class="ri-eye-off-fill login__icon login__password"
-                  id="loginPasswordCreate"
-                ></i>
-              </div>
-            </div>
-
-            <button type="submit" class="login__button">Create account</button>
-          </form>
-
-          <button
-            id="googleLoginButton"
-            class="login__button"
-            style="background: #db4437; color: white; margin-top: 10px"
-          >
-            <i class="ri-google-fill" style="margin-right: 8px"></i> Continue
-            with Google
-          </button>
-
-          <button
-            id="githubLoginButton"
-            class="login__button"
-            style="background: #333; color: white; margin-top: 10px"
-          >
-            <i class="ri-github-fill" style="margin-right: 8px"></i> Continue
-            with GitHub
-          </button>
-
-          <p class="login__switch">
-            Already have an account?
-            <button id="loginButtonAccess">Log In</button>
-          </p>
-        </div>
-      </div>
-    </div>
-
-    <!-- Modal Backdrop -->
-    <div
-      id="modalBackdrop"
-      style="
-        display: none;
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: rgba(0, 0, 0, 0.5);
-        z-index: 999;
-      "
-    ></div>
-
-    <!-- Custom Modal -->
-    <div
-      id="customModal"
-      style="
-        display: none;
-        position: fixed;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        background: rgba(10, 17, 22, 0.95);
-        backdrop-filter: blur(20px);
-        padding: 30px;
-        border-radius: 15px;
-        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-        border: 1px solid rgba(0, 203, 160, 0.3);
-        z-index: 1000;
-        transition: opacity 0.3s ease-in-out;
-      "
-    >
-      <p
-        id="modalMessage"
-        style="
-          font-size: 16px;
-          margin-bottom: 20px;
-          font-weight: bold;
-          color: #ffffff;
-        "
-      ></p>
-      <button
-        onclick="closeModal()"
-        style="
-          padding: 12px 24px;
-          background: linear-gradient(135deg, #00cba0 0%, #00a085 100%);
-          color: white;
-          border: none;
-          border-radius: 8px;
-          cursor: pointer;
-          font-weight: 600;
-          transition: all 0.3s ease;
-        "
-      >
-        OK
-      </button>
-    </div>
-
-    <!--=============== MAIN JS ===============-->
-    <script src="../static/js/index.js"></script>
-    <script>
-      // Close the modal
-      function closeModal() {
-        document.getElementById("customModal").style.display = "none";
-        document.getElementById("modalBackdrop").style.display = "none";
-      }
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>WebApp Landing Page</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Spline+Sans:wght@400;500;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
+<script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#14b8a6", // teal-500
+                        "background-light": "#f8f8f5",
+                        "background-dark": "#0f172a", // slate-900
+                        "text-light": "#1c1c0d",
+                        "text-dark": "#e2e8f0", // slate-200
+                        "text-secondary-light": "#9e9d47",
+                        "text-secondary-dark": "#94a3b8", // slate-400
+                        "border-light": "#e9e8ce",
+                        "border-dark": "#1e293b" // slate-800
+                    },
+                    fontFamily: {
+                        "display": ["Spline Sans", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "1rem",
+                        "lg": "2rem",
+                        "xl": "3rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
     </script>
-    <script type="module" src="../static/js/signup.js"></script>
-    <script type="module" src="../static/js/login.js"></script>
-  </body>
-</html>
+<style>
+        body {
+            min-height: max(884px, 100dvh);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-dark font-display text-text-dark">
+<div class="relative flex min-h-screen w-full flex-col overflow-x-hidden">
+<header class="sticky top-0 z-50 bg-background-dark/80 backdrop-blur-sm">
+<div class="container mx-auto flex items-center p-4">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-3xl text-primary">grain</span>
+<h2 class="text-lg font-bold leading-tight tracking-[-0.015em]">Synergy</h2>
+</div>
+<nav class="hidden md:flex items-center gap-6 ml-10">
+<a class="text-sm font-medium text-text-secondary-dark hover:text-text-dark transition-colors" href="#">Features</a>
+<a class="text-sm font-medium text-text-secondary-dark hover:text-text-dark transition-colors" href="#">Pricing</a>
+<a class="text-sm font-medium text-text-secondary-dark hover:text-text-dark transition-colors" href="#">Blog</a>
+</nav>
+<div class="ml-auto flex items-center gap-4">
+<a class="hidden sm:inline text-sm font-medium text-text-secondary-dark hover:text-text-dark transition-colors" href="#">Log In</a>
+<button class="flex min-w-[84px] cursor-pointer items-center justify-center overflow-hidden rounded-full h-9 px-4 bg-primary text-background-dark text-sm font-bold leading-normal tracking-[0.015em]">
+<span class="truncate">Sign Up</span>
+</button>
+<button class="md:hidden">
+<span class="material-symbols-outlined text-2xl text-text-dark">menu</span>
+</button>
+</div>
+</div>
+</header>
+<main>
+<section class="container mx-auto">
+<div class="@container">
+<div class="flex flex-col gap-8 px-4 py-16 @[864px]:flex-row @[864px]:py-24">
+<div class="flex flex-col gap-6 text-center @[864px]:text-left @[864px]:w-1/2 @[864px]:justify-center @[864px]:gap-8">
+<div class="flex flex-col gap-4">
+<h1 class="text-4xl font-black leading-tight tracking-[-0.033em] @[480px]:text-5xl @[864px]:text-6xl text-white">Streamline Your Workflow Effortlessly</h1>
+<p class="text-base font-normal leading-normal text-text-secondary-dark @[480px]:text-lg">Our innovative web application helps you manage tasks, collaborate with your team, and boost productivity like never before.</p>
+</div>
+<button class="flex self-center @[864px]:self-start min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-full h-12 px-5 bg-primary text-background-dark text-base font-bold leading-normal tracking-[0.015em]">
+<span class="truncate">Start Your Free Trial</span>
+</button>
+</div>
+<div class="w-full bg-center bg-no-repeat aspect-video bg-cover rounded-xl @[864px]:w-1/2" data-alt="Abstract gradient waves in shades of yellow and green" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuA8qqD5UiGWpBhmNzU1c74UVZsjsFcKF82XVZOba-qac9tHrQgNJqVZYbCevCfTugRjDjK_NYdI_6Srq_1Radca1Bi2dlwUzshWvkWuWR-vhC49PW3YkzBgJFFdDM2qs7K7K6jgrxtrB10Ost8fGhFpPmDmnxaoRcXfxLIfo0JeRRxbZ3CrWzRuTsw3LBFmCHrdxgTqKyXgZl98-6OhpB_pJk_b1HM_e8L8j6I7tv3xqb-FBdeEQUrg0lE2lk5svxGnhOM7KHwVZKo");'></div>
+</div>
+</div>
+</section>
+<section class="container mx-auto">
+<div class="flex flex-col gap-10 px-4 py-16 @container">
+<div class="flex flex-col gap-4 text-center items-center">
+<h2 class="text-3xl font-bold leading-tight tracking-[-0.033em] @[480px]:text-4xl max-w-2xl text-white">Discover Our Core Features</h2>
+<p class="text-base font-normal leading-normal text-text-secondary-dark max-w-2xl">Everything you need to take your productivity to the next level. Our features are designed to be powerful yet intuitive.</p>
+</div>
+<div class="grid grid-cols-[repeat(auto-fit,minmax(280px,1fr))] gap-6 p-0">
+<div class="flex flex-1 flex-col gap-3 rounded-lg border border-border-dark bg-slate-800/50 p-6">
+<span class="material-symbols-outlined text-3xl text-primary">task_alt</span>
+<div class="flex flex-col gap-1">
+<h3 class="text-lg font-bold leading-tight text-white">Intuitive Task Management</h3>
+<p class="text-sm font-normal leading-normal text-text-secondary-dark">Organize, assign, and track tasks with our simple drag-and-drop interface.</p>
+</div>
+</div>
+<div class="flex flex-1 flex-col gap-3 rounded-lg border border-border-dark bg-slate-800/50 p-6">
+<span class="material-symbols-outlined text-3xl text-primary">groups</span>
+<div class="flex flex-col gap-1">
+<h3 class="text-lg font-bold leading-tight text-white">Seamless Collaboration</h3>
+<p class="text-sm font-normal leading-normal text-text-secondary-dark">Communicate with your team in real-time and keep everyone in the loop.</p>
+</div>
+</div>
+<div class="flex flex-1 flex-col gap-3 rounded-lg border border-border-dark bg-slate-800/50 p-6">
+<span class="material-symbols-outlined text-3xl text-primary">analytics</span>
+<div class="flex flex-col gap-1">
+<h3 class="text-lg font-bold leading-tight text-white">Powerful Analytics</h3>
+<p class="text-sm font-normal leading-normal text-text-secondary-dark">Gain valuable insights into your team's performance with detailed reports.</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section class="container mx-auto py-16">
+<div class="flex flex-col gap-8 text-center px-4">
+<h2 class="text-3xl font-bold leading-tight tracking-[-0.033em] @[480px]:text-4xl text-white">Loved by teams worldwide</h2>
+</div>
+<div class="mt-10 flex overflow-x-auto [-ms-scrollbar-style:none] [scrollbar-width:none] [&amp;::-webkit-scrollbar]:hidden">
+<div class="flex items-stretch p-4 gap-8">
+<div class="flex h-full w-80 flex-shrink-0 flex-col gap-4 rounded-lg border border-border-dark bg-slate-800/50 p-6 text-left">
+<div class="flex items-center gap-4">
+<div class="h-12 w-12 rounded-full bg-cover bg-center" data-alt="Portrait of Jane Doe" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBecHYwkUHZDsAcUl1CT_vukkJMUiPrXGt7Qtawiry4iPCyAreaB-EnP3JEUXAqT44gi17VWXJPKQvrEMsCk08N7ePRcp2PeJ4_iaBxoXKScQ8iUubhO-5DMAF98GDnx9UUZs6GLeDRrvsOoc6wpjbQ2oxUpOZIsI4_p2radInEIyjukoO8rKYzjL_Pmm1hQqaDF_GiK4sih-_CAKM6W04n7-2hY0aRnlIpb2XY7j8qT1ZSZK0jTDdQjuksWiT_MkAvQvarKdOyut0");'></div>
+<div>
+<p class="text-base font-medium leading-normal text-white">Jane Doe</p>
+<p class="text-sm font-normal text-text-secondary-dark">Project Manager</p>
+</div>
+</div>
+<p class="text-base font-normal leading-normal text-text-secondary-dark">"This app has completely transformed how our team works. We're more organized and efficient than ever before!"</p>
+</div>
+<div class="flex h-full w-80 flex-shrink-0 flex-col gap-4 rounded-lg border border-border-dark bg-slate-800/50 p-6 text-left">
+<div class="flex items-center gap-4">
+<div class="h-12 w-12 rounded-full bg-cover bg-center" data-alt="Portrait of John Smith" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCB-HZ-BKai_UQ914Q-vsKy8X9LkFEK9ROFKrvwXkQ9sy44OJFVarEZ66JF50E-0A4ydX1bwB4HvadZQgFrsMrJrRkHfSNrRnegPdVwdn1OuTB5qZW6p8voqOwmqJAnmvi6qDPMA3QkGpcSMsNAer1thhFessETIv4CT0qd3IlZpCzh-OlJuCZOcrcht4Sb0EGA4g0giUWquCwtu2QSI7qltmL6EClVOsZUtkccICI5f-FBECsEGlOHhoxLoiSZcPkLBF3ZA4Es-bs");'></div>
+<div>
+<p class="text-base font-medium leading-normal text-white">John Smith</p>
+<p class="text-sm font-normal text-text-secondary-dark">Lead Developer</p>
+</div>
+</div>
+<p class="text-base font-normal leading-normal text-text-secondary-dark">"The best collaboration tool I've used. The seamless integration with our existing workflow is a game-changer."</p>
+</div>
+<div class="flex h-full w-80 flex-shrink-0 flex-col gap-4 rounded-lg border border-border-dark bg-slate-800/50 p-6 text-left">
+<div class="flex items-center gap-4">
+<div class="h-12 w-12 rounded-full bg-cover bg-center" data-alt="Portrait of Emily White" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCos1p6InQEZEZdEZ9sOMHNlR1fSrS-dPZLE9aDzkBgs76co6y7ruYrMAcZgSHfoxoNTmMc2-pSUiOHC4f1zrxzYPpKozExoo8zeD8a3ibOfiDxvu4LwW_s5rPw_tiWGpmcKB51j0bOIQ8_bR5m8OWQcY8vaTF6k2GounkKrayVVPCtEaYB_DDhlIw2_Bgh-_82PL1_f-EgwsPShrmMEyqm0B6TcwGxuAdSvPvbf68rbwYb4AGrDx0bHDnm74SPpQvun33_HMPeo7I");'></div>
+<div>
+<p class="text-base font-medium leading-normal text-white">Emily White</p>
+<p class="text-sm font-normal text-text-secondary-dark">Marketing Head</p>
+</div>
+</div>
+<p class="text-base font-normal leading-normal text-text-secondary-dark">"Our campaign tracking has improved by 50% thanks to the insightful analytics. Highly recommended!"</p>
+</div>
+</div>
+</div>
+</section>
+<section class="container mx-auto">
+<div class="bg-primary/10 rounded-lg @container mx-4">
+<div class="flex flex-col items-center justify-end gap-6 px-4 py-16 text-center @[480px]:gap-8 @[480px]:px-10 @[480px]:py-20">
+<div class="flex flex-col gap-2">
+<h2 class="text-3xl font-bold leading-tight tracking-[-0.033em] @[480px]:text-4xl max-w-2xl text-white">Ready to Boost Your Productivity?</h2>
+<p class="text-base font-normal leading-normal text-text-secondary-dark max-w-2xl">Join thousands of teams who are already working smarter. Sign up today for a free 14-day trial.</p>
+</div>
+<div class="flex justify-center">
+<button class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-full h-12 px-5 bg-primary text-background-dark text-base font-bold leading-normal tracking-[0.015em]">
+<span class="truncate">Get Started Free</span>
+</button>
+</div>
+</div>
+</div>
+</section>
+</main>
+<footer class="mt-24">
+<div class="container mx-auto px-4 py-12">
+<div class="grid grid-cols-2 md:grid-cols-4 gap-8">
+<div class="col-span-2 md:col-span-1">
+<div class="flex items-center gap-2 mb-4">
+<span class="material-symbols-outlined text-3xl text-primary">grain</span>
+<h2 class="text-lg font-bold leading-tight tracking-[-0.015em]">Synergy</h2>
+</div>
+<p class="text-sm text-text-secondary-dark">The ultimate platform for team collaboration and productivity.</p>
+</div>
+<div>
+<h3 class="font-bold mb-4 text-white">Product</h3>
+<ul class="space-y-2">
+<li><a class="text-sm text-text-secondary-dark hover:text-text-dark" href="#">Features</a></li>
+<li><a class="text-sm text-text-secondary-dark hover:text-text-dark" href="#">Pricing</a></li>
+<li><a class="text-sm text-text-secondary-dark hover:text-text-dark" href="#">Integrations</a></li>
+<li><a class="text-sm text-text-secondary-dark hover:text-text-dark" href="#">Updates</a></li>
+</ul>
+</div>
+<div>
+<h3 class="font-bold mb-4 text-white">Company</h3>
+<ul class="space-y-2">
+<li><a class="text-sm text-text-secondary-dark hover:text-text-dark" href="#">About Us</a></li>
+<li><a class="text-sm text-text-secondary-dark hover:text-text-dark" href="#">Blog</a></li>
+<li><a class="text-sm text-text-secondary-dark hover:text-text-dark" href="#">Careers</a></li>
+<li><a class="text-sm text-text-secondary-dark hover:text-text-dark" href="#">Contact</a></li>
+</ul>
+</div>
+<div>
+<h3 class="font-bold mb-4 text-white">Legal</h3>
+<ul class="space-y-2">
+<li><a class="text-sm text-text-secondary-dark hover:text-text-dark" href="#">Privacy Policy</a></li>
+<li><a class="text-sm text-text-secondary-dark hover:text-text-dark" href="#">Terms of Service</a></li>
+</ul>
+</div>
+</div>
+<div class="mt-12 border-t border-border-dark pt-8 flex flex-col sm:flex-row justify-between items-center text-sm text-text-secondary-dark">
+<p>© 2024 Synergy. All rights reserved.</p>
+<div class="flex gap-4 mt-4 sm:mt-0">
+<a aria-label="Twitter" href="#">
+<svg class="h-5 w-5 fill-current" viewBox="0 0 24 24">
+<path d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-.424.727-.666 1.58-."></path>
+</svg>
+</a>
+<a aria-label="LinkedIn" href="#">
+<svg class="h-5 w-5 fill-current" viewBox="0 0 24 24">
+<path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.225 0z"></path>
+</svg>
+</a>
+<a aria-label="Facebook" href="#">
+<svg class="h-5 w-5 fill-current" viewBox="0 0 24 24">
+<path d="M22.675 0h-21.35C.59 0 0 .59 0 1.325v21.35C0 23.41.59 24 1.325 24H12.82v-9.294H9.692v-3.622h3.128V8.413c0-3.1 1.893-4.788 4.659-4.788 1.325 0 2.463.099 2.795.143v3.24l-1.918.001c-1.504 0-1.795.715-1.795 1.763v2.313h3.587l-.467 3.622h-3.12V24h6.116c.735 0 1.325-.59 1.325-1.325V1.325C24 .59 23.41 0 22.675 0z"></path>
+</svg>
+</a>
+</div>
+</div>
+</div>
+</footer>
+</div>
+
+</body></html>
