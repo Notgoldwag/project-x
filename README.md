@@ -1,4 +1,4 @@
-# 🚀 Project X - AI-Powered Immersive Login Interface
+# 🚀 Project X
 
 ## ✨ Experience the Future of Authentication
 
