@@ -6,9 +6,7 @@ requests==2.32.3
 # === Machine Learning / NLP ===
 
 # === Optional (for model training & metrics visualization) ===
-tqdm==4.66.5
-matplotlib==3.9.2
-seaborn==0.13.2
+
 
 # === Deployment (optional, for Vercel/Render) ===
 gunicorn==22.0.0
