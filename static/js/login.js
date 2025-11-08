@@ -39,6 +39,52 @@ document.addEventListener('DOMContentLoaded', function () {
     }
   })
 
+  // ===================== GOOGLE AUTH =====================
+const googleBtn = document.getElementById("googleLoginButton");
+
+if (googleBtn) {
+  googleBtn.addEventListener("click", async () => {
+    try {
+      const { data, error } = await supabase.auth.signInWithOAuth({
+        provider: "google",
+        options: {
+          redirectTo: "http://127.0.0.1:5000/home", // Flask route after login
+        },
+      });
+
+      if (error) throw error;
+      console.log("Redirecting to Google Auth...");
+    } catch (err) {
+      showModal("Google login failed: " + err.message);
+      console.error(err);
+    }
+  });
+}
+
+// ===================== GITHUB AUTH =====================
+const githubBtn = document.getElementById("githubLoginButton");
+
+if (githubBtn) {
+  githubBtn.addEventListener("click", async () => {
+    try {
+      const { data, error } = await supabase.auth.signInWithOAuth({
+        provider: "github",
+        options: {
+          redirectTo: "http://127.0.0.1:5000/home",
+        },
+      });
+
+      if (error) throw error;
+      console.log("Redirecting to GitHub OAuth...");
+    } catch (err) {
+      showModal("GitHub login failed: " + err.message);
+      console.error(err);
+    }
+  });
+}
+
+
+
   // Validate login form input
   function validateLoginForm(email, password) {
     if (email === '' || !isValidEmail(email)) {

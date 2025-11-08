@@ -57,6 +57,51 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   });
 
+
+// =============== GOOGLE AUTH (Signup page) ===============
+const googleSignupButton = document.getElementById("googleSignupButton");
+
+if (googleSignupButton) {
+  googleSignupButton.addEventListener("click", async () => {
+    try {
+      const { data, error } = await supabase.auth.signInWithOAuth({
+        provider: "google",
+        options: {
+          redirectTo: "http://127.0.0.1:5000/home",
+        },
+      });
+      if (error) throw error;
+      console.log("Redirecting to Google OAuth...");
+    } catch (err) {
+      showModal("Google signup failed: " + err.message);
+      console.error(err);
+    }
+  });
+}
+
+// =============== GITHUB AUTH (Signup page) ===============
+const githubSignupButton = document.getElementById("githubSignupButton");
+
+if (githubSignupButton) {
+  githubSignupButton.addEventListener("click", async () => {
+    try {
+      const { data, error } = await supabase.auth.signInWithOAuth({
+        provider: "github",
+        options: {
+          redirectTo: "http://127.0.0.1:5000/home",
+        },
+      });
+      if (error) throw error;
+      console.log("Redirecting to GitHub OAuth...");
+    } catch (err) {
+      showModal("GitHub signup failed: " + err.message);
+      console.error(err);
+    }
+  });
+}
+
+
+
   // Validation functions
   function validateForm() {
     const fullName = document.getElementById("fullName").value.trim();
