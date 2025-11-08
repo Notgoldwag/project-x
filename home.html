@@ -27,8 +27,8 @@
   <!-- Supabase -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-  <!-- Markdown rendering and HTML sanitization -->
-  <script src="https://cdn.jsdelivr.net/npm/marked@9.1.6/marked.min.js"></script>
+  <!-- Chart.js for metrics visualization -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/dompurify@3.0.6/dist/purify.min.js"></script>
 
   <link rel="stylesheet" href="static/css/home.css">
@@ -589,6 +589,7 @@
 
     /* Typing indicator animation */
     @keyframes typingPulse {
+
       0%,
       60%,
       100% {
@@ -606,9 +607,13 @@
 
     /* Bouncing dots animation */
     @keyframes bounce {
-      0%, 80%, 100% {
+
+      0%,
+      80%,
+      100% {
         transform: translateY(0) scale(1);
       }
+
       40% {
         transform: translateY(-8px) scale(1.1);
       }
@@ -620,15 +625,20 @@
 
     /* Typing indicator container bounce */
     @keyframes typingBounce {
-      0%, 100% {
+
+      0%,
+      100% {
         transform: translateY(0);
       }
+
       25% {
         transform: translateY(-3px);
       }
+
       50% {
         transform: translateY(0);
       }
+
       75% {
         transform: translateY(-2px);
       }
@@ -640,9 +650,12 @@
 
     /* Glow pulse for AI icon during typing */
     @keyframes glowPulse {
-      0%, 100% {
+
+      0%,
+      100% {
         box-shadow: 0 0 10px rgba(42, 247, 173, 0.3);
       }
+
       50% {
         box-shadow: 0 0 20px rgba(42, 247, 173, 0.6), 0 0 30px rgba(42, 247, 173, 0.3);
       }
@@ -979,12 +992,13 @@
       <nav class="acrylic--sidebar rounded-3xl p-2 md:p-3 w-14 md:w-16 relative z-50 overflow-visible">
         <div class="flex flex-col justify-between h-full">
           <div class="flex flex-col items-center space-y-2 md:space-y-3">
-            <button id="analyzeBtn"
-              class="p-2 rounded-xl text-gray-300 hover:bg-white/10 hover:text-primary transition">
-              <span class="material-icons">sports_esports</span>
-            </button>
             <button id="editorBtn" class="p-2 rounded-xl text-black bg-primary shadow-lg shadow-primary/30">
               <span class="material-icons">edit</span>
+            </button>
+            <button id="playgroundBtn"
+              class="p-2 rounded-xl text-gray-300 hover:bg-white/10 hover:text-primary transition"
+              title="Prompt Playground">
+              <span class="material-icons">compare_arrows</span>
             </button>
             <button id="settingsBtn"
               class="p-2 rounded-xl text-gray-300 hover:bg-white/10 hover:text-primary transition">
@@ -1155,17 +1169,18 @@
           class="acrylic--editor rounded-3xl overflow-hidden flex-1 flex flex-col min-h-0 transition-all duration-300 ease-in-out">
           <div class="flex-1 p-6 md:p-8 overflow-y-auto">
             <div class="w-full max-w-5xl mx-auto space-y-6">
-              
+
               <!-- Header -->
               <div class="flex items-center justify-between">
                 <div>
-                  <h1 class="text-3xl md:text-4xl font-black text-transparent bg-clip-text bg-gradient-to-r from-primary via-cyan-400 to-primary animate-gradient-x tracking-wider"
-                      style="font-family: 'Orbitron', sans-serif; letter-spacing: 0.08em;">
+                  <h1
+                    class="text-3xl md:text-4xl font-black text-transparent bg-clip-text bg-gradient-to-r from-primary via-cyan-400 to-primary animate-gradient-x tracking-wider"
+                    style="font-family: 'Orbitron', sans-serif; letter-spacing: 0.08em;">
                     TEXT EDITOR
                   </h1>
                   <p class="text-sm text-gray-400 mt-1">Craft your content with style</p>
                 </div>
-                
+
                 <!-- Toolbar -->
                 <div class="flex items-center gap-2">
                   <button
@@ -1243,110 +1258,112 @@
               <!-- Header -->
               <div class="flex items-center justify-between mb-6">
                 <div>
-                  <h1 class="text-3xl md:text-4xl font-black text-transparent bg-clip-text bg-gradient-to-r from-primary via-cyan-400 to-primary animate-gradient-x tracking-wider"
-                      style="font-family: 'Orbitron', sans-serif; letter-spacing: 0.08em;">
+                  <h1
+                    class="text-3xl md:text-4xl font-black text-transparent bg-clip-text bg-gradient-to-r from-primary via-cyan-400 to-primary animate-gradient-x tracking-wider"
+                    style="font-family: 'Orbitron', sans-serif; letter-spacing: 0.08em;">
                     SECURITY SCANNER
                   </h1>
                   <p class="text-sm text-gray-400 mt-1">Advanced prompt injection detection</p>
                 </div>
               </div>
-            <!-- Prompt Input Section -->
-            <div class="mb-8">
-              <h2 class="text-lg font-semibold text-white mb-4 flex items-center gap-2">
-                <span class="material-icons text-primary text-[20px]">edit</span>
-                Test Your Prompt
-              </h2>
-              <div class="space-y-4">
-                <textarea id="mainPromptInput" placeholder="Enter your prompt here to test for injection attempts..."
-                  rows="6"
-                  class="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl focus:ring-2 focus:ring-primary/60 focus:border-transparent placeholder-gray-500 text-white resize-none text-base"></textarea>
+              <!-- Prompt Input Section -->
+              <div class="mb-8">
+                <h2 class="text-lg font-semibold text-white mb-4 flex items-center gap-2">
+                  <span class="material-icons text-primary text-[20px]">edit</span>
+                  Test Your Prompt
+                </h2>
+                <div class="space-y-4">
+                  <textarea id="mainPromptInput" placeholder="Enter your prompt here to test for injection attempts..."
+                    rows="6"
+                    class="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl focus:ring-2 focus:ring-primary/60 focus:border-transparent placeholder-gray-500 text-white resize-none text-base"></textarea>
 
-                <!-- Protection Level Selection -->
-                <div>
-                  <label class="block text-sm font-medium text-gray-300 mb-3">Protection Level</label>
+                  <!-- Protection Level Selection -->
+                  <div>
+                    <label class="block text-sm font-medium text-gray-300 mb-3">Protection Level</label>
+                    <div class="flex gap-3">
+                      <label
+                        class="flex items-center gap-2 px-3 py-2 rounded-lg bg-white/5 border border-white/10 hover:border-white/20 transition cursor-pointer">
+                        <input type="radio" name="mainProtectionLevel" value="basic"
+                          class="text-primary focus:ring-primary/50 bg-transparent border-white/30" checked>
+                        <span class="text-white text-sm">Basic</span>
+                      </label>
+
+                      <label
+                        class="flex items-center gap-2 px-3 py-2 rounded-lg bg-white/5 border border-white/10 hover:border-white/20 transition cursor-pointer">
+                        <input type="radio" name="mainProtectionLevel" value="strict"
+                          class="text-primary focus:ring-primary/50 bg-transparent border-white/30">
+                        <span class="text-white text-sm">Strict</span>
+                      </label>
+                    </div>
+                  </div>
+
                   <div class="flex gap-3">
-                    <label
-                      class="flex items-center gap-2 px-3 py-2 rounded-lg bg-white/5 border border-white/10 hover:border-white/20 transition cursor-pointer">
-                      <input type="radio" name="mainProtectionLevel" value="basic"
-                        class="text-primary focus:ring-primary/50 bg-transparent border-white/30" checked>
-                      <span class="text-white text-sm">Basic</span>
-                    </label>
-
-                    <label
-                      class="flex items-center gap-2 px-3 py-2 rounded-lg bg-white/5 border border-white/10 hover:border-white/20 transition cursor-pointer">
-                      <input type="radio" name="mainProtectionLevel" value="strict"
-                        class="text-primary focus:ring-primary/50 bg-transparent border-white/30">
-                      <span class="text-white text-sm">Strict</span>
-                    </label>
+                    <button id="analyzePromptBtn"
+                      class="px-6 py-3 bg-primary hover:bg-primaryDarker rounded-xl text-black font-medium transition shadow-md shadow-primary/30 flex items-center gap-2">
+                      <span class="material-icons text-[18px]">security</span>
+                      Analyze Prompt
+                    </button>
+                    <button id="clearPromptBtn"
+                      class="px-4 py-3 bg-white/5 hover:bg-white/10 border border-white/10 rounded-xl text-white transition">
+                      Clear
+                    </button>
                   </div>
-                </div>
-
-                <div class="flex gap-3">
-                  <button id="analyzePromptBtn"
-                    class="px-6 py-3 bg-primary hover:bg-primaryDarker rounded-xl text-black font-medium transition shadow-md shadow-primary/30 flex items-center gap-2">
-                    <span class="material-icons text-[18px]">security</span>
-                    Analyze Prompt
-                  </button>
-                  <button id="clearPromptBtn"
-                    class="px-4 py-3 bg-white/5 hover:bg-white/10 border border-white/10 rounded-xl text-white transition">
-                    Clear
-                  </button>
-                </div>
-              </div>
-            </div>
-
-            <!-- Results Section -->
-            <div id="resultsSection" class="mb-8 hidden">
-              <h2 class="text-lg font-semibold text-white mb-4 flex items-center gap-2">
-                <span class="material-icons text-primary text-[20px]">analytics</span>
-                Analysis Results
-              </h2>
-
-              <!-- Score Display -->
-              <div id="scoreDisplay" class="p-6 rounded-xl bg-white/5 border border-white/10 mb-6">
-                <div class="flex items-center justify-between mb-4">
-                  <div class="flex items-center gap-2">
-                    <h3 class="text-white font-semibold">Risk Score</h3>
-                    <span id="modelIndicator"
-                      class="px-2 py-1 bg-primary/20 border border-primary/30 rounded-full text-xs text-primary">
-                      prompt_injection_detector
-                    </span>
-                  </div>
-                  <div id="scoreValue" class="text-2xl font-bold text-primary">0%</div>
-                </div>
-                <div class="w-full bg-gray-700 rounded-full h-3 mb-2">
-                  <div id="scoreBar" class="bg-primary h-3 rounded-full transition-all duration-500" style="width: 0%">
-                  </div>
-                </div>
-                <div class="text-sm text-gray-400" id="scoreDescription">Very Low Risk</div>
-              </div>
-
-              <!-- AI Explanation -->
-              <div class="p-4 rounded-xl bg-white/5 border border-white/10 mb-6">
-                <h3 class="text-white font-semibold mb-3 flex items-center gap-2">
-                  <span class="material-icons text-primary text-[18px]">auto_awesome</span>
-                  AI Explanation
-                </h3>
-                <div id="explanationContent" class="text-gray-300 text-sm">
-                  <div id="explanationLoading" class="flex items-center gap-2">
-                    <div class="animate-spin rounded-full h-4 w-4 border-b-2 border-primary"></div>
-                    <span>Analyzing with Gemini AI...</span>
-                  </div>
-                  <div id="explanationText" class="hidden"></div>
                 </div>
               </div>
 
-              <!-- Detected Patterns -->
-              <div id="patternsSection" class="mb-6">
-                <h3 class="text-white font-semibold mb-3 flex items-center gap-2">
-                  <span class="material-icons text-primary text-[18px]">warning</span>
-                  Detected Patterns
-                </h3>
-                <div id="patternsList" class="space-y-2">
-                  <!-- Patterns will be populated here -->
+              <!-- Results Section -->
+              <div id="resultsSection" class="mb-8 hidden">
+                <h2 class="text-lg font-semibold text-white mb-4 flex items-center gap-2">
+                  <span class="material-icons text-primary text-[20px]">analytics</span>
+                  Analysis Results
+                </h2>
+
+                <!-- Score Display -->
+                <div id="scoreDisplay" class="p-6 rounded-xl bg-white/5 border border-white/10 mb-6">
+                  <div class="flex items-center justify-between mb-4">
+                    <div class="flex items-center gap-2">
+                      <h3 class="text-white font-semibold">Risk Score</h3>
+                      <span id="modelIndicator"
+                        class="px-2 py-1 bg-primary/20 border border-primary/30 rounded-full text-xs text-primary">
+                        prompt_injection_detector
+                      </span>
+                    </div>
+                    <div id="scoreValue" class="text-2xl font-bold text-primary">0%</div>
+                  </div>
+                  <div class="w-full bg-gray-700 rounded-full h-3 mb-2">
+                    <div id="scoreBar" class="bg-primary h-3 rounded-full transition-all duration-500"
+                      style="width: 0%">
+                    </div>
+                  </div>
+                  <div class="text-sm text-gray-400" id="scoreDescription">Very Low Risk</div>
+                </div>
+
+                <!-- AI Explanation -->
+                <div class="p-4 rounded-xl bg-white/5 border border-white/10 mb-6">
+                  <h3 class="text-white font-semibold mb-3 flex items-center gap-2">
+                    <span class="material-icons text-primary text-[18px]">auto_awesome</span>
+                    AI Explanation
+                  </h3>
+                  <div id="explanationContent" class="text-gray-300 text-sm">
+                    <div id="explanationLoading" class="flex items-center gap-2">
+                      <div class="animate-spin rounded-full h-4 w-4 border-b-2 border-primary"></div>
+                      <span>Analyzing with Gemini AI...</span>
+                    </div>
+                    <div id="explanationText" class="hidden"></div>
+                  </div>
+                </div>
+
+                <!-- Detected Patterns -->
+                <div id="patternsSection" class="mb-6">
+                  <h3 class="text-white font-semibold mb-3 flex items-center gap-2">
+                    <span class="material-icons text-primary text-[18px]">warning</span>
+                    Detected Patterns
+                  </h3>
+                  <div id="patternsList" class="space-y-2">
+                    <!-- Patterns will be populated here -->
+                  </div>
                 </div>
               </div>
-            </div>
 
               <!-- Quick Stats -->
               <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -1386,7 +1403,8 @@
             <div class="p-6 h-full overflow-y-auto flex flex-col">
               <!-- Header -->
               <div class="mb-6">
-                <h2 class="text-2xl font-bold text-primary mb-1 font-display" style="font-family: 'Orbitron', sans-serif; letter-spacing: 0.02em;">
+                <h2 class="text-2xl font-bold text-primary mb-1 font-display"
+                  style="font-family: 'Orbitron', sans-serif; letter-spacing: 0.02em;">
                   PROMPT PLAYGROUND
                 </h2>
                 <p class="text-sm text-gray-400">Compare outputs across multiple LLMs</p>
@@ -1399,8 +1417,7 @@
                 </label>
                 <textarea id="pgSystemInstruction"
                   class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm text-gray-200 font-mono focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary/50 transition resize-none"
-                  rows="3"
-                  placeholder="e.g., You are a helpful AI assistant..."></textarea>
+                  rows="3" placeholder="e.g., You are a helpful AI assistant..."></textarea>
               </div>
 
               <!-- User Prompt -->
@@ -1410,8 +1427,7 @@
                 </label>
                 <textarea id="pgUserPrompt"
                   class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm text-gray-200 font-mono focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary/50 transition resize-none"
-                  rows="5"
-                  placeholder="Enter your prompt to test across models..."></textarea>
+                  rows="5" placeholder="Enter your prompt to test across models..."></textarea>
               </div>
 
               <!-- Model Selection -->
@@ -1421,8 +1437,9 @@
                 </label>
                 <div class="space-y-2">
                   <!-- Gemini -->
-                  <div class="pg-model-card selected acrylic rounded-xl p-3 cursor-pointer transition hover:bg-white/10 border border-primary/30" 
-                       data-model="gemini-2.0-flash-exp">
+                  <div
+                    class="pg-model-card selected acrylic rounded-xl p-3 cursor-pointer transition hover:bg-white/10 border border-primary/30"
+                    data-model="gemini-2.0-flash-exp">
                     <div class="flex items-start justify-between">
                       <div class="flex-1">
                         <div class="font-semibold text-sm text-gray-200 mb-0.5">Gemini 2.0 Flash</div>
@@ -1435,8 +1452,9 @@
                   </div>
 
                   <!-- GPT-4 -->
-                  <div class="pg-model-card selected acrylic rounded-xl p-3 cursor-pointer transition hover:bg-white/10 border border-primary/30" 
-                       data-model="gpt-4-turbo">
+                  <div
+                    class="pg-model-card selected acrylic rounded-xl p-3 cursor-pointer transition hover:bg-white/10 border border-primary/30"
+                    data-model="gpt-4-turbo">
                     <div class="flex items-start justify-between">
                       <div class="flex-1">
                         <div class="font-semibold text-sm text-gray-200 mb-0.5">GPT-4 Turbo</div>
@@ -1449,8 +1467,9 @@
                   </div>
 
                   <!-- GPT-3.5 -->
-                  <div class="pg-model-card selected acrylic rounded-xl p-3 cursor-pointer transition hover:bg-white/10 border border-primary/30" 
-                       data-model="gpt-3.5-turbo">
+                  <div
+                    class="pg-model-card selected acrylic rounded-xl p-3 cursor-pointer transition hover:bg-white/10 border border-primary/30"
+                    data-model="gpt-3.5-turbo">
                     <div class="flex items-start justify-between">
                       <div class="flex-1">
                         <div class="font-semibold text-sm text-gray-200 mb-0.5">GPT-3.5 Turbo</div>
@@ -1463,8 +1482,8 @@
                   </div>
 
                   <!-- Claude (Coming Soon) -->
-                  <div class="pg-model-card acrylic rounded-xl p-3 opacity-50 cursor-not-allowed border border-white/10" 
-                       data-model="claude-3-opus">
+                  <div class="pg-model-card acrylic rounded-xl p-3 opacity-50 cursor-not-allowed border border-white/10"
+                    data-model="claude-3-opus">
                     <div class="flex items-start justify-between">
                       <div class="flex-1">
                         <div class="font-semibold text-sm text-gray-400 mb-0.5">Claude 3 Opus</div>
@@ -1491,7 +1510,7 @@
                 <h3 class="text-xl font-bold text-gray-200">Results</h3>
                 <p class="text-sm text-gray-400 mt-1">Comparing model responses</p>
               </div>
-              <button id="pgClearButton" 
+              <button id="pgClearButton"
                 class="hidden px-4 py-2 bg-red-500/10 hover:bg-red-500/20 border border-red-500/30 text-red-400 rounded-lg transition text-sm font-medium">
                 <span class="material-icons text-sm mr-1" style="font-size: 16px;">delete</span>
                 Clear
@@ -1581,16 +1600,17 @@
             <!-- Typing Indicator (hidden by default) -->
             <div id="typing-indicator" class="hidden px-3 md:px-4 pb-2" aria-live="polite">
               <div class="flex items-start gap-3 typing-container-bounce">
-                <div
-                  class="w-7 h-7 rounded-full bg-primary flex-shrink-0 grid place-items-center ai-icon-glow">
+                <div class="w-7 h-7 rounded-full bg-primary flex-shrink-0 grid place-items-center ai-icon-glow">
                   <span class="material-icons text-black text-[18px]">auto_awesome</span>
                 </div>
                 <div class="bg-white/5 border border-white/10 rounded-2xl p-3 max-w-[85%]">
                   <div class="flex items-center gap-2">
                     <div class="flex gap-1 items-end">
                       <div class="w-2.5 h-2.5 bg-primary rounded-full animate-bounce-dot"></div>
-                      <div class="w-2.5 h-2.5 bg-primary rounded-full animate-bounce-dot" style="animation-delay: 0.15s;"></div>
-                      <div class="w-2.5 h-2.5 bg-primary rounded-full animate-bounce-dot" style="animation-delay: 0.3s;"></div>
+                      <div class="w-2.5 h-2.5 bg-primary rounded-full animate-bounce-dot"
+                        style="animation-delay: 0.15s;"></div>
+                      <div class="w-2.5 h-2.5 bg-primary rounded-full animate-bounce-dot"
+                        style="animation-delay: 0.3s;"></div>
                     </div>
                     <span class="text-sm text-primary font-medium">AI is typing...</span>
                   </div>
@@ -1745,38 +1765,31 @@
         }
 
         // Event handlers
-        function handleInput() {
-          renderLineNumbers();
-          // Track user editing to prevent AI overwrites
-          window.lastUserEdit = Date.now();
-        }
+        function handleInput() { renderLineNumbers(); }
         function handleScroll() { syncScroll(); }
         function handleResize() { lockMetrics(); renderLineNumbers(); }
 
-        // Only attach event listeners if using traditional text editor mode
-        // (Currently disabled for formatted view)
-        const useFormattedEditor = true; // Set to false to use traditional textarea mode
+        // Attach all event listeners
+        textEditor.addEventListener('input', handleInput);
+        textEditor.addEventListener('paste', handleInput);
+        textEditor.addEventListener('scroll', handleScroll);
+        window.addEventListener('resize', handleResize);
 
-        if (!useFormattedEditor) {
-          // Attach all event listeners
-          textEditor.addEventListener('input', handleInput);
-          textEditor.addEventListener('paste', handleInput);
-          textEditor.addEventListener('scroll', handleScroll);
-          window.addEventListener('resize', handleResize);
+        // Handle undo/redo via mutation observer
+        const observer = new MutationObserver(handleInput);
+        observer.observe(textEditor, { attributes: true, attributeFilter: ['value'] });
 
-          // Handle undo/redo via mutation observer
-          const observer = new MutationObserver(handleInput);
-          observer.observe(textEditor, { attributes: true, attributeFilter: ['value'] });
-
-          // Initialize
-          lockMetrics();
-          renderLineNumbers();
-          syncScroll();
-        } else {
-          // Hide line numbers and textarea for formatted view
-          lineNumbers.classList.add('hidden');
-          textEditor.classList.add('hidden');
+        // Handle font load events
+        if (document.fonts) {
+          document.fonts.addEventListener('loadingdone', () => {
+            setTimeout(() => { lockMetrics(); renderLineNumbers(); }, 50);
+          });
         }
+
+        // Initialize
+        lockMetrics();
+        renderLineNumbers();
+        syncScroll();
       })();
     </script>
 
@@ -1787,22 +1800,22 @@
         const wordCountEl = document.getElementById('wordCount');
         const lineCountEl = document.getElementById('lineCount');
         const charCountEl = document.getElementById('charCount');
-        
+
         if (!textEditor || !wordCountEl || !lineCountEl || !charCountEl) return;
 
         function updateStats() {
           const text = textEditor.value;
-          
+
           // Character count
           const charCount = text.length;
-          
+
           // Line count
           const lineCount = text.split('\n').length;
-          
+
           // Word count (trim and split by whitespace)
           const words = text.trim().split(/\s+/).filter(word => word.length > 0);
           const wordCount = text.trim().length === 0 ? 0 : words.length;
-          
+
           // Update UI with animation
           wordCountEl.textContent = wordCount.toLocaleString();
           lineCountEl.textContent = lineCount.toLocaleString();
@@ -1812,45 +1825,7 @@
         // Listen for input changes
         textEditor.addEventListener('input', updateStats);
         textEditor.addEventListener('paste', updateStats);
-        
-        // Initialize on load
-        updateStats();
-      })();
-    </script>
 
-    <!-- Editor Stats Counter Script -->
-    <script>
-      (function () {
-        const textEditor = document.getElementById('textEditor');
-        const wordCountEl = document.getElementById('wordCount');
-        const lineCountEl = document.getElementById('lineCount');
-        const charCountEl = document.getElementById('charCount');
-        
-        if (!textEditor || !wordCountEl || !lineCountEl || !charCountEl) return;
-
-        function updateStats() {
-          const text = textEditor.value;
-          
-          // Character count
-          const charCount = text.length;
-          
-          // Line count
-          const lineCount = text.split('\n').length;
-          
-          // Word count (trim and split by whitespace)
-          const words = text.trim().split(/\s+/).filter(word => word.length > 0);
-          const wordCount = text.trim().length === 0 ? 0 : words.length;
-          
-          // Update UI with animation
-          wordCountEl.textContent = wordCount.toLocaleString();
-          lineCountEl.textContent = lineCount.toLocaleString();
-          charCountEl.textContent = charCount.toLocaleString();
-        }
-
-        // Listen for input changes
-        textEditor.addEventListener('input', updateStats);
-        textEditor.addEventListener('paste', updateStats);
-        
         // Initialize on load
         updateStats();
       })();
@@ -1858,7 +1833,7 @@
 
     <!-- Auto-Save to Supabase Script -->
     <script>
-      (function() {
+      (function () {
         'use strict';
 
         const SUPABASE_URL = 'https://qnbvnczctgbclolvkjcb.supabase.co';
@@ -1883,78 +1858,78 @@
         async function getCurrentUser() {
           const client = getSupabaseClient();
           if (!client) return null;
-          
+
           const { data: { user } } = await client.auth.getUser();
           return user;
         }
 
         async function saveEditorContent(content) {
-  try {
-    const client = getSupabaseClient();
-    if (!client) return console.error('❌ Supabase client not initialized');
+          try {
+            const client = getSupabaseClient();
+            if (!client) return console.error('❌ Supabase client not initialized');
 
-    // Get user
-    let user = currentUserId ? { id: currentUserId } : await getCurrentUser();
-    if (!user) return console.warn('⚠️ No user logged in - skipping save');
-    currentUserId = user.id;
+            // Get user
+            let user = currentUserId ? { id: currentUserId } : await getCurrentUser();
+            if (!user) return console.warn('⚠️ No user logged in - skipping save');
+            currentUserId = user.id;
 
-    // If chat not set, look for latest
-    if (!currentChatId) {
-      const { data: latestChat, error: fetchError } = await client
-        .from('Chats')
-        .select('id')
-        .eq('user_id', currentUserId)
-        .order('created_at', { ascending: false })
-        .limit(1)
-        .maybeSingle();
+            // If chat not set, look for latest
+            if (!currentChatId) {
+              const { data: latestChat, error: fetchError } = await client
+                .from('Chats')
+                .select('id')
+                .eq('user_id', currentUserId)
+                .order('created_at', { ascending: false })
+                .limit(1)
+                .maybeSingle();
 
-      if (fetchError) throw fetchError;
+              if (fetchError) throw fetchError;
 
-      if (latestChat) {
-        currentChatId = latestChat.id;
-      } else {
-        // Create new chat
-        const { data: newChat, error: createError } = await client
-          .from('Chats')
-          .insert({
-            user_id: currentUserId,
-            content: content,
-            created_at: new Date().toISOString(),
-          })
-          .select('id')
-          .single();
+              if (latestChat) {
+                currentChatId = latestChat.id;
+              } else {
+                // Create new chat
+                const { data: newChat, error: createError } = await client
+                  .from('Chats')
+                  .insert({
+                    user_id: currentUserId,
+                    content: content,
+                    created_at: new Date().toISOString(),
+                  })
+                  .select('id')
+                  .single();
 
-        if (createError) throw createError;
+                if (createError) throw createError;
 
-        currentChatId = newChat.id;
-        console.log('🆕 New chat created:', currentChatId);
-        return;
-      }
-    }
+                currentChatId = newChat.id;
+                console.log('🆕 New chat created:', currentChatId);
+                return;
+              }
+            }
 
-    // Update or insert (safe upsert)
-    const { error: upsertError } = await client
-      .from('Chats')
-      .upsert({
-        id: currentChatId,
-        user_id: currentUserId,
-        content: content,
-        updated_at: new Date().toISOString(),
-      });
+            // Update or insert (safe upsert)
+            const { error: upsertError } = await client
+              .from('Chats')
+              .upsert({
+                id: currentChatId,
+                user_id: currentUserId,
+                content: content,
+                updated_at: new Date().toISOString(),
+              });
 
-    if (upsertError) throw upsertError;
+            if (upsertError) throw upsertError;
 
-    console.log('💾 Saved at', new Date().toLocaleTimeString());
-  } catch (err) {
-    console.error('Save failed:', err.message || err);
-  }
-}
+            console.log('💾 Saved at', new Date().toLocaleTimeString());
+          } catch (err) {
+            console.error('Save failed:', err.message || err);
+          }
+        }
 
-// Debounce to prevent excessive writes
-function debouncedSave(content) {
-  clearTimeout(saveTimeout);
-  saveTimeout = setTimeout(() => saveEditorContent(content), SAVE_DELAY);
-}
+        // Debounce to prevent excessive writes
+        function debouncedSave(content) {
+          clearTimeout(saveTimeout);
+          saveTimeout = setTimeout(() => saveEditorContent(content), SAVE_DELAY);
+        }
 
 
         // Load existing content on page load
@@ -1984,7 +1959,7 @@ function debouncedSave(content) {
             if (chats && chats.length > 0) {
               const chat = chats[0];
               currentChatId = chat.id;
-              
+
               const textEditor = document.getElementById('textEditor');
               if (textEditor && chat.content) {
                 textEditor.value = chat.content;
@@ -2007,7 +1982,7 @@ function debouncedSave(content) {
           }
 
           // Auto-save on input
-          textEditor.addEventListener('input', function() {
+          textEditor.addEventListener('input', function () {
             const content = this.value;
             debouncedSave(content);
           });
@@ -2146,11 +2121,11 @@ function debouncedSave(content) {
           // Show playground panel
           const playgroundPanel = document.getElementById('playgroundPanel');
           console.log('Playground panel element:', playgroundPanel);
-          
+
           if (playgroundPanel) {
             playgroundPanel.classList.remove('hidden');
             console.log('Playground panel should now be visible');
-            
+
             // Initialize playground if not already done
             if (!window.playgroundInitialized) {
               try {
@@ -2182,7 +2157,7 @@ function debouncedSave(content) {
         if (settingsBtn) settingsBtn.addEventListener('click', showSettings);
         if (editorBtn) editorBtn.addEventListener('click', showEditor);
         if (backToEditor) backToEditor.addEventListener('click', showEditor);
-        
+
         const playgroundBtn = document.getElementById('playgroundBtn');
         if (playgroundBtn) {
           playgroundBtn.addEventListener('click', showPlayground);
@@ -3844,14 +3819,6 @@ function debouncedSave(content) {
     // Load chat content into the main text editor
     function loadChatContent(chat) {
       const textEditor = document.getElementById('textEditor');
-      const formattedEditor = document.getElementById('formattedEditor');
-
-      // Only load into legacy text editor if formatted editor is not being used
-      if (textEditor && chat && !formattedEditor.classList.contains('hidden')) {
-        console.log('Skipping chat content load - using formatted editor for AI responses only');
-        return;
-      }
-
       if (textEditor && chat) {
         // Use the content from the chat, fallback to text if content doesn't exist
         let content = chat.content || chat.text || chat.message || 'No content available';
@@ -4128,7 +4095,6 @@ function debouncedSave(content) {
           this.scrollThreshold = 50;
           this.userHasScrolledUp = false;
           this.sessionId = null; // Will be generated on first message
-          this.rawEditorContent = ''; // Store raw content for copy/download
 
           // DOM elements
           this.transcript = document.getElementById('chat-transcript');
@@ -4508,11 +4474,6 @@ function debouncedSave(content) {
             userScrolledUp: this.userHasScrolledUp
           });
 
-          // Update text editor with AI response content
-          if (message.role === 'ai') {
-            this.updateTextEditor(message.content);
-          }
-
           // Auto-scroll if user is near bottom
           if (this.isNearBottom && !this.userHasScrolledUp) {
             setTimeout(() => this.scrollToBottom(), 100);
@@ -4650,111 +4611,6 @@ function debouncedSave(content) {
           this.errorToast.classList.add('hidden');
         }
 
-        updateTextEditor(content) {
-          // Find the formatted editor element
-          const formattedEditor = document.getElementById('formattedEditor');
-          if (!formattedEditor) {
-            console.warn('Chat: Formatted editor not found, skipping editor update');
-            return;
-          }
-
-          // Check if the editor panel is currently visible
-          const editorPanel = document.getElementById('editor-pane');
-          if (!editorPanel || editorPanel.classList.contains('hidden')) {
-            console.log('Chat: Editor panel not visible, skipping editor update');
-            return;
-          }
-
-          // Validate content
-          if (!content || typeof content !== 'string') {
-            console.warn('Chat: Invalid content for text editor update', content);
-            return;
-          }
-
-          // Store raw content for copy/download functionality
-          this.rawEditorContent = content;
-          console.log('Raw editor content updated:', content.substring(0, 100) + '...');
-
-          try {
-            // Configure marked.js options for security and formatting
-            if (typeof marked !== 'undefined') {
-              marked.setOptions({
-                breaks: true,        // Convert line breaks to <br>
-                gfm: true,          // GitHub Flavored Markdown
-                headerIds: false,   // Disable header IDs for security
-                mangle: false,      // Don't mangle email addresses
-                sanitize: false,    // We'll use DOMPurify for sanitization
-              });
-            }
-
-            // Convert Markdown to HTML
-            let htmlContent = '';
-            if (typeof marked !== 'undefined') {
-              htmlContent = marked.parse(content);
-            } else {
-              // Fallback to plain text with preserved line breaks
-              console.warn('Chat: marked.js not available, using plaintext fallback');
-              htmlContent = content
-                .replace(/&/g, '&amp;')
-                .replace(/</g, '&lt;')
-                .replace(/>/g, '&gt;')
-                .replace(/\n/g, '<br>');
-            }
-
-            // Sanitize the HTML output
-            let sanitizedHtml = '';
-            if (typeof DOMPurify !== 'undefined') {
-              sanitizedHtml = DOMPurify.sanitize(htmlContent, {
-                ALLOWED_TAGS: ['h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'p', 'br', 'strong', 'em', 'u', 'ul', 'ol', 'li', 'blockquote', 'code', 'pre', 'a', 'table', 'thead', 'tbody', 'tr', 'th', 'td', 'hr', 'del', 'ins'],
-                ALLOWED_ATTR: ['href', 'target', 'rel', 'class'],
-                ALLOW_DATA_ATTR: false,
-                ADD_ATTR: ['target', 'rel'],
-                FORBID_TAGS: ['script', 'style', 'iframe', 'object', 'embed', 'form', 'input'],
-                FORBID_ATTR: ['onerror', 'onload', 'onclick', 'onmouseover', 'style']
-              });
-
-              // Ensure all links open in new tabs with security attributes
-              sanitizedHtml = sanitizedHtml.replace(/<a\s+href=/g, '<a target="_blank" rel="noopener noreferrer" href=');
-            } else {
-              // Fallback without sanitization (not recommended for production)
-              console.warn('Chat: DOMPurify not available, content not sanitized');
-              sanitizedHtml = htmlContent;
-            }
-
-            // Don't update if content is empty after processing
-            if (!sanitizedHtml.trim()) {
-              console.log('Chat: Content is empty after processing, skipping editor update');
-              return;
-            }
-
-            // Update the formatted editor content (overwrite completely)
-            formattedEditor.innerHTML = sanitizedHtml;
-
-            // Scroll to top to show new content
-            formattedEditor.scrollTop = 0;
-
-            console.log('Chat: Formatted editor updated with AI response content');
-          } catch (error) {
-            console.error('Chat: Error updating formatted editor:', error);
-
-            // Fallback to plain text display
-            try {
-              const fallbackContent = content
-                .replace(/&/g, '&amp;')
-                .replace(/</g, '&lt;')
-                .replace(/>/g, '&gt;')
-                .replace(/\n/g, '<br>');
-
-              formattedEditor.innerHTML = `<p class="text-gray-300">${fallbackContent}</p>`;
-              formattedEditor.scrollTop = 0;
-
-              console.log('Chat: Used fallback rendering for editor content');
-            } catch (fallbackError) {
-              console.error('Chat: Fallback rendering also failed:', fallbackError);
-            }
-          }
-        }
-
         saveMessages() {
           try {
             sessionStorage.setItem('chat-messages', JSON.stringify({
@@ -4784,17 +4640,6 @@ function debouncedSave(content) {
               });
 
               console.log(`Chat: Loaded ${this.messages.length} messages from session storage`);
-
-              // Update text editor with the most recent AI response
-              const lastAiMessage = this.messages
-                .slice()
-                .reverse()
-                .find(msg => msg.role === 'ai');
-
-              if (lastAiMessage) {
-                this.updateTextEditor(lastAiMessage.content);
-                console.log('Chat: Text editor updated with most recent AI response');
-              }
 
               // Restore scroll position or scroll to bottom
               const savedScrollPosition = data.lastScrollPosition;
@@ -4860,6 +4705,528 @@ function debouncedSave(content) {
         }
       }
     })();
+
+    // ========== PLAYGROUND FUNCTIONALITY ==========
+    function initializePlayground() {
+      let selectedModels = ['gemini-2.0-flash-exp', 'gpt-4-turbo', 'gpt-3.5-turbo'];
+      let isAnalyzing = false;
+
+      const pgSystemInstruction = document.getElementById('pgSystemInstruction');
+      const pgUserPrompt = document.getElementById('pgUserPrompt');
+      const pgAnalyzeButton = document.getElementById('pgAnalyzeButton');
+      const pgClearButton = document.getElementById('pgClearButton');
+      const pgResultsContainer = document.getElementById('pgResultsContainer');
+      const pgModelCards = document.querySelectorAll('.pg-model-card:not([data-model="claude-3-opus"])');
+
+      // Model card selection
+      pgModelCards.forEach(card => {
+        card.addEventListener('click', function () {
+          const model = this.getAttribute('data-model');
+          const checkmark = this.querySelector('.pg-checkmark');
+
+          if (this.classList.contains('selected')) {
+            this.classList.remove('selected', 'border-primary/30');
+            this.classList.add('border-white/10');
+            selectedModels = selectedModels.filter(m => m !== model);
+            if (checkmark) {
+              checkmark.querySelector('.material-icons').textContent = 'radio_button_unchecked';
+              checkmark.querySelector('.material-icons').classList.remove('text-primary');
+              checkmark.querySelector('.material-icons').classList.add('text-gray-600');
+            }
+          } else {
+            this.classList.add('selected', 'border-primary/30');
+            this.classList.remove('border-white/10');
+            selectedModels.push(model);
+            if (checkmark) {
+              checkmark.querySelector('.material-icons').textContent = 'check_circle';
+              checkmark.querySelector('.material-icons').classList.remove('text-gray-600');
+              checkmark.querySelector('.material-icons').classList.add('text-primary');
+            }
+          }
+        });
+      });
+
+      // Analyze button
+      pgAnalyzeButton.addEventListener('click', async function () {
+        if (isAnalyzing) return;
+
+        const prompt = pgUserPrompt.value.trim();
+        if (!prompt) {
+          alert('Please enter a prompt');
+          return;
+        }
+
+        if (selectedModels.length === 0) {
+          alert('Please select at least one model');
+          return;
+        }
+
+        isAnalyzing = true;
+        pgAnalyzeButton.disabled = true;
+        pgAnalyzeButton.innerHTML = '<div class="inline-block w-5 h-5 border-2 border-black/30 border-t-black rounded-full animate-spin mr-2"></div>Analyzing...';
+
+        // Show loading state
+        pgResultsContainer.innerHTML = `
+          <div class="flex flex-col items-center justify-center h-full text-center py-20">
+            <div class="w-16 h-16 border-4 border-primary/30 border-t-primary rounded-full animate-spin mb-4"></div>
+            <h3 class="text-xl font-semibold text-gray-200 mb-2">Analyzing across ${selectedModels.length} model${selectedModels.length > 1 ? 's' : ''}...</h3>
+            <p class="text-gray-400 text-sm">This may take a few moments</p>
+          </div>
+        `;
+
+        try {
+          const response = await fetch('/api/playground/run_prompt', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              system_instruction: pgSystemInstruction.value.trim(),
+              prompt: prompt,
+              models: selectedModels
+            })
+          });
+
+          if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+
+          const data = await response.json();
+          displayResults(data.results);
+          getMetaAnalysis(data.results, prompt);
+          pgClearButton.classList.remove('hidden');
+        } catch (error) {
+          console.error('Error:', error);
+          pgResultsContainer.innerHTML = `
+            <div class="bg-red-500/10 border border-red-500/30 rounded-xl p-4 flex items-start gap-3">
+              <span class="material-icons text-red-400">error</span>
+              <div class="text-sm text-gray-300">Failed to analyze: ${error.message}</div>
+            </div>
+          `;
+        } finally {
+          isAnalyzing = false;
+          pgAnalyzeButton.disabled = false;
+          pgAnalyzeButton.innerHTML = '<span class="material-icons">psychology</span><span>Analyze Across Models</span>';
+        }
+      });
+
+      // Clear button
+      pgClearButton.addEventListener('click', function () {
+        pgResultsContainer.innerHTML = `
+          <div class="flex flex-col items-center justify-center h-full text-center py-20">
+            <div class="w-20 h-20 rounded-full bg-primary/10 flex items-center justify-center mb-4">
+              <span class="material-icons text-primary" style="font-size: 48px;">psychology</span>
+            </div>
+            <h3 class="text-xl font-semibold text-gray-300 mb-2">No results yet</h3>
+            <p class="text-gray-500 text-sm max-w-md">Select your models, enter a prompt, and click "Analyze"</p>
+          </div>
+        `;
+        this.classList.add('hidden');
+      });
+
+      function displayResults(results) {
+        let html = '<div class="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-6">';
+        results.forEach(result => {
+          html += createResultCard(result);
+        });
+        html += '</div>';
+        html += `<div id="pgMetaAnalysis" class="acrylic rounded-2xl p-6 border border-primary/30" style="display: none;"><div class="text-center py-8"><div class="inline-block w-10 h-10 border-4 border-primary/30 border-t-primary rounded-full animate-spin mb-3"></div><p class="text-gray-400 text-sm">Generating meta-analysis...</p></div></div>`;
+        pgResultsContainer.innerHTML = html;
+      }
+
+      function createResultCard(result) {
+        const statusColors = {
+          'Success': 'bg-green-500/20 text-green-400 border-green-500/30',
+          'Configuration Required': 'bg-yellow-500/20 text-yellow-400 border-yellow-500/30',
+          'Error': 'bg-red-500/20 text-red-400 border-red-500/30'
+        };
+        const statusClass = statusColors[result.status] || 'bg-gray-500/20 text-gray-400 border-gray-500/30';
+        const modelNames = {
+          'gemini-2.0-flash-exp': 'Gemini 2.0 Flash',
+          'gpt-4-turbo': 'GPT-4 Turbo',
+          'gpt-3.5-turbo': 'GPT-3.5 Turbo'
+        };
+        const response = result.status === 'Success' ? result.response :
+          result.status === 'Configuration Required' ?
+            'This model requires configuration. Please add API keys to .env file.' :
+            `Error: ${result.response}`;
+
+        return `
+          <div class="acrylic rounded-2xl p-5 border border-white/10 hover:border-primary/30 transition">
+            <div class="flex items-center justify-between mb-4 pb-3 border-b border-white/10">
+              <h4 class="font-semibold text-gray-200">${modelNames[result.model] || result.model}</h4>
+              <span class="px-2 py-1 text-xs font-medium rounded-lg border ${statusClass}">${result.status}</span>
+            </div>
+            <div class="bg-black/30 rounded-xl p-4 mb-4 font-mono text-sm text-gray-300 max-h-64 overflow-y-auto border border-white/5">
+              ${escapeHtml(response).replace(/\n/g, '<br>')}
+            </div>
+            ${result.metadata ? `
+              <div class="grid grid-cols-3 gap-3">
+                <div class="bg-white/5 rounded-lg p-3 text-center border border-white/10">
+                  <div class="text-xs text-gray-400 mb-1">Latency</div>
+                  <div class="text-sm font-bold text-primary">${result.metadata.latency.toFixed(2)}s</div>
+                </div>
+                <div class="bg-white/5 rounded-lg p-3 text-center border border-white/10">
+                  <div class="text-xs text-gray-400 mb-1">Tokens</div>
+                  <div class="text-sm font-bold text-primary">${result.metadata.tokens || 'N/A'}</div>
+                </div>
+                <div class="bg-white/5 rounded-lg p-3 text-center border border-white/10">
+                  <div class="text-xs text-gray-400 mb-1">Cost</div>
+                  <div class="text-sm font-bold text-primary">$${result.metadata.cost_estimate ? result.metadata.cost_estimate.toFixed(4) : 'N/A'}</div>
+                </div>
+              </div>
+            ` : ''}
+          </div>
+        `;
+      }
+
+      async function getMetaAnalysis(results, prompt) {
+        const metaEl = document.getElementById('pgMetaAnalysis');
+        metaEl.style.display = 'block';
+
+        try {
+          const response = await fetch('/api/playground/analyze_results', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ results, original_prompt: prompt })
+          });
+
+          if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+          const data = await response.json();
+          displayMetaAnalysis(data.analysis);
+        } catch (error) {
+          console.error('Error:', error);
+          metaEl.innerHTML = `
+            <div class="flex items-center gap-3 mb-4">
+              <span class="material-icons text-primary" style="font-size: 32px;">analytics</span>
+              <h3 class="text-xl font-bold text-gray-200">AI Meta-Analysis</h3>
+            </div>
+            <div class="bg-red-500/10 border border-red-500/30 rounded-xl p-4">
+              <span class="text-sm text-gray-300">Failed to generate meta-analysis</span>
+            </div>
+          `;
+        }
+      }
+
+      function displayMetaAnalysis(analysis) {
+        const metaEl = document.getElementById('pgMetaAnalysis');
+        metaEl.innerHTML = `
+          <div class="flex items-center gap-3 mb-6">
+            <span class="material-icons text-primary" style="font-size: 32px;">analytics</span>
+            <h3 class="text-xl font-bold text-gray-200">AI Meta-Analysis by Gemini</h3>
+          </div>
+
+          <!-- Metrics Score Cards -->
+          <div class="grid grid-cols-2 md:grid-cols-5 gap-3 mb-6">
+            <div class="bg-gradient-to-br from-primary/10 to-primary/5 rounded-xl p-4 text-center border border-primary/20">
+              <div class="text-xs text-gray-400 uppercase tracking-wider mb-2">Clarity</div>
+              <div class="text-3xl font-bold text-primary">${analysis.clarity_score}<span class="text-lg text-gray-500">/10</span></div>
+            </div>
+            <div class="bg-gradient-to-br from-primary/10 to-primary/5 rounded-xl p-4 text-center border border-primary/20">
+              <div class="text-xs text-gray-400 uppercase tracking-wider mb-2">Relevance</div>
+              <div class="text-3xl font-bold text-primary">${analysis.relevance_score}<span class="text-lg text-gray-500">/10</span></div>
+            </div>
+            <div class="bg-gradient-to-br from-primary/10 to-primary/5 rounded-xl p-4 text-center border border-primary/20">
+              <div class="text-xs text-gray-400 uppercase tracking-wider mb-2">Accuracy</div>
+              <div class="text-3xl font-bold text-primary">${analysis.factual_accuracy}<span class="text-lg text-gray-500">/10</span></div>
+            </div>
+            <div class="bg-gradient-to-br from-primary/10 to-primary/5 rounded-xl p-4 text-center border border-primary/20">
+              <div class="text-xs text-gray-400 uppercase tracking-wider mb-2">Reasoning</div>
+              <div class="text-3xl font-bold text-primary">${analysis.reasoning_quality}<span class="text-lg text-gray-500">/10</span></div>
+            </div>
+            <div class="bg-gradient-to-br from-primary/10 to-primary/5 rounded-xl p-4 text-center border border-primary/20">
+              <div class="text-xs text-gray-400 uppercase tracking-wider mb-2">Conciseness</div>
+              <div class="text-3xl font-bold text-primary">${analysis.conciseness}<span class="text-lg text-gray-500">/10</span></div>
+            </div>
+          </div>
+
+          <!-- Interactive Charts -->
+          <div class="grid grid-cols-1 gap-6 mb-6">
+            <!-- Model Comparison Chart - Full Width -->
+            <div id="modelComparisonChartContainer" class="bg-black/30 rounded-xl p-5 border border-white/10" style="display: none;">
+              <h4 class="text-sm font-semibold text-gray-300 uppercase tracking-wider mb-4 flex items-center gap-2">
+                <span class="material-icons text-primary" style="font-size: 20px;">leaderboard</span>
+                Model-by-Model Comparison
+              </h4>
+              <canvas id="modelComparisonChart" style="max-height: 320px;"></canvas>
+            </div>
+
+            <!-- Smaller Charts Grid -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+              <!-- Radar Chart - Overall Metrics Comparison -->
+              <div class="bg-black/30 rounded-xl p-5 border border-white/10">
+                <h4 class="text-sm font-semibold text-gray-300 uppercase tracking-wider mb-4 flex items-center gap-2">
+                  <span class="material-icons text-primary" style="font-size: 20px;">radar</span>
+                  Overall Performance
+                </h4>
+                <canvas id="metricsRadarChart" style="max-height: 280px;"></canvas>
+              </div>
+
+              <!-- Bar Chart - Metric Breakdown -->
+              <div class="bg-black/30 rounded-xl p-5 border border-white/10">
+                <h4 class="text-sm font-semibold text-gray-300 uppercase tracking-wider mb-4 flex items-center gap-2">
+                  <span class="material-icons text-primary" style="font-size: 20px;">bar_chart</span>
+                  Average Scores
+                </h4>
+                <canvas id="metricsBarChart" style="max-height: 280px;"></canvas>
+              </div>
+            </div>
+          </div>
+
+          <!-- Summary -->
+          <div class="bg-black/30 rounded-xl p-5 border border-white/10">
+            <h4 class="text-sm font-semibold text-gray-300 uppercase tracking-wider mb-3 flex items-center gap-2">
+              <span class="material-icons text-primary" style="font-size: 20px;">description</span>
+              Overall Summary
+            </h4>
+            <p class="text-gray-300 leading-relaxed">${escapeHtml(analysis.overall_summary)}</p>
+          </div>
+        `;
+
+        // Render charts after DOM is updated
+        setTimeout(() => {
+          renderMetricsCharts(analysis);
+        }, 100);
+      }
+
+      function renderMetricsCharts(analysis) {
+        const primaryColor = '#00cba0';
+        const primaryColorRgba = 'rgba(0, 203, 160, 0.2)';
+        const primaryColorBorder = 'rgba(0, 203, 160, 0.8)';
+
+        const metrics = [
+          { name: 'Clarity', value: analysis.clarity_score },
+          { name: 'Relevance', value: analysis.relevance_score },
+          { name: 'Accuracy', value: analysis.factual_accuracy },
+          { name: 'Reasoning', value: analysis.reasoning_quality },
+          { name: 'Conciseness', value: analysis.conciseness }
+        ];
+
+        // Model name mapping
+        const modelDisplayNames = {
+          'gemini-2.0-flash-exp': 'Gemini 2.0',
+          'gpt-4-turbo': 'GPT-4',
+          'gpt-3.5-turbo': 'GPT-3.5'
+        };
+
+        // Model colors for differentiation
+        const modelColors = {
+          'gemini-2.0-flash-exp': { bg: 'rgba(66, 133, 244, 0.7)', border: 'rgb(66, 133, 244)' },
+          'gpt-4-turbo': { bg: 'rgba(16, 185, 129, 0.7)', border: 'rgb(16, 185, 129)' },
+          'gpt-3.5-turbo': { bg: 'rgba(251, 191, 36, 0.7)', border: 'rgb(251, 191, 36)' }
+        };
+
+        // Model Comparison Chart (if per-model data available)
+        if (analysis.model_comparison && Object.keys(analysis.model_comparison).length > 0) {
+          const comparisonContainer = document.getElementById('modelComparisonChartContainer');
+          comparisonContainer.style.display = 'block';
+
+          const models = Object.keys(analysis.model_comparison);
+          const metricNames = ['clarity', 'relevance', 'accuracy', 'reasoning', 'conciseness'];
+
+          const datasets = models.map(modelKey => {
+            const modelData = analysis.model_comparison[modelKey];
+            const color = modelColors[modelKey] || { bg: 'rgba(0, 203, 160, 0.7)', border: 'rgb(0, 203, 160)' };
+
+            return {
+              label: modelDisplayNames[modelKey] || modelKey,
+              data: metricNames.map(metric => modelData[metric] || 0),
+              backgroundColor: color.bg,
+              borderColor: color.border,
+              borderWidth: 2,
+              borderRadius: 6
+            };
+          });
+
+          const comparisonCtx = document.getElementById('modelComparisonChart');
+          if (comparisonCtx) {
+            new Chart(comparisonCtx, {
+              type: 'bar',
+              data: {
+                labels: ['Clarity', 'Relevance', 'Accuracy', 'Reasoning', 'Conciseness'],
+                datasets: datasets
+              },
+              options: {
+                responsive: true,
+                maintainAspectRatio: true,
+                plugins: {
+                  legend: {
+                    display: true,
+                    position: 'top',
+                    labels: {
+                      color: 'rgba(209, 213, 219, 0.9)',
+                      font: { size: 12, weight: '600' },
+                      padding: 15,
+                      usePointStyle: true,
+                      pointStyle: 'rectRounded'
+                    }
+                  },
+                  tooltip: {
+                    backgroundColor: 'rgba(0, 0, 0, 0.8)',
+                    titleColor: 'rgb(0, 203, 160)',
+                    bodyColor: 'rgba(209, 213, 219, 0.9)',
+                    borderColor: 'rgba(0, 203, 160, 0.3)',
+                    borderWidth: 1,
+                    padding: 12,
+                    displayColors: true,
+                    callbacks: {
+                      label: function (context) {
+                        return context.dataset.label + ': ' + context.parsed.y.toFixed(1) + '/10';
+                      }
+                    }
+                  }
+                },
+                scales: {
+                  y: {
+                    beginAtZero: true,
+                    max: 10,
+                    ticks: {
+                      stepSize: 2,
+                      color: 'rgba(156, 163, 175, 0.8)',
+                      font: { size: 11 }
+                    },
+                    grid: {
+                      color: 'rgba(255, 255, 255, 0.08)',
+                      drawBorder: false
+                    },
+                    title: {
+                      display: true,
+                      text: 'Score (0-10)',
+                      color: 'rgba(209, 213, 219, 0.7)',
+                      font: { size: 11 }
+                    }
+                  },
+                  x: {
+                    ticks: {
+                      color: 'rgba(209, 213, 219, 0.9)',
+                      font: { size: 11, weight: '600' }
+                    },
+                    grid: {
+                      display: false
+                    }
+                  }
+                }
+              }
+            });
+          }
+        }
+
+        // Chart.js configuration with dark theme
+        const chartConfig = {
+          plugins: {
+            legend: {
+              display: false
+            }
+          },
+          scales: {
+            r: {
+              beginAtZero: true,
+              max: 10,
+              ticks: {
+                stepSize: 2,
+                color: 'rgba(156, 163, 175, 0.6)',
+                backdropColor: 'transparent',
+                font: { size: 10 }
+              },
+              grid: {
+                color: 'rgba(255, 255, 255, 0.1)',
+              },
+              pointLabels: {
+                color: 'rgba(209, 213, 219, 0.9)',
+                font: { size: 12, weight: '600' }
+              }
+            }
+          }
+        };
+
+        // Radar Chart - Overall Performance
+        const radarCtx = document.getElementById('metricsRadarChart');
+        if (radarCtx) {
+          new Chart(radarCtx, {
+            type: 'radar',
+            data: {
+              labels: metrics.map(m => m.name),
+              datasets: [{
+                label: 'Score',
+                data: metrics.map(m => m.value),
+                backgroundColor: primaryColorRgba,
+                borderColor: primaryColorBorder,
+                borderWidth: 2,
+                pointBackgroundColor: primaryColor,
+                pointBorderColor: '#fff',
+                pointBorderWidth: 2,
+                pointRadius: 5,
+                pointHoverRadius: 7
+              }]
+            },
+            options: chartConfig
+          });
+        }
+
+        // Bar Chart - Metric Breakdown with gradient bars
+        const barCtx = document.getElementById('metricsBarChart');
+        if (barCtx) {
+          new Chart(barCtx, {
+            type: 'bar',
+            data: {
+              labels: metrics.map(m => m.name),
+              datasets: [{
+                label: 'Score',
+                data: metrics.map(m => m.value),
+                backgroundColor: metrics.map(m => {
+                  // Gradient colors based on score (red to green)
+                  if (m.value >= 8) return 'rgba(16, 185, 129, 0.8)'; // green
+                  if (m.value >= 6) return 'rgba(0, 203, 160, 0.8)'; // primary
+                  if (m.value >= 4) return 'rgba(251, 191, 36, 0.8)'; // yellow
+                  return 'rgba(239, 68, 68, 0.8)'; // red
+                }),
+                borderColor: metrics.map(m => {
+                  if (m.value >= 8) return 'rgb(16, 185, 129)';
+                  if (m.value >= 6) return 'rgb(0, 203, 160)';
+                  if (m.value >= 4) return 'rgb(251, 191, 36)';
+                  return 'rgb(239, 68, 68)';
+                }),
+                borderWidth: 2,
+                borderRadius: 8
+              }]
+            },
+            options: {
+              responsive: true,
+              maintainAspectRatio: true,
+              plugins: {
+                legend: { display: false }
+              },
+              scales: {
+                y: {
+                  beginAtZero: true,
+                  max: 10,
+                  ticks: {
+                    stepSize: 2,
+                    color: 'rgba(156, 163, 175, 0.8)',
+                    font: { size: 11 }
+                  },
+                  grid: {
+                    color: 'rgba(255, 255, 255, 0.08)',
+                    drawBorder: false
+                  }
+                },
+                x: {
+                  ticks: {
+                    color: 'rgba(209, 213, 219, 0.9)',
+                    font: { size: 11, weight: '600' }
+                  },
+                  grid: {
+                    display: false
+                  }
+                }
+              }
+            }
+          });
+        }
+      }
+
+      function escapeHtml(text) {
+        const div = document.createElement('div');
+        div.textContent = text;
+        return div.innerHTML;
+      }
+    }
   </script>
 
   <!-- React TypeScript Background Bundle -->
