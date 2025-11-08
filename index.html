@@ -31,6 +31,64 @@
         },
       };
     </script>
+<script>
+      // Configuration: Edit this section to change the displayed content
+      const editorConfig = {
+        filename: "index.html",
+        language: "html", // html, js, css, etc.
+        content: `<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Awesome Page</title>
+  </head>
+  <body>
+    <h1>Hello, World!</h1>
+  </body>
+</html>`
+      };
+
+      // Function to highlight HTML syntax
+      function highlightHTML(code) {
+        return code
+          .replace(/&/g, '&amp;')
+          .replace(/</g, '&lt;')
+          .replace(/>/g, '&gt;')
+          .replace(/(&lt;!--[\s\S]*?--&gt;)/g, '<span class="syntax-comment">$1</span>')
+          .replace(/(&lt;\/?)(\w+)((?:\s+[\w-]+(?:=(?:"[^"]*"|'[^']*'))?)*\s*)(\/?)(&gt;)/g, function(match, opening, tag, attrs, selfClose, closing) {
+            let highlighted = opening + tag;
+            if (attrs) {
+              highlighted += attrs.replace(/([\w-]+)(=)("(?:[^"]*)"|'(?:[^']*)')/g, ' <span class="syntax-attr-name">$1=</span><span class="syntax-attr-value">$3</span>');
+            }
+            highlighted += selfClose + closing;
+            return '<span class="syntax-tag">' + highlighted + '</span>';
+          })
+          .replace(/(<span class="syntax-tag">.*?<\/span>)([^<]+)(?=<span class="syntax-tag">|$)/g, '$1<span class="syntax-text">$2</span>');
+      }
+
+      // Initialize the editor on page load
+      window.addEventListener('DOMContentLoaded', function() {
+        // Update filename in tab
+        const filenameElement = document.getElementById('editor-filename');
+        if (filenameElement) {
+          filenameElement.textContent = editorConfig.filename;
+        }
+
+        // Update code content
+        const codeElement = document.getElementById('editor-code');
+        const lineNumbersElement = document.getElementById('editor-line-numbers');
+        if (codeElement && lineNumbersElement) {
+          const lines = editorConfig.content.split('\n');
+          
+          // Generate line numbers
+          lineNumbersElement.innerHTML = lines.map((_, i) => `<div>${i + 1}</div>`).join('');
+          
+          // Highlight and display code
+          codeElement.innerHTML = highlightHTML(editorConfig.content);
+        }
+      });
+    </script>
 <style>
       body {
         font-family: 'Roboto', sans-serif;
@@ -115,7 +173,7 @@
 <div class="flex items-center justify-start p-1.5 border-b border-border-dark">
 <div class="flex items-center text-text-dark-secondary bg-[#333333] p-1.5 rounded-md">
 <span class="material-icons text-base mr-2 text-orange-400">code</span>
-<span class="text-text-dark-primary">index.html</span>
+<span class="text-text-dark-primary" id="editor-filename">index.html</span>
 <button class="ml-2 hover:bg-[#4f4f4f] rounded-full p-0.5">
 <span class="material-icons text-sm">close</span>
 </button>
@@ -124,10 +182,10 @@
 <div class="flex-1 flex overflow-hidden">
 <div class="flex-grow p-4 overflow-auto font-mono text-sm">
 <div class="flex">
-<div class="text-right pr-4 text-text-dark-secondary select-none">
+<div class="text-right pr-4 text-text-dark-secondary select-none" id="editor-line-numbers">
 <div>1</div><div>2</div><div>3</div><div>4</div><div>5</div><div>6</div><div>7</div><div>8</div><div>9</div><div>10</div><div>11</div><div>12</div>
 </div>
-<pre class="whitespace-pre"><code><span class="syntax-comment">&lt;!DOCTYPE html&gt;</span>
+<pre class="whitespace-pre"><code id="editor-code"><span class="syntax-comment">&lt;!DOCTYPE html&gt;</span>
 <span class="syntax-tag">&lt;html <span class="syntax-attr-name">lang=</span><span class="syntax-attr-value">"en"</span>&gt;</span>
   <span class="syntax-tag">&lt;head&gt;</span>
     <span class="syntax-tag">&lt;meta <span class="syntax-attr-name">charset=</span><span class="syntax-attr-value">"UTF-8"</span>&gt;</span>
