@@ -1,4 +1,4 @@
-<!--  -->
+<!-- -->
 <!DOCTYPE html>
 <html lang="en" class="light">
 
@@ -23,6 +23,9 @@
   <!-- Font Awesome -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
     crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+  <!-- Supabase -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
   <link rel="stylesheet" href="../static/css/home.html">
 
@@ -392,6 +395,18 @@
 
 <body
   class="bg-background-light dark:bg-background-dark font-display text-gray-200 antialiased transition-colors duration-500 selection:bg-primary/30 selection:text-white">
+  
+  <!-- Auth Loading Overlay -->
+  <div id="auth-loading" class="fixed inset-0 bg-background-dark z-50 flex items-center justify-center">
+    <div class="text-center">
+      <div class="w-8 h-8 border-2 border-primary border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+      <p class="text-gray-400">Checking authentication...</p>
+    </div>
+  </div>
+
+  <!-- Main Content (hidden until auth is verified) -->
+  <div id="main-content" class="hidden">
+  
   <!-- React TypeScript Background Animation -->
   <div id="bg-root" aria-hidden="true" data-quality="med"></div>
 
@@ -403,7 +418,7 @@
 
   <div class="flex h-screen p-4 md:p-6 gap-4 md:gap-6 relative z-[1]">
     <!-- Left rail -->
-    <nav class="acrylic--sidebar rounded-3xl p-2 md:p-3 w-14 md:w-16">
+    <nav class="acrylic--sidebar rounded-3xl p-2 md:p-3 w-14 md:w-16 relative z-50 overflow-visible">
       <div class="flex flex-col justify-between h-full">
         <div class="flex flex-col items-center space-y-2 md:space-y-3">
           <button class="p-2 rounded-xl text-gray-300 hover:bg-white/10 hover:text-primary transition">
@@ -417,9 +432,37 @@
           </button>
         </div>
         <div class="flex flex-col items-center space-y-2 md:space-y-3">
-
-          <button
-            class="w-8 h-8 md:w-10 md:h-10 rounded-full bg-gray-500/70 hover:bg-primary transition text-white flex items-center justify-center text-xs md:text-sm font-bold">JD</button>
+          <!-- Profile Widget in Sidebar -->
+          <div class="relative group">
+            <!-- Profile Avatar Button -->
+            <button 
+              id="profile-avatar" 
+              class="w-8 h-8 md:w-10 md:h-10 rounded-full bg-primary hover:bg-primaryDarker transition-colors duration-200 flex items-center justify-center text-black font-bold text-xs md:text-sm shadow-lg"
+              title="Profile">
+              <span id="profile-initials">U</span>
+            </button>
+            
+            <!-- iMessage-style Speech Bubble Popover -->
+            <div class="absolute top-1/2 left-full transform -translate-y-1/2 ml-3 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 -translate-x-2 group-hover:translate-x-0 z-[9999]">
+              <!-- Speech Bubble Container -->
+              <div class="relative">
+                <!-- Bubble Tail (Triangle pointing left) -->
+                <div class="absolute top-1/2 left-0 transform -translate-y-1/2 -translate-x-full">
+                  <div class="w-0 h-0 border-t-4 border-b-4 border-r-8 border-t-transparent border-b-transparent border-r-black/90"></div>
+                </div>
+                
+                <!-- Bubble Content -->
+                <div class="bg-black/90 backdrop-blur-md border border-white/30 rounded-lg px-4 py-3 shadow-xl min-w-[140px]">
+                  <p id="profile-email" class="text-xs text-gray-300 mb-2 truncate max-w-[120px]">user@example.com</p>
+                  <button 
+                    id="sign-out-btn"
+                    class="w-full text-left text-sm text-red-400 hover:text-red-300 transition-colors duration-200 font-medium">
+                    Sign out
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </nav>
@@ -1739,6 +1782,118 @@ This document, this very text you are reading, is a collaboration. A testament t
       console.log('History collapse/expand functionality initialized');
 
     })();
+  </script>
+
+  </div> <!-- End main-content -->
+
+  <!-- Auth & Profile Management -->
+  <script type="module">
+    // Initialize Supabase
+    const { createClient } = supabase;
+    const supabaseUrl = 'https://qnbvnczctgbclolvkjcb.supabase.co';
+    const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFuYnZuY3pjdGdiY2xvbHZramNiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjI1NTg3NDIsImV4cCI6MjA3ODEzNDc0Mn0.v5t8eMJjpPtdIn6oKXshjuIH0shlztIp9fWBrRjnrGg';
+    const supabaseClient = createClient(supabaseUrl, supabaseKey);
+
+    // DOM elements
+    const authLoading = document.getElementById('auth-loading');
+    const mainContent = document.getElementById('main-content');
+    const profileInitials = document.getElementById('profile-initials');
+    const profileEmail = document.getElementById('profile-email');
+    const signOutBtn = document.getElementById('sign-out-btn');
+
+    // Auth guard - check session on page load
+    async function checkAuth() {
+      try {
+        const { data: { session }, error } = await supabaseClient.auth.getSession();
+        
+        if (error) {
+          console.error('Auth error:', error);
+          redirectToLogin();
+          return;
+        }
+
+        if (!session) {
+          redirectToLogin();
+          return;
+        }
+
+        // User is authenticated
+        showMainContent(session.user);
+      } catch (error) {
+        console.error('Auth check failed:', error);
+        redirectToLogin();
+      }
+    }
+
+    // Redirect to login page
+    function redirectToLogin() {
+      window.location.href = '/login_signup';
+    }
+
+    // Show main content and set up profile
+    function showMainContent(user) {
+      // Hide loading overlay
+      authLoading.classList.add('hidden');
+      
+      // Show main content
+      mainContent.classList.remove('hidden');
+      
+      // Set up profile icon
+      setupProfile(user);
+    }
+
+    // Set up profile information
+    function setupProfile(user) {
+      // Set initials
+      const email = user.email;
+      const fullName = user.user_metadata?.full_name || email;
+      
+      let initials = '';
+      if (fullName && fullName !== email) {
+        // Extract initials from full name
+        const nameParts = fullName.split(' ');
+        initials = nameParts.map(part => part.charAt(0).toUpperCase()).join('');
+        if (initials.length > 2) initials = initials.substring(0, 2);
+      } else {
+        // Use first character of email
+        initials = email.charAt(0).toUpperCase();
+      }
+      
+      profileInitials.textContent = initials;
+      profileEmail.textContent = email;
+      profileEmail.title = email; // Full email on hover
+    }
+
+    // Sign out handler
+    async function handleSignOut() {
+      try {
+        const { error } = await supabaseClient.auth.signOut();
+        
+        if (error) {
+          console.error('Sign out error:', error);
+        }
+        
+        // Redirect to index page
+        window.location.href = '/';
+      } catch (error) {
+        console.error('Sign out failed:', error);
+        // Force redirect even if sign out fails
+        window.location.href = '/';
+      }
+    }
+
+    // Listen for auth state changes
+    supabaseClient.auth.onAuthStateChange((event, session) => {
+      if (event === 'SIGNED_OUT' || !session) {
+        window.location.href = '/';
+      }
+    });
+
+    // Event listeners
+    signOutBtn.addEventListener('click', handleSignOut);
+
+    // Initialize auth check
+    checkAuth();
   </script>
 
   <!-- React TypeScript Background Bundle -->

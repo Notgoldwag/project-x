@@ -13,6 +13,9 @@
     <!--=============== CSS ===============-->
     <link rel="stylesheet" href="../static/css/styles.css" />
     <link rel="stylesheet" href="../static/css/extra.css" />
+    
+    <!--=============== SUPABASE ===============-->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
     <title>Login/Registration</title>
   </head>
@@ -276,6 +279,135 @@
         document.getElementById("modalBackdrop").style.display = "none";
       }
     </script>
+    
+    <!--=============== SUPABASE AUTH ===============-->
+    <script type="module">
+      // Initialize Supabase
+      const { createClient } = supabase;
+      const supabaseUrl = 'https://qnbvnczctgbclolvkjcb.supabase.co';
+      const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFuYnZuY3pjdGdiY2xvbHZramNiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjI1NTg3NDIsImV4cCI6MjA3ODEzNDc0Mn0.v5t8eMJjpPtdIn6oKXshjuIH0shlztIp9fWBrRjnrGg';
+      const supabaseClient = createClient(supabaseUrl, supabaseKey);
+
+      // Check if already authenticated and redirect
+      async function checkAuth() {
+        const { data: { session } } = await supabaseClient.auth.getSession();
+        if (session) {
+          window.location.href = '/home';
+        }
+      }
+
+      // Login form handler
+      document.querySelector('.login__access .login__form').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        
+        const email = document.getElementById('email').value;
+        const password = document.getElementById('password').value;
+        
+        if (!email || !password) {
+          showMessage('Please fill in all fields', 'error');
+          return;
+        }
+
+        try {
+          const { data, error } = await supabaseClient.auth.signInWithPassword({
+            email: email,
+            password: password
+          });
+
+          if (error) {
+            showMessage(error.message, 'error');
+          } else {
+            showMessage('Login successful! Redirecting...', 'success');
+            setTimeout(() => {
+              window.location.href = '/home';
+            }, 1000);
+          }
+        } catch (error) {
+          showMessage('Login failed: ' + error.message, 'error');
+        }
+      });
+
+      // Registration form handler
+      document.getElementById('WealthifyRegister').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        
+        const email = document.getElementById('emailCreate').value;
+        const password = document.getElementById('passwordCreate').value;
+        const fullName = document.getElementById('fullName').value;
+        
+        if (!email || !password || !fullName) {
+          showMessage('Please fill in all fields', 'error');
+          return;
+        }
+
+        if (password.length < 6) {
+          showMessage('Password must be at least 6 characters long', 'error');
+          return;
+        }
+
+        try {
+          const { data, error } = await supabaseClient.auth.signUp({
+            email: email,
+            password: password,
+            options: {
+              data: {
+                full_name: fullName
+              }
+            }
+          });
+
+          if (error) {
+            showMessage(error.message, 'error');
+          } else {
+            showMessage('Account created successfully! Check your email for verification.', 'success');
+          }
+        } catch (error) {
+          showMessage('Registration failed: ' + error.message, 'error');
+        }
+      });
+
+      // Show message function
+      function showMessage(message, type) {
+        // Create or get existing message element
+        let messageEl = document.getElementById('auth-message');
+        if (!messageEl) {
+          messageEl = document.createElement('div');
+          messageEl.id = 'auth-message';
+          messageEl.style.cssText = `
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 12px 24px;
+            border-radius: 8px;
+            color: white;
+            font-weight: 600;
+            z-index: 10000;
+            transition: all 0.3s ease;
+          `;
+          document.body.appendChild(messageEl);
+        }
+
+        // Set colors based on type
+        if (type === 'success') {
+          messageEl.style.background = 'linear-gradient(135deg, #00cba0 0%, #00a085 100%)';
+        } else {
+          messageEl.style.background = 'linear-gradient(135deg, #ff4757 0%, #ff3742 100%)';
+        }
+
+        messageEl.textContent = message;
+        messageEl.style.display = 'block';
+
+        // Hide after 3 seconds
+        setTimeout(() => {
+          messageEl.style.display = 'none';
+        }, 3000);
+      }
+
+      // Check auth on page load
+      checkAuth();
+    </script>
+    
     <script type="module" src="../static/js/signup.js"></script>
     <script type="module" src="../static/js/login.js"></script>
   </body>
