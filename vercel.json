@@ -1,5 +1,10 @@
 {
-  "version": 2,
+  "functions": {
+    "app.py": {
+      "runtime": "python3.12",
+      "maxDuration": 30
+    }
+  },
   "builds": [
     {
       "src": "app.py",
@@ -9,7 +14,7 @@
   "routes": [
     {
       "src": "/api/(.*)",
-      "dest": "app.py"
+      "dest": "/app.py"
     },
     {
       "src": "/static/(.*)",
@@ -17,7 +22,7 @@
     },
     {
       "src": "/(.*)",
-      "dest": "app.py"
+      "dest": "/app.py"
     }
   ]
 }
