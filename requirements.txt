@@ -1,7 +1,7 @@
 # === Core Web Framework ===
-Flask==3.0.3==3.0.0
-python-dotenv==1.0.1==1.0.0
-requests==2.31.0==2.32.3
+Flask==3.0.3
+python-dotenv==1.0.1
+requests==2.32.3
 
 # === Machine Learning / NLP ===
 transformers==4.44.2
