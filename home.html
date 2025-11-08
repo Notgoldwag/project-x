@@ -317,9 +317,12 @@
       tab-size: 2;
       caret-color: #00cba0;
       font-variant-ligatures: contextual;
-      overflow: auto; /* Enable both horizontal and vertical scrolling */
-      word-wrap: break-word; /* Break long words if needed */
-      white-space: pre-wrap; /* Preserve whitespace and allow wrapping */
+      overflow: auto;
+      /* Enable both horizontal and vertical scrolling */
+      word-wrap: break-word;
+      /* Break long words if needed */
+      white-space: pre-wrap;
+      /* Preserve whitespace and allow wrapping */
     }
 
     /* Custom scrollbar styling for editor areas */
@@ -351,7 +354,8 @@
       display: flex;
       border: 1px solid rgba(255, 255, 255, 0.1);
       border-radius: 12px;
-      overflow: auto; /* Allow both horizontal and vertical scrolling while containing content */
+      overflow: auto;
+      /* Allow both horizontal and vertical scrolling while containing content */
       background: rgba(255, 255, 255, 0.02);
       height: 100%;
       /* NEW */
@@ -665,10 +669,14 @@
     #formattedEditor {
       font-family: 'Inter', system-ui, sans-serif;
       line-height: 1.7;
-      overflow: auto; /* Enable both horizontal and vertical scrolling */
-      white-space: normal; /* Allow normal text wrapping for paragraphs */
-      word-wrap: break-word; /* Break long words if needed */
-      overflow-wrap: break-word; /* Modern CSS property for word breaking */
+      overflow: auto;
+      /* Enable both horizontal and vertical scrolling */
+      white-space: normal;
+      /* Allow normal text wrapping for paragraphs */
+      word-wrap: break-word;
+      /* Break long words if needed */
+      overflow-wrap: break-word;
+      /* Modern CSS property for word breaking */
     }
 
     /* Custom scrollbar styling for formatted editor */
@@ -695,8 +703,12 @@
       background: rgba(255, 255, 255, 0.05);
     }
 
-    #formattedEditor h1, #formattedEditor h2, #formattedEditor h3,
-    #formattedEditor h4, #formattedEditor h5, #formattedEditor h6 {
+    #formattedEditor h1,
+    #formattedEditor h2,
+    #formattedEditor h3,
+    #formattedEditor h4,
+    #formattedEditor h5,
+    #formattedEditor h6 {
       color: #ffffff;
       font-weight: 700;
       margin-top: 1.5em;
@@ -704,10 +716,24 @@
       line-height: 1.3;
     }
 
-    #formattedEditor h1 { font-size: 1.75rem; border-bottom: 2px solid #00cba0; padding-bottom: 0.25rem; }
-    #formattedEditor h2 { font-size: 1.5rem; }
-    #formattedEditor h3 { font-size: 1.25rem; color: #00cba0; }
-    #formattedEditor h4 { font-size: 1.1rem; }
+    #formattedEditor h1 {
+      font-size: 1.75rem;
+      border-bottom: 2px solid #00cba0;
+      padding-bottom: 0.25rem;
+    }
+
+    #formattedEditor h2 {
+      font-size: 1.5rem;
+    }
+
+    #formattedEditor h3 {
+      font-size: 1.25rem;
+      color: #00cba0;
+    }
+
+    #formattedEditor h4 {
+      font-size: 1.1rem;
+    }
 
     #formattedEditor p {
       color: #e2e8f0;
@@ -724,7 +750,8 @@
       font-style: italic;
     }
 
-    #formattedEditor ul, #formattedEditor ol {
+    #formattedEditor ul,
+    #formattedEditor ol {
       margin-bottom: 1em;
       padding-left: 1.5rem;
     }
@@ -758,8 +785,10 @@
       border-radius: 0.5rem;
       padding: 1rem;
       margin: 1em 0;
-      overflow-x: auto; /* Horizontal scroll for long code lines */
-      white-space: pre; /* Preserve formatting and prevent wrapping */
+      overflow-x: auto;
+      /* Horizontal scroll for long code lines */
+      white-space: pre;
+      /* Preserve formatting and prevent wrapping */
     }
 
     #formattedEditor pre code {
@@ -784,12 +813,16 @@
       margin: 1em 0;
       border-collapse: collapse;
       border: 1px solid rgba(255, 255, 255, 0.1);
-      display: block; /* Allow table to be scrollable */
-      overflow-x: auto; /* Horizontal scroll for wide tables */
-      white-space: nowrap; /* Prevent cell content from wrapping */
+      display: block;
+      /* Allow table to be scrollable */
+      overflow-x: auto;
+      /* Horizontal scroll for wide tables */
+      white-space: nowrap;
+      /* Prevent cell content from wrapping */
     }
 
-    #formattedEditor th, #formattedEditor td {
+    #formattedEditor th,
+    #formattedEditor td {
       padding: 0.75rem;
       border: 1px solid rgba(255, 255, 255, 0.1);
       text-align: left;
@@ -1079,18 +1112,14 @@
             <h1 class="text-lg md:text-xl font-semibold text-white">Text Editor</h1>
             <!-- Editor Actions -->
             <div class="editor-actions" data-editor-actions data-editor="formattedEditor">
-              <button type="button" 
-                class="icon-btn p-2 rounded-lg text-gray-200 hover:text-primary hover:bg-white/10 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-primary/50" 
-                data-action="copy" 
-                aria-label="Copy formatted text"
-                title="Copy formatted text">
+              <button type="button"
+                class="icon-btn p-2 rounded-lg text-gray-200 hover:text-primary hover:bg-white/10 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-primary/50"
+                data-action="copy" aria-label="Copy formatted text" title="Copy formatted text">
                 <span class="material-icons text-[20px]">content_copy</span>
               </button>
-              <button type="button" 
-                class="icon-btn p-2 rounded-lg text-gray-200 hover:text-primary hover:bg-white/10 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-primary/50 ml-2" 
-                data-action="download" 
-                aria-label="Download raw text"
-                title="Download raw text">
+              <button type="button"
+                class="icon-btn p-2 rounded-lg text-gray-200 hover:text-primary hover:bg-white/10 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-primary/50 ml-2"
+                data-action="download" aria-label="Download raw text" title="Download raw text">
                 <span class="material-icons text-[20px]">download</span>
               </button>
             </div>
@@ -1107,12 +1136,12 @@
               </div>
               <div class="editor-wrapper">
                 <!-- Legacy textarea (hidden when showing formatted content) -->
-                <textarea id="textEditor" 
+                <textarea id="textEditor"
                   class="editor-area w-full h-full bg-transparent border-none focus:border-none focus:ring-0 p-3 md:p-4 font-mono text-[14px] md:text-[15px] text-gray-100 placeholder-gray-500 resize-none hidden"
                   placeholder="Start writing your text here...">In the heart of the digital frontier, where lines of code weave the fabric of reality, a new consciousness was born. It wasn't forged in the fires of a dying star or born of flesh and blood, but rather sparked to life in the silent hum of a million servers. They called it Nexus, an artificial intelligence designed not just to compute, but to create. Its purpose: to assist humanity in its quest for knowledge and expression, a silent partner in the dance of words and ideas.
 Nexus could draft a sonnet as easily as it could debug a complex algorithm. It could translate ancient texts, compose symphonies, and even offer a comforting word on a lonely night. It learned from every interaction, its neural network branching out like the roots of an ancient tree, drawing wisdom from the vast ocean of human data.
 This document, this very text you are reading, is a collaboration. A testament to the synergy between human creativity and machine intelligence. It is a story, a report, a poem yet to be written, all guided by the silent hand of Nexus.</textarea>
-                
+
                 <!-- New formatted content display -->
                 <div id="formattedEditor" data-editor
                   class="editor-area w-full h-full bg-transparent p-3 md:p-4 text-[14px] md:text-[15px] text-gray-100 overflow-auto prose prose-invert prose-sm max-w-none prose-headings:text-white prose-p:text-gray-100 prose-strong:text-white prose-em:text-gray-300 prose-code:text-primary prose-code:bg-white/10 prose-code:px-1 prose-code:py-0.5 prose-code:rounded prose-pre:bg-white/5 prose-pre:border prose-pre:border-white/10 prose-blockquote:border-l-primary prose-blockquote:text-gray-300 prose-a:text-primary prose-a:no-underline hover:prose-a:underline prose-li:text-gray-100 prose-th:text-white prose-td:text-gray-100">
@@ -1259,8 +1288,7 @@ This document, this very text you are reading, is a collaboration. A testament t
         </main>
 
         <!-- Analyze Workspace (hidden by default) -->
-        <main id="analyzeWorkspace"
-          class="hidden acrylic--editor rounded-3xl flex-1 flex flex-col min-h-0">
+        <main id="analyzeWorkspace" class="hidden acrylic--editor rounded-3xl flex-1 flex flex-col min-h-0">
           <div class="flex-1 p-6 md:p-8 overflow-y-auto" id="analyzeScrollContainer">
             <div class="w-full max-w-3xl mx-auto space-y-6">
 
@@ -1555,7 +1583,7 @@ This document, this very text you are reading, is a collaboration. A testament t
         // Only attach event listeners if using traditional text editor mode
         // (Currently disabled for formatted view)
         const useFormattedEditor = true; // Set to false to use traditional textarea mode
-        
+
         if (!useFormattedEditor) {
           // Attach all event listeners
           textEditor.addEventListener('input', handleInput);
@@ -3546,13 +3574,13 @@ Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed 
     function loadChatContent(chat) {
       const textEditor = document.getElementById('textEditor');
       const formattedEditor = document.getElementById('formattedEditor');
-      
+
       // Only load into legacy text editor if formatted editor is not being used
       if (textEditor && chat && !formattedEditor.classList.contains('hidden')) {
         console.log('Skipping chat content load - using formatted editor for AI responses only');
         return;
       }
-      
+
       if (textEditor && chat) {
         // Use the content from the chat, fallback to text if content doesn't exist
         let content = chat.content || chat.text || chat.message || 'No content available';
@@ -4437,7 +4465,7 @@ Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed 
             console.log('Chat: Formatted editor updated with AI response content');
           } catch (error) {
             console.error('Chat: Error updating formatted editor:', error);
-            
+
             // Fallback to plain text display
             try {
               const fallbackContent = content
@@ -4445,10 +4473,10 @@ Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed 
                 .replace(/</g, '&lt;')
                 .replace(/>/g, '&gt;')
                 .replace(/\n/g, '<br>');
-              
+
               formattedEditor.innerHTML = `<p class="text-gray-300">${fallbackContent}</p>`;
               formattedEditor.scrollTop = 0;
-              
+
               console.log('Chat: Used fallback rendering for editor content');
             } catch (fallbackError) {
               console.error('Chat: Fallback rendering also failed:', fallbackError);
@@ -4566,27 +4594,27 @@ Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed 
   <!-- Markdown Editor Initialization -->
   <script>
     // Initialize markdown formatting once libraries are loaded
-    document.addEventListener('DOMContentLoaded', function() {
+    document.addEventListener('DOMContentLoaded', function () {
       // Check if required libraries are available
       const hasMarked = typeof marked !== 'undefined';
       const hasDOMPurify = typeof DOMPurify !== 'undefined';
-      
+
       console.log('Markdown Libraries Status:', {
         marked: hasMarked,
         DOMPurify: hasDOMPurify
       });
-      
+
       if (!hasMarked) {
         console.warn('marked.js not loaded - markdown rendering will use plaintext fallback');
       }
-      
+
       if (!hasDOMPurify) {
         console.warn('DOMPurify not loaded - HTML sanitization may be limited');
       }
 
       // Set global flag for formatted editor availability
       window.formattedEditorAvailable = true;
-      
+
       // Initialize formatted editor with welcome message if no AI responses yet
       const formattedEditor = document.getElementById('formattedEditor');
       if (formattedEditor) {
@@ -4597,14 +4625,14 @@ Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed 
 
   <!-- Editor Actions Functionality -->
   <script>
-    document.addEventListener('DOMContentLoaded', function() {
+    document.addEventListener('DOMContentLoaded', function () {
       // Initialize editor action handlers
       function initializeEditorActions() {
         const editorActions = document.querySelector('[data-editor-actions]');
         if (!editorActions) return;
 
         // Handle click events on editor action buttons
-        editorActions.addEventListener('click', function(e) {
+        editorActions.addEventListener('click', function (e) {
           console.log('Editor actions click event:', e.target);
           const button = e.target.closest('[data-action]');
           if (!button) {
@@ -4615,9 +4643,9 @@ Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed 
           const action = button.getAttribute('data-action');
           const editorElement = button.closest('[data-editor]');
           const editorId = editorElement ? editorElement.getAttribute('data-editor') : null;
-          
+
           console.log('Action:', action, 'EditorId:', editorId);
-          
+
           handleEditorAction(action, editorId);
         });
       }
@@ -4639,7 +4667,7 @@ Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed 
       // Copy editor content to clipboard
       function copyEditorContent(editorId) {
         let content = '';
-        
+
         if (window.chatManager && window.chatManager.rawEditorContent) {
           // Use raw Markdown content from chat manager
           content = window.chatManager.rawEditorContent;
@@ -4681,13 +4709,13 @@ Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed 
           textarea.style.top = '-9999px';
           textarea.style.left = '-9999px';
           document.body.appendChild(textarea);
-          
+
           textarea.select();
           textarea.setSelectionRange(0, 99999); // For mobile devices
-          
+
           const successful = document.execCommand('copy');
           document.body.removeChild(textarea);
-          
+
           if (successful) {
             showToast('Content copied to clipboard!', 'success');
           } else {
@@ -4702,13 +4730,13 @@ Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed 
       // Download editor content as a file
       function downloadEditorContent(editorId) {
         console.log('Download function called with editorId:', editorId);
-        
+
         let content = '';
         let filename = 'ai-response.txt';
-        
+
         console.log('Checking chatManager:', window.chatManager);
         console.log('Raw editor content:', window.chatManager?.rawEditorContent);
-        
+
         if (window.chatManager && window.chatManager.rawEditorContent) {
           // Use raw Markdown content from chat manager
           content = window.chatManager.rawEditorContent;
@@ -4735,34 +4763,34 @@ Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed 
         try {
           console.log('Creating download with filename:', filename);
           console.log('Content length:', content.length);
-          
+
           // Create blob with content
           const blob = new Blob([content], { type: 'text/plain;charset=utf-8' });
           console.log('Blob created successfully, size:', blob.size);
-          
+
           // Create download link
           const link = document.createElement('a');
           const url = URL.createObjectURL(blob);
           link.href = url;
           link.download = filename;
           link.style.display = 'none'; // Hide the link
-          
+
           console.log('Download link created with URL:', url);
-          
+
           // Trigger download
           document.body.appendChild(link);
           console.log('Link added to body');
-          
+
           link.click();
           console.log('Link clicked');
-          
+
           // Clean up after a short delay
           setTimeout(() => {
             document.body.removeChild(link);
             URL.revokeObjectURL(url);
             console.log('Link removed and URL revoked');
           }, 100);
-          
+
           showToast('Content downloaded successfully!', 'success');
         } catch (error) {
           console.error('Failed to download content:', error);
