@@ -1,10 +1,3 @@
-transformers>=4.30
-datasets>=2.14
-evaluate
-torch>=1.13
-pandas
 flask
 python-dotenv
 requests
-uvicorn   # optional for ASGI
-gunicorn  # optional for production
