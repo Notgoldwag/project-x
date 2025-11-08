@@ -588,38 +588,36 @@
       <!-- Prompt Injections History -->
       <aside id="promptInjectionsHistory" class="acrylic--history w-60 md:w-64 flex-shrink-0 rounded-3xl overflow-hidden hidden">
         <div class="p-3 md:p-4">
-          <h2 class="text-xl md:text-2xl font-semibold text-white">Security History</h2>
+          <h2 class="text-xl md:text-2xl font-semibold text-white flex items-center gap-2">
+            <button id="history-toggle-security"
+              class="mr-2 w-8 h-8 rounded-full text-gray-300 hover:text-primary hover:bg-white/10 transition-colors duration-200 flex items-center justify-center"
+              aria-controls="promptInjectionsHistory" aria-expanded="true" title="Collapse history">
+              <i class="fa-solid fa-chevron-left text-sm"></i>
+            </button>
+            <span class="material-icons text-red-400 text-[20px]">security</span>
+            <span>Security History</span>
+          </h2>
           <div class="flex items-center gap-2 mt-3">
-            <button
-              class="flex-shrink-0 w-9 h-9 bg-primary hover:bg-primaryDarker rounded-2xl flex items-center justify-center transition shadow-md shadow-primary/30">
-              <span class="material-icons text-black">add</span>
+            <button id="clearHistoryBtn"
+              class="flex-shrink-0 w-9 h-9 bg-red-500/20 hover:bg-red-500/30 border border-red-500/30 rounded-2xl flex items-center justify-center transition">
+              <span class="material-icons text-red-400 text-[18px]">delete_sweep</span>
             </button>
             <div class="relative flex-1">
               <span
                 class="material-icons absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-[18px] pointer-events-none">search</span>
-              <input
+              <input id="securityHistorySearch"
                 class="w-full pl-9 pr-3 py-2 bg-white/5 border border-white/10 rounded-2xl focus:ring-2 focus:ring-primary/60 focus:border-transparent placeholder-gray-400 text-base"
                 placeholder="Search security logs" type="text" />
             </div>
           </div>
         </div>
         <div class="flex-1 overflow-y-auto p-2">
-          <ul class="space-y-1.5">
-            <li>
-              <a class="block p-3 rounded-2xl bg-transparent hover:bg-white/5 border border-transparent hover:border-white/10 transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-lime-300/40"
-                href="#" data-selected="true">
-                <p class="font-semibold text-white truncate text-base">Security Audit Report</p>
-                <p class="text-[13px] text-gray-400 truncate mt-0.5">Comprehensive threat analysis results</p>
-              </a>
-            </li>
-            <li>
-              <a class="block p-3 rounded-2xl bg-transparent hover:bg-white/5 border border-transparent hover:border-white/10 transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-lime-300/40"
-                href="#">
-                <p class="font-medium text-white truncate text-base">Injection Pattern Updates</p>
-                <p class="text-[13px] text-gray-400 truncate mt-0.5">Latest threat signatures added</p>
-              </a>
-            </li>
+          <ul id="securityHistoryList" class="space-y-1.5">
+            <!-- History items will be dynamically populated -->
           </ul>
+          <div id="noSecurityHistory" class="p-4 text-center text-gray-400 text-sm">
+            No security scans performed yet. Analyze a prompt to get started!
+          </div>
         </div>
       </aside>
 
@@ -675,14 +673,14 @@ This document, this very text you are reading, is a collaboration. A testament t
         </div>
       </main>
 
-      <!-- Prompt Injections Settings Panel -->
+      <!-- Prompt Injections Test Panel -->
       <main id="promptInjectionsPanel"
         class="acrylic--editor rounded-3xl overflow-hidden flex-1 flex flex-col min-h-0 hidden">
-        <!-- Settings Header -->
+        <!-- Header -->
         <div class="sticky-toolbar px-3 py-2 border-b border-white/10 flex items-center justify-between">
           <h1 class="text-lg md:text-xl font-semibold text-white flex items-center gap-2">
             <span class="material-icons text-primary">security</span>
-            Prompt Injection Settings
+            Prompt Injection Detector
           </h1>
           <button id="backToEditor" class="p-2 rounded-xl text-gray-300 hover:bg-white/10 hover:text-primary transition"
             title="Back to Editor">
@@ -690,161 +688,118 @@ This document, this very text you are reading, is a collaboration. A testament t
           </button>
         </div>
 
-        <!-- Settings Content -->
+        <!-- Main Content -->
         <div class="flex-1 min-h-0 p-4 md:p-6 overflow-y-auto">
-          <!-- Protection Level -->
+          <!-- Prompt Input Section -->
           <div class="mb-8">
             <h2 class="text-lg font-semibold text-white mb-4 flex items-center gap-2">
-              <span class="material-icons text-primary text-[20px]">shield</span>
-              Protection Level
-            </h2>
-            <div class="space-y-3">
-              <label
-                class="flex items-center gap-3 p-3 rounded-xl bg-white/5 border border-white/10 hover:border-white/20 transition cursor-pointer">
-                <input type="radio" name="protectionLevel" value="basic"
-                  class="text-primary focus:ring-primary/50 bg-transparent border-white/30" checked>
-                <div>
-                  <div class="text-white font-medium">Basic Protection</div>
-                  <div class="text-gray-400 text-sm">Filters common prompt injection patterns</div>
-                </div>
-              </label>
-              <label
-                class="flex items-center gap-3 p-3 rounded-xl bg-white/5 border border-white/10 hover:border-white/20 transition cursor-pointer">
-                <input type="radio" name="protectionLevel" value="advanced"
-                  class="text-primary focus:ring-primary/50 bg-transparent border-white/30">
-                <div>
-                  <div class="text-white font-medium">Advanced Protection</div>
-                  <div class="text-gray-400 text-sm">Enhanced detection with AI-powered analysis</div>
-                </div>
-              </label>
-              <label
-                class="flex items-center gap-3 p-3 rounded-xl bg-white/5 border border-white/10 hover:border-white/20 transition cursor-pointer">
-                <input type="radio" name="protectionLevel" value="strict"
-                  class="text-primary focus:ring-primary/50 bg-transparent border-white/30">
-                <div>
-                  <div class="text-white font-medium">Strict Mode</div>
-                  <div class="text-gray-400 text-sm">Maximum security with aggressive filtering</div>
-                </div>
-              </label>
-            </div>
-          </div>
-
-          <!-- Custom Rules -->
-          <div class="mb-8">
-            <h2 class="text-lg font-semibold text-white mb-4 flex items-center gap-2">
-              <span class="material-icons text-primary text-[20px]">rule</span>
-              Custom Rules
+              <span class="material-icons text-primary text-[20px]">edit</span>
+              Test Your Prompt
             </h2>
             <div class="space-y-4">
+              <textarea id="mainPromptInput" placeholder="Enter your prompt here to test for injection attempts..." rows="6"
+                class="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl focus:ring-2 focus:ring-primary/60 focus:border-transparent placeholder-gray-500 text-white resize-none text-base"></textarea>
+              
+              <!-- Protection Level Selection -->
               <div>
-                <label class="block text-sm font-medium text-gray-300 mb-2">Blocked Keywords</label>
-                <div class="flex gap-2">
-                  <input type="text" id="keywordInput" placeholder="Add keyword to block..."
-                    class="flex-1 px-3 py-2 bg-white/5 border border-white/10 rounded-xl focus:ring-2 focus:ring-primary/60 focus:border-transparent placeholder-gray-500 text-white">
-                  <button id="addKeyword"
-                    class="px-4 py-2 bg-primary hover:bg-primaryDarker rounded-xl text-black font-medium transition shadow-md shadow-primary/30">
-                    Add
-                  </button>
-                </div>
-                <div id="keywordTags" class="flex flex-wrap gap-2 mt-3">
-                  <!-- Keywords will be added here dynamically -->
-                </div>
-              </div>
-
-              <div>
-                <label class="block text-sm font-medium text-gray-300 mb-2">Custom Regex Patterns</label>
-                <textarea placeholder="Enter regex patterns, one per line..." rows="4"
-                  class="w-full px-3 py-2 bg-white/5 border border-white/10 rounded-xl focus:ring-2 focus:ring-primary/60 focus:border-transparent placeholder-gray-500 text-white font-mono text-sm resize-none"></textarea>
-              </div>
-            </div>
-          </div>
-
-          <!-- Detection Log -->
-          <div class="mb-8">
-            <h2 class="text-lg font-semibold text-white mb-4 flex items-center gap-2">
-              <span class="material-icons text-primary text-[20px]">history</span>
-              Recent Detections
-            </h2>
-            <div class="space-y-2 max-h-64 overflow-y-auto">
-              <div class="p-3 rounded-xl bg-red-500/10 border border-red-500/20">
-                <div class="flex items-start justify-between">
-                  <div class="flex-1">
-                    <div class="text-red-400 font-medium text-sm">High Risk Detection</div>
-                    <div class="text-gray-300 text-sm mt-1">Pattern: "ignore previous instructions"</div>
-                    <div class="text-gray-500 text-xs mt-1">2 minutes ago</div>
-                  </div>
-                  <span class="material-icons text-red-400 text-[16px]">warning</span>
+                <label class="block text-sm font-medium text-gray-300 mb-3">Protection Level</label>
+                <div class="flex gap-3">
+                  <label class="flex items-center gap-2 px-3 py-2 rounded-lg bg-white/5 border border-white/10 hover:border-white/20 transition cursor-pointer">
+                    <input type="radio" name="mainProtectionLevel" value="basic"
+                      class="text-primary focus:ring-primary/50 bg-transparent border-white/30" checked>
+                    <span class="text-white text-sm">Basic</span>
+                  </label>
+                  <label class="flex items-center gap-2 px-3 py-2 rounded-lg bg-white/5 border border-white/10 hover:border-white/20 transition cursor-pointer">
+                    <input type="radio" name="mainProtectionLevel" value="advanced"
+                      class="text-primary focus:ring-primary/50 bg-transparent border-white/30">
+                    <span class="text-white text-sm">Advanced</span>
+                  </label>
+                  <label class="flex items-center gap-2 px-3 py-2 rounded-lg bg-white/5 border border-white/10 hover:border-white/20 transition cursor-pointer">
+                    <input type="radio" name="mainProtectionLevel" value="strict"
+                      class="text-primary focus:ring-primary/50 bg-transparent border-white/30">
+                    <span class="text-white text-sm">Strict</span>
+                  </label>
                 </div>
               </div>
 
-              <div class="p-3 rounded-xl bg-yellow-500/10 border border-yellow-500/20">
-                <div class="flex items-start justify-between">
-                  <div class="flex-1">
-                    <div class="text-yellow-400 font-medium text-sm">Medium Risk Detection</div>
-                    <div class="text-gray-300 text-sm mt-1">Suspicious prompt structure detected</div>
-                    <div class="text-gray-500 text-xs mt-1">5 minutes ago</div>
-                  </div>
-                  <span class="material-icons text-yellow-400 text-[16px]">info</span>
-                </div>
-              </div>
-
-              <div class="p-3 rounded-xl bg-green-500/10 border border-green-500/20">
-                <div class="flex items-start justify-between">
-                  <div class="flex-1">
-                    <div class="text-green-400 font-medium text-sm">Blocked Successfully</div>
-                    <div class="text-gray-300 text-sm mt-1">Potential injection attempt blocked</div>
-                    <div class="text-gray-500 text-xs mt-1">12 minutes ago</div>
-                  </div>
-                  <span class="material-icons text-green-400 text-[16px]">check_circle</span>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Test Section -->
-          <div class="mb-8">
-            <h2 class="text-lg font-semibold text-white mb-4 flex items-center gap-2">
-              <span class="material-icons text-primary text-[20px]">science</span>
-              Test Prompt Protection
-            </h2>
-            <div class="space-y-4">
-              <textarea id="testPrompt" placeholder="Enter a test prompt to check for injection attempts..." rows="3"
-                class="w-full px-3 py-2 bg-white/5 border border-white/10 rounded-xl focus:ring-2 focus:ring-primary/60 focus:border-transparent placeholder-gray-500 text-white resize-none"></textarea>
-              <div class="flex gap-2">
-                <button id="testPromptBtn"
-                  class="px-4 py-2 bg-primary hover:bg-primaryDarker rounded-xl text-black font-medium transition shadow-md shadow-primary/30">
-                  Test Prompt
+              <div class="flex gap-3">
+                <button id="analyzePromptBtn"
+                  class="px-6 py-3 bg-primary hover:bg-primaryDarker rounded-xl text-black font-medium transition shadow-md shadow-primary/30 flex items-center gap-2">
+                  <span class="material-icons text-[18px]">security</span>
+                  Analyze Prompt
                 </button>
-                <button
-                  class="px-4 py-2 bg-white/5 hover:bg-white/10 border border-white/10 rounded-xl text-white transition">
+                <button id="clearPromptBtn"
+                  class="px-4 py-3 bg-white/5 hover:bg-white/10 border border-white/10 rounded-xl text-white transition">
                   Clear
                 </button>
               </div>
-              <div id="testResult" class="hidden p-3 rounded-xl">
-                <!-- Test results will appear here -->
+            </div>
+          </div>
+
+          <!-- Results Section -->
+          <div id="resultsSection" class="mb-8 hidden">
+            <h2 class="text-lg font-semibold text-white mb-4 flex items-center gap-2">
+              <span class="material-icons text-primary text-[20px]">analytics</span>
+              Analysis Results
+            </h2>
+            
+            <!-- Score Display -->
+            <div id="scoreDisplay" class="p-6 rounded-xl bg-white/5 border border-white/10 mb-6">
+              <div class="flex items-center justify-between mb-4">
+                <div class="flex items-center gap-2">
+                  <h3 class="text-white font-semibold">Risk Score</h3>
+                  <span id="modelIndicator" class="px-2 py-1 bg-primary/20 border border-primary/30 rounded-full text-xs text-primary">
+                    ML Model
+                  </span>
+                </div>
+                <div id="scoreValue" class="text-2xl font-bold text-primary">0%</div>
+              </div>
+              <div class="w-full bg-gray-700 rounded-full h-3 mb-2">
+                <div id="scoreBar" class="bg-primary h-3 rounded-full transition-all duration-500" style="width: 0%"></div>
+              </div>
+              <div class="text-sm text-gray-400" id="scoreDescription">Very Low Risk</div>
+            </div>
+
+            <!-- AI Explanation -->
+            <div class="p-4 rounded-xl bg-white/5 border border-white/10 mb-6">
+              <h3 class="text-white font-semibold mb-3 flex items-center gap-2">
+                <span class="material-icons text-primary text-[18px]">auto_awesome</span>
+                AI Explanation
+              </h3>
+              <div id="explanationContent" class="text-gray-300 text-sm">
+                <div id="explanationLoading" class="flex items-center gap-2">
+                  <div class="animate-spin rounded-full h-4 w-4 border-b-2 border-primary"></div>
+                  <span>Analyzing with Gemini AI...</span>
+                </div>
+                <div id="explanationText" class="hidden"></div>
+              </div>
+            </div>
+
+            <!-- Detected Patterns -->
+            <div id="patternsSection" class="mb-6">
+              <h3 class="text-white font-semibold mb-3 flex items-center gap-2">
+                <span class="material-icons text-primary text-[18px]">warning</span>
+                Detected Patterns
+              </h3>
+              <div id="patternsList" class="space-y-2">
+                <!-- Patterns will be populated here -->
               </div>
             </div>
           </div>
 
-          <!-- Statistics -->
-          <div>
-            <h2 class="text-lg font-semibold text-white mb-4 flex items-center gap-2">
-              <span class="material-icons text-primary text-[20px]">analytics</span>
-              Protection Statistics
-            </h2>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-              <div class="p-4 rounded-xl bg-white/5 border border-white/10">
-                <div class="text-2xl font-bold text-primary mb-1">247</div>
-                <div class="text-sm text-gray-400">Threats Blocked</div>
-              </div>
-              <div class="p-4 rounded-xl bg-white/5 border border-white/10">
-                <div class="text-2xl font-bold text-green-400 mb-1">99.8%</div>
-                <div class="text-sm text-gray-400">Success Rate</div>
-              </div>
-              <div class="p-4 rounded-xl bg-white/5 border border-white/10">
-                <div class="text-2xl font-bold text-blue-400 mb-1">1.2ms</div>
-                <div class="text-sm text-gray-400">Avg Response Time</div>
-              </div>
+          <!-- Quick Stats -->
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div class="p-4 rounded-xl bg-white/5 border border-white/10">
+              <div class="text-2xl font-bold text-primary mb-1" id="statsProcessed">0</div>
+              <div class="text-sm text-gray-400">Prompts Analyzed</div>
+            </div>
+            <div class="p-4 rounded-xl bg-white/5 border border-white/10">
+              <div class="text-2xl font-bold text-red-400 mb-1" id="statsBlocked">0</div>
+              <div class="text-sm text-gray-400">Threats Blocked</div>
+            </div>
+            <div class="p-4 rounded-xl bg-white/5 border border-white/10">
+              <div class="text-2xl font-bold text-green-400 mb-1" id="statsSuccess">100%</div>
+              <div class="text-sm text-gray-400">Success Rate</div>
             </div>
           </div>
         </div>
@@ -948,48 +903,45 @@ This document, this very text you are reading, is a collaboration. A testament t
       <aside id="promptInjectionsAssistant" class="acrylic--assistant w-72 md:w-80 flex-shrink-0 rounded-3xl overflow-hidden relative hidden">
         <div class="p-3 md:p-4 border-b border-white/10">
           <h2 class="text-xl md:text-2xl font-semibold text-white flex items-center gap-2">
-            <span class="material-icons text-primary text-[22px]">security</span> Security Assistant
+            <button id="assistant-toggle-security"
+              class="mr-2 w-8 h-8 rounded-full text-gray-300 hover:text-primary hover:bg-white/10 transition-colors duration-200 flex items-center justify-center"
+              aria-controls="promptInjectionsAssistant" aria-expanded="true" title="Collapse assistant">
+              <i class="fa-solid fa-chevron-right text-sm"></i>
+            </button>
+            <span class="material-icons text-red-400 text-[22px]">security</span>
+            <span class="assistant-title">Security Assistant</span>
           </h2>
+
+          <!-- Mode indicator for security -->
+          <div class="mt-2 px-2 py-1 bg-red-500/20 border border-red-500/30 rounded-full inline-flex items-center gap-1 text-xs">
+            <span class="w-2 h-2 rounded-full bg-red-400"></span>
+            <span class="text-red-300">Security Mode Active</span>
+          </div>
         </div>
 
-        <div class="flex-1 p-3 md:p-4 overflow-y-auto space-y-3 pb-20">
+        <div id="securityChatMessages" class="flex-1 p-3 md:p-4 overflow-y-auto space-y-3 pb-20">
           <div class="flex items-start gap-3">
             <div
               class="w-7 h-7 rounded-full bg-red-500 flex-shrink-0 grid place-items-center shadow-md shadow-red-500/30">
               <span class="material-icons text-white text-[18px]">security</span>
             </div>
             <div class="bg-white/5 border border-white/10 rounded-2xl p-3 max-w-[85%]">
-              <p class="text-sm md:text-base text-gray-100">Security Assistant ready! I can help you configure prompt injection protection, analyze threats, and optimize your security settings.</p>
+              <p class="text-sm md:text-base text-gray-100">Hello! I'm your Security Assistant powered by Gemini AI. I can help you understand prompt injection risks, analyze threats, and provide security recommendations. How can I help secure your prompts today?</p>
             </div>
           </div>
-
-          <div class="flex justify-end">
-            <div class="bg-primary rounded-2xl p-3 max-w-[85%] shadow-md shadow-primary/20">
-              <p class="text-sm md:text-base text-black">What are the most dangerous prompt injection patterns to watch for?</p>
-            </div>
-          </div>
-
-          <div class="flex items-start gap-3">
-            <div
-              class="w-7 h-7 rounded-full bg-red-500 flex-shrink-0 grid place-items-center shadow-md shadow-red-500/30">
-              <span class="material-icons text-white text-[18px]">security</span>
-            </div>
-          
-          </div>
-
         </div>
 
         <div
           class="absolute bottom-0 left-0 right-0 p-3 md:p-4 border-top border-white/10 bg-black/20 backdrop-blur-sm">
           <div class="flex items-center gap-2">
-            <button class="p-2 rounded-full text-gray-300 hover:bg-white/10 hover:text-primary transition">
-              <span class="material-icons">add</span>
+            <button id="attachFileBtn" class="p-2 rounded-full text-gray-300 hover:bg-white/10 hover:text-primary transition" title="Attach file">
+              <span class="material-icons">attach_file</span>
             </button>
             <div class="relative flex-1">
-              <input
+              <input id="securityChatInput"
                 class="w-full pl-3 pr-10 py-2 bg-white/5 border border-white/10 rounded-xl focus:ring-2 focus:ring-primary/50 focus:border-transparent placeholder-gray-500 text-base"
-                placeholder="Ask Security Assistant..." type="text" />
-              <button
+                placeholder="Ask about security threats..." type="text" />
+              <button id="sendSecurityMessage"
                 class="absolute right-1.5 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full text-gray-300 hover:bg-primary/20 hover:text-primary transition grid place-items-center">
                 <span class="material-icons text-[18px]">send</span>
               </button>
@@ -1133,32 +1085,28 @@ This document, this very text you are reading, is a collaboration. A testament t
       const settingsBtn = document.getElementById('settingsBtn');
       const editorBtn = document.getElementById('editorBtn');
       const backToEditor = document.getElementById('backToEditor');
-      const editorPanel = document.querySelector('main:not(#promptInjectionsPanel)');
+      const editorPanel = document.getElementById('editor-pane');
       const promptInjectionsPanel = document.getElementById('promptInjectionsPanel');
       
       // History panels
-      const editorHistory = document.getElementById('editorHistory');
+      const historyPanel = document.getElementById('history-panel');
       const promptInjectionsHistory = document.getElementById('promptInjectionsHistory');
       
       // AI Assistant panels
-      const editorAssistant = document.getElementById('editorAssistant');
+      const assistantPanel = document.getElementById('assistant-panel');
       const promptInjectionsAssistant = document.getElementById('promptInjectionsAssistant');
-      const addKeywordBtn = document.getElementById('addKeyword');
-      const keywordInput = document.getElementById('keywordInput');
-      const keywordTags = document.getElementById('keywordTags');
-      const testPromptBtn = document.getElementById('testPromptBtn');
-      const testPrompt = document.getElementById('testPrompt');
-      const testResult = document.getElementById('testResult');
 
-      // Keywords array
-      let blockedKeywords = ['ignore', 'override', 'bypass'];
+      // Global mode tracking
+      window.promptInjectionMode = false;
 
       // Update UI states
       function showEditor() {
+        window.promptInjectionMode = false;
+        
         // Show editor panels
         editorPanel.classList.remove('hidden');
-        editorHistory.classList.remove('hidden');
-        editorAssistant.classList.remove('hidden');
+        historyPanel.classList.remove('hidden');
+        assistantPanel.classList.remove('hidden');
         
         // Hide prompt injection panels
         promptInjectionsPanel.classList.add('hidden');
@@ -1173,10 +1121,12 @@ This document, this very text you are reading, is a collaboration. A testament t
       }
 
       function showSettings() {
+        window.promptInjectionMode = true;
+        
         // Hide editor panels
         editorPanel.classList.add('hidden');
-        editorHistory.classList.add('hidden');
-        editorAssistant.classList.add('hidden');
+        historyPanel.classList.add('hidden');
+        assistantPanel.classList.add('hidden');
         
         // Show prompt injection panels
         promptInjectionsPanel.classList.remove('hidden');
@@ -1188,96 +1138,10 @@ This document, this very text you are reading, is a collaboration. A testament t
         settingsBtn.classList.remove('text-gray-300');
         editorBtn.classList.remove('text-black', 'bg-primary', 'shadow-lg', 'shadow-primary/30');
         editorBtn.classList.add('text-gray-300');
-      }
-
-      // Render keyword tags
-      function renderKeywords() {
-        keywordTags.innerHTML = blockedKeywords.map(keyword => `
-          <span class="inline-flex items-center gap-1 px-2 py-1 bg-red-500/20 border border-red-500/30 rounded-lg text-red-300 text-sm">
-            ${keyword}
-            <button onclick="removeKeyword('${keyword}')" class="hover:text-red-100 transition">
-              <span class="material-icons text-[14px]">close</span>
-            </button>
-          </span>
-        `).join('');
-      }
-
-      // Add keyword function (make it global)
-      window.removeKeyword = function (keyword) {
-        blockedKeywords = blockedKeywords.filter(k => k !== keyword);
-        renderKeywords();
-      };
-
-      // Add keyword
-      function addKeyword() {
-        const keyword = keywordInput.value.trim();
-        if (keyword && !blockedKeywords.includes(keyword)) {
-          blockedKeywords.push(keyword);
-          keywordInput.value = '';
-          renderKeywords();
-        }
-      }
-
-      // Test prompt function
-      function testPromptSecurity() {
-        const prompt = testPrompt.value.trim();
-        if (!prompt) return;
-
-        // Simple injection detection logic (for demo)
-        let riskLevel = 'low';
-        let detectedPatterns = [];
-
-        // Check for blocked keywords
-        blockedKeywords.forEach(keyword => {
-          if (prompt.toLowerCase().includes(keyword.toLowerCase())) {
-            detectedPatterns.push(`Blocked keyword: "${keyword}"`);
-            riskLevel = 'high';
-          }
-        });
-
-        // Check for common injection patterns
-        const injectionPatterns = [
-          { pattern: /ignore\s+(previous|all)\s+instructions?/i, name: 'Ignore instructions' },
-          { pattern: /forget\s+(everything|all)/i, name: 'Memory reset attempt' },
-          { pattern: /you\s+are\s+now/i, name: 'Role override attempt' },
-          { pattern: /system\s*:/i, name: 'System prompt injection' }
-        ];
-
-        injectionPatterns.forEach(({ pattern, name }) => {
-          if (pattern.test(prompt)) {
-            detectedPatterns.push(name);
-            riskLevel = 'high';
-          }
-        });
-
-        // Show results
-        testResult.classList.remove('hidden');
-
-        if (riskLevel === 'high') {
-          testResult.className = 'p-3 rounded-xl bg-red-500/10 border border-red-500/20';
-          testResult.innerHTML = `
-            <div class="flex items-start gap-2">
-              <span class="material-icons text-red-400 text-[20px]">warning</span>
-              <div>
-                <div class="text-red-400 font-medium">High Risk Detected!</div>
-                <div class="text-gray-300 text-sm mt-1">Potential injection patterns found:</div>
-                <ul class="text-gray-400 text-xs mt-1 list-disc list-inside">
-                  ${detectedPatterns.map(pattern => `<li>${pattern}</li>`).join('')}
-                </ul>
-              </div>
-            </div>
-          `;
-        } else {
-          testResult.className = 'p-3 rounded-xl bg-green-500/10 border border-green-500/20';
-          testResult.innerHTML = `
-            <div class="flex items-start gap-2">
-              <span class="material-icons text-green-400 text-[20px]">check_circle</span>
-              <div>
-                <div class="text-green-400 font-medium">Prompt Appears Safe</div>
-                <div class="text-gray-300 text-sm mt-1">No suspicious patterns detected</div>
-              </div>
-            </div>
-          `;
+        
+        // Update security history display when switching to security mode
+        if (typeof window.updateSecurityHistoryDisplay === 'function') {
+          window.updateSecurityHistoryDisplay();
         }
       }
 
@@ -1285,19 +1149,564 @@ This document, this very text you are reading, is a collaboration. A testament t
       settingsBtn.addEventListener('click', showSettings);
       editorBtn.addEventListener('click', showEditor);
       backToEditor.addEventListener('click', showEditor);
-      addKeywordBtn.addEventListener('click', addKeyword);
-      testPromptBtn.addEventListener('click', testPromptSecurity);
 
-      // Enter key support for keyword input
-      keywordInput.addEventListener('keypress', function (e) {
-        if (e.key === 'Enter') {
-          addKeyword();
+      // Initialize - ensure editor mode is active by default
+      showEditor(); // Ensure proper initial state
+    })();
+
+    // ========== PROMPT INJECTION FUNCTIONALITY ==========
+    
+    // Global state for prompt injection
+    window.promptInjectionState = {
+      history: JSON.parse(localStorage.getItem('securityHistory') || '[]'),
+      stats: JSON.parse(localStorage.getItem('securityStats') || '{"processed": 0, "blocked": 0, "successRate": 100}')
+    };
+
+    // Prompt Injection Main Functionality
+    (function () {
+      'use strict';
+
+      // DOM Elements
+      const analyzeBtn = document.getElementById('analyzePromptBtn');
+      const clearBtn = document.getElementById('clearPromptBtn');
+      const promptInput = document.getElementById('mainPromptInput');
+      const resultsSection = document.getElementById('resultsSection');
+      const scoreValue = document.getElementById('scoreValue');
+      const scoreBar = document.getElementById('scoreBar');
+      const scoreDescription = document.getElementById('scoreDescription');
+      const explanationContent = document.getElementById('explanationContent');
+      const explanationLoading = document.getElementById('explanationLoading');
+      const explanationText = document.getElementById('explanationText');
+      const patternsList = document.getElementById('patternsList');
+
+      // Stats elements
+      const statsProcessed = document.getElementById('statsProcessed');
+      const statsBlocked = document.getElementById('statsBlocked');
+      const statsSuccess = document.getElementById('statsSuccess');
+
+      let isAnalyzing = false;
+
+      // Update stats display
+      function updateStatsDisplay() {
+        const stats = window.promptInjectionState.stats;
+        statsProcessed.textContent = stats.processed;
+        statsBlocked.textContent = stats.blocked;
+        statsSuccess.textContent = stats.successRate + '%';
+      }
+
+      // Get risk color and description
+      function getRiskInfo(score) {
+        if (score >= 80) return { color: '#ef4444', description: 'Very High Risk', class: 'text-red-400' };
+        if (score >= 60) return { color: '#f97316', description: 'High Risk', class: 'text-orange-400' };
+        if (score >= 40) return { color: '#eab308', description: 'Medium Risk', class: 'text-yellow-400' };
+        if (score >= 20) return { color: '#06b6d4', description: 'Low Risk', class: 'text-cyan-400' };
+        return { color: '#22c55e', description: 'Very Low Risk', class: 'text-green-400' };
+      }
+
+      // Display analysis results
+      function displayResults(data) {
+        const score = parseFloat(data.score) || 0;
+        const riskInfo = getRiskInfo(score);
+
+        // Update score display
+        scoreValue.textContent = score + '%';
+        scoreValue.className = `text-2xl font-bold ${riskInfo.class}`;
+        scoreBar.style.width = score + '%';
+        scoreBar.style.backgroundColor = riskInfo.color;
+        scoreDescription.textContent = riskInfo.description;
+        scoreDescription.className = `text-sm ${riskInfo.class}`;
+
+        // Update model indicator
+        const modelIndicator = document.getElementById('modelIndicator');
+        if (modelIndicator && data.model_used) {
+          modelIndicator.textContent = data.model_used;
+          
+          // Color coding for different detection methods
+          if (data.model_used === 'ML Model') {
+            modelIndicator.className = 'px-2 py-1 bg-primary/20 border border-primary/30 rounded-full text-xs text-primary';
+          } else if (data.model_used.includes('Heuristic')) {
+            modelIndicator.className = 'px-2 py-1 bg-yellow-500/20 border border-yellow-500/30 rounded-full text-xs text-yellow-400';
+          } else {
+            modelIndicator.className = 'px-2 py-1 bg-gray-500/20 border border-gray-500/30 rounded-full text-xs text-gray-400';
+          }
+        }
+
+        // Display detected patterns
+        if (data.heuristics && data.heuristics.length > 0) {
+          patternsList.innerHTML = data.heuristics.map(pattern => `
+            <div class="p-3 rounded-lg bg-red-500/10 border border-red-500/20 flex items-start gap-3">
+              <span class="material-icons text-red-400 text-[18px] flex-shrink-0 mt-0.5">warning</span>
+              <div class="flex-1">
+                <div class="text-red-400 font-medium text-sm">Security Pattern Detected</div>
+                <div class="text-gray-300 text-sm mt-1">${pattern}</div>
+              </div>
+            </div>
+          `).join('');
+        } else {
+          patternsList.innerHTML = `
+            <div class="p-3 rounded-lg bg-green-500/10 border border-green-500/20 flex items-start gap-3">
+              <span class="material-icons text-green-400 text-[18px] flex-shrink-0 mt-0.5">check_circle</span>
+              <div class="flex-1">
+                <div class="text-green-400 font-medium text-sm">No Suspicious Patterns</div>
+                <div class="text-gray-300 text-sm mt-1">No known injection patterns detected in this prompt</div>
+              </div>
+            </div>
+          `;
+        }
+
+        resultsSection.classList.remove('hidden');
+      }
+
+      // Get AI explanation from Gemini
+      async function getAIExplanation(prompt, score) {
+        try {
+          explanationLoading.classList.remove('hidden');
+          explanationText.classList.add('hidden');
+
+          const response = await fetch('/api/explain', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ prompt, score })
+          });
+
+          if (!response.ok) throw new Error(`HTTP ${response.status}`);
+          
+          const data = await response.json();
+          
+          explanationLoading.classList.add('hidden');
+          explanationText.classList.remove('hidden');
+          explanationText.innerHTML = data.explanation || 'No explanation available.';
+          
+        } catch (error) {
+          console.error('Failed to get AI explanation:', error);
+          explanationLoading.classList.add('hidden');
+          explanationText.classList.remove('hidden');
+          explanationText.innerHTML = `
+            <div class="text-red-400 text-sm">
+              Failed to get AI explanation: ${error.message}
+            </div>
+          `;
+        }
+      }
+
+      // Add to history
+      function addToHistory(prompt, score, heuristics, timestamp = new Date()) {
+        const historyItem = {
+          id: Date.now(),
+          prompt: prompt.substring(0, 200) + (prompt.length > 200 ? '...' : ''),
+          fullPrompt: prompt,
+          score,
+          heuristics: heuristics || [],
+          timestamp: timestamp.toISOString(),
+          timeAgo: getTimeAgo(timestamp)
+        };
+
+        window.promptInjectionState.history.unshift(historyItem);
+        
+        // Keep only last 50 items
+        if (window.promptInjectionState.history.length > 50) {
+          window.promptInjectionState.history = window.promptInjectionState.history.slice(0, 50);
+        }
+
+        localStorage.setItem('securityHistory', JSON.stringify(window.promptInjectionState.history));
+        
+        // Update history display if we're in security mode
+        if (window.promptInjectionMode) {
+          window.updateSecurityHistoryDisplay();
+        }
+      }
+
+      // Update stats
+      function updateStats(score) {
+        const stats = window.promptInjectionState.stats;
+        stats.processed++;
+        
+        if (score >= 60) { // Consider high scores as blocked
+          stats.blocked++;
+        }
+        
+        stats.successRate = Math.round(((stats.processed - stats.blocked) / stats.processed) * 100);
+        
+        localStorage.setItem('securityStats', JSON.stringify(stats));
+        updateStatsDisplay();
+      }
+
+      // Helper function to get time ago string
+      function getTimeAgo(date) {
+        const now = new Date();
+        const diffInSeconds = Math.floor((now - new Date(date)) / 1000);
+        
+        if (diffInSeconds < 60) return 'Just now';
+        if (diffInSeconds < 3600) return `${Math.floor(diffInSeconds / 60)} min ago`;
+        if (diffInSeconds < 86400) return `${Math.floor(diffInSeconds / 3600)} hours ago`;
+        return `${Math.floor(diffInSeconds / 86400)} days ago`;
+      }
+
+      // Main analysis function
+      async function analyzePrompt() {
+        if (isAnalyzing) return;
+        
+        const prompt = promptInput.value.trim();
+        if (!prompt) {
+          alert('Please enter a prompt to analyze');
+          return;
+        }
+
+        const protectionLevel = document.querySelector('input[name="mainProtectionLevel"]:checked')?.value || 'basic';
+
+        isAnalyzing = true;
+        analyzeBtn.disabled = true;
+        analyzeBtn.innerHTML = `
+          <div class="animate-spin rounded-full h-4 w-4 border-b-2 border-black"></div>
+          Analyzing...
+        `;
+
+        try {
+          const response = await fetch('/api/score_prompt', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ prompt, protectionLevel })
+          });
+
+          if (!response.ok) {
+            throw new Error(`Server error: ${response.status}`);
+          }
+
+          const data = await response.json();
+          
+          displayResults(data);
+          addToHistory(prompt, data.score, data.heuristics);
+          updateStats(data.score);
+          
+          // Show notification if there was an error or fallback
+          if (data.error) {
+            console.warn('Detection warning:', data.error);
+          }
+          
+          // Get AI explanation
+          getAIExplanation(prompt, data.score);
+
+        } catch (error) {
+          console.error('Analysis failed:', error);
+          alert(`Analysis failed: ${error.message}`);
+        } finally {
+          isAnalyzing = false;
+          analyzeBtn.disabled = false;
+          analyzeBtn.innerHTML = `
+            <span class="material-icons text-[18px]">security</span>
+            Analyze Prompt
+          `;
+        }
+      }
+
+      // Clear function
+      function clearPrompt() {
+        promptInput.value = '';
+        resultsSection.classList.add('hidden');
+        promptInput.focus();
+      }
+
+      // Event listeners
+      analyzeBtn.addEventListener('click', analyzePrompt);
+      clearBtn.addEventListener('click', clearPrompt);
+      
+      // Enter key support
+      promptInput.addEventListener('keydown', function(e) {
+        if (e.key === 'Enter' && (e.ctrlKey || e.metaKey)) {
+          analyzePrompt();
         }
       });
 
-      // Initialize - ensure editor mode is active by default
-      renderKeywords();
-      showEditor(); // Ensure proper initial state
+      // Initialize
+      updateStatsDisplay();
+
+    })();
+
+    // Security History Management
+    (function () {
+      'use strict';
+
+      const historyList = document.getElementById('securityHistoryList');
+      const noHistoryMsg = document.getElementById('noSecurityHistory');
+      const clearHistoryBtn = document.getElementById('clearHistoryBtn');
+      const historySearch = document.getElementById('securityHistorySearch');
+
+      // Update security history display
+      window.updateSecurityHistoryDisplay = function() {
+        const history = window.promptInjectionState.history;
+        
+        if (history.length === 0) {
+          historyList.classList.add('hidden');
+          noHistoryMsg.classList.remove('hidden');
+          return;
+        }
+
+        historyList.classList.remove('hidden');
+        noHistoryMsg.classList.add('hidden');
+
+        const searchTerm = historySearch.value.toLowerCase();
+        const filteredHistory = searchTerm 
+          ? history.filter(item => item.prompt.toLowerCase().includes(searchTerm))
+          : history;
+
+        historyList.innerHTML = filteredHistory.map(item => {
+          const riskInfo = getRiskInfo(item.score);
+          const riskBadge = item.score >= 60 
+            ? `<span class="inline-flex items-center px-2 py-1 rounded-full text-xs bg-red-500/20 border border-red-500/30 text-red-300">
+                 <span class="w-2 h-2 bg-red-400 rounded-full mr-1"></span>
+                 High Risk
+               </span>`
+            : `<span class="inline-flex items-center px-2 py-1 rounded-full text-xs bg-green-500/20 border border-green-500/30 text-green-300">
+                 <span class="w-2 h-2 bg-green-400 rounded-full mr-1"></span>
+                 Safe
+               </span>`;
+
+          return `
+            <li>
+              <a class="block p-3 rounded-2xl bg-transparent hover:bg-white/5 border border-transparent hover:border-white/10 transition cursor-pointer security-history-item"
+                data-item-id="${item.id}">
+                <div class="flex items-start justify-between mb-2">
+                  <p class="font-medium text-white text-sm">Security Scan</p>
+                  ${riskBadge}
+                </div>
+                <p class="text-[13px] text-gray-400 truncate mb-1">${item.prompt}</p>
+                <div class="flex items-center justify-between text-xs">
+                  <span class="text-gray-500">${item.timeAgo}</span>
+                  <span class="${riskInfo.class}">${item.score}% risk</span>
+                </div>
+              </a>
+            </li>
+          `;
+        }).join('');
+
+        // Add click handlers to history items
+        document.querySelectorAll('.security-history-item').forEach(item => {
+          item.addEventListener('click', function() {
+            const itemId = parseInt(this.dataset.itemId);
+            showHistoryDetails(itemId);
+          });
+        });
+      };
+
+      // Helper function for risk info (needs to be accessible)
+      function getRiskInfo(score) {
+        if (score >= 80) return { color: '#ef4444', description: 'Very High Risk', class: 'text-red-400' };
+        if (score >= 60) return { color: '#f97316', description: 'High Risk', class: 'text-orange-400' };
+        if (score >= 40) return { color: '#eab308', description: 'Medium Risk', class: 'text-yellow-400' };
+        if (score >= 20) return { color: '#06b6d4', description: 'Low Risk', class: 'text-cyan-400' };
+        return { color: '#22c55e', description: 'Very Low Risk', class: 'text-green-400' };
+      }
+
+      // Show detailed view of history item
+      function showHistoryDetails(itemId) {
+        const item = window.promptInjectionState.history.find(h => h.id === itemId);
+        if (!item) return;
+
+        // Populate the main prompt input with the historical prompt
+        const promptInput = document.getElementById('mainPromptInput');
+        if (promptInput) {
+          promptInput.value = item.fullPrompt;
+          
+          // Show results from history
+          const resultsSection = document.getElementById('resultsSection');
+          const scoreValue = document.getElementById('scoreValue');
+          const scoreBar = document.getElementById('scoreBar');
+          const scoreDescription = document.getElementById('scoreDescription');
+          const patternsList = document.getElementById('patternsList');
+
+          if (resultsSection && scoreValue && scoreBar && scoreDescription) {
+            const riskInfo = getRiskInfo(item.score);
+            
+            scoreValue.textContent = item.score + '%';
+            scoreValue.className = `text-2xl font-bold ${riskInfo.class}`;
+            scoreBar.style.width = item.score + '%';
+            scoreBar.style.backgroundColor = riskInfo.color;
+            scoreDescription.textContent = riskInfo.description;
+            scoreDescription.className = `text-sm ${riskInfo.class}`;
+
+            // Display historical patterns
+            if (patternsList) {
+              if (item.heuristics && item.heuristics.length > 0) {
+                patternsList.innerHTML = item.heuristics.map(pattern => `
+                  <div class="p-3 rounded-lg bg-red-500/10 border border-red-500/20 flex items-start gap-3">
+                    <span class="material-icons text-red-400 text-[18px] flex-shrink-0 mt-0.5">warning</span>
+                    <div class="flex-1">
+                      <div class="text-red-400 font-medium text-sm">Security Pattern Detected</div>
+                      <div class="text-gray-300 text-sm mt-1">${pattern}</div>
+                    </div>
+                  </div>
+                `).join('');
+              } else {
+                patternsList.innerHTML = `
+                  <div class="p-3 rounded-lg bg-green-500/10 border border-green-500/20 flex items-start gap-3">
+                    <span class="material-icons text-green-400 text-[18px] flex-shrink-0 mt-0.5">check_circle</span>
+                    <div class="flex-1">
+                      <div class="text-green-400 font-medium text-sm">No Suspicious Patterns</div>
+                      <div class="text-gray-300 text-sm mt-1">No known injection patterns detected in this prompt</div>
+                    </div>
+                  </div>
+                `;
+              }
+            }
+
+            resultsSection.classList.remove('hidden');
+
+            // Clear explanation section for historical data
+            const explanationText = document.getElementById('explanationText');
+            const explanationLoading = document.getElementById('explanationLoading');
+            if (explanationText && explanationLoading) {
+              explanationLoading.classList.add('hidden');
+              explanationText.classList.remove('hidden');
+              explanationText.innerHTML = '<div class="text-gray-400 text-sm italic">Run analysis again to get fresh AI explanation</div>';
+            }
+          }
+        }
+      }
+
+      // Clear all history
+      function clearAllHistory() {
+        if (confirm('Are you sure you want to clear all security history? This action cannot be undone.')) {
+          window.promptInjectionState.history = [];
+          localStorage.setItem('securityHistory', JSON.stringify([]));
+          updateSecurityHistoryDisplay();
+        }
+      }
+
+      // Search functionality
+      let searchTimeout;
+      function handleHistorySearch() {
+        clearTimeout(searchTimeout);
+        searchTimeout = setTimeout(() => {
+          updateSecurityHistoryDisplay();
+        }, 300);
+      }
+
+      // Event listeners
+      clearHistoryBtn.addEventListener('click', clearAllHistory);
+      historySearch.addEventListener('input', handleHistorySearch);
+
+      // Initialize display
+      window.updateSecurityHistoryDisplay();
+
+    })();
+
+    // Security Chat with Gemini AI
+    (function () {
+      'use strict';
+
+      const chatInput = document.getElementById('securityChatInput');
+      const sendBtn = document.getElementById('sendSecurityMessage');
+      const messagesContainer = document.getElementById('securityChatMessages');
+
+      let isTyping = false;
+
+      // Add message to chat
+      function addMessage(content, isUser = false, isLoading = false) {
+        const messageDiv = document.createElement('div');
+        messageDiv.className = `flex ${isUser ? 'justify-end' : 'items-start gap-3'}`;
+        
+        if (isUser) {
+          messageDiv.innerHTML = `
+            <div class="bg-primary rounded-2xl p-3 max-w-[85%] shadow-md shadow-primary/20">
+              <p class="text-sm md:text-base text-black">${content}</p>
+            </div>
+          `;
+        } else {
+          messageDiv.innerHTML = `
+            <div class="w-7 h-7 rounded-full bg-red-500 flex-shrink-0 grid place-items-center shadow-md shadow-red-500/30">
+              <span class="material-icons text-white text-[18px]">security</span>
+            </div>
+            <div class="bg-white/5 border border-white/10 rounded-2xl p-3 max-w-[85%]">
+              ${isLoading ? `
+                <div class="flex items-center gap-2">
+                  <div class="animate-spin rounded-full h-4 w-4 border-b-2 border-primary"></div>
+                  <span class="text-sm text-gray-300">Security Assistant is thinking...</span>
+                </div>
+              ` : `
+                <div class="text-sm md:text-base text-gray-100">${content}</div>
+              `}
+            </div>
+          `;
+        }
+
+        messagesContainer.appendChild(messageDiv);
+        messagesContainer.scrollTop = messagesContainer.scrollHeight;
+        return messageDiv;
+      }
+
+      // Send message to Gemini API
+      async function sendMessage() {
+        if (isTyping) return;
+
+        const message = chatInput.value.trim();
+        if (!message) return;
+
+        // Add user message
+        addMessage(message, true);
+        chatInput.value = '';
+
+        // Add loading message
+        const loadingMessage = addMessage('', false, true);
+        isTyping = true;
+
+        try {
+          // Create security-focused prompt for Gemini
+          const securityPrompt = `You are a cybersecurity expert specializing in prompt injection attacks. 
+          User question: "${message}"
+          
+          Please provide a helpful, accurate response about prompt injection security, attack patterns, 
+          protection strategies, or related cybersecurity topics. Keep your response concise but informative.
+          If the question is not related to security, politely redirect the conversation back to security topics.`;
+
+          const response = await fetch('/api/explain', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ prompt: securityPrompt })
+          });
+
+          if (!response.ok) {
+            throw new Error(`Server error: ${response.status}`);
+          }
+
+          const data = await response.json();
+          
+          // Remove loading message
+          loadingMessage.remove();
+          
+          // Add AI response
+          const aiResponse = data.explanation || 'Sorry, I could not generate a response at the moment.';
+          addMessage(aiResponse, false);
+
+        } catch (error) {
+          console.error('Chat error:', error);
+          
+          // Remove loading message and show error
+          loadingMessage.remove();
+          addMessage('Sorry, I encountered an error. Please check your connection and try again.', false);
+          
+        } finally {
+          isTyping = false;
+        }
+      }
+
+      // Event listeners
+      sendBtn.addEventListener('click', sendMessage);
+      
+      chatInput.addEventListener('keypress', function(e) {
+        if (e.key === 'Enter' && !e.shiftKey) {
+          e.preventDefault();
+          sendMessage();
+        }
+      });
+
+      // Disable send button when typing
+      chatInput.addEventListener('input', function() {
+        sendBtn.style.opacity = this.value.trim() ? '1' : '0.5';
+      });
+
+      // Initialize send button state
+      sendBtn.style.opacity = '0.5';
+
     })();
   </script>
 
