@@ -3,10 +3,14 @@ Flask==3.0.3
 python-dotenv==1.0.1
 requests==2.32.3
 
-# === Hugging Face (for API calls) ===
-huggingface_hub>=0.20.0
-
-# === Machine Learning / NLP (only for local testing) ===
+# === Machine Learning / NLP ===
+transformers==4.44.2
+torch==2.4.1
+datasets==3.0.1
+evaluate==0.4.3
+scikit-learn==1.5.2
+numpy==1.26.4
+pandas==2.2.3
 
 # === Optional (for model training & metrics visualization) ===
 tqdm==4.66.5
@@ -15,5 +19,9 @@ seaborn==0.13.2
 
 # === Deployment (optional, for Vercel/Render) ===
 gunicorn==22.0.0
-# uvicorn==0.30.6            # Remove - not needed for Flask
+uvicorn==0.30.6
 
+# LangChain dependencies for AI orchestration
+langchain>=0.1.0
+langchain-openai>=0.0.5
+langchain-community>=0.0.20
