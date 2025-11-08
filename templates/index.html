@@ -8,6 +8,31 @@
 <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
 <link href="https://fonts.googleapis.com/css2?family=Spline+Sans:wght@400;500;700;800&amp;display=swap" rel="stylesheet"/>
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
+<style>
+  /* Ensure pagination has breathing room below cards */
+  .testimonials-swiper { padding-bottom: 3rem; }
+  .testimonials-swiper .swiper-pagination { bottom: 0.5rem !important; }
+  @media (min-width: 640px) {
+    .testimonials-swiper { padding-bottom: 3.5rem; }
+  }
+  @media (min-width: 1024px) {
+    .testimonials-swiper { padding-bottom: 4rem; }
+  }
+  /* Keep bullets from overlapping and improve tap target spacing */
+  .testimonials-swiper .swiper-pagination-bullet { margin: 0 6px !important; }
+  .testimonials-swiper .swiper-pagination-bullets { padding-top: 6px; }
+
+  /* Make slides stretch uniformly and avoid variable heights */
+  .testimonials-swiper .swiper-wrapper { align-items: stretch; }
+  .testimonials-swiper .swiper-slide { height: auto; display: flex; }
+
+  /* Consistent card height; adjust if you want taller/shorter */
+  .testimonial-card { height: 280px; }
+
+  /* Multi-line clamp without Tailwind plugin */
+  .clamp-4 { display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 4; overflow: hidden; }
+</style>
 <script>
         tailwind.config = {
             darkMode: "class",
@@ -50,6 +75,13 @@
   </head>
 <body class="bg-background-dark font-display text-text-dark">
 <div class="relative flex min-h-screen w-full flex-col overflow-x-hidden">
+  <!-- Decorative gradient layers for depth and modern feel -->
+  <div class="pointer-events-none absolute inset-0 -z-10 overflow-hidden">
+    <div class="absolute -left-[12%] -top-[12%] h-[42vh] w-[42vw] rounded-full blur-3xl bg-[radial-gradient(circle_at_center,rgba(20,184,166,0.32),transparent_60%)]"></div>
+    <div class="absolute right-[-10%] top-[10%] h-[36vh] w-[36vw] rounded-full blur-3xl bg-[radial-gradient(circle_at_center,rgba(56,189,248,0.28),transparent_60%)]"></div>
+    <div class="absolute left-[18%] -bottom-[12%] h-[48vh] w-[48vw] rounded-full blur-3xl bg-[radial-gradient(circle_at_center,rgba(34,197,94,0.22),transparent_60%)]"></div>
+    <div class="absolute inset-x-0 top-[32%] h-[30vh] bg-gradient-to-b from-cyan-400/10 via-transparent to-emerald-400/10"></div>
+  </div>
 <header class="sticky top-0 z-50 bg-background-dark/80 backdrop-blur-sm">
 <div class="container mx-auto flex items-center p-4">
 <div class="flex items-center gap-2">
@@ -89,6 +121,81 @@
 </div>
 </div>
 </section>
+<!-- Logos: social proof -->
+<section class="container mx-auto">
+  <div class="px-4 pb-8 -mt-6">
+    <div class="flex flex-col items-center gap-6">
+      <p class="text-xs uppercase tracking-widest text-text-secondary-dark">Trusted by forward-thinking teams</p>
+      <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-6 opacity-80">
+        <div class="h-10 grayscale hover:grayscale-0 transition-all flex items-center justify-center">
+          <svg viewBox="0 0 100 24" class="w-24 h-6 fill-current text-text-dark/80"><rect width="100" height="10" rx="2"></rect></svg>
+        </div>
+        <div class="h-10 grayscale hover:grayscale-0 transition-all flex items-center justify-center">
+          <svg viewBox="0 0 100 24" class="w-24 h-6 fill-current text-text-dark/80"><circle cx="12" cy="12" r="10"></circle><rect x="28" width="70" height="10" rx="2"></rect></svg>
+        </div>
+        <div class="h-10 grayscale hover:grayscale-0 transition-all flex items-center justify-center">
+          <svg viewBox="0 0 100 24" class="w-24 h-6 fill-current text-text-dark/80"><rect x="0" y="7" width="100" height="10" rx="5"></rect></svg>
+        </div>
+        <div class="h-10 grayscale hover:grayscale-0 transition-all flex items-center justify-center">
+          <svg viewBox="0 0 100 24" class="w-24 h-6 fill-current text-text-dark/80"><rect x="0" y="0" width="36" height="10" rx="2"></rect><rect x="44" y="0" width="56" height="10" rx="2"></rect></svg>
+        </div>
+        <div class="h-10 grayscale hover:grayscale-0 transition-all flex items-center justify-center">
+          <svg viewBox="0 0 100 24" class="w-24 h-6 fill-current text-text-dark/80"><rect x="0" y="0" width="24" height="10" rx="2"></rect><rect x="30" y="0" width="70" height="10" rx="2"></rect></svg>
+        </div>
+        <div class="h-10 grayscale hover:grayscale-0 transition-all flex items-center justify-center">
+          <svg viewBox="0 0 100 24" class="w-24 h-6 fill-current text-text-dark/80"><rect x="0" y="7" width="60" height="10" rx="2"></rect><rect x="66" y="7" width="34" height="10" rx="2"></rect></svg>
+        </div>
+      </div>
+    </div>
+  </div>
+  </section>
+  <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      const swiper = new Swiper('.testimonials-swiper', {
+        loop: true,
+        // Slow, steady continuous scroll
+        speed: 8000,
+        autoplay: {
+          delay: 0,
+          disableOnInteraction: false,
+          pauseOnMouseEnter: true,
+        },
+        allowTouchMove: true,
+        slidesPerView: 1.2,
+        spaceBetween: 16,
+        breakpoints: {
+          640: { slidesPerView: 2.2, spaceBetween: 20 },
+          1024: { slidesPerView: 3.2, spaceBetween: 24 },
+          1280: { slidesPerView: 4.2, spaceBetween: 28 },
+        },
+        pagination: { el: '.swiper-pagination', clickable: true },
+      });
+    });
+  </script>
+<!-- Stats band -->
+<section class="container mx-auto">
+  <div class="px-4 pb-6">
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 rounded-lg border border-border-dark bg-slate-900/50 p-6">
+      <div class="flex flex-col items-center text-center">
+        <p class="text-3xl font-extrabold text-white">98%</p>
+        <p class="text-xs text-text-secondary-dark">Customer satisfaction</p>
+      </div>
+      <div class="flex flex-col items-center text-center">
+        <p class="text-3xl font-extrabold text-white">24k+</p>
+        <p class="text-xs text-text-secondary-dark">Active teams</p>
+      </div>
+      <div class="flex flex-col items-center text-center">
+        <p class="text-3xl font-extrabold text-white">3x</p>
+        <p class="text-xs text-text-secondary-dark">Faster delivery</p>
+      </div>
+      <div class="flex flex-col items-center text-center">
+        <p class="text-3xl font-extrabold text-white">99.9%</p>
+        <p class="text-xs text-text-secondary-dark">Uptime SLA</p>
+      </div>
+    </div>
+  </div>
+</section>
 <section class="container mx-auto">
 <div class="flex flex-col gap-10 px-4 py-16 @container">
 <div class="flex flex-col gap-4 text-center items-center">
@@ -96,21 +203,21 @@
 <p class="text-base font-normal leading-normal text-text-secondary-dark max-w-2xl">Everything you need to take your productivity to the next level. Our features are designed to be powerful yet intuitive.</p>
 </div>
 <div class="grid grid-cols-[repeat(auto-fit,minmax(280px,1fr))] gap-6 p-0">
-<div class="flex flex-1 flex-col gap-3 rounded-lg border border-border-dark bg-slate-800/50 p-6">
+<div class="flex flex-1 flex-col gap-3 rounded-lg border border-border-dark bg-slate-800/60 hover:bg-slate-800/70 transition-colors p-6">
 <span class="material-symbols-outlined text-3xl text-primary">task_alt</span>
 <div class="flex flex-col gap-1">
 <h3 class="text-lg font-bold leading-tight text-white">Intuitive Task Management</h3>
 <p class="text-sm font-normal leading-normal text-text-secondary-dark">Organize, assign, and track tasks with our simple drag-and-drop interface.</p>
 </div>
 </div>
-<div class="flex flex-1 flex-col gap-3 rounded-lg border border-border-dark bg-slate-800/50 p-6">
+<div class="flex flex-1 flex-col gap-3 rounded-lg border border-border-dark bg-slate-800/60 hover:bg-slate-800/70 transition-colors p-6">
 <span class="material-symbols-outlined text-3xl text-primary">groups</span>
 <div class="flex flex-col gap-1">
 <h3 class="text-lg font-bold leading-tight text-white">Seamless Collaboration</h3>
 <p class="text-sm font-normal leading-normal text-text-secondary-dark">Communicate with your team in real-time and keep everyone in the loop.</p>
 </div>
 </div>
-<div class="flex flex-1 flex-col gap-3 rounded-lg border border-border-dark bg-slate-800/50 p-6">
+<div class="flex flex-1 flex-col gap-3 rounded-lg border border-border-dark bg-slate-800/60 hover:bg-slate-800/70 transition-colors p-6">
 <span class="material-symbols-outlined text-3xl text-primary">analytics</span>
 <div class="flex flex-col gap-1">
 <h3 class="text-lg font-bold leading-tight text-white">Powerful Analytics</h3>
@@ -121,46 +228,163 @@
 </div>
 </section>
 <section class="container mx-auto py-16">
-<div class="flex flex-col gap-8 text-center px-4">
-<h2 class="text-3xl font-bold leading-tight tracking-[-0.033em] @[480px]:text-4xl text-white">Loved by teams worldwide</h2>
-</div>
-<div class="mt-10 flex overflow-x-auto [-ms-scrollbar-style:none] [scrollbar-width:none] [&amp;::-webkit-scrollbar]:hidden">
-<div class="flex items-stretch p-4 gap-8">
-<div class="flex h-full w-80 flex-shrink-0 flex-col gap-4 rounded-lg border border-border-dark bg-slate-800/50 p-6 text-left">
-<div class="flex items-center gap-4">
-<div class="h-12 w-12 rounded-full bg-cover bg-center" data-alt="Portrait of Jane Doe" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBecHYwkUHZDsAcUl1CT_vukkJMUiPrXGt7Qtawiry4iPCyAreaB-EnP3JEUXAqT44gi17VWXJPKQvrEMsCk08N7ePRcp2PeJ4_iaBxoXKScQ8iUubhO-5DMAF98GDnx9UUZs6GLeDRrvsOoc6wpjbQ2oxUpOZIsI4_p2radInEIyjukoO8rKYzjL_Pmm1hQqaDF_GiK4sih-_CAKM6W04n7-2hY0aRnlIpb2XY7j8qT1ZSZK0jTDdQjuksWiT_MkAvQvarKdOyut0");'></div>
-<div>
-<p class="text-base font-medium leading-normal text-white">Jane Doe</p>
-<p class="text-sm font-normal text-text-secondary-dark">Project Manager</p>
-</div>
-</div>
-<p class="text-base font-normal leading-normal text-text-secondary-dark">"This app has completely transformed how our team works. We're more organized and efficient than ever before!"</p>
-</div>
-<div class="flex h-full w-80 flex-shrink-0 flex-col gap-4 rounded-lg border border-border-dark bg-slate-800/50 p-6 text-left">
-<div class="flex items-center gap-4">
-<div class="h-12 w-12 rounded-full bg-cover bg-center" data-alt="Portrait of John Smith" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCB-HZ-BKai_UQ914Q-vsKy8X9LkFEK9ROFKrvwXkQ9sy44OJFVarEZ66JF50E-0A4ydX1bwB4HvadZQgFrsMrJrRkHfSNrRnegPdVwdn1OuTB5qZW6p8voqOwmqJAnmvi6qDPMA3QkGpcSMsNAer1thhFessETIv4CT0qd3IlZpCzh-OlJuCZOcrcht4Sb0EGA4g0giUWquCwtu2QSI7qltmL6EClVOsZUtkccICI5f-FBECsEGlOHhoxLoiSZcPkLBF3ZA4Es-bs");'></div>
-<div>
-<p class="text-base font-medium leading-normal text-white">John Smith</p>
-<p class="text-sm font-normal text-text-secondary-dark">Lead Developer</p>
-</div>
-</div>
-<p class="text-base font-normal leading-normal text-text-secondary-dark">"The best collaboration tool I've used. The seamless integration with our existing workflow is a game-changer."</p>
-</div>
-<div class="flex h-full w-80 flex-shrink-0 flex-col gap-4 rounded-lg border border-border-dark bg-slate-800/50 p-6 text-left">
-<div class="flex items-center gap-4">
-<div class="h-12 w-12 rounded-full bg-cover bg-center" data-alt="Portrait of Emily White" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCos1p6InQEZEZdEZ9sOMHNlR1fSrS-dPZLE9aDzkBgs76co6y7ruYrMAcZgSHfoxoNTmMc2-pSUiOHC4f1zrxzYPpKozExoo8zeD8a3ibOfiDxvu4LwW_s5rPw_tiWGpmcKB51j0bOIQ8_bR5m8OWQcY8vaTF6k2GounkKrayVVPCtEaYB_DDhlIw2_Bgh-_82PL1_f-EgwsPShrmMEyqm0B6TcwGxuAdSvPvbf68rbwYb4AGrDx0bHDnm74SPpQvun33_HMPeo7I");'></div>
-<div>
-<p class="text-base font-medium leading-normal text-white">Emily White</p>
-<p class="text-sm font-normal text-text-secondary-dark">Marketing Head</p>
-</div>
-</div>
-<p class="text-base font-normal leading-normal text-text-secondary-dark">"Our campaign tracking has improved by 50% thanks to the insightful analytics. Highly recommended!"</p>
-</div>
-</div>
+  <div class="flex flex-col gap-8 text-center px-4">
+    <h2 class="text-3xl font-bold leading-tight tracking-[-0.033em] @[480px]:text-4xl text-white">Loved by teams worldwide</h2>
+  </div>
+  <div class="mt-10 px-4">
+    <div class="testimonials-swiper swiper pb-12">
+      <div class="swiper-wrapper">
+        <!-- Original reviews -->
+        <div class="swiper-slide">
+          <div class="testimonial-card flex w-full flex-col gap-4 rounded-lg border border-border-dark bg-slate-800/60 hover:bg-slate-800/70 transition-colors p-6 text-left overflow-hidden">
+            <div class="flex items-center gap-4">
+              <div class="h-12 w-12 rounded-full bg-cover bg-center" data-alt="Portrait of Jane Doe" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBecHYwkUHZDsAcUl1CT_vukkJMUiPrXGt7Qtawiry4iPCyAreaB-EnP3JEUXAqT44gi17VWXJPKQvrEMsCk08N7ePRcp2PeJ4_iaBxoXKScQ8iUubhO-5DMAF98GDnx9UUZs6GLeDRrvsOoc6wpjbQ2oxUpOZIsI4_p2radInEIyjukoO8rKYzjL_Pmm1hQqaDF_GiK4sih-_CAKM6W04n7-2hY0aRnlIpb2XY7j8qT1ZSZK0jTDdQjuksWiT_MkAvQvarKdOyut0");'></div>
+              <div>
+                <p class="text-base font-medium leading-normal text-white">Jane Doe</p>
+                <p class="text-sm font-normal text-text-secondary-dark">Project Manager</p>
+              </div>
+            </div>
+            <p class="text-base font-normal leading-normal text-text-secondary-dark clamp-4">"This app has completely transformed how our team works. We're more organized and efficient than ever before!"</p>
+          </div>
+        </div>
+
+        <div class="swiper-slide">
+          <div class="testimonial-card flex w-full flex-col gap-4 rounded-lg border border-border-dark bg-slate-800/60 hover:bg-slate-800/70 transition-colors p-6 text-left overflow-hidden">
+            <div class="flex items-center gap-4">
+              <div class="h-12 w-12 rounded-full bg-cover bg-center" data-alt="Portrait of John Smith" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCB-HZ-BKai_UQ914Q-vsKy8X9LkFEK9ROFKrvwXkQ9sy44OJFVarEZ66JF50E-0A4ydX1bwB4HvadZQgFrsMrJrRkHfSNrRnegPdVwdn1OuTB5qZW6p8voqOwmqJAnmvi6qDPMA3QkGpcSMsNAer1thhFessETIv4CT0qd3IlZpCzh-OlJuCZOcrcht4Sb0EGA4g0giUWquCwtu2QSI7qltmL6EClVOsZUtkccICI5f-FBECsEGlOHhoxLoiSZcPkLBF3ZA4Es-bs");'></div>
+              <div>
+                <p class="text-base font-medium leading-normal text-white">John Smith</p>
+                <p class="text-sm font-normal text-text-secondary-dark">Lead Developer</p>
+              </div>
+            </div>
+            <p class="text-base font-normal leading-normal text-text-secondary-dark clamp-4">"The best collaboration tool I've used. The seamless integration with our existing workflow is a game-changer."</p>
+          </div>
+        </div>
+
+        <div class="swiper-slide">
+          <div class="testimonial-card flex w-full flex-col gap-4 rounded-lg border border-border-dark bg-slate-800/60 hover:bg-slate-800/70 transition-colors p-6 text-left overflow-hidden">
+            <div class="flex items-center gap-4">
+              <div class="h-12 w-12 rounded-full bg-cover bg-center" data-alt="Portrait of Emily White" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCos1p6InQEZEZdEZ9sOMHNlR1fSrS-dPZLE9aDzkBgs76co6y7ruYrMAcZgSHfoxoNTmMc2-pSUiOHC4f1zrxzYPpKozExoo8zeD8a3ibOfiDxvu4LwW_s5rPw_tiWGpmcKB51j0bOIQ8_bR5m8OWQcY8vaTF6k2GounkKrayVVPCtEaYB_DDhlIw2_Bgh-_82PL1_f-EgwsPShrmMEyqm0B6TcwGxuAdSvPvbf68rbwYb4AGrDx0bHDnm74SPpQvun33_HMPeo7I");'></div>
+              <div>
+                <p class="text-base font-medium leading-normal text-white">Emily White</p>
+                <p class="text-sm font-normal text-text-secondary-dark">Marketing Head</p>
+              </div>
+            </div>
+            <p class="text-base font-normal leading-normal text-text-secondary-dark clamp-4">"Our campaign tracking has improved by 50% thanks to the insightful analytics. Highly recommended!"</p>
+          </div>
+        </div>
+
+        <!-- Additional reviews -->
+        <div class="swiper-slide">
+          <div class="testimonial-card flex w-full flex-col gap-4 rounded-lg border border-border-dark bg-slate-800/60 hover:bg-slate-800/70 transition-colors p-6 text-left overflow-hidden">
+            <div class="flex items-center gap-4">
+              <div class="h-12 w-12 rounded-full bg-cover bg-center" data-alt="Portrait of Liam Patel" style="background-image: radial-gradient(circle at 30% 30%, #38bdf8 0%, #14b8a6 65%);"></div>
+              <div>
+                <p class="text-base font-medium leading-normal text-white">Liam Patel</p>
+                <p class="text-sm font-normal text-text-secondary-dark">Product Lead</p>
+              </div>
+            </div>
+            <p class="text-base font-normal leading-normal text-text-secondary-dark clamp-4">"We shipped our last release 3x faster. The focus and clarity this brings to our workflow is unmatched."</p>
+          </div>
+        </div>
+
+        <div class="swiper-slide">
+          <div class="testimonial-card flex w-full flex-col gap-4 rounded-lg border border-border-dark bg-slate-800/60 hover:bg-slate-800/70 transition-colors p-6 text-left overflow-hidden">
+            <div class="flex items-center gap-4">
+              <div class="h-12 w-12 rounded-full bg-cover bg-center" data-alt="Portrait of Sophia Chen" style="background-image: radial-gradient(circle at 30% 30%, #14b8a6 0%, #22c55e 65%);"></div>
+              <div>
+                <p class="text-base font-medium leading-normal text-white">Sophia Chen</p>
+                <p class="text-sm font-normal text-text-secondary-dark">Design Director</p>
+              </div>
+            </div>
+            <p class="text-base font-normal leading-normal text-text-secondary-dark clamp-4">"Polished UI and thoughtful details. Our team loves using it every day."</p>
+          </div>
+        </div>
+
+        <div class="swiper-slide">
+          <div class="testimonial-card flex w-full flex-col gap-4 rounded-lg border border-border-dark bg-slate-800/60 hover:bg-slate-800/70 transition-colors p-6 text-left overflow-hidden">
+            <div class="flex items-center gap-4">
+              <div class="h-12 w-12 rounded-full bg-cover bg-center" data-alt="Portrait of Carlos Rivera" style="background-image: radial-gradient(circle at 30% 30%, #22c55e 0%, #38bdf8 65%);"></div>
+              <div>
+                <p class="text-base font-medium leading-normal text-white">Carlos Rivera</p>
+                <p class="text-sm font-normal text-text-secondary-dark">Engineering Manager</p>
+              </div>
+            </div>
+            <p class="text-base font-normal leading-normal text-text-secondary-dark clamp-4">"Collaboration is seamless now. Standups are shorter, and tasks are crystal-clear."</p>
+          </div>
+        </div>
+
+        <div class="swiper-slide">
+          <div class="testimonial-card flex w-full flex-col gap-4 rounded-lg border border-border-dark bg-slate-800/60 hover:bg-slate-800/70 transition-colors p-6 text-left overflow-hidden">
+            <div class="flex items-center gap-4">
+              <div class="h-12 w-12 rounded-full bg-cover bg-center" data-alt="Portrait of Ava Thompson" style="background-image: radial-gradient(circle at 30% 30%, #0ea5e9 0%, #14b8a6 65%);"></div>
+              <div>
+                <p class="text-base font-medium leading-normal text-white">Ava Thompson</p>
+                <p class="text-sm font-normal text-text-secondary-dark">Ops Lead</p>
+              </div>
+            </div>
+            <p class="text-base font-normal leading-normal text-text-secondary-dark clamp-4">"Reliability has been outstanding. We haven’t missed a beat since switching."</p>
+          </div>
+        </div>
+
+        <div class="swiper-slide">
+          <div class="testimonial-card flex w-full flex-col gap-4 rounded-lg border border-border-dark bg-slate-800/60 hover:bg-slate-800/70 transition-colors p-6 text-left overflow-hidden">
+            <div class="flex items-center gap-4">
+              <div class="h-12 w-12 rounded-full bg-cover bg-center" data-alt="Portrait of Noah Williams" style="background-image: radial-gradient(circle at 30% 30%, #14b8a6 0%, #0ea5e9 65%);"></div>
+              <div>
+                <p class="text-base font-medium leading-normal text-white">Noah Williams</p>
+                <p class="text-sm font-normal text-text-secondary-dark">CTO</p>
+              </div>
+            </div>
+            <p class="text-base font-normal leading-normal text-text-secondary-dark clamp-4">"Finally a tool our engineers and product folks both love. Worth every penny."</p>
+          </div>
+        </div>
+
+        <div class="swiper-slide">
+          <div class="testimonial-card flex w-full flex-col gap-4 rounded-lg border border-border-dark bg-slate-800/60 hover:bg-slate-800/70 transition-colors p-6 text-left overflow-hidden">
+            <div class="flex items-center gap-4">
+              <div class="h-12 w-12 rounded-full bg-cover bg-center" data-alt="Portrait of Mia Johnson" style="background-image: radial-gradient(circle at 30% 30%, #38bdf8 0%, #22c55e 65%);"></div>
+              <div>
+                <p class="text-base font-medium leading-normal text-white">Mia Johnson</p>
+                <p class="text-sm font-normal text-text-secondary-dark">Founder</p>
+              </div>
+            </div>
+            <p class="text-base font-normal leading-normal text-text-secondary-dark clamp-4">"We onboarded in minutes. The clarity and momentum we gained was immediate."</p>
+          </div>
+        </div>
+      </div>
+      <div class="swiper-pagination mt-4"></div>
+    </div>
+  </div>
+<!-- FAQ for clarity and depth -->
+<section class="container mx-auto">
+<div class="px-4 py-6 @container">
+  <div class="flex flex-col gap-4 text-center items-center">
+    <h2 class="text-3xl font-bold leading-tight tracking-[-0.033em] @[480px]:text-4xl max-w-2xl text-white">Frequently Asked Questions</h2>
+    <p class="text-base font-normal leading-normal text-text-secondary-dark max-w-2xl">Quick answers to common questions. Reach out if you need more details.</p>
+  </div>
+  <div class="mt-8 grid grid-cols-1 md:grid-cols-2 gap-4">
+    <div class="rounded-lg border border-border-dark bg-slate-900/50 p-5">
+      <p class="font-semibold text-white">How does the free trial work?</p>
+      <p class="mt-1 text-sm text-text-secondary-dark">Start exploring all features with no credit card required. Upgrade anytime to keep your projects and settings.</p>
+    </div>
+    <div class="rounded-lg border border-border-dark bg-slate-900/50 p-5">
+      <p class="font-semibold text-white">Can we integrate with our stack?</p>
+      <p class="mt-1 text-sm text-text-secondary-dark">Yes. We support popular tools and offer a robust API for custom workflows.</p>
+    </div>
+    <div class="rounded-lg border border-border-dark bg-slate-900/50 p-5">
+      <p class="font-semibold text-white">Is my data secure?</p>
+      <p class="mt-1 text-sm text-text-secondary-dark">We follow industry best practices, including encryption at rest and in transit, with regular audits.</p>
+    </div>
+    <div class="rounded-lg border border-border-dark bg-slate-900/50 p-5">
+      <p class="font-semibold text-white">Do you offer discounts for nonprofits?</p>
+      <p class="mt-1 text-sm text-text-secondary-dark">We do. Contact our support team for eligibility and details.</p>
+    </div>
+  </div>
 </div>
 </section>
 <section class="container mx-auto">
-<div class="bg-primary/10 rounded-lg @container mx-4">
+<div class="bg-primary/15 rounded-lg @container mx-4">
 <div class="flex flex-col items-center justify-end gap-6 px-4 py-16 text-center @[480px]:gap-8 @[480px]:px-10 @[480px]:py-20">
 <div class="flex flex-col gap-2">
 <h2 class="text-3xl font-bold leading-tight tracking-[-0.033em] @[480px]:text-4xl max-w-2xl text-white">Ready to Boost Your Productivity?</h2>
