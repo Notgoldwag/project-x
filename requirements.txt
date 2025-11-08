@@ -3,18 +3,12 @@ Flask==3.0.3
 python-dotenv==1.0.1
 requests==2.32.3
 
-# === Machine Learning / NLP ===
+# === Minimal LangChain (remove the heavy parts) ===
+langchain-core>=0.1.0        # Core functionality only (~10-20 MB)
+langchain-openai>=0.0.5      # OpenAI integration (~5-10 MB)
+openai>=1.3.0               # Direct OpenAI API (~5-10 MB)
+pydantic>=2.5.0             # Required by LangChain (~10-15 MB)
 
-# === Optional (for model training & metrics visualization) ===
-
-
-# === Deployment (optional, for Vercel/Render) ===
+# === Deployment ===
 gunicorn==22.0.0
-uvicorn==0.30.6
-
-# LangChain dependencies for AI orchestration
-langchain>=0.1.0
-langchain-openai>=0.0.5
-langchain-community>=0.0.20
-openai>=1.3.0
-pydantic>=2.5.0
+# uvicorn==0.30.6            # Remove - not needed for Flask
