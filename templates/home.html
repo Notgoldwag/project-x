@@ -408,8 +408,8 @@
     </nav>
 
     <div class="flex flex-1 gap-4 md:gap-6 overflow-hidden">
-      <!-- History -->
-      <aside class="acrylic--history w-60 md:w-64 flex-shrink-0 rounded-3xl overflow-hidden">
+      <!-- Editor Mode History -->
+      <aside id="editorHistory" class="acrylic--history w-60 md:w-64 flex-shrink-0 rounded-3xl overflow-hidden">
         <div class="p-3 md:p-4">
           <h2 class="text-xl md:text-2xl font-semibold text-white">History</h2>
           <div class="flex items-center gap-2 mt-3">
@@ -531,6 +531,44 @@
                 href="#">
                 <p class="font-medium text-white truncate text-base">Performance Optimization</p>
                 <p class="text-[13px] text-gray-400 truncate mt-0.5">Analyze and improve app loading speed</p>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </aside>
+
+      <!-- Prompt Injections History -->
+      <aside id="promptInjectionsHistory" class="acrylic--history w-60 md:w-64 flex-shrink-0 rounded-3xl overflow-hidden hidden">
+        <div class="p-3 md:p-4">
+          <h2 class="text-xl md:text-2xl font-semibold text-white">Security History</h2>
+          <div class="flex items-center gap-2 mt-3">
+            <button
+              class="flex-shrink-0 w-9 h-9 bg-primary hover:bg-primaryDarker rounded-2xl flex items-center justify-center transition shadow-md shadow-primary/30">
+              <span class="material-icons text-black">add</span>
+            </button>
+            <div class="relative flex-1">
+              <span
+                class="material-icons absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-[18px] pointer-events-none">search</span>
+              <input
+                class="w-full pl-9 pr-3 py-2 bg-white/5 border border-white/10 rounded-2xl focus:ring-2 focus:ring-primary/60 focus:border-transparent placeholder-gray-400 text-base"
+                placeholder="Search security logs" type="text" />
+            </div>
+          </div>
+        </div>
+        <div class="flex-1 overflow-y-auto p-2">
+          <ul class="space-y-1.5">
+            <li>
+              <a class="block p-3 rounded-2xl bg-transparent hover:bg-white/5 border border-transparent hover:border-white/10 transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-lime-300/40"
+                href="#" data-selected="true">
+                <p class="font-semibold text-white truncate text-base">Security Audit Report</p>
+                <p class="text-[13px] text-gray-400 truncate mt-0.5">Comprehensive threat analysis results</p>
+              </a>
+            </li>
+            <li>
+              <a class="block p-3 rounded-2xl bg-transparent hover:bg-white/5 border border-transparent hover:border-white/10 transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-lime-300/40"
+                href="#">
+                <p class="font-medium text-white truncate text-base">Injection Pattern Updates</p>
+                <p class="text-[13px] text-gray-400 truncate mt-0.5">Latest threat signatures added</p>
               </a>
             </li>
           </ul>
@@ -752,8 +790,8 @@ This document, this very text you are reading, is a collaboration. A testament t
         </div>
       </main>
 
-      <!-- AI Assistant -->
-      <aside class="acrylic--assistant w-72 md:w-80 flex-shrink-0 rounded-3xl overflow-hidden relative">
+      <!-- Editor AI Assistant -->
+      <aside id="editorAssistant" class="acrylic--assistant w-72 md:w-80 flex-shrink-0 rounded-3xl overflow-hidden relative">
         <div class="p-3 md:p-4 border-b border-white/10">
           <h2 class="text-xl md:text-2xl font-semibold text-white flex items-center gap-2">
             <span class="material-icons text-primary text-[22px]">auto_awesome</span> AI Assistant
@@ -799,6 +837,60 @@ This document, this very text you are reading, is a collaboration. A testament t
               <input
                 class="w-full pl-3 pr-10 py-2 bg-white/5 border border-white/10 rounded-xl focus:ring-2 focus:ring-primary/50 focus:border-transparent placeholder-gray-500 text-base"
                 placeholder="Ask AI Assistant..." type="text" />
+              <button
+                class="absolute right-1.5 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full text-gray-300 hover:bg-primary/20 hover:text-primary transition grid place-items-center">
+                <span class="material-icons text-[18px]">send</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </aside>
+
+      <!-- Prompt Injections AI Assistant -->
+      <aside id="promptInjectionsAssistant" class="acrylic--assistant w-72 md:w-80 flex-shrink-0 rounded-3xl overflow-hidden relative hidden">
+        <div class="p-3 md:p-4 border-b border-white/10">
+          <h2 class="text-xl md:text-2xl font-semibold text-white flex items-center gap-2">
+            <span class="material-icons text-primary text-[22px]">security</span> Security Assistant
+          </h2>
+        </div>
+
+        <div class="flex-1 p-3 md:p-4 overflow-y-auto space-y-3 pb-20">
+          <div class="flex items-start gap-3">
+            <div
+              class="w-7 h-7 rounded-full bg-red-500 flex-shrink-0 grid place-items-center shadow-md shadow-red-500/30">
+              <span class="material-icons text-white text-[18px]">security</span>
+            </div>
+            <div class="bg-white/5 border border-white/10 rounded-2xl p-3 max-w-[85%]">
+              <p class="text-sm md:text-base text-gray-100">Security Assistant ready! I can help you configure prompt injection protection, analyze threats, and optimize your security settings.</p>
+            </div>
+          </div>
+
+          <div class="flex justify-end">
+            <div class="bg-primary rounded-2xl p-3 max-w-[85%] shadow-md shadow-primary/20">
+              <p class="text-sm md:text-base text-black">What are the most dangerous prompt injection patterns to watch for?</p>
+            </div>
+          </div>
+
+          <div class="flex items-start gap-3">
+            <div
+              class="w-7 h-7 rounded-full bg-red-500 flex-shrink-0 grid place-items-center shadow-md shadow-red-500/30">
+              <span class="material-icons text-white text-[18px]">security</span>
+            </div>
+          
+          </div>
+
+        </div>
+
+        <div
+          class="absolute bottom-0 left-0 right-0 p-3 md:p-4 border-top border-white/10 bg-black/20 backdrop-blur-sm">
+          <div class="flex items-center gap-2">
+            <button class="p-2 rounded-full text-gray-300 hover:bg-white/10 hover:text-primary transition">
+              <span class="material-icons">add</span>
+            </button>
+            <div class="relative flex-1">
+              <input
+                class="w-full pl-3 pr-10 py-2 bg-white/5 border border-white/10 rounded-xl focus:ring-2 focus:ring-primary/50 focus:border-transparent placeholder-gray-500 text-base"
+                placeholder="Ask Security Assistant..." type="text" />
               <button
                 class="absolute right-1.5 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full text-gray-300 hover:bg-primary/20 hover:text-primary transition grid place-items-center">
                 <span class="material-icons text-[18px]">send</span>
@@ -945,6 +1037,14 @@ This document, this very text you are reading, is a collaboration. A testament t
       const backToEditor = document.getElementById('backToEditor');
       const editorPanel = document.querySelector('main:not(#promptInjectionsPanel)');
       const promptInjectionsPanel = document.getElementById('promptInjectionsPanel');
+      
+      // History panels
+      const editorHistory = document.getElementById('editorHistory');
+      const promptInjectionsHistory = document.getElementById('promptInjectionsHistory');
+      
+      // AI Assistant panels
+      const editorAssistant = document.getElementById('editorAssistant');
+      const promptInjectionsAssistant = document.getElementById('promptInjectionsAssistant');
       const addKeywordBtn = document.getElementById('addKeyword');
       const keywordInput = document.getElementById('keywordInput');
       const keywordTags = document.getElementById('keywordTags');
@@ -957,8 +1057,17 @@ This document, this very text you are reading, is a collaboration. A testament t
 
       // Update UI states
       function showEditor() {
+        // Show editor panels
         editorPanel.classList.remove('hidden');
+        editorHistory.classList.remove('hidden');
+        editorAssistant.classList.remove('hidden');
+        
+        // Hide prompt injection panels
         promptInjectionsPanel.classList.add('hidden');
+        promptInjectionsHistory.classList.add('hidden');
+        promptInjectionsAssistant.classList.add('hidden');
+        
+        // Update button states
         editorBtn.classList.add('text-black', 'bg-primary', 'shadow-lg', 'shadow-primary/30');
         editorBtn.classList.remove('text-gray-300');
         settingsBtn.classList.remove('text-black', 'bg-primary', 'shadow-lg', 'shadow-primary/30');
@@ -966,8 +1075,17 @@ This document, this very text you are reading, is a collaboration. A testament t
       }
 
       function showSettings() {
+        // Hide editor panels
         editorPanel.classList.add('hidden');
+        editorHistory.classList.add('hidden');
+        editorAssistant.classList.add('hidden');
+        
+        // Show prompt injection panels
         promptInjectionsPanel.classList.remove('hidden');
+        promptInjectionsHistory.classList.remove('hidden');
+        promptInjectionsAssistant.classList.remove('hidden');
+        
+        // Update button states
         settingsBtn.classList.add('text-black', 'bg-primary', 'shadow-lg', 'shadow-primary/30');
         settingsBtn.classList.remove('text-gray-300');
         editorBtn.classList.remove('text-black', 'bg-primary', 'shadow-lg', 'shadow-primary/30');
@@ -1079,8 +1197,9 @@ This document, this very text you are reading, is a collaboration. A testament t
         }
       });
 
-      // Initialize
+      // Initialize - ensure editor mode is active by default
       renderKeywords();
+      showEditor(); // Ensure proper initial state
     })();
   </script>
   
