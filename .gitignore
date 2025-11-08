@@ -21,6 +21,9 @@ venv*/
 *.bak
 *.swp
 
+
+models/
+
 # =========================
 # Hugging Face / ML models
 # =========================
