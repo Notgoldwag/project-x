@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Code Editor Interface</title>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,typography"></script>
+<script>
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              primary: "#007ACC",
+              "background-light": "#FFFFFF",
+              "background-dark": "#1E1E1E",
+              "panel-dark": "#252526",
+              "border-dark": "#333333",
+              "text-dark-primary": "#D4D4D4",
+              "text-dark-secondary": "#808080",
+            },
+            fontFamily: {
+              display: ["Roboto", "sans-serif"],
+              mono: ['Menlo', 'Monaco', 'Consolas', 'Courier New', 'monospace']
+            },
+            borderRadius: {
+              DEFAULT: "4px",
+            },
+          },
+        },
+      };
+    </script>
+<style>
+      body {
+        font-family: 'Roboto', sans-serif;
+      }
+      .material-icons {
+        font-size: 20px;
+      }
+      .dark .syntax-tag { color: #569cd6; }
+      .dark .syntax-attr-name { color: #9cdcfe; }
+      .dark .syntax-attr-value { color: #ce9178; }
+      .dark .syntax-text { color: #d4d4d4; }
+      .dark .syntax-comment { color: #6a9955; }
+    </style>
+</head>
+<body class="bg-background-dark text-text-dark-primary font-display text-sm h-screen flex flex-col overflow-hidden">
+<div class="flex-grow flex min-h-0">
+<aside class="bg-[#333333] text-text-dark-secondary p-2 flex flex-col justify-between items-center w-12">
+<div class="flex flex-col items-center space-y-5">
+<button class="text-white p-1 border-l-2 border-white">
+<span class="material-icons">description</span>
+</button>
+<button class="hover:text-white p-1">
+<span class="material-icons">search</span>
+</button>
+<button class="hover:text-white p-1">
+<span class="material-icons">call_split</span>
+</button>
+<button class="hover:text-white p-1">
+<span class="material-icons">play_arrow</span>
+</button>
+<button class="hover:text-white p-1">
+<span class="material-icons">extension</span>
+</button>
+</div>
+<div class="flex flex-col items-center space-y-5">
+<button class="hover:text-white p-1">
+<span class="material-icons">account_circle</span>
+</button>
+<button class="hover:text-white p-1">
+<span class="material-icons">settings</span>
+</button>
+</div>
+</aside>
+<aside class="w-64 bg-panel-dark flex flex-col border-r border-border-dark">
+<div class="p-2 flex justify-between items-center">
+<h2 class="text-xs uppercase font-bold text-text-dark-secondary">Explorer</h2>
+<button class="text-text-dark-secondary hover:text-white">
+<span class="material-icons text-base">more_horiz</span>
+</button>
+</div>
+<div class="flex-grow p-4 space-y-4">
+<div class="text-xs font-bold uppercase text-text-dark-primary flex items-center">
+<span class="material-icons text-base mr-1">expand_more</span>
+<span>No folder opened</span>
+</div>
+<div class="pl-2 space-y-4 text-sm text-text-dark-secondary">
+<p>You have not yet opened a folder.</p>
+<button class="w-full bg-primary text-white py-1 px-3 rounded-DEFAULT hover:opacity-90">Open Folder</button>
+<p>You can clone a repository locally.</p>
+<button class="w-full bg-primary text-white py-1 px-3 rounded-DEFAULT hover:opacity-90">Clone Repository</button>
+<p>To learn more about how to use Git and source control in VS Code <a class="text-primary hover:underline" href="#">read our docs</a>.</p>
+<p>You can also <a class="text-primary hover:underline" href="#">open a Java project folder</a>, or create a new Java project by clicking the button below.</p>
+<button class="w-full bg-primary text-white py-1 px-3 rounded-DEFAULT hover:opacity-90">Create Java Project</button>
+</div>
+</div>
+<div class="border-t border-border-dark">
+<div class="p-2 flex items-center text-xs font-bold uppercase text-text-dark-primary border-b border-border-dark">
+<span class="material-icons text-base">chevron_right</span>
+<span>Outline</span>
+</div>
+<div class="p-2 flex items-center text-xs font-bold uppercase text-text-dark-primary border-b border-border-dark">
+<span class="material-icons text-base">chevron_right</span>
+<span>Timeline</span>
+</div>
+<div class="p-2 flex items-center text-xs font-bold uppercase text-text-dark-primary">
+<span class="material-icons text-base">chevron_right</span>
+<span>Maven</span>
+</div>
+</div>
+</aside>
+<main class="flex-1 flex flex-col bg-background-dark">
+<div class="flex items-center justify-start p-1.5 border-b border-border-dark">
+<div class="flex items-center text-text-dark-secondary bg-[#333333] p-1.5 rounded-md">
+<span class="material-icons text-base mr-2 text-orange-400">code</span>
+<span class="text-text-dark-primary">index.html</span>
+<button class="ml-2 hover:bg-[#4f4f4f] rounded-full p-0.5">
+<span class="material-icons text-sm">close</span>
+</button>
+</div>
+</div>
+<div class="flex-1 flex overflow-hidden">
+<div class="flex-grow p-4 overflow-auto font-mono text-sm">
+<div class="flex">
+<div class="text-right pr-4 text-text-dark-secondary select-none">
+<div>1</div><div>2</div><div>3</div><div>4</div><div>5</div><div>6</div><div>7</div><div>8</div><div>9</div><div>10</div><div>11</div><div>12</div>
+</div>
+<pre class="whitespace-pre"><code><span class="syntax-comment">&lt;!DOCTYPE html&gt;</span>
+<span class="syntax-tag">&lt;html <span class="syntax-attr-name">lang=</span><span class="syntax-attr-value">"en"</span>&gt;</span>
+  <span class="syntax-tag">&lt;head&gt;</span>
+    <span class="syntax-tag">&lt;meta <span class="syntax-attr-name">charset=</span><span class="syntax-attr-value">"UTF-8"</span>&gt;</span>
+    <span class="syntax-tag">&lt;meta <span class="syntax-attr-name">name=</span><span class="syntax-attr-value">"viewport"</span> <span class="syntax-attr-name">content=</span><span class="syntax-attr-value">"width=device-width, initial-scale=1.0"</span>&gt;</span>
+    <span class="syntax-tag">&lt;title&gt;</span><span class="syntax-text">My Awesome Page</span><span class="syntax-tag">&lt;/title&gt;</span>
+  <span class="syntax-tag">&lt;/head&gt;</span>
+  <span class="syntax-tag">&lt;body&gt;</span>
+    <span class="syntax-tag">&lt;h1&gt;</span><span class="syntax-text">Hello, World!</span><span class="syntax-tag">&lt;/h1&gt;</span>
+  <span class="syntax-tag">&lt;/body&gt;</span>
+<span class="syntax-tag">&lt;/html&gt;</span>
+</code></pre>
+</div>
+</div>
+<aside class="w-72 bg-panel-dark border-l border-border-dark flex flex-col">
+<div class="p-2 flex justify-between items-center text-text-dark-secondary">
+<div class="flex items-center space-x-2">
+<span class="material-icons text-base">more_horiz</span>
+<span class="material-icons text-base">add</span>
+<span class="material-icons text-base">refresh</span>
+<span class="material-icons text-base">settings</span>
+</div>
+<div class="flex items-center space-x-2">
+<span class="material-icons text-base">more_horiz</span>
+<span class="material-icons text-base ml-2 pl-2 border-l border-border-dark">fullscreen</span>
+</div>
+</div>
+<div class="flex-grow p-4 flex flex-col items-center text-center">
+<span class="material-icons text-4xl text-text-dark-secondary my-4">auto_awesome_mosaic</span>
+<h3 class="text-xl font-medium text-white">Build with agent mode</h3>
+<p class="text-text-dark-secondary mt-2">AI responses may be inaccurate.</p>
+<p class="text-text-dark-secondary mt-4"><a class="text-primary hover:underline" href="#">Generate Agent Instructions</a> to onboard AI onto your codebase.</p>
+</div>
+<div class="p-2 border-t border-border-dark space-y-2">
+<button class="w-full text-left bg-[#333333] border border-[#4f4f4f] rounded-DEFAULT p-2 text-sm flex items-center text-text-dark-primary">
+<span class="material-icons text-base mr-2">attachment</span> Add Context...
+                         </button>
+<div class="flex items-center justify-between text-xs text-text-dark-secondary">
+<div class="flex items-center space-x-1 cursor-pointer hover:text-white">
+<span class="material-icons text-base">expand_more</span>
+<span>CI...</span>
+</div>
+<div class="flex items-center space-x-1">
+<span class="material-icons text-base cursor-pointer hover:text-white">build</span>
+<span class="material-icons text-base cursor-pointer hover:text-white">send</span>
+</div>
+</div>
+</div>
+</aside>
+</div>
+</main>
+</div>
+<footer class="bg-primary text-white text-xs flex items-center justify-between px-3 py-1">
+<div class="flex items-center space-x-3">
+<button class="hover:bg-white/20 rounded p-0.5">
+<span class="material-icons text-base">close</span>
+</button>
+<div class="flex items-center space-x-1">
+<span class="material-icons text-base">error_outline</span>
+<span>0</span>
+</div>
+<div class="flex items-center space-x-1">
+<span class="material-icons text-base -rotate-45">navigation</span>
+<span>0</span>
+</div>
+</div>
+<div class="flex items-center space-x-3">
+<button class="hover:bg-white/20 rounded p-0.5 flex items-center">
+<span class="material-icons text-base">group</span>
+</button>
+<button class="hover:bg-white/20 rounded p-0.5 flex items-center">
+<span class="material-icons text-base">notifications</span>
+</button>
+</div>
+</footer>
+</body></html>
