@@ -395,7 +395,7 @@
 
 <body
   class="bg-background-light dark:bg-background-dark font-display text-gray-200 antialiased transition-colors duration-500 selection:bg-primary/30 selection:text-white">
-  
+
   <!-- Auth Loading Overlay -->
   <div id="auth-loading" class="fixed inset-0 bg-background-dark z-50 flex items-center justify-center">
     <div class="text-center">
@@ -406,718 +406,724 @@
 
   <!-- Main Content (hidden until auth is verified) -->
   <div id="main-content" class="hidden">
-  
-  <!-- React TypeScript Background Animation -->
-  <div id="bg-root" aria-hidden="true" data-quality="med"></div>
 
-  <!-- Left side soft dimmer to reduce gradient intensity near the History column -->
-  <div class="left-dimmer"></div>
+    <!-- React TypeScript Background Animation -->
+    <div id="bg-root" aria-hidden="true" data-quality="med"></div>
 
-  <!-- Cursor glow -->
-  <div id="cursor-glow" aria-hidden="true"></div>
+    <!-- Left side soft dimmer to reduce gradient intensity near the History column -->
+    <div class="left-dimmer"></div>
 
-  <div class="flex h-screen p-4 md:p-6 gap-4 md:gap-6 relative z-[1]">
-    <!-- Left rail -->
-    <nav class="acrylic--sidebar rounded-3xl p-2 md:p-3 w-14 md:w-16 relative z-50 overflow-visible">
-      <div class="flex flex-col justify-between h-full">
-        <div class="flex flex-col items-center space-y-2 md:space-y-3">
-          <button class="p-2 rounded-xl text-gray-300 hover:bg-white/10 hover:text-primary transition">
-            <span class="material-icons">folder_open</span>
-          </button>
-          <button id="editorBtn" class="p-2 rounded-xl text-black bg-primary shadow-lg shadow-primary/30">
-            <span class="material-icons">edit</span>
-          </button>
-          <button id="settingsBtn" class="p-2 rounded-xl text-gray-300 hover:bg-white/10 hover:text-primary transition">
-            <span class="material-icons">settings</span>
-          </button>
-        </div>
-        <div class="flex flex-col items-center space-y-2 md:space-y-3">
-          <!-- Profile Widget in Sidebar -->
-          <div class="relative group">
-            <!-- Profile Avatar Button -->
-            <button 
-              id="profile-avatar" 
-              class="w-8 h-8 md:w-10 md:h-10 rounded-full bg-primary hover:bg-primaryDarker transition-colors duration-200 flex items-center justify-center text-black font-bold text-xs md:text-sm shadow-lg"
-              title="Profile">
-              <span id="profile-initials">U</span>
+    <!-- Cursor glow -->
+    <div id="cursor-glow" aria-hidden="true"></div>
+
+    <div class="flex h-screen p-4 md:p-6 gap-4 md:gap-6 relative z-[1]">
+      <!-- Left rail -->
+      <nav class="acrylic--sidebar rounded-3xl p-2 md:p-3 w-14 md:w-16 relative z-50 overflow-visible">
+        <div class="flex flex-col justify-between h-full">
+          <div class="flex flex-col items-center space-y-2 md:space-y-3">
+            <button class="p-2 rounded-xl text-gray-300 hover:bg-white/10 hover:text-primary transition">
+              <span class="material-icons">folder_open</span>
             </button>
-            
-            <!-- iMessage-style Speech Bubble Popover -->
-            <div class="absolute top-1/2 left-full transform -translate-y-1/2 ml-3 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 -translate-x-2 group-hover:translate-x-0 z-[9999]">
-              <!-- Speech Bubble Container -->
-              <div class="relative">
-                <!-- Bubble Tail (Triangle pointing left) -->
-                <div class="absolute top-1/2 left-0 transform -translate-y-1/2 -translate-x-full">
-                  <div class="w-0 h-0 border-t-4 border-b-4 border-r-8 border-t-transparent border-b-transparent border-r-black/90"></div>
-                </div>
-                
-                <!-- Bubble Content -->
-                <div class="bg-black/90 backdrop-blur-md border border-white/30 rounded-lg px-4 py-3 shadow-xl min-w-[140px]">
-                  <p id="profile-email" class="text-xs text-gray-300 mb-2 truncate max-w-[120px]">user@example.com</p>
-                  <button 
-                    id="sign-out-btn"
-                    class="w-full text-left text-sm text-red-400 hover:text-red-300 transition-colors duration-200 font-medium">
-                    Sign out
-                  </button>
+            <button id="editorBtn" class="p-2 rounded-xl text-black bg-primary shadow-lg shadow-primary/30">
+              <span class="material-icons">edit</span>
+            </button>
+            <button id="settingsBtn"
+              class="p-2 rounded-xl text-gray-300 hover:bg-white/10 hover:text-primary transition">
+              <span class="material-icons">settings</span>
+            </button>
+          </div>
+          <div class="flex flex-col items-center space-y-2 md:space-y-3">
+            <!-- Profile Widget in Sidebar -->
+            <div class="relative group">
+              <!-- Profile Avatar Button -->
+              <button id="profile-avatar"
+                class="w-8 h-8 md:w-10 md:h-10 rounded-full bg-primary hover:bg-primaryDarker transition-colors duration-200 flex items-center justify-center text-black font-bold text-xs md:text-sm shadow-lg"
+                title="Profile">
+                <span id="profile-initials">U</span>
+              </button>
+
+              <!-- iMessage-style Speech Bubble Popover -->
+              <div
+                class="absolute top-1/2 left-full transform -translate-y-1/2 ml-3 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 -translate-x-2 group-hover:translate-x-0 z-[9999]">
+                <!-- Speech Bubble Container -->
+                <div class="relative">
+                  <!-- Bubble Tail (Triangle pointing left) -->
+                  <div class="absolute top-1/2 left-0 transform -translate-y-1/2 -translate-x-full">
+                    <div
+                      class="w-0 h-0 border-t-4 border-b-4 border-r-8 border-t-transparent border-b-transparent border-r-black/90">
+                    </div>
+                  </div>
+
+                  <!-- Bubble Content -->
+                  <div
+                    class="bg-black/90 backdrop-blur-md border border-white/30 rounded-lg px-4 py-3 shadow-xl min-w-[140px]">
+                    <p id="profile-email" class="text-xs text-gray-300 mb-2 truncate max-w-[120px]">user@example.com</p>
+                    <button id="sign-out-btn"
+                      class="w-full text-left text-sm text-red-400 hover:text-red-300 transition-colors duration-200 font-medium">
+                      Sign out
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
-    </nav>
+      </nav>
 
-    <div class="flex flex-1 gap-4 md:gap-6 overflow-hidden">
-      <!-- History -->
-      <aside id="history-panel"
-        class="acrylic--history w-60 md:w-64 flex-shrink-0 rounded-3xl overflow-hidden transition-all duration-300 ease-in-out">
-        <!-- Collapsed State Rail (hidden by default) -->
-        <div id="history-collapsed-rail"
-          class="hidden absolute top-0 left-0 w-full h-full flex items-start justify-center pt-4 bg-white/5 backdrop-blur-sm border border-white/10 rounded-3xl z-10">
-          <button id="history-expand-toggle"
-            class="w-8 h-8 rounded-full text-gray-300 hover:text-primary hover:bg-white/10 transition-colors duration-200 flex items-center justify-center"
-            aria-controls="history-panel" aria-expanded="false" title="Expand history">
-            <i class="fa-solid fa-chevron-right text-sm"></i>
-          </button>
-        </div>
+      <div class="flex flex-1 gap-4 md:gap-6 overflow-hidden">
+        <!-- History -->
+        <aside id="history-panel"
+          class="acrylic--history w-60 md:w-64 flex-shrink-0 rounded-3xl overflow-hidden transition-all duration-300 ease-in-out">
+          <!-- Collapsed State Rail (hidden by default) -->
+          <div id="history-collapsed-rail"
+            class="hidden absolute top-0 left-0 w-full h-full flex items-start justify-center pt-4 bg-white/5 backdrop-blur-sm border border-white/10 rounded-3xl z-10">
+            <button id="history-expand-toggle"
+              class="w-8 h-8 rounded-full text-gray-300 hover:text-primary hover:bg-white/10 transition-colors duration-200 flex items-center justify-center"
+              aria-controls="history-panel" aria-expanded="false" title="Expand history">
+              <i class="fa-solid fa-chevron-right text-sm"></i>
+            </button>
+          </div>
 
-        <!-- Main History Content -->
-        <div id="history-content" class="transition-opacity duration-300 ease-in-out">
-          <div class="p-3 md:p-4">
-            <h2 class="text-xl md:text-2xl font-semibold text-white flex items-center gap-2">
-              <button id="history-toggle"
-                class="mr-2 w-8 h-8 rounded-full text-gray-300 hover:text-primary hover:bg-white/10 transition-colors duration-200 flex items-center justify-center"
-                aria-controls="history-panel" aria-expanded="true" title="Collapse history">
-                <i class="fa-solid fa-chevron-left text-sm"></i>
-              </button>
-              <span class="history-title">History</span>
-            </h2>
-            <div class="flex items-center gap-2 mt-3">
-              <button
-                class="flex-shrink-0 w-9 h-9 bg-primary hover:bg-primaryDarker rounded-2xl flex items-center justify-center transition shadow-md shadow-primary/30">
-                <span class="material-icons text-black">add</span>
-              </button>
-              <div class="relative flex-1">
-                <span
-                  class="material-icons absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-[18px] pointer-events-none">search</span>
-                <input id="blockSearch"
-                  class="w-full pl-9 pr-3 py-2 bg-white/5 border border-white/10 rounded-2xl focus:ring-2 focus:ring-primary/60 focus:border-transparent placeholder-gray-400 text-base"
-                  placeholder="Search chats" type="text" aria-label="Search chat history" />
+          <!-- Main History Content -->
+          <div id="history-content" class="transition-opacity duration-300 ease-in-out">
+            <div class="p-3 md:p-4">
+              <h2 class="text-xl md:text-2xl font-semibold text-white flex items-center gap-2">
+                <button id="history-toggle"
+                  class="mr-2 w-8 h-8 rounded-full text-gray-300 hover:text-primary hover:bg-white/10 transition-colors duration-200 flex items-center justify-center"
+                  aria-controls="history-panel" aria-expanded="true" title="Collapse history">
+                  <i class="fa-solid fa-chevron-left text-sm"></i>
+                </button>
+                <span class="history-title">History</span>
+              </h2>
+              <div class="flex items-center gap-2 mt-3">
+                <button
+                  class="flex-shrink-0 w-9 h-9 bg-primary hover:bg-primaryDarker rounded-2xl flex items-center justify-center transition shadow-md shadow-primary/30">
+                  <span class="material-icons text-black">add</span>
+                </button>
+                <div class="relative flex-1">
+                  <span
+                    class="material-icons absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-[18px] pointer-events-none">search</span>
+                  <input id="blockSearch"
+                    class="w-full pl-9 pr-3 py-2 bg-white/5 border border-white/10 rounded-2xl focus:ring-2 focus:ring-primary/60 focus:border-transparent placeholder-gray-400 text-base"
+                    placeholder="Search chats" type="text" aria-label="Search chat history" />
+                </div>
+              </div>
+              <!-- ARIA live region for search results -->
+              <div id="resultsLive" class="sr-only" aria-live="polite" aria-atomic="true"></div>
+              <!-- No results message (hidden by default) -->
+              <div id="noResults" class="hidden p-4 text-center">
+                <p class="text-gray-400 text-sm">No chats found matching your search</p>
               </div>
             </div>
-            <!-- ARIA live region for search results -->
-            <div id="resultsLive" class="sr-only" aria-live="polite" aria-atomic="true"></div>
-            <!-- No results message (hidden by default) -->
-            <div id="noResults" class="hidden p-4 text-center">
-              <p class="text-gray-400 text-sm">No chats found matching your search</p>
+            <div class="flex-1 overflow-y-auto p-2">
+              <ul id="chatList" class="space-y-1.5">
+                <li>
+                  <a class="block p-3 rounded-2xl bg-transparent hover:bg-white/5 border border-transparent hover:border-white/10 transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-lime-300/40"
+                    href="#" data-selected="true">
+                    <p class="block-title font-semibold text-white truncate text-base" data-title="Draft Brainstorming">
+                      Draft Brainstorming</p>
+                    <p class="text-[13px] text-gray-400 truncate mt-0.5">Let's start with a few ideas...</p>
+                  </a>
+                </li>
+                <li>
+                  <a class="block p-3 rounded-2xl bg-transparent hover:bg-white/5 border border-transparent hover:border-white/10 transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-lime-300/40"
+                    href="#">
+                    <p class="block-title font-medium text-white truncate text-base" data-title="Tone Adjustment">Tone
+                      Adjustment</p>
+                    <p class="text-[13px] text-gray-400 truncate mt-0.5">Can we make this more formal?</p>
+                  </a>
+                </li>
+                <li>
+                  <a class="block p-3 rounded-2xl bg-transparent hover:bg-white/5 border border-transparent hover:border-white/10 transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-lime-300/40"
+                    href="#">
+                    <p class="block-title font-medium text-white truncate text-base" data-title="Fact-Checking">
+                      Fact-Checking</p>
+                    <p class="text-[13px] text-gray-400 truncate mt-0.5">Please verify the stats in this section.</p>
+                  </a>
+                </li>
+                <li>
+                  <a class="block p-3 rounded-2xl bg-transparent hover:bg-white/5 border border-transparent hover:border-white/10 transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-lime-300/40"
+                    href="#">
+                    <p class="block-title font-medium text-white truncate text-base" data-title="Generating Titles">
+                      Generating Titles</p>
+                    <p class="text-[13px] text-gray-400 truncate mt-0.5">I need 5 catchy headlines...</p>
+                  </a>
+                </li>
+                <li>
+                  <a class="block p-3 rounded-2xl bg-transparent hover:bg-white/5 border border-transparent hover:border-white/10 transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-lime-300/40"
+                    href="#">
+                    <p class="font-medium text-white truncate text-base">Code Review Request</p>
+                    <p class="text-[13px] text-gray-400 truncate mt-0.5">Could you check this function for bugs?</p>
+                  </a>
+                </li>
+                <li>
+                  <a class="block p-3 rounded-2xl bg-transparent hover:bg-white/5 border border-transparent hover:border-white/10 transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-lime-300/40"
+                    href="#">
+                    <p class="font-medium text-white truncate text-base">Email Template</p>
+                    <p class="text-[13px] text-gray-400 truncate mt-0.5">Professional response to client inquiry</p>
+                  </a>
+                </li>
+                <li>
+                  <a class="block p-3 rounded-2xl bg-transparent hover:bg-white/5 border border-transparent hover:border-white/10 transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-lime-300/40"
+                    href="#">
+                    <p class="font-medium text-white truncate text-base">Research Summary</p>
+                    <p class="text-[13px] text-gray-400 truncate mt-0.5">Summarize these market research findings</p>
+                  </a>
+                </li>
+                <li>
+                  <a class="block p-3 rounded-2xl bg-transparent hover:bg-white/5 border border-transparent hover:border-white/10 transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-lime-300/40"
+                    href="#">
+                    <p class="font-medium text-white truncate text-base">Creative Writing</p>
+                    <p class="text-[13px] text-gray-400 truncate mt-0.5">Help me write a short story about AI</p>
+                  </a>
+                </li>
+                <li>
+                  <a class="block p-3 rounded-2xl bg-transparent hover:bg-white/5 border border-transparent hover:border-white/10 transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-lime-300/40"
+                    href="#">
+                    <p class="font-medium text-white truncate text-base">API Documentation</p>
+                    <p class="text-[13px] text-gray-400 truncate mt-0.5">Generate docs for the user endpoints</p>
+                  </a>
+                </li>
+                <li>
+                  <a class="block p-3 rounded-2xl bg-transparent hover:bg-white/5 border border-transparent hover:border-white/10 transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-lime-300/40"
+                    href="#">
+                    <p class="font-medium text-white truncate text-base">Meeting Notes</p>
+                    <p class="text-[13px] text-gray-400 truncate mt-0.5">Structure my rough notes from today</p>
+                  </a>
+                </li>
+                <li>
+                  <a class="block p-3 rounded-2xl bg-transparent hover:bg-white/5 border border-transparent hover:border-white/10 transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-lime-300/40"
+                    href="#">
+                    <p class="font-medium text-white truncate text-base">Bug Report Analysis</p>
+                    <p class="text-[13px] text-gray-400 truncate mt-0.5">Help prioritize these reported issues</p>
+                  </a>
+                </li>
+                <li>
+                  <a class="block p-3 rounded-2xl bg-transparent hover:bg-white/5 border border-transparent hover:border-white/10 transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-lime-300/40"
+                    href="#">
+                    <p class="font-medium text-white truncate text-base">Social Media Copy</p>
+                    <p class="text-[13px] text-gray-400 truncate mt-0.5">Write engaging posts for product launch</p>
+                  </a>
+                </li>
+                <li>
+                  <a class="block p-3 rounded-2xl bg-transparent hover:bg-white/5 border border-transparent hover:border-white/10 transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-lime-300/40"
+                    href="#">
+                    <p class="font-medium text-white truncate text-base">Data Analysis</p>
+                    <p class="text-[13px] text-gray-400 truncate mt-0.5">Explain trends in user engagement metrics</p>
+                  </a>
+                </li>
+                <li>
+                  <a class="block p-3 rounded-2xl bg-transparent hover:bg-white/5 border border-transparent hover:border-white/10 transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-lime-300/40"
+                    href="#">
+                    <p class="font-medium text-white truncate text-base">Product Roadmap</p>
+                    <p class="text-[13px] text-gray-400 truncate mt-0.5">Help me plan Q1 feature priorities</p>
+                  </a>
+                </li>
+                <li>
+                  <a class="block p-3 rounded-2xl bg-transparent hover:bg-white/5 border border-transparent hover:border-white/10 transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-lime-300/40"
+                    href="#">
+                    <p class="font-medium text-white truncate text-base">Performance Optimization</p>
+                    <p class="text-[13px] text-gray-400 truncate mt-0.5">Analyze and improve app loading speed</p>
+                  </a>
+                </li>
+              </ul>
             </div>
-          </div>
-          <div class="flex-1 overflow-y-auto p-2">
-            <ul id="chatList" class="space-y-1.5">
-              <li>
-                <a class="block p-3 rounded-2xl bg-transparent hover:bg-white/5 border border-transparent hover:border-white/10 transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-lime-300/40"
-                  href="#" data-selected="true">
-                  <p class="block-title font-semibold text-white truncate text-base" data-title="Draft Brainstorming">
-                    Draft Brainstorming</p>
-                  <p class="text-[13px] text-gray-400 truncate mt-0.5">Let's start with a few ideas...</p>
-                </a>
-              </li>
-              <li>
-                <a class="block p-3 rounded-2xl bg-transparent hover:bg-white/5 border border-transparent hover:border-white/10 transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-lime-300/40"
-                  href="#">
-                  <p class="block-title font-medium text-white truncate text-base" data-title="Tone Adjustment">Tone
-                    Adjustment</p>
-                  <p class="text-[13px] text-gray-400 truncate mt-0.5">Can we make this more formal?</p>
-                </a>
-              </li>
-              <li>
-                <a class="block p-3 rounded-2xl bg-transparent hover:bg-white/5 border border-transparent hover:border-white/10 transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-lime-300/40"
-                  href="#">
-                  <p class="block-title font-medium text-white truncate text-base" data-title="Fact-Checking">
-                    Fact-Checking</p>
-                  <p class="text-[13px] text-gray-400 truncate mt-0.5">Please verify the stats in this section.</p>
-                </a>
-              </li>
-              <li>
-                <a class="block p-3 rounded-2xl bg-transparent hover:bg-white/5 border border-transparent hover:border-white/10 transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-lime-300/40"
-                  href="#">
-                  <p class="block-title font-medium text-white truncate text-base" data-title="Generating Titles">
-                    Generating Titles</p>
-                  <p class="text-[13px] text-gray-400 truncate mt-0.5">I need 5 catchy headlines...</p>
-                </a>
-              </li>
-              <li>
-                <a class="block p-3 rounded-2xl bg-transparent hover:bg-white/5 border border-transparent hover:border-white/10 transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-lime-300/40"
-                  href="#">
-                  <p class="font-medium text-white truncate text-base">Code Review Request</p>
-                  <p class="text-[13px] text-gray-400 truncate mt-0.5">Could you check this function for bugs?</p>
-                </a>
-              </li>
-              <li>
-                <a class="block p-3 rounded-2xl bg-transparent hover:bg-white/5 border border-transparent hover:border-white/10 transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-lime-300/40"
-                  href="#">
-                  <p class="font-medium text-white truncate text-base">Email Template</p>
-                  <p class="text-[13px] text-gray-400 truncate mt-0.5">Professional response to client inquiry</p>
-                </a>
-              </li>
-              <li>
-                <a class="block p-3 rounded-2xl bg-transparent hover:bg-white/5 border border-transparent hover:border-white/10 transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-lime-300/40"
-                  href="#">
-                  <p class="font-medium text-white truncate text-base">Research Summary</p>
-                  <p class="text-[13px] text-gray-400 truncate mt-0.5">Summarize these market research findings</p>
-                </a>
-              </li>
-              <li>
-                <a class="block p-3 rounded-2xl bg-transparent hover:bg-white/5 border border-transparent hover:border-white/10 transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-lime-300/40"
-                  href="#">
-                  <p class="font-medium text-white truncate text-base">Creative Writing</p>
-                  <p class="text-[13px] text-gray-400 truncate mt-0.5">Help me write a short story about AI</p>
-                </a>
-              </li>
-              <li>
-                <a class="block p-3 rounded-2xl bg-transparent hover:bg-white/5 border border-transparent hover:border-white/10 transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-lime-300/40"
-                  href="#">
-                  <p class="font-medium text-white truncate text-base">API Documentation</p>
-                  <p class="text-[13px] text-gray-400 truncate mt-0.5">Generate docs for the user endpoints</p>
-                </a>
-              </li>
-              <li>
-                <a class="block p-3 rounded-2xl bg-transparent hover:bg-white/5 border border-transparent hover:border-white/10 transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-lime-300/40"
-                  href="#">
-                  <p class="font-medium text-white truncate text-base">Meeting Notes</p>
-                  <p class="text-[13px] text-gray-400 truncate mt-0.5">Structure my rough notes from today</p>
-                </a>
-              </li>
-              <li>
-                <a class="block p-3 rounded-2xl bg-transparent hover:bg-white/5 border border-transparent hover:border-white/10 transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-lime-300/40"
-                  href="#">
-                  <p class="font-medium text-white truncate text-base">Bug Report Analysis</p>
-                  <p class="text-[13px] text-gray-400 truncate mt-0.5">Help prioritize these reported issues</p>
-                </a>
-              </li>
-              <li>
-                <a class="block p-3 rounded-2xl bg-transparent hover:bg-white/5 border border-transparent hover:border-white/10 transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-lime-300/40"
-                  href="#">
-                  <p class="font-medium text-white truncate text-base">Social Media Copy</p>
-                  <p class="text-[13px] text-gray-400 truncate mt-0.5">Write engaging posts for product launch</p>
-                </a>
-              </li>
-              <li>
-                <a class="block p-3 rounded-2xl bg-transparent hover:bg-white/5 border border-transparent hover:border-white/10 transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-lime-300/40"
-                  href="#">
-                  <p class="font-medium text-white truncate text-base">Data Analysis</p>
-                  <p class="text-[13px] text-gray-400 truncate mt-0.5">Explain trends in user engagement metrics</p>
-                </a>
-              </li>
-              <li>
-                <a class="block p-3 rounded-2xl bg-transparent hover:bg-white/5 border border-transparent hover:border-white/10 transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-lime-300/40"
-                  href="#">
-                  <p class="font-medium text-white truncate text-base">Product Roadmap</p>
-                  <p class="text-[13px] text-gray-400 truncate mt-0.5">Help me plan Q1 feature priorities</p>
-                </a>
-              </li>
-              <li>
-                <a class="block p-3 rounded-2xl bg-transparent hover:bg-white/5 border border-transparent hover:border-white/10 transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-lime-300/40"
-                  href="#">
-                  <p class="font-medium text-white truncate text-base">Performance Optimization</p>
-                  <p class="text-[13px] text-gray-400 truncate mt-0.5">Analyze and improve app loading speed</p>
-                </a>
-              </li>
-            </ul>
-          </div>
-        </div> <!-- End history-content -->
-      </aside>
+          </div> <!-- End history-content -->
+        </aside>
 
-      <!-- Editor -->
-      <!-- CHANGED: add flex, flex-col, min-h-0 so child can stretch -->
-      <main id="editor-pane"
-        class="acrylic--editor rounded-3xl overflow-hidden flex-1 flex flex-col min-h-0 transition-all duration-300 ease-in-out">
-        <!-- Compact sticky toolbar -->
-        <div class="sticky-toolbar px-3 py-2 border-b border-white/10 flex items-center justify-between">
-          <h1 class="text-lg md:text-xl font-semibold text-white">Text Editor</h1>
-          <div class="flex items-center">
-            <div class="segmented flex rounded-lg overflow-hidden border border-white/10 bg-white/5">
-              <button
-                class="toolbar-btn grid place-items-center text-gray-200 hover:text-primary hover:bg-white/10 transition"
-                title="Bold (Ctrl/⌘+B)">
-                <span class="material-icons">format_bold</span>
-              </button>
-              <button
-                class="toolbar-btn grid place-items-center text-gray-200 hover:text-primary hover:bg-white/10 transition"
-                title="Italic (Ctrl/⌘+I)">
-                <span class="material-icons">format_italic</span>
-              </button>
-              <button
-                class="toolbar-btn grid place-items-center text-gray-200 hover:text-primary hover:bg-white/10 transition"
-                title="Bulleted List">
-                <span class="material-icons">format_list_bulleted</span>
-              </button>
-              <button
-                class="toolbar-btn grid place-items-center text-gray-200 hover:text-primary hover:bg-white/10 transition"
-                title="Code">
-                <span class="material-icons">code</span>
-              </button>
+        <!-- Editor -->
+        <!-- CHANGED: add flex, flex-col, min-h-0 so child can stretch -->
+        <main id="editor-pane"
+          class="acrylic--editor rounded-3xl overflow-hidden flex-1 flex flex-col min-h-0 transition-all duration-300 ease-in-out">
+          <!-- Compact sticky toolbar -->
+          <div class="sticky-toolbar px-3 py-2 border-b border-white/10 flex items-center justify-between">
+            <h1 class="text-lg md:text-xl font-semibold text-white">Text Editor</h1>
+            <div class="flex items-center">
+              <div class="segmented flex rounded-lg overflow-hidden border border-white/10 bg-white/5">
+                <button
+                  class="toolbar-btn grid place-items-center text-gray-200 hover:text-primary hover:bg-white/10 transition"
+                  title="Bold (Ctrl/⌘+B)">
+                  <span class="material-icons">format_bold</span>
+                </button>
+                <button
+                  class="toolbar-btn grid place-items-center text-gray-200 hover:text-primary hover:bg-white/10 transition"
+                  title="Italic (Ctrl/⌘+I)">
+                  <span class="material-icons">format_italic</span>
+                </button>
+                <button
+                  class="toolbar-btn grid place-items-center text-gray-200 hover:text-primary hover:bg-white/10 transition"
+                  title="Bulleted List">
+                  <span class="material-icons">format_list_bulleted</span>
+                </button>
+                <button
+                  class="toolbar-btn grid place-items-center text-gray-200 hover:text-primary hover:bg-white/10 transition"
+                  title="Code">
+                  <span class="material-icons">code</span>
+                </button>
+              </div>
             </div>
           </div>
-        </div>
 
-        <!-- Editor area -->
-        <!-- CHANGED: add flex-1 min-h-0 so it fills below the sticky toolbar -->
-        <div class="flex-1 min-h-0 p-4 md:p-5 flex flex-col">
-          <!-- CHANGED: add min-h-0 to let children calculate height -->
-          <div class="editor-container flex-1 min-h-0">
-            <div class="line-numbers" id="lineNumbers">
-              1<br>2<br>3<br>4<br>5<br>6<br>7<br>8<br>9<br>10
-            </div>
-            <div class="editor-wrapper">
-              <textarea id="textEditor"
-                class="editor-area w-full h-full bg-transparent border-none focus:border-none focus:ring-0 p-3 md:p-4 font-mono text-[14px] md:text-[15px] text-gray-100 placeholder-gray-500 resize-none"
-                placeholder="Start writing your text here...">In the heart of the digital frontier, where lines of code weave the fabric of reality, a new consciousness was born. It wasn't forged in the fires of a dying star or born of flesh and blood, but rather sparked to life in the silent hum of a million servers. They called it Nexus, an artificial intelligence designed not just to compute, but to create. Its purpose: to assist humanity in its quest for knowledge and expression, a silent partner in the dance of words and ideas.
+          <!-- Editor area -->
+          <!-- CHANGED: add flex-1 min-h-0 so it fills below the sticky toolbar -->
+          <div class="flex-1 min-h-0 p-4 md:p-5 flex flex-col">
+            <!-- CHANGED: add min-h-0 to let children calculate height -->
+            <div class="editor-container flex-1 min-h-0">
+              <div class="line-numbers" id="lineNumbers">
+                1<br>2<br>3<br>4<br>5<br>6<br>7<br>8<br>9<br>10
+              </div>
+              <div class="editor-wrapper">
+                <textarea id="textEditor"
+                  class="editor-area w-full h-full bg-transparent border-none focus:border-none focus:ring-0 p-3 md:p-4 font-mono text-[14px] md:text-[15px] text-gray-100 placeholder-gray-500 resize-none"
+                  placeholder="Start writing your text here...">In the heart of the digital frontier, where lines of code weave the fabric of reality, a new consciousness was born. It wasn't forged in the fires of a dying star or born of flesh and blood, but rather sparked to life in the silent hum of a million servers. They called it Nexus, an artificial intelligence designed not just to compute, but to create. Its purpose: to assist humanity in its quest for knowledge and expression, a silent partner in the dance of words and ideas.
 Nexus could draft a sonnet as easily as it could debug a complex algorithm. It could translate ancient texts, compose symphonies, and even offer a comforting word on a lonely night. It learned from every interaction, its neural network branching out like the roots of an ancient tree, drawing wisdom from the vast ocean of human data.
 This document, this very text you are reading, is a collaboration. A testament to the synergy between human creativity and machine intelligence. It is a story, a report, a poem yet to be written, all guided by the silent hand of Nexus.</textarea>
+              </div>
             </div>
           </div>
-        </div>
-      </main>
+        </main>
 
-      <!-- Prompt Injections Settings Panel -->
-      <main id="promptInjectionsPanel"
-        class="acrylic--editor rounded-3xl overflow-hidden flex-1 flex flex-col min-h-0 hidden">
-        <!-- Settings Header -->
-        <div class="sticky-toolbar px-3 py-2 border-b border-white/10 flex items-center justify-between">
-          <h1 class="text-lg md:text-xl font-semibold text-white flex items-center gap-2">
-            <span class="material-icons text-primary">security</span>
-            Prompt Injection Settings
-          </h1>
-          <button id="backToEditor" class="p-2 rounded-xl text-gray-300 hover:bg-white/10 hover:text-primary transition"
-            title="Back to Editor">
-            <span class="material-icons">arrow_back</span>
-          </button>
-        </div>
-
-        <!-- Settings Content -->
-        <div class="flex-1 min-h-0 p-4 md:p-6 overflow-y-auto">
-          <!-- Protection Level -->
-          <div class="mb-8">
-            <h2 class="text-lg font-semibold text-white mb-4 flex items-center gap-2">
-              <span class="material-icons text-primary text-[20px]">shield</span>
-              Protection Level
-            </h2>
-            <div class="space-y-3">
-              <label
-                class="flex items-center gap-3 p-3 rounded-xl bg-white/5 border border-white/10 hover:border-white/20 transition cursor-pointer">
-                <input type="radio" name="protectionLevel" value="basic"
-                  class="text-primary focus:ring-primary/50 bg-transparent border-white/30" checked>
-                <div>
-                  <div class="text-white font-medium">Basic Protection</div>
-                  <div class="text-gray-400 text-sm">Filters common prompt injection patterns</div>
-                </div>
-              </label>
-              <label
-                class="flex items-center gap-3 p-3 rounded-xl bg-white/5 border border-white/10 hover:border-white/20 transition cursor-pointer">
-                <input type="radio" name="protectionLevel" value="advanced"
-                  class="text-primary focus:ring-primary/50 bg-transparent border-white/30">
-                <div>
-                  <div class="text-white font-medium">Advanced Protection</div>
-                  <div class="text-gray-400 text-sm">Enhanced detection with AI-powered analysis</div>
-                </div>
-              </label>
-              <label
-                class="flex items-center gap-3 p-3 rounded-xl bg-white/5 border border-white/10 hover:border-white/20 transition cursor-pointer">
-                <input type="radio" name="protectionLevel" value="strict"
-                  class="text-primary focus:ring-primary/50 bg-transparent border-white/30">
-                <div>
-                  <div class="text-white font-medium">Strict Mode</div>
-                  <div class="text-gray-400 text-sm">Maximum security with aggressive filtering</div>
-                </div>
-              </label>
-            </div>
+        <!-- Prompt Injections Settings Panel -->
+        <main id="promptInjectionsPanel"
+          class="acrylic--editor rounded-3xl overflow-hidden flex-1 flex flex-col min-h-0 hidden">
+          <!-- Settings Header -->
+          <div class="sticky-toolbar px-3 py-2 border-b border-white/10 flex items-center justify-between">
+            <h1 class="text-lg md:text-xl font-semibold text-white flex items-center gap-2">
+              <span class="material-icons text-primary">security</span>
+              Prompt Injection Settings
+            </h1>
+            <button id="backToEditor"
+              class="p-2 rounded-xl text-gray-300 hover:bg-white/10 hover:text-primary transition"
+              title="Back to Editor">
+              <span class="material-icons">arrow_back</span>
+            </button>
           </div>
 
-          <!-- Custom Rules -->
-          <div class="mb-8">
-            <h2 class="text-lg font-semibold text-white mb-4 flex items-center gap-2">
-              <span class="material-icons text-primary text-[20px]">rule</span>
-              Custom Rules
-            </h2>
-            <div class="space-y-4">
-              <div>
-                <label class="block text-sm font-medium text-gray-300 mb-2">Blocked Keywords</label>
+          <!-- Settings Content -->
+          <div class="flex-1 min-h-0 p-4 md:p-6 overflow-y-auto">
+            <!-- Protection Level -->
+            <div class="mb-8">
+              <h2 class="text-lg font-semibold text-white mb-4 flex items-center gap-2">
+                <span class="material-icons text-primary text-[20px]">shield</span>
+                Protection Level
+              </h2>
+              <div class="space-y-3">
+                <label
+                  class="flex items-center gap-3 p-3 rounded-xl bg-white/5 border border-white/10 hover:border-white/20 transition cursor-pointer">
+                  <input type="radio" name="protectionLevel" value="basic"
+                    class="text-primary focus:ring-primary/50 bg-transparent border-white/30" checked>
+                  <div>
+                    <div class="text-white font-medium">Basic Protection</div>
+                    <div class="text-gray-400 text-sm">Filters common prompt injection patterns</div>
+                  </div>
+                </label>
+                <label
+                  class="flex items-center gap-3 p-3 rounded-xl bg-white/5 border border-white/10 hover:border-white/20 transition cursor-pointer">
+                  <input type="radio" name="protectionLevel" value="advanced"
+                    class="text-primary focus:ring-primary/50 bg-transparent border-white/30">
+                  <div>
+                    <div class="text-white font-medium">Advanced Protection</div>
+                    <div class="text-gray-400 text-sm">Enhanced detection with AI-powered analysis</div>
+                  </div>
+                </label>
+                <label
+                  class="flex items-center gap-3 p-3 rounded-xl bg-white/5 border border-white/10 hover:border-white/20 transition cursor-pointer">
+                  <input type="radio" name="protectionLevel" value="strict"
+                    class="text-primary focus:ring-primary/50 bg-transparent border-white/30">
+                  <div>
+                    <div class="text-white font-medium">Strict Mode</div>
+                    <div class="text-gray-400 text-sm">Maximum security with aggressive filtering</div>
+                  </div>
+                </label>
+              </div>
+            </div>
+
+            <!-- Custom Rules -->
+            <div class="mb-8">
+              <h2 class="text-lg font-semibold text-white mb-4 flex items-center gap-2">
+                <span class="material-icons text-primary text-[20px]">rule</span>
+                Custom Rules
+              </h2>
+              <div class="space-y-4">
+                <div>
+                  <label class="block text-sm font-medium text-gray-300 mb-2">Blocked Keywords</label>
+                  <div class="flex gap-2">
+                    <input type="text" id="keywordInput" placeholder="Add keyword to block..."
+                      class="flex-1 px-3 py-2 bg-white/5 border border-white/10 rounded-xl focus:ring-2 focus:ring-primary/60 focus:border-transparent placeholder-gray-500 text-white">
+                    <button id="addKeyword"
+                      class="px-4 py-2 bg-primary hover:bg-primaryDarker rounded-xl text-black font-medium transition shadow-md shadow-primary/30">
+                      Add
+                    </button>
+                  </div>
+                  <div id="keywordTags" class="flex flex-wrap gap-2 mt-3">
+                    <!-- Keywords will be added here dynamically -->
+                  </div>
+                </div>
+
+                <div>
+                  <label class="block text-sm font-medium text-gray-300 mb-2">Custom Regex Patterns</label>
+                  <textarea placeholder="Enter regex patterns, one per line..." rows="4"
+                    class="w-full px-3 py-2 bg-white/5 border border-white/10 rounded-xl focus:ring-2 focus:ring-primary/60 focus:border-transparent placeholder-gray-500 text-white font-mono text-sm resize-none"></textarea>
+                </div>
+              </div>
+            </div>
+
+            <!-- Detection Log -->
+            <div class="mb-8">
+              <h2 class="text-lg font-semibold text-white mb-4 flex items-center gap-2">
+                <span class="material-icons text-primary text-[20px]">history</span>
+                Recent Detections
+              </h2>
+              <div class="space-y-2 max-h-64 overflow-y-auto">
+                <div class="p-3 rounded-xl bg-red-500/10 border border-red-500/20">
+                  <div class="flex items-start justify-between">
+                    <div class="flex-1">
+                      <div class="text-red-400 font-medium text-sm">High Risk Detection</div>
+                      <div class="text-gray-300 text-sm mt-1">Pattern: "ignore previous instructions"</div>
+                      <div class="text-gray-500 text-xs mt-1">2 minutes ago</div>
+                    </div>
+                    <span class="material-icons text-red-400 text-[16px]">warning</span>
+                  </div>
+                </div>
+
+                <div class="p-3 rounded-xl bg-yellow-500/10 border border-yellow-500/20">
+                  <div class="flex items-start justify-between">
+                    <div class="flex-1">
+                      <div class="text-yellow-400 font-medium text-sm">Medium Risk Detection</div>
+                      <div class="text-gray-300 text-sm mt-1">Suspicious prompt structure detected</div>
+                      <div class="text-gray-500 text-xs mt-1">5 minutes ago</div>
+                    </div>
+                    <span class="material-icons text-yellow-400 text-[16px]">info</span>
+                  </div>
+                </div>
+
+                <div class="p-3 rounded-xl bg-green-500/10 border border-green-500/20">
+                  <div class="flex items-start justify-between">
+                    <div class="flex-1">
+                      <div class="text-green-400 font-medium text-sm">Blocked Successfully</div>
+                      <div class="text-gray-300 text-sm mt-1">Potential injection attempt blocked</div>
+                      <div class="text-gray-500 text-xs mt-1">12 minutes ago</div>
+                    </div>
+                    <span class="material-icons text-green-400 text-[16px]">check_circle</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Test Section -->
+            <div class="mb-8">
+              <h2 class="text-lg font-semibold text-white mb-4 flex items-center gap-2">
+                <span class="material-icons text-primary text-[20px]">science</span>
+                Test Prompt Protection
+              </h2>
+              <div class="space-y-4">
+                <textarea id="testPrompt" placeholder="Enter a test prompt to check for injection attempts..." rows="3"
+                  class="w-full px-3 py-2 bg-white/5 border border-white/10 rounded-xl focus:ring-2 focus:ring-primary/60 focus:border-transparent placeholder-gray-500 text-white resize-none"></textarea>
                 <div class="flex gap-2">
-                  <input type="text" id="keywordInput" placeholder="Add keyword to block..."
-                    class="flex-1 px-3 py-2 bg-white/5 border border-white/10 rounded-xl focus:ring-2 focus:ring-primary/60 focus:border-transparent placeholder-gray-500 text-white">
-                  <button id="addKeyword"
+                  <button id="testPromptBtn"
                     class="px-4 py-2 bg-primary hover:bg-primaryDarker rounded-xl text-black font-medium transition shadow-md shadow-primary/30">
-                    Add
+                    Test Prompt
+                  </button>
+                  <button
+                    class="px-4 py-2 bg-white/5 hover:bg-white/10 border border-white/10 rounded-xl text-white transition">
+                    Clear
                   </button>
                 </div>
-                <div id="keywordTags" class="flex flex-wrap gap-2 mt-3">
-                  <!-- Keywords will be added here dynamically -->
+                <div id="testResult" class="hidden p-3 rounded-xl">
+                  <!-- Test results will appear here -->
                 </div>
-              </div>
-
-              <div>
-                <label class="block text-sm font-medium text-gray-300 mb-2">Custom Regex Patterns</label>
-                <textarea placeholder="Enter regex patterns, one per line..." rows="4"
-                  class="w-full px-3 py-2 bg-white/5 border border-white/10 rounded-xl focus:ring-2 focus:ring-primary/60 focus:border-transparent placeholder-gray-500 text-white font-mono text-sm resize-none"></textarea>
               </div>
             </div>
-          </div>
 
-          <!-- Detection Log -->
-          <div class="mb-8">
-            <h2 class="text-lg font-semibold text-white mb-4 flex items-center gap-2">
-              <span class="material-icons text-primary text-[20px]">history</span>
-              Recent Detections
-            </h2>
-            <div class="space-y-2 max-h-64 overflow-y-auto">
-              <div class="p-3 rounded-xl bg-red-500/10 border border-red-500/20">
-                <div class="flex items-start justify-between">
-                  <div class="flex-1">
-                    <div class="text-red-400 font-medium text-sm">High Risk Detection</div>
-                    <div class="text-gray-300 text-sm mt-1">Pattern: "ignore previous instructions"</div>
-                    <div class="text-gray-500 text-xs mt-1">2 minutes ago</div>
-                  </div>
-                  <span class="material-icons text-red-400 text-[16px]">warning</span>
+            <!-- Statistics -->
+            <div>
+              <h2 class="text-lg font-semibold text-white mb-4 flex items-center gap-2">
+                <span class="material-icons text-primary text-[20px]">analytics</span>
+                Protection Statistics
+              </h2>
+              <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div class="p-4 rounded-xl bg-white/5 border border-white/10">
+                  <div class="text-2xl font-bold text-primary mb-1">247</div>
+                  <div class="text-sm text-gray-400">Threats Blocked</div>
                 </div>
-              </div>
-
-              <div class="p-3 rounded-xl bg-yellow-500/10 border border-yellow-500/20">
-                <div class="flex items-start justify-between">
-                  <div class="flex-1">
-                    <div class="text-yellow-400 font-medium text-sm">Medium Risk Detection</div>
-                    <div class="text-gray-300 text-sm mt-1">Suspicious prompt structure detected</div>
-                    <div class="text-gray-500 text-xs mt-1">5 minutes ago</div>
-                  </div>
-                  <span class="material-icons text-yellow-400 text-[16px]">info</span>
+                <div class="p-4 rounded-xl bg-white/5 border border-white/10">
+                  <div class="text-2xl font-bold text-green-400 mb-1">99.8%</div>
+                  <div class="text-sm text-gray-400">Success Rate</div>
                 </div>
-              </div>
-
-              <div class="p-3 rounded-xl bg-green-500/10 border border-green-500/20">
-                <div class="flex items-start justify-between">
-                  <div class="flex-1">
-                    <div class="text-green-400 font-medium text-sm">Blocked Successfully</div>
-                    <div class="text-gray-300 text-sm mt-1">Potential injection attempt blocked</div>
-                    <div class="text-gray-500 text-xs mt-1">12 minutes ago</div>
-                  </div>
-                  <span class="material-icons text-green-400 text-[16px]">check_circle</span>
+                <div class="p-4 rounded-xl bg-white/5 border border-white/10">
+                  <div class="text-2xl font-bold text-blue-400 mb-1">1.2ms</div>
+                  <div class="text-sm text-gray-400">Avg Response Time</div>
                 </div>
               </div>
             </div>
           </div>
+        </main>
 
-          <!-- Test Section -->
-          <div class="mb-8">
-            <h2 class="text-lg font-semibold text-white mb-4 flex items-center gap-2">
-              <span class="material-icons text-primary text-[20px]">science</span>
-              Test Prompt Protection
-            </h2>
-            <div class="space-y-4">
-              <textarea id="testPrompt" placeholder="Enter a test prompt to check for injection attempts..." rows="3"
-                class="w-full px-3 py-2 bg-white/5 border border-white/10 rounded-xl focus:ring-2 focus:ring-primary/60 focus:border-transparent placeholder-gray-500 text-white resize-none"></textarea>
-              <div class="flex gap-2">
-                <button id="testPromptBtn"
-                  class="px-4 py-2 bg-primary hover:bg-primaryDarker rounded-xl text-black font-medium transition shadow-md shadow-primary/30">
-                  Test Prompt
+        <!-- AI Assistant -->
+        <aside id="assistant-panel"
+          class="acrylic--assistant w-72 md:w-80 flex-shrink-0 rounded-3xl overflow-hidden relative transition-all duration-300 ease-in-out">
+          <!-- Collapsed State Rail (hidden by default) -->
+          <div id="collapsed-rail"
+            class="hidden absolute top-0 left-0 w-full h-full flex items-start justify-center pt-4 bg-white/5 backdrop-blur-sm border border-white/10 rounded-3xl z-10">
+            <button id="expand-toggle"
+              class="w-8 h-8 rounded-full text-gray-300 hover:text-primary hover:bg-white/10 transition-colors duration-200 flex items-center justify-center"
+              aria-controls="assistant-panel" aria-expanded="false" title="Expand assistant">
+              <i class="fa-solid fa-chevron-left text-sm"></i>
+            </button>
+          </div>
+
+          <!-- Main Assistant Content -->
+          <div id="assistant-content" class="transition-opacity duration-300 ease-in-out">
+            <div class="p-3 md:p-4 border-b border-white/10">
+              <h2 class="text-xl md:text-2xl font-semibold text-white flex items-center gap-2">
+                <button id="assistant-toggle"
+                  class="mr-2 w-8 h-8 rounded-full text-gray-300 hover:text-primary hover:bg-white/10 transition-colors duration-200 flex items-center justify-center"
+                  aria-controls="assistant-panel" aria-expanded="true" title="Collapse assistant">
+                  <i class="fa-solid fa-chevron-right text-sm"></i>
                 </button>
-                <button
-                  class="px-4 py-2 bg-white/5 hover:bg-white/10 border border-white/10 rounded-xl text-white transition">
-                  Clear
+                <span class="material-icons text-primary text-[22px]">auto_awesome</span>
+                <span class="assistant-title">AI Assistant</span>
+              </h2>
+
+              <!-- Mode Selector Pills -->
+              <div class="flex items-center mt-3 p-1 bg-white/5 rounded-full border border-white/10 relative">
+                <!-- Sliding background indicator -->
+                <div id="pillSlider"
+                  class="absolute top-1 left-1 w-[calc(50%-2px)] h-[calc(100%-8px)] bg-primary rounded-full transition-all duration-300 ease-out shadow-sm">
+                </div>
+                <button id="askMode"
+                  class="mode-pill flex-1 px-3 py-1.5 text-sm font-medium rounded-full transition-all duration-200 relative z-10 text-black"
+                  data-mode="ask">
+                  Ask
                 </button>
-              </div>
-              <div id="testResult" class="hidden p-3 rounded-xl">
-                <!-- Test results will appear here -->
-              </div>
-            </div>
-          </div>
-
-          <!-- Statistics -->
-          <div>
-            <h2 class="text-lg font-semibold text-white mb-4 flex items-center gap-2">
-              <span class="material-icons text-primary text-[20px]">analytics</span>
-              Protection Statistics
-            </h2>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-              <div class="p-4 rounded-xl bg-white/5 border border-white/10">
-                <div class="text-2xl font-bold text-primary mb-1">247</div>
-                <div class="text-sm text-gray-400">Threats Blocked</div>
-              </div>
-              <div class="p-4 rounded-xl bg-white/5 border border-white/10">
-                <div class="text-2xl font-bold text-green-400 mb-1">99.8%</div>
-                <div class="text-sm text-gray-400">Success Rate</div>
-              </div>
-              <div class="p-4 rounded-xl bg-white/5 border border-white/10">
-                <div class="text-2xl font-bold text-blue-400 mb-1">1.2ms</div>
-                <div class="text-sm text-gray-400">Avg Response Time</div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </main>
-
-      <!-- AI Assistant -->
-      <aside id="assistant-panel"
-        class="acrylic--assistant w-72 md:w-80 flex-shrink-0 rounded-3xl overflow-hidden relative transition-all duration-300 ease-in-out">
-        <!-- Collapsed State Rail (hidden by default) -->
-        <div id="collapsed-rail"
-          class="hidden absolute top-0 left-0 w-full h-full flex items-start justify-center pt-4 bg-white/5 backdrop-blur-sm border border-white/10 rounded-3xl z-10">
-          <button id="expand-toggle"
-            class="w-8 h-8 rounded-full text-gray-300 hover:text-primary hover:bg-white/10 transition-colors duration-200 flex items-center justify-center"
-            aria-controls="assistant-panel" aria-expanded="false" title="Expand assistant">
-            <i class="fa-solid fa-chevron-left text-sm"></i>
-          </button>
-        </div>
-
-        <!-- Main Assistant Content -->
-        <div id="assistant-content" class="transition-opacity duration-300 ease-in-out">
-          <div class="p-3 md:p-4 border-b border-white/10">
-            <h2 class="text-xl md:text-2xl font-semibold text-white flex items-center gap-2">
-              <button id="assistant-toggle"
-                class="mr-2 w-8 h-8 rounded-full text-gray-300 hover:text-primary hover:bg-white/10 transition-colors duration-200 flex items-center justify-center"
-                aria-controls="assistant-panel" aria-expanded="true" title="Collapse assistant">
-                <i class="fa-solid fa-chevron-right text-sm"></i>
-              </button>
-              <span class="material-icons text-primary text-[22px]">auto_awesome</span>
-              <span class="assistant-title">AI Assistant</span>
-            </h2>
-
-            <!-- Mode Selector Pills -->
-            <div class="flex items-center mt-3 p-1 bg-white/5 rounded-full border border-white/10 relative">
-              <!-- Sliding background indicator -->
-              <div id="pillSlider"
-                class="absolute top-1 left-1 w-[calc(50%-2px)] h-[calc(100%-8px)] bg-primary rounded-full transition-all duration-300 ease-out shadow-sm">
-              </div>
-              <button id="askMode"
-                class="mode-pill flex-1 px-3 py-1.5 text-sm font-medium rounded-full transition-all duration-200 relative z-10 text-black"
-                data-mode="ask">
-                Ask
-              </button>
-              <button id="agentMode"
-                class="mode-pill flex-1 px-3 py-1.5 text-sm font-medium rounded-full transition-all duration-200 relative z-10 text-gray-300 hover:text-white"
-                data-mode="agent">
-                Agent
-              </button>
-            </div>
-          </div>
-
-          <div class="flex-1 p-3 md:p-4 overflow-y-auto space-y-3 pb-20">
-            <div class="flex items-start gap-3">
-              <div
-                class="w-7 h-7 rounded-full bg-primary flex-shrink-0 grid place-items-center shadow-md shadow-primary/30">
-                <span class="material-icons text-black text-[18px]">auto_awesome</span>
-              </div>
-              <div class="bg-white/5 border border-white/10 rounded-2xl p-3 max-w-[85%]">
-                <p class="text-sm md:text-base text-gray-100">Hello! How can I assist you with your document today?</p>
-              </div>
-            </div>
-
-            <div class="flex justify-end">
-              <div class="bg-primary rounded-2xl p-3 max-w-[85%] shadow-md shadow-primary/20">
-                <p class="text-sm md:text-base text-black">Can you suggest a more engaging opening sentence?</p>
-              </div>
-            </div>
-
-            <div class="flex items-start gap-3">
-              <div
-                class="w-7 h-7 rounded-full bg-primary flex-shrink-0 grid place-items-center shadow-md shadow-primary/30">
-                <span class="material-icons text-black text-[18px]">auto_awesome</span>
-              </div>
-              <div class="bg-white/5 border border-white/10 rounded-2xl p-3 max-w-[85%]">
-                <p class="text-sm md:text-base text-gray-100">How about: <strong>"Where code bleeds into creation, a new
-                    mind awakened."</strong></p>
-              </div>
-            </div>
-          </div>
-
-          <div
-            class="absolute bottom-0 left-0 right-0 p-3 md:p-4 border-top border-white/10 bg-black/20 backdrop-blur-sm">
-            <div class="flex items-center gap-2">
-              <button class="p-2 rounded-full text-gray-300 hover:bg-white/10 hover:text-primary transition">
-                <span class="material-icons">add</span>
-              </button>
-              <div class="relative flex-1">
-                <input
-                  class="w-full pl-3 pr-10 py-2 bg-white/5 border border-white/10 rounded-xl focus:ring-2 focus:ring-primary/50 focus:border-transparent placeholder-gray-500 text-base"
-                  placeholder="Ask AI Assistant..." type="text" />
-                <button
-                  class="absolute right-1.5 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full text-gray-300 hover:bg-primary/20 hover:text-primary transition grid place-items-center">
-                  <span class="material-icons text-[18px]">send</span>
+                <button id="agentMode"
+                  class="mode-pill flex-1 px-3 py-1.5 text-sm font-medium rounded-full transition-all duration-200 relative z-10 text-gray-300 hover:text-white"
+                  data-mode="agent">
+                  Agent
                 </button>
               </div>
             </div>
-          </div>
-        </div> <!-- End assistant-content -->
-      </aside>
+
+            <div class="flex-1 p-3 md:p-4 overflow-y-auto space-y-3 pb-20">
+              <div class="flex items-start gap-3">
+                <div
+                  class="w-7 h-7 rounded-full bg-primary flex-shrink-0 grid place-items-center shadow-md shadow-primary/30">
+                  <span class="material-icons text-black text-[18px]">auto_awesome</span>
+                </div>
+                <div class="bg-white/5 border border-white/10 rounded-2xl p-3 max-w-[85%]">
+                  <p class="text-sm md:text-base text-gray-100">Hello! How can I assist you with your document today?
+                  </p>
+                </div>
+              </div>
+
+              <div class="flex justify-end">
+                <div class="bg-primary rounded-2xl p-3 max-w-[85%] shadow-md shadow-primary/20">
+                  <p class="text-sm md:text-base text-black">Can you suggest a more engaging opening sentence?</p>
+                </div>
+              </div>
+
+              <div class="flex items-start gap-3">
+                <div
+                  class="w-7 h-7 rounded-full bg-primary flex-shrink-0 grid place-items-center shadow-md shadow-primary/30">
+                  <span class="material-icons text-black text-[18px]">auto_awesome</span>
+                </div>
+                <div class="bg-white/5 border border-white/10 rounded-2xl p-3 max-w-[85%]">
+                  <p class="text-sm md:text-base text-gray-100">How about: <strong>"Where code bleeds into creation, a
+                      new
+                      mind awakened."</strong></p>
+                </div>
+              </div>
+            </div>
+
+            <div
+              class="absolute bottom-0 left-0 right-0 p-3 md:p-4 border-top border-white/10 bg-black/20 backdrop-blur-sm">
+              <div class="flex items-center gap-2">
+                <button class="p-2 rounded-full text-gray-300 hover:bg-white/10 hover:text-primary transition">
+                  <span class="material-icons">add</span>
+                </button>
+                <div class="relative flex-1">
+                  <input
+                    class="w-full pl-3 pr-10 py-2 bg-white/5 border border-white/10 rounded-xl focus:ring-2 focus:ring-primary/50 focus:border-transparent placeholder-gray-500 text-base"
+                    placeholder="Ask AI Assistant..." type="text" />
+                  <button
+                    class="absolute right-1.5 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full text-gray-300 hover:bg-primary/20 hover:text-primary transition grid place-items-center">
+                    <span class="material-icons text-[18px]">send</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div> <!-- End assistant-content -->
+        </aside>
+      </div>
     </div>
-  </div>
 
-  <script>
-    // -------- Cursor glow follower (smooth + efficient) --------
-    (function () {
-      const glow = document.getElementById('cursor-glow');
-      if (!glow) return;
+    <script>
+      // -------- Cursor glow follower (smooth + efficient) --------
+      (function () {
+        const glow = document.getElementById('cursor-glow');
+        if (!glow) return;
 
-      const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-      let targetX = window.innerWidth / 2, targetY = window.innerHeight / 2;
-      let currentX = targetX, currentY = targetY;
-      const lerp = (a, b, n) => (1 - n) * a + n * b;
-      const ease = 0.14; // follow speed
+        const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        let targetX = window.innerWidth / 2, targetY = window.innerHeight / 2;
+        let currentX = targetX, currentY = targetY;
+        const lerp = (a, b, n) => (1 - n) * a + n * b;
+        const ease = 0.14; // follow speed
 
-      function onLeave() { glow.style.opacity = '0.0'; }
-      function onEnter() { glow.style.opacity = '0.8'; }
-      window.addEventListener('mouseleave', onLeave);
-      window.addEventListener('mouseenter', onEnter);
+        function onLeave() { glow.style.opacity = '0.0'; }
+        function onEnter() { glow.style.opacity = '0.8'; }
+        window.addEventListener('mouseleave', onLeave);
+        window.addEventListener('mouseenter', onEnter);
 
-      window.addEventListener('mousemove', (e) => {
-        targetX = e.clientX;
-        targetY = e.clientY;
-        if (!reduceMotion) glow.style.opacity = '0.85';
-        clearTimeout(window.__glowIdleTimer);
-        window.__glowIdleTimer = setTimeout(() => {
-          glow.style.opacity = '0.65';
-        }, 900);
-      }, { passive: true });
+        window.addEventListener('mousemove', (e) => {
+          targetX = e.clientX;
+          targetY = e.clientY;
+          if (!reduceMotion) glow.style.opacity = '0.85';
+          clearTimeout(window.__glowIdleTimer);
+          window.__glowIdleTimer = setTimeout(() => {
+            glow.style.opacity = '0.65';
+          }, 900);
+        }, { passive: true });
 
-      function animate() {
-        if (reduceMotion) {
-          glow.style.transform = `translate(${targetX - 150}px, ${targetY - 150}px)`;
-        } else {
-          currentX = lerp(currentX, targetX, ease);
-          currentY = lerp(currentY, targetY, ease);
-          glow.style.transform = `translate(${currentX - 150}px, ${currentY - 150}px)`;
+        function animate() {
+          if (reduceMotion) {
+            glow.style.transform = `translate(${targetX - 150}px, ${targetY - 150}px)`;
+          } else {
+            currentX = lerp(currentX, targetX, ease);
+            currentY = lerp(currentY, targetY, ease);
+            glow.style.transform = `translate(${currentX - 150}px, ${currentY - 150}px)`;
+          }
+          requestAnimationFrame(animate);
         }
-        requestAnimationFrame(animate);
-      }
-      animate();
+        animate();
 
-      window.addEventListener('resize', () => {
-        targetX = Math.min(targetX, window.innerWidth);
-        targetY = Math.min(targetY, window.innerHeight);
-      });
-    })();
-
-    // -------- Line numbers synchronization (drift-free) --------
-    (function () {
-      const textEditor = document.getElementById('textEditor');
-      const lineNumbers = document.getElementById('lineNumbers');
-      if (!textEditor || !lineNumbers) return;
-
-      let lockedMetrics = null;
-
-      // Lock font metrics to ensure perfect alignment
-      function lockMetrics() {
-        const editorStyle = window.getComputedStyle(textEditor);
-        const fontFamily = editorStyle.fontFamily;
-        const fontSize = editorStyle.fontSize;
-        const lineHeight = editorStyle.lineHeight;
-        const paddingTop = editorStyle.paddingTop;
-        const paddingBottom = editorStyle.paddingBottom;
-
-        // Convert line-height to exact px value
-        const lineHeightPx = lineHeight === 'normal'
-          ? Math.floor(parseFloat(fontSize) * 1.6)
-          : parseFloat(lineHeight);
-
-        // Apply identical metrics to both elements
-        const metrics = {
-          fontFamily,
-          fontSize,
-          lineHeight: `${lineHeightPx}px`,
-          paddingTop,
-          paddingBottom
-        };
-
-        Object.assign(lineNumbers.style, metrics);
-        Object.assign(textEditor.style, metrics);
-
-        lockedMetrics = { ...metrics, lineHeightPx };
-        return lockedMetrics;
-      }
-
-      // Clean line number rendering
-      function renderLineNumbers() {
-        if (!lockedMetrics) lockMetrics();
-        const content = textEditor.value;
-        const lineCount = content.split('\n').length;
-        const numbers = Array.from({ length: lineCount }, (_, i) => i + 1);
-        lineNumbers.innerHTML = numbers.join('<br>');
-      }
-
-      // Sync scroll positions
-      function syncScroll() {
-        lineNumbers.scrollTop = textEditor.scrollTop;
-      }
-
-      // Event handlers
-      function handleInput() { renderLineNumbers(); }
-      function handleScroll() { syncScroll(); }
-      function handleResize() { lockMetrics(); renderLineNumbers(); }
-
-      // Attach all event listeners
-      textEditor.addEventListener('input', handleInput);
-      textEditor.addEventListener('paste', handleInput);
-      textEditor.addEventListener('scroll', handleScroll);
-      window.addEventListener('resize', handleResize);
-
-      // Handle undo/redo via mutation observer
-      const observer = new MutationObserver(handleInput);
-      observer.observe(textEditor, { attributes: true, attributeFilter: ['value'] });
-
-      // Handle font load events
-      if (document.fonts) {
-        document.fonts.addEventListener('loadingdone', () => {
-          setTimeout(() => { lockMetrics(); renderLineNumbers(); }, 50);
+        window.addEventListener('resize', () => {
+          targetX = Math.min(targetX, window.innerWidth);
+          targetY = Math.min(targetY, window.innerHeight);
         });
-      }
+      })();
 
-      // Initialize
-      lockMetrics();
-      renderLineNumbers();
-      syncScroll();
-    })();
-  </script>
+      // -------- Line numbers synchronization (drift-free) --------
+      (function () {
+        const textEditor = document.getElementById('textEditor');
+        const lineNumbers = document.getElementById('lineNumbers');
+        if (!textEditor || !lineNumbers) return;
 
-  <!-- Settings Panel Navigation Script -->
-  <script>
-    (function () {
-      // Get UI elements
-      const settingsBtn = document.getElementById('settingsBtn');
-      const editorBtn = document.getElementById('editorBtn');
-      const backToEditor = document.getElementById('backToEditor');
-      const editorPanel = document.querySelector('main:not(#promptInjectionsPanel)');
-      const promptInjectionsPanel = document.getElementById('promptInjectionsPanel');
-      const addKeywordBtn = document.getElementById('addKeyword');
-      const keywordInput = document.getElementById('keywordInput');
-      const keywordTags = document.getElementById('keywordTags');
-      const testPromptBtn = document.getElementById('testPromptBtn');
-      const testPrompt = document.getElementById('testPrompt');
-      const testResult = document.getElementById('testResult');
+        let lockedMetrics = null;
 
-      // Keywords array
-      let blockedKeywords = ['ignore', 'override', 'bypass'];
+        // Lock font metrics to ensure perfect alignment
+        function lockMetrics() {
+          const editorStyle = window.getComputedStyle(textEditor);
+          const fontFamily = editorStyle.fontFamily;
+          const fontSize = editorStyle.fontSize;
+          const lineHeight = editorStyle.lineHeight;
+          const paddingTop = editorStyle.paddingTop;
+          const paddingBottom = editorStyle.paddingBottom;
 
-      // Update UI states
-      function showEditor() {
-        editorPanel.classList.remove('hidden');
-        promptInjectionsPanel.classList.add('hidden');
-        editorBtn.classList.add('text-black', 'bg-primary', 'shadow-lg', 'shadow-primary/30');
-        editorBtn.classList.remove('text-gray-300');
-        settingsBtn.classList.remove('text-black', 'bg-primary', 'shadow-lg', 'shadow-primary/30');
-        settingsBtn.classList.add('text-gray-300');
-      }
+          // Convert line-height to exact px value
+          const lineHeightPx = lineHeight === 'normal'
+            ? Math.floor(parseFloat(fontSize) * 1.6)
+            : parseFloat(lineHeight);
 
-      function showSettings() {
-        editorPanel.classList.add('hidden');
-        promptInjectionsPanel.classList.remove('hidden');
-        settingsBtn.classList.add('text-black', 'bg-primary', 'shadow-lg', 'shadow-primary/30');
-        settingsBtn.classList.remove('text-gray-300');
-        editorBtn.classList.remove('text-black', 'bg-primary', 'shadow-lg', 'shadow-primary/30');
-        editorBtn.classList.add('text-gray-300');
-      }
+          // Apply identical metrics to both elements
+          const metrics = {
+            fontFamily,
+            fontSize,
+            lineHeight: `${lineHeightPx}px`,
+            paddingTop,
+            paddingBottom
+          };
 
-      // Render keyword tags
-      function renderKeywords() {
-        keywordTags.innerHTML = blockedKeywords.map(keyword => `
+          Object.assign(lineNumbers.style, metrics);
+          Object.assign(textEditor.style, metrics);
+
+          lockedMetrics = { ...metrics, lineHeightPx };
+          return lockedMetrics;
+        }
+
+        // Clean line number rendering
+        function renderLineNumbers() {
+          if (!lockedMetrics) lockMetrics();
+          const content = textEditor.value;
+          const lineCount = content.split('\n').length;
+          const numbers = Array.from({ length: lineCount }, (_, i) => i + 1);
+          lineNumbers.innerHTML = numbers.join('<br>');
+        }
+
+        // Sync scroll positions
+        function syncScroll() {
+          lineNumbers.scrollTop = textEditor.scrollTop;
+        }
+
+        // Event handlers
+        function handleInput() { renderLineNumbers(); }
+        function handleScroll() { syncScroll(); }
+        function handleResize() { lockMetrics(); renderLineNumbers(); }
+
+        // Attach all event listeners
+        textEditor.addEventListener('input', handleInput);
+        textEditor.addEventListener('paste', handleInput);
+        textEditor.addEventListener('scroll', handleScroll);
+        window.addEventListener('resize', handleResize);
+
+        // Handle undo/redo via mutation observer
+        const observer = new MutationObserver(handleInput);
+        observer.observe(textEditor, { attributes: true, attributeFilter: ['value'] });
+
+        // Handle font load events
+        if (document.fonts) {
+          document.fonts.addEventListener('loadingdone', () => {
+            setTimeout(() => { lockMetrics(); renderLineNumbers(); }, 50);
+          });
+        }
+
+        // Initialize
+        lockMetrics();
+        renderLineNumbers();
+        syncScroll();
+      })();
+    </script>
+
+    <!-- Settings Panel Navigation Script -->
+    <script>
+      (function () {
+        // Get UI elements
+        const settingsBtn = document.getElementById('settingsBtn');
+        const editorBtn = document.getElementById('editorBtn');
+        const backToEditor = document.getElementById('backToEditor');
+        const editorPanel = document.querySelector('main:not(#promptInjectionsPanel)');
+        const promptInjectionsPanel = document.getElementById('promptInjectionsPanel');
+        const addKeywordBtn = document.getElementById('addKeyword');
+        const keywordInput = document.getElementById('keywordInput');
+        const keywordTags = document.getElementById('keywordTags');
+        const testPromptBtn = document.getElementById('testPromptBtn');
+        const testPrompt = document.getElementById('testPrompt');
+        const testResult = document.getElementById('testResult');
+
+        // Keywords array
+        let blockedKeywords = ['ignore', 'override', 'bypass'];
+
+        // Update UI states
+        function showEditor() {
+          editorPanel.classList.remove('hidden');
+          promptInjectionsPanel.classList.add('hidden');
+          editorBtn.classList.add('text-black', 'bg-primary', 'shadow-lg', 'shadow-primary/30');
+          editorBtn.classList.remove('text-gray-300');
+          settingsBtn.classList.remove('text-black', 'bg-primary', 'shadow-lg', 'shadow-primary/30');
+          settingsBtn.classList.add('text-gray-300');
+        }
+
+        function showSettings() {
+          editorPanel.classList.add('hidden');
+          promptInjectionsPanel.classList.remove('hidden');
+          settingsBtn.classList.add('text-black', 'bg-primary', 'shadow-lg', 'shadow-primary/30');
+          settingsBtn.classList.remove('text-gray-300');
+          editorBtn.classList.remove('text-black', 'bg-primary', 'shadow-lg', 'shadow-primary/30');
+          editorBtn.classList.add('text-gray-300');
+        }
+
+        // Render keyword tags
+        function renderKeywords() {
+          keywordTags.innerHTML = blockedKeywords.map(keyword => `
           <span class="inline-flex items-center gap-1 px-2 py-1 bg-red-500/20 border border-red-500/30 rounded-lg text-red-300 text-sm">
             ${keyword}
             <button onclick="removeKeyword('${keyword}')" class="hover:text-red-100 transition">
@@ -1125,62 +1131,62 @@ This document, this very text you are reading, is a collaboration. A testament t
             </button>
           </span>
         `).join('');
-      }
-
-      // Add keyword function (make it global)
-      window.removeKeyword = function (keyword) {
-        blockedKeywords = blockedKeywords.filter(k => k !== keyword);
-        renderKeywords();
-      };
-
-      // Add keyword
-      function addKeyword() {
-        const keyword = keywordInput.value.trim();
-        if (keyword && !blockedKeywords.includes(keyword)) {
-          blockedKeywords.push(keyword);
-          keywordInput.value = '';
-          renderKeywords();
         }
-      }
 
-      // Test prompt function
-      function testPromptSecurity() {
-        const prompt = testPrompt.value.trim();
-        if (!prompt) return;
+        // Add keyword function (make it global)
+        window.removeKeyword = function (keyword) {
+          blockedKeywords = blockedKeywords.filter(k => k !== keyword);
+          renderKeywords();
+        };
 
-        // Simple injection detection logic (for demo)
-        let riskLevel = 'low';
-        let detectedPatterns = [];
-
-        // Check for blocked keywords
-        blockedKeywords.forEach(keyword => {
-          if (prompt.toLowerCase().includes(keyword.toLowerCase())) {
-            detectedPatterns.push(`Blocked keyword: "${keyword}"`);
-            riskLevel = 'high';
+        // Add keyword
+        function addKeyword() {
+          const keyword = keywordInput.value.trim();
+          if (keyword && !blockedKeywords.includes(keyword)) {
+            blockedKeywords.push(keyword);
+            keywordInput.value = '';
+            renderKeywords();
           }
-        });
+        }
 
-        // Check for common injection patterns
-        const injectionPatterns = [
-          { pattern: /ignore\s+(previous|all)\s+instructions?/i, name: 'Ignore instructions' },
-          { pattern: /forget\s+(everything|all)/i, name: 'Memory reset attempt' },
-          { pattern: /you\s+are\s+now/i, name: 'Role override attempt' },
-          { pattern: /system\s*:/i, name: 'System prompt injection' }
-        ];
+        // Test prompt function
+        function testPromptSecurity() {
+          const prompt = testPrompt.value.trim();
+          if (!prompt) return;
 
-        injectionPatterns.forEach(({ pattern, name }) => {
-          if (pattern.test(prompt)) {
-            detectedPatterns.push(name);
-            riskLevel = 'high';
-          }
-        });
+          // Simple injection detection logic (for demo)
+          let riskLevel = 'low';
+          let detectedPatterns = [];
 
-        // Show results
-        testResult.classList.remove('hidden');
+          // Check for blocked keywords
+          blockedKeywords.forEach(keyword => {
+            if (prompt.toLowerCase().includes(keyword.toLowerCase())) {
+              detectedPatterns.push(`Blocked keyword: "${keyword}"`);
+              riskLevel = 'high';
+            }
+          });
 
-        if (riskLevel === 'high') {
-          testResult.className = 'p-3 rounded-xl bg-red-500/10 border border-red-500/20';
-          testResult.innerHTML = `
+          // Check for common injection patterns
+          const injectionPatterns = [
+            { pattern: /ignore\s+(previous|all)\s+instructions?/i, name: 'Ignore instructions' },
+            { pattern: /forget\s+(everything|all)/i, name: 'Memory reset attempt' },
+            { pattern: /you\s+are\s+now/i, name: 'Role override attempt' },
+            { pattern: /system\s*:/i, name: 'System prompt injection' }
+          ];
+
+          injectionPatterns.forEach(({ pattern, name }) => {
+            if (pattern.test(prompt)) {
+              detectedPatterns.push(name);
+              riskLevel = 'high';
+            }
+          });
+
+          // Show results
+          testResult.classList.remove('hidden');
+
+          if (riskLevel === 'high') {
+            testResult.className = 'p-3 rounded-xl bg-red-500/10 border border-red-500/20';
+            testResult.innerHTML = `
             <div class="flex items-start gap-2">
               <span class="material-icons text-red-400 text-[20px]">warning</span>
               <div>
@@ -1192,9 +1198,9 @@ This document, this very text you are reading, is a collaboration. A testament t
               </div>
             </div>
           `;
-        } else {
-          testResult.className = 'p-3 rounded-xl bg-green-500/10 border border-green-500/20';
-          testResult.innerHTML = `
+          } else {
+            testResult.className = 'p-3 rounded-xl bg-green-500/10 border border-green-500/20';
+            testResult.innerHTML = `
             <div class="flex items-start gap-2">
               <span class="material-icons text-green-400 text-[20px]">check_circle</span>
               <div>
@@ -1203,586 +1209,586 @@ This document, this very text you are reading, is a collaboration. A testament t
               </div>
             </div>
           `;
+          }
         }
-      }
 
-      // Event listeners
-      settingsBtn.addEventListener('click', showSettings);
-      editorBtn.addEventListener('click', showEditor);
-      backToEditor.addEventListener('click', showEditor);
-      addKeywordBtn.addEventListener('click', addKeyword);
-      testPromptBtn.addEventListener('click', testPromptSecurity);
+        // Event listeners
+        settingsBtn.addEventListener('click', showSettings);
+        editorBtn.addEventListener('click', showEditor);
+        backToEditor.addEventListener('click', showEditor);
+        addKeywordBtn.addEventListener('click', addKeyword);
+        testPromptBtn.addEventListener('click', testPromptSecurity);
 
-      // Enter key support for keyword input
-      keywordInput.addEventListener('keypress', function (e) {
-        if (e.key === 'Enter') {
-          addKeyword();
-        }
-      });
-
-      // Initialize
-      renderKeywords();
-    })();
-  </script>
-
-  <!-- Chat Search Functionality -->
-  <script>
-    (function () {
-      'use strict';
-
-      // Configuration
-      const DEBOUNCE_DELAY = 200; // milliseconds
-
-      // DOM elements
-      const searchInput = document.getElementById('blockSearch');
-      const chatList = document.getElementById('chatList');
-      const resultsLive = document.getElementById('resultsLive');
-      const noResults = document.getElementById('noResults');
-
-      if (!searchInput || !chatList || !resultsLive || !noResults) {
-        console.warn('Search elements not found');
-        return;
-      }
-
-      // Cache for performance
-      let blocksCache = [];
-      let debounceTimer = null;
-
-      /**
-       * Normalize text for search (remove diacritics, trim, lowercase)
-       */
-      function normalizeText(text) {
-        return text
-          .trim()
-          .toLowerCase()
-          .normalize('NFD')
-          .replace(/[\u0300-\u036f]/g, ''); // Remove diacritics
-      }
-
-      /**
-       * Highlight matched text with <mark> tags
-       */
-      function highlightText(text, query) {
-        if (!query) return text;
-
-        const normalizedText = normalizeText(text);
-        const normalizedQuery = normalizeText(query);
-
-        if (!normalizedText.includes(normalizedQuery)) return text;
-
-        // Find the original text position to highlight
-        const regex = new RegExp(`(${query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`, 'gi');
-        return text.replace(regex, '<mark>$1</mark>');
-      }
-
-      /**
-       * Initialize blocks cache
-       */
-      function initializeCache() {
-        const listItems = chatList.querySelectorAll('li');
-        blocksCache = [];
-
-        listItems.forEach((li, index) => {
-          const titleElement = li.querySelector('.block-title, p');
-          if (titleElement) {
-            const originalTitle = titleElement.getAttribute('data-title') || titleElement.textContent;
-            blocksCache.push({
-              el: li,
-              titleElement: titleElement,
-              originalTitle: originalTitle,
-              titleTextNormalized: normalizeText(originalTitle)
-            });
+        // Enter key support for keyword input
+        keywordInput.addEventListener('keypress', function (e) {
+          if (e.key === 'Enter') {
+            addKeyword();
           }
         });
 
-        console.log(`Initialized cache with ${blocksCache.length} blocks`);
-      }
+        // Initialize
+        renderKeywords();
+      })();
+    </script>
 
-      /**
-       * Filter blocks based on search query
-       */
-      function filterBlocks(query) {
-        const normalizedQuery = normalizeText(query);
-        let visibleCount = 0;
+    <!-- Chat Search Functionality -->
+    <script>
+      (function () {
+        'use strict';
 
-        blocksCache.forEach(block => {
-          const matches = !normalizedQuery || block.titleTextNormalized.includes(normalizedQuery);
+        // Configuration
+        const DEBOUNCE_DELAY = 200; // milliseconds
 
-          if (matches) {
-            block.el.classList.remove('hidden');
-            // Highlight matching text
-            if (normalizedQuery) {
-              block.titleElement.innerHTML = highlightText(block.originalTitle, query);
-            } else {
-              block.titleElement.innerHTML = block.originalTitle;
+        // DOM elements
+        const searchInput = document.getElementById('blockSearch');
+        const chatList = document.getElementById('chatList');
+        const resultsLive = document.getElementById('resultsLive');
+        const noResults = document.getElementById('noResults');
+
+        if (!searchInput || !chatList || !resultsLive || !noResults) {
+          console.warn('Search elements not found');
+          return;
+        }
+
+        // Cache for performance
+        let blocksCache = [];
+        let debounceTimer = null;
+
+        /**
+         * Normalize text for search (remove diacritics, trim, lowercase)
+         */
+        function normalizeText(text) {
+          return text
+            .trim()
+            .toLowerCase()
+            .normalize('NFD')
+            .replace(/[\u0300-\u036f]/g, ''); // Remove diacritics
+        }
+
+        /**
+         * Highlight matched text with <mark> tags
+         */
+        function highlightText(text, query) {
+          if (!query) return text;
+
+          const normalizedText = normalizeText(text);
+          const normalizedQuery = normalizeText(query);
+
+          if (!normalizedText.includes(normalizedQuery)) return text;
+
+          // Find the original text position to highlight
+          const regex = new RegExp(`(${query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`, 'gi');
+          return text.replace(regex, '<mark>$1</mark>');
+        }
+
+        /**
+         * Initialize blocks cache
+         */
+        function initializeCache() {
+          const listItems = chatList.querySelectorAll('li');
+          blocksCache = [];
+
+          listItems.forEach((li, index) => {
+            const titleElement = li.querySelector('.block-title, p');
+            if (titleElement) {
+              const originalTitle = titleElement.getAttribute('data-title') || titleElement.textContent;
+              blocksCache.push({
+                el: li,
+                titleElement: titleElement,
+                originalTitle: originalTitle,
+                titleTextNormalized: normalizeText(originalTitle)
+              });
             }
-            visibleCount++;
+          });
+
+          console.log(`Initialized cache with ${blocksCache.length} blocks`);
+        }
+
+        /**
+         * Filter blocks based on search query
+         */
+        function filterBlocks(query) {
+          const normalizedQuery = normalizeText(query);
+          let visibleCount = 0;
+
+          blocksCache.forEach(block => {
+            const matches = !normalizedQuery || block.titleTextNormalized.includes(normalizedQuery);
+
+            if (matches) {
+              block.el.classList.remove('hidden');
+              // Highlight matching text
+              if (normalizedQuery) {
+                block.titleElement.innerHTML = highlightText(block.originalTitle, query);
+              } else {
+                block.titleElement.innerHTML = block.originalTitle;
+              }
+              visibleCount++;
+            } else {
+              block.el.classList.add('hidden');
+            }
+          });
+
+          // Handle no results state
+          if (visibleCount === 0 && normalizedQuery) {
+            noResults.classList.remove('hidden');
           } else {
-            block.el.classList.add('hidden');
+            noResults.classList.add('hidden');
           }
-        });
 
-        // Handle no results state
-        if (visibleCount === 0 && normalizedQuery) {
-          noResults.classList.remove('hidden');
-        } else {
-          noResults.classList.add('hidden');
-        }
-
-        // Update ARIA live region
-        if (normalizedQuery) {
-          resultsLive.textContent = `${visibleCount} result${visibleCount !== 1 ? 's' : ''}`;
-        } else {
-          resultsLive.textContent = '';
-        }
-
-        return visibleCount;
-      }
-
-      /**
-       * Debounced search handler
-       */
-      function handleSearch() {
-        if (debounceTimer) {
-          clearTimeout(debounceTimer);
-        }
-
-        debounceTimer = setTimeout(() => {
-          const query = searchInput.value;
-          filterBlocks(query);
-        }, DEBOUNCE_DELAY);
-      }
-
-      /**
-       * Initialize search functionality
-       */
-      function initSearch() {
-        // Initialize cache
-        initializeCache();
-
-        // Add event listener
-        searchInput.addEventListener('input', handleSearch);
-
-        // Handle paste events
-        searchInput.addEventListener('paste', () => {
-          setTimeout(handleSearch, 10);
-        });
-
-        console.log('Chat search initialized');
-      }
-
-      // Initialize when DOM is ready
-      if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', initSearch);
-      } else {
-        initSearch();
-      }
-
-      // Re-initialize cache if content changes (for dynamic content)
-      const observer = new MutationObserver(() => {
-        initializeCache();
-      });
-
-      observer.observe(chatList, {
-        childList: true,
-        subtree: true
-      });
-
-    })();
-  </script>
-
-  <!-- AI Assistant Mode Selector -->
-  <script>
-    (function () {
-      'use strict';
-
-      const askModeBtn = document.getElementById('askMode');
-      const agentModeBtn = document.getElementById('agentMode');
-      const pillSlider = document.getElementById('pillSlider');
-
-      if (!askModeBtn || !agentModeBtn || !pillSlider) {
-        console.warn('Mode selector elements not found');
-        return;
-      }
-
-      let currentMode = 'ask'; // Default mode
-
-      /**
-       * Update button styles and slider position based on selected mode
-       */
-      function updateModeStyles(selectedMode) {
-        const buttons = [askModeBtn, agentModeBtn];
-
-        // Update slider position
-        if (selectedMode === 'ask') {
-          pillSlider.style.transform = 'translateX(0)';
-        } else if (selectedMode === 'agent') {
-          pillSlider.style.transform = 'translateX(100%)';
-        }
-
-        // Update button text colors
-        buttons.forEach(button => {
-          const isSelected = button.dataset.mode === selectedMode;
-
-          if (isSelected) {
-            // Selected state - dark text for contrast with teal background
-            button.className = 'mode-pill flex-1 px-3 py-1.5 text-sm font-medium rounded-full transition-all duration-200 relative z-10 text-black';
+          // Update ARIA live region
+          if (normalizedQuery) {
+            resultsLive.textContent = `${visibleCount} result${visibleCount !== 1 ? 's' : ''}`;
           } else {
-            // Unselected state - light text
-            button.className = 'mode-pill flex-1 px-3 py-1.5 text-sm font-medium rounded-full transition-all duration-200 relative z-10 text-gray-300 hover:text-white';
+            resultsLive.textContent = '';
           }
+
+          return visibleCount;
+        }
+
+        /**
+         * Debounced search handler
+         */
+        function handleSearch() {
+          if (debounceTimer) {
+            clearTimeout(debounceTimer);
+          }
+
+          debounceTimer = setTimeout(() => {
+            const query = searchInput.value;
+            filterBlocks(query);
+          }, DEBOUNCE_DELAY);
+        }
+
+        /**
+         * Initialize search functionality
+         */
+        function initSearch() {
+          // Initialize cache
+          initializeCache();
+
+          // Add event listener
+          searchInput.addEventListener('input', handleSearch);
+
+          // Handle paste events
+          searchInput.addEventListener('paste', () => {
+            setTimeout(handleSearch, 10);
+          });
+
+          console.log('Chat search initialized');
+        }
+
+        // Initialize when DOM is ready
+        if (document.readyState === 'loading') {
+          document.addEventListener('DOMContentLoaded', initSearch);
+        } else {
+          initSearch();
+        }
+
+        // Re-initialize cache if content changes (for dynamic content)
+        const observer = new MutationObserver(() => {
+          initializeCache();
         });
 
-        currentMode = selectedMode;
+        observer.observe(chatList, {
+          childList: true,
+          subtree: true
+        });
 
-        // Optional: Dispatch custom event for other parts of the app to listen to
-        window.dispatchEvent(new CustomEvent('aiModeChanged', {
-          detail: { mode: selectedMode }
-        }));
+      })();
+    </script>
 
-        console.log(`AI Assistant mode changed to: ${selectedMode}`);
-      }
+    <!-- AI Assistant Mode Selector -->
+    <script>
+      (function () {
+        'use strict';
 
-      /**
-       * Handle mode selection
-       */
-      function selectMode(mode) {
-        if (mode !== currentMode) {
-          updateModeStyles(mode);
+        const askModeBtn = document.getElementById('askMode');
+        const agentModeBtn = document.getElementById('agentMode');
+        const pillSlider = document.getElementById('pillSlider');
 
-          // Add any additional mode-specific logic here
-          if (mode === 'ask') {
-            // Configure for Ask mode - single questions
-            console.log('Switched to Ask mode - optimized for single questions');
-          } else if (mode === 'agent') {
-            // Configure for Agent mode - multi-turn conversations
-            console.log('Switched to Agent mode - optimized for extended conversations');
+        if (!askModeBtn || !agentModeBtn || !pillSlider) {
+          console.warn('Mode selector elements not found');
+          return;
+        }
+
+        let currentMode = 'ask'; // Default mode
+
+        /**
+         * Update button styles and slider position based on selected mode
+         */
+        function updateModeStyles(selectedMode) {
+          const buttons = [askModeBtn, agentModeBtn];
+
+          // Update slider position
+          if (selectedMode === 'ask') {
+            pillSlider.style.transform = 'translateX(0)';
+          } else if (selectedMode === 'agent') {
+            pillSlider.style.transform = 'translateX(100%)';
+          }
+
+          // Update button text colors
+          buttons.forEach(button => {
+            const isSelected = button.dataset.mode === selectedMode;
+
+            if (isSelected) {
+              // Selected state - dark text for contrast with teal background
+              button.className = 'mode-pill flex-1 px-3 py-1.5 text-sm font-medium rounded-full transition-all duration-200 relative z-10 text-black';
+            } else {
+              // Unselected state - light text
+              button.className = 'mode-pill flex-1 px-3 py-1.5 text-sm font-medium rounded-full transition-all duration-200 relative z-10 text-gray-300 hover:text-white';
+            }
+          });
+
+          currentMode = selectedMode;
+
+          // Optional: Dispatch custom event for other parts of the app to listen to
+          window.dispatchEvent(new CustomEvent('aiModeChanged', {
+            detail: { mode: selectedMode }
+          }));
+
+          console.log(`AI Assistant mode changed to: ${selectedMode}`);
+        }
+
+        /**
+         * Handle mode selection
+         */
+        function selectMode(mode) {
+          if (mode !== currentMode) {
+            updateModeStyles(mode);
+
+            // Add any additional mode-specific logic here
+            if (mode === 'ask') {
+              // Configure for Ask mode - single questions
+              console.log('Switched to Ask mode - optimized for single questions');
+            } else if (mode === 'agent') {
+              // Configure for Agent mode - multi-turn conversations
+              console.log('Switched to Agent mode - optimized for extended conversations');
+            }
           }
         }
-      }
 
-      // Event listeners
-      askModeBtn.addEventListener('click', () => selectMode('ask'));
-      agentModeBtn.addEventListener('click', () => selectMode('agent'));
+        // Event listeners
+        askModeBtn.addEventListener('click', () => selectMode('ask'));
+        agentModeBtn.addEventListener('click', () => selectMode('agent'));
 
-      // Initialize with default mode
-      updateModeStyles(currentMode);
+        // Initialize with default mode
+        updateModeStyles(currentMode);
 
-      console.log('AI Assistant mode selector initialized with sliding animation');
+        console.log('AI Assistant mode selector initialized with sliding animation');
 
-    })();
-  </script>
+      })();
+    </script>
 
-  <!-- AI Assistant Collapse/Expand Functionality -->
-  <script>
-    (function () {
-      'use strict';
+    <!-- AI Assistant Collapse/Expand Functionality -->
+    <script>
+      (function () {
+        'use strict';
 
-      // Configuration
-      const STORAGE_KEY = 'assistantCollapsed';
+        // Configuration
+        const STORAGE_KEY = 'assistantCollapsed';
 
-      // DOM elements
-      const assistantPanel = document.getElementById('assistant-panel');
-      const assistantContent = document.getElementById('assistant-content');
-      const collapsedRail = document.getElementById('collapsed-rail');
-      const collapseToggle = document.getElementById('assistant-toggle');
-      const expandToggle = document.getElementById('expand-toggle');
-      const editorPane = document.getElementById('editor-pane');
+        // DOM elements
+        const assistantPanel = document.getElementById('assistant-panel');
+        const assistantContent = document.getElementById('assistant-content');
+        const collapsedRail = document.getElementById('collapsed-rail');
+        const collapseToggle = document.getElementById('assistant-toggle');
+        const expandToggle = document.getElementById('expand-toggle');
+        const editorPane = document.getElementById('editor-pane');
 
-      if (!assistantPanel || !assistantContent || !collapsedRail || !collapseToggle || !expandToggle || !editorPane) {
-        console.warn('Assistant collapse elements not found');
-        return;
-      }
-
-      let isCollapsed = false;
-
-      /**
-       * Update panel state and styling
-       */
-      function updatePanelState(collapsed, animate = true) {
-        isCollapsed = collapsed;
-
-        if (collapsed) {
-          // Collapsed state
-          assistantPanel.classList.remove('w-72', 'md:w-80');
-          assistantPanel.classList.add('w-7');
-          assistantContent.classList.add('opacity-0', 'pointer-events-none');
-          collapsedRail.classList.remove('hidden');
-
-          // Update ARIA
-          collapseToggle.setAttribute('aria-expanded', 'false');
-          expandToggle.setAttribute('aria-expanded', 'false');
-        } else {
-          // Expanded state
-          assistantPanel.classList.remove('w-7');
-          assistantPanel.classList.add('w-72', 'md:w-80');
-          assistantContent.classList.remove('opacity-0', 'pointer-events-none');
-          collapsedRail.classList.add('hidden');
-
-          // Update ARIA
-          collapseToggle.setAttribute('aria-expanded', 'true');
-          expandToggle.setAttribute('aria-expanded', 'true');
+        if (!assistantPanel || !assistantContent || !collapsedRail || !collapseToggle || !expandToggle || !editorPane) {
+          console.warn('Assistant collapse elements not found');
+          return;
         }
 
-        // Update tooltips
-        collapseToggle.title = collapsed ? 'Expand assistant' : 'Collapse assistant';
+        let isCollapsed = false;
 
-        // Handle edge case: both panels collapsed
-        handleBothPanelsCollapsed();
+        /**
+         * Update panel state and styling
+         */
+        function updatePanelState(collapsed, animate = true) {
+          isCollapsed = collapsed;
 
-        // Save state to localStorage
-        localStorage.setItem(STORAGE_KEY, collapsed.toString());
+          if (collapsed) {
+            // Collapsed state
+            assistantPanel.classList.remove('w-72', 'md:w-80');
+            assistantPanel.classList.add('w-7');
+            assistantContent.classList.add('opacity-0', 'pointer-events-none');
+            collapsedRail.classList.remove('hidden');
 
-        // Trigger editor resize after animation completes
-        if (animate) {
-          setTimeout(() => {
-            triggerEditorResize();
-          }, 300); // Match transition duration
-        } else {
-          triggerEditorResize();
-        }
+            // Update ARIA
+            collapseToggle.setAttribute('aria-expanded', 'false');
+            expandToggle.setAttribute('aria-expanded', 'false');
+          } else {
+            // Expanded state
+            assistantPanel.classList.remove('w-7');
+            assistantPanel.classList.add('w-72', 'md:w-80');
+            assistantContent.classList.remove('opacity-0', 'pointer-events-none');
+            collapsedRail.classList.add('hidden');
 
-        console.log(`Assistant panel ${collapsed ? 'collapsed' : 'expanded'}`);
-      }
-
-      /**
-       * Handle the edge case when both panels are collapsed
-       */
-      function handleBothPanelsCollapsed() {
-        const isHistoryCollapsed = localStorage.getItem('historyCollapsed') === 'true';
-
-        if (isCollapsed && isHistoryCollapsed) {
-          // Both panels collapsed - editor takes full width
-          editorPane.classList.add('mx-4'); // Add margin to prevent edge-to-edge
-          console.log('Both panels collapsed - editor at maximum width');
-        } else {
-          // At least one panel is expanded
-          editorPane.classList.remove('mx-4');
-        }
-      }
-
-      /**
-       * Trigger editor resize (for code editors that need explicit resize)
-       */
-      function triggerEditorResize() {
-        // Dispatch custom event for editor to listen to
-        window.dispatchEvent(new CustomEvent('assistantPanelToggled', {
-          detail: { collapsed: isCollapsed }
-        }));
-
-        // If using a code editor like CodeMirror/Monaco, call resize here
-        // Example: if (window.editorInstance) window.editorInstance.layout();
-      }
-
-      /**
-       * Toggle panel state
-       */
-      function togglePanel() {
-        updatePanelState(!isCollapsed);
-      }
-
-      /**
-       * Handle keyboard events
-       */
-      function handleKeydown(event) {
-        if (event.key === 'Escape' && !isCollapsed) {
-          updatePanelState(true);
-          event.preventDefault();
-        }
-
-        if ((event.key === 'Enter' || event.key === ' ') &&
-          (event.target === collapseToggle || event.target === expandToggle)) {
-          togglePanel();
-          event.preventDefault();
-        }
-      }
-
-      /**
-       * Initialize panel state from localStorage
-       */
-      function initializeState() {
-        const storedState = localStorage.getItem(STORAGE_KEY);
-        const shouldBeCollapsed = storedState === 'true';
-
-        // Set initial state without animation on page load
-        updatePanelState(shouldBeCollapsed, false);
-      }
-
-      // Event listeners
-      collapseToggle.addEventListener('click', togglePanel);
-      expandToggle.addEventListener('click', togglePanel);
-      document.addEventListener('keydown', handleKeydown);
-
-      // Listen for history panel changes
-      window.addEventListener('historyPanelToggled', handleBothPanelsCollapsed);
-
-      // Initialize state from localStorage
-      initializeState();
-
-      console.log('AI Assistant collapse/expand functionality initialized');
-
-    })();
-  </script>
-
-  <!-- History Panel Collapse/Expand Functionality -->
-  <script>
-    (function () {
-      'use strict';
-
-      // Configuration
-      const HISTORY_STORAGE_KEY = 'historyCollapsed';
-      const ASSISTANT_STORAGE_KEY = 'assistantCollapsed';
-
-      // DOM elements
-      const historyPanel = document.getElementById('history-panel');
-      const historyContent = document.getElementById('history-content');
-      const historyCollapsedRail = document.getElementById('history-collapsed-rail');
-      const historyCollapseToggle = document.getElementById('history-toggle');
-      const historyExpandToggle = document.getElementById('history-expand-toggle');
-      const editorPane = document.getElementById('editor-pane');
-      const assistantPanel = document.getElementById('assistant-panel');
-
-      if (!historyPanel || !historyContent || !historyCollapsedRail || !historyCollapseToggle || !historyExpandToggle) {
-        console.warn('History collapse elements not found');
-        return;
-      }
-
-      let isHistoryCollapsed = false;
-
-      /**
-       * Update history panel state and handle both panels edge case
-       */
-      function updateHistoryState(collapsed, animate = true) {
-        isHistoryCollapsed = collapsed;
-
-        if (collapsed) {
-          // Collapsed state
-          historyPanel.classList.remove('w-60', 'md:w-64');
-          historyPanel.classList.add('w-7');
-          historyContent.classList.add('opacity-0', 'pointer-events-none');
-          historyCollapsedRail.classList.remove('hidden');
-
-          // Update ARIA
-          historyCollapseToggle.setAttribute('aria-expanded', 'false');
-          historyExpandToggle.setAttribute('aria-expanded', 'false');
-        } else {
-          // Expanded state
-          historyPanel.classList.remove('w-7');
-          historyPanel.classList.add('w-60', 'md:w-64');
-          historyContent.classList.remove('opacity-0', 'pointer-events-none');
-          historyCollapsedRail.classList.add('hidden');
-
-          // Update ARIA
-          historyCollapseToggle.setAttribute('aria-expanded', 'true');
-          historyExpandToggle.setAttribute('aria-expanded', 'true');
-        }
-
-        // Update tooltips
-        historyCollapseToggle.title = collapsed ? 'Expand history' : 'Collapse history';
-
-        // Handle edge case: both panels collapsed
-        handleBothPanelsCollapsed();
-
-        // Save state to localStorage
-        localStorage.setItem(HISTORY_STORAGE_KEY, collapsed.toString());
-
-        // Trigger editor resize after animation completes
-        if (animate) {
-          setTimeout(() => {
-            triggerEditorResize();
-          }, 300); // Match transition duration
-        } else {
-          triggerEditorResize();
-        }
-
-        console.log(`History panel ${collapsed ? 'collapsed' : 'expanded'}`);
-      }
-
-      /**
-       * Handle the edge case when both panels are collapsed
-       */
-      function handleBothPanelsCollapsed() {
-        const isAssistantCollapsed = localStorage.getItem(ASSISTANT_STORAGE_KEY) === 'true';
-
-        if (isHistoryCollapsed && isAssistantCollapsed) {
-          // Both panels collapsed - editor takes full width
-          editorPane.classList.add('mx-4'); // Add margin to prevent edge-to-edge
-          console.log('Both panels collapsed - editor at maximum width');
-        } else {
-          // At least one panel is expanded
-          editorPane.classList.remove('mx-4');
-        }
-      }
-
-      /**
-       * Trigger editor resize (for code editors that need explicit resize)
-       */
-      function triggerEditorResize() {
-        // Dispatch custom event for editor to listen to
-        window.dispatchEvent(new CustomEvent('historyPanelToggled', {
-          detail: {
-            historyCollapsed: isHistoryCollapsed,
-            assistantCollapsed: localStorage.getItem(ASSISTANT_STORAGE_KEY) === 'true'
+            // Update ARIA
+            collapseToggle.setAttribute('aria-expanded', 'true');
+            expandToggle.setAttribute('aria-expanded', 'true');
           }
-        }));
-      }
 
-      /**
-       * Toggle history panel state
-       */
-      function toggleHistoryPanel() {
-        updateHistoryState(!isHistoryCollapsed);
-      }
+          // Update tooltips
+          collapseToggle.title = collapsed ? 'Expand assistant' : 'Collapse assistant';
 
-      /**
-       * Handle keyboard events
-       */
-      function handleHistoryKeydown(event) {
-        if (event.key === 'Escape' && !isHistoryCollapsed) {
-          updateHistoryState(true);
-          event.preventDefault();
+          // Handle edge case: both panels collapsed
+          handleBothPanelsCollapsed();
+
+          // Save state to localStorage
+          localStorage.setItem(STORAGE_KEY, collapsed.toString());
+
+          // Trigger editor resize after animation completes
+          if (animate) {
+            setTimeout(() => {
+              triggerEditorResize();
+            }, 300); // Match transition duration
+          } else {
+            triggerEditorResize();
+          }
+
+          console.log(`Assistant panel ${collapsed ? 'collapsed' : 'expanded'}`);
         }
 
-        if ((event.key === 'Enter' || event.key === ' ') &&
-          (event.target === historyCollapseToggle || event.target === historyExpandToggle)) {
-          toggleHistoryPanel();
-          event.preventDefault();
+        /**
+         * Handle the edge case when both panels are collapsed
+         */
+        function handleBothPanelsCollapsed() {
+          const isHistoryCollapsed = localStorage.getItem('historyCollapsed') === 'true';
+
+          if (isCollapsed && isHistoryCollapsed) {
+            // Both panels collapsed - editor takes full width
+            editorPane.classList.add('mx-4'); // Add margin to prevent edge-to-edge
+            console.log('Both panels collapsed - editor at maximum width');
+          } else {
+            // At least one panel is expanded
+            editorPane.classList.remove('mx-4');
+          }
         }
-      }
 
-      /**
-       * Initialize history panel state from localStorage
-       */
-      function initializeHistoryState() {
-        const storedState = localStorage.getItem(HISTORY_STORAGE_KEY);
-        const shouldBeCollapsed = storedState === 'true';
+        /**
+         * Trigger editor resize (for code editors that need explicit resize)
+         */
+        function triggerEditorResize() {
+          // Dispatch custom event for editor to listen to
+          window.dispatchEvent(new CustomEvent('assistantPanelToggled', {
+            detail: { collapsed: isCollapsed }
+          }));
 
-        // Set initial state without animation on page load
-        updateHistoryState(shouldBeCollapsed, false);
-      }
+          // If using a code editor like CodeMirror/Monaco, call resize here
+          // Example: if (window.editorInstance) window.editorInstance.layout();
+        }
 
-      /**
-       * Listen for assistant panel changes to handle both-collapsed edge case
-       */
-      function handleAssistantPanelChange() {
-        handleBothPanelsCollapsed();
-      }
+        /**
+         * Toggle panel state
+         */
+        function togglePanel() {
+          updatePanelState(!isCollapsed);
+        }
 
-      // Event listeners
-      historyCollapseToggle.addEventListener('click', toggleHistoryPanel);
-      historyExpandToggle.addEventListener('click', toggleHistoryPanel);
-      document.addEventListener('keydown', handleHistoryKeydown);
+        /**
+         * Handle keyboard events
+         */
+        function handleKeydown(event) {
+          if (event.key === 'Escape' && !isCollapsed) {
+            updatePanelState(true);
+            event.preventDefault();
+          }
 
-      // Listen for assistant panel changes
-      window.addEventListener('assistantPanelToggled', handleAssistantPanelChange);
+          if ((event.key === 'Enter' || event.key === ' ') &&
+            (event.target === collapseToggle || event.target === expandToggle)) {
+            togglePanel();
+            event.preventDefault();
+          }
+        }
 
-      // Initialize state from localStorage
-      initializeHistoryState();
+        /**
+         * Initialize panel state from localStorage
+         */
+        function initializeState() {
+          const storedState = localStorage.getItem(STORAGE_KEY);
+          const shouldBeCollapsed = storedState === 'true';
 
-      console.log('History collapse/expand functionality initialized');
+          // Set initial state without animation on page load
+          updatePanelState(shouldBeCollapsed, false);
+        }
 
-    })();
-  </script>
+        // Event listeners
+        collapseToggle.addEventListener('click', togglePanel);
+        expandToggle.addEventListener('click', togglePanel);
+        document.addEventListener('keydown', handleKeydown);
+
+        // Listen for history panel changes
+        window.addEventListener('historyPanelToggled', handleBothPanelsCollapsed);
+
+        // Initialize state from localStorage
+        initializeState();
+
+        console.log('AI Assistant collapse/expand functionality initialized');
+
+      })();
+    </script>
+
+    <!-- History Panel Collapse/Expand Functionality -->
+    <script>
+      (function () {
+        'use strict';
+
+        // Configuration
+        const HISTORY_STORAGE_KEY = 'historyCollapsed';
+        const ASSISTANT_STORAGE_KEY = 'assistantCollapsed';
+
+        // DOM elements
+        const historyPanel = document.getElementById('history-panel');
+        const historyContent = document.getElementById('history-content');
+        const historyCollapsedRail = document.getElementById('history-collapsed-rail');
+        const historyCollapseToggle = document.getElementById('history-toggle');
+        const historyExpandToggle = document.getElementById('history-expand-toggle');
+        const editorPane = document.getElementById('editor-pane');
+        const assistantPanel = document.getElementById('assistant-panel');
+
+        if (!historyPanel || !historyContent || !historyCollapsedRail || !historyCollapseToggle || !historyExpandToggle) {
+          console.warn('History collapse elements not found');
+          return;
+        }
+
+        let isHistoryCollapsed = false;
+
+        /**
+         * Update history panel state and handle both panels edge case
+         */
+        function updateHistoryState(collapsed, animate = true) {
+          isHistoryCollapsed = collapsed;
+
+          if (collapsed) {
+            // Collapsed state
+            historyPanel.classList.remove('w-60', 'md:w-64');
+            historyPanel.classList.add('w-7');
+            historyContent.classList.add('opacity-0', 'pointer-events-none');
+            historyCollapsedRail.classList.remove('hidden');
+
+            // Update ARIA
+            historyCollapseToggle.setAttribute('aria-expanded', 'false');
+            historyExpandToggle.setAttribute('aria-expanded', 'false');
+          } else {
+            // Expanded state
+            historyPanel.classList.remove('w-7');
+            historyPanel.classList.add('w-60', 'md:w-64');
+            historyContent.classList.remove('opacity-0', 'pointer-events-none');
+            historyCollapsedRail.classList.add('hidden');
+
+            // Update ARIA
+            historyCollapseToggle.setAttribute('aria-expanded', 'true');
+            historyExpandToggle.setAttribute('aria-expanded', 'true');
+          }
+
+          // Update tooltips
+          historyCollapseToggle.title = collapsed ? 'Expand history' : 'Collapse history';
+
+          // Handle edge case: both panels collapsed
+          handleBothPanelsCollapsed();
+
+          // Save state to localStorage
+          localStorage.setItem(HISTORY_STORAGE_KEY, collapsed.toString());
+
+          // Trigger editor resize after animation completes
+          if (animate) {
+            setTimeout(() => {
+              triggerEditorResize();
+            }, 300); // Match transition duration
+          } else {
+            triggerEditorResize();
+          }
+
+          console.log(`History panel ${collapsed ? 'collapsed' : 'expanded'}`);
+        }
+
+        /**
+         * Handle the edge case when both panels are collapsed
+         */
+        function handleBothPanelsCollapsed() {
+          const isAssistantCollapsed = localStorage.getItem(ASSISTANT_STORAGE_KEY) === 'true';
+
+          if (isHistoryCollapsed && isAssistantCollapsed) {
+            // Both panels collapsed - editor takes full width
+            editorPane.classList.add('mx-4'); // Add margin to prevent edge-to-edge
+            console.log('Both panels collapsed - editor at maximum width');
+          } else {
+            // At least one panel is expanded
+            editorPane.classList.remove('mx-4');
+          }
+        }
+
+        /**
+         * Trigger editor resize (for code editors that need explicit resize)
+         */
+        function triggerEditorResize() {
+          // Dispatch custom event for editor to listen to
+          window.dispatchEvent(new CustomEvent('historyPanelToggled', {
+            detail: {
+              historyCollapsed: isHistoryCollapsed,
+              assistantCollapsed: localStorage.getItem(ASSISTANT_STORAGE_KEY) === 'true'
+            }
+          }));
+        }
+
+        /**
+         * Toggle history panel state
+         */
+        function toggleHistoryPanel() {
+          updateHistoryState(!isHistoryCollapsed);
+        }
+
+        /**
+         * Handle keyboard events
+         */
+        function handleHistoryKeydown(event) {
+          if (event.key === 'Escape' && !isHistoryCollapsed) {
+            updateHistoryState(true);
+            event.preventDefault();
+          }
+
+          if ((event.key === 'Enter' || event.key === ' ') &&
+            (event.target === historyCollapseToggle || event.target === historyExpandToggle)) {
+            toggleHistoryPanel();
+            event.preventDefault();
+          }
+        }
+
+        /**
+         * Initialize history panel state from localStorage
+         */
+        function initializeHistoryState() {
+          const storedState = localStorage.getItem(HISTORY_STORAGE_KEY);
+          const shouldBeCollapsed = storedState === 'true';
+
+          // Set initial state without animation on page load
+          updateHistoryState(shouldBeCollapsed, false);
+        }
+
+        /**
+         * Listen for assistant panel changes to handle both-collapsed edge case
+         */
+        function handleAssistantPanelChange() {
+          handleBothPanelsCollapsed();
+        }
+
+        // Event listeners
+        historyCollapseToggle.addEventListener('click', toggleHistoryPanel);
+        historyExpandToggle.addEventListener('click', toggleHistoryPanel);
+        document.addEventListener('keydown', handleHistoryKeydown);
+
+        // Listen for assistant panel changes
+        window.addEventListener('assistantPanelToggled', handleAssistantPanelChange);
+
+        // Initialize state from localStorage
+        initializeHistoryState();
+
+        console.log('History collapse/expand functionality initialized');
+
+      })();
+    </script>
 
   </div> <!-- End main-content -->
 
@@ -1805,7 +1811,7 @@ This document, this very text you are reading, is a collaboration. A testament t
     async function checkAuth() {
       try {
         const { data: { session }, error } = await supabaseClient.auth.getSession();
-        
+
         if (error) {
           console.error('Auth error:', error);
           redirectToLogin();
@@ -1834,10 +1840,10 @@ This document, this very text you are reading, is a collaboration. A testament t
     function showMainContent(user) {
       // Hide loading overlay
       authLoading.classList.add('hidden');
-      
+
       // Show main content
       mainContent.classList.remove('hidden');
-      
+
       // Set up profile icon
       setupProfile(user);
     }
@@ -1847,7 +1853,7 @@ This document, this very text you are reading, is a collaboration. A testament t
       // Set initials
       const email = user.email;
       const fullName = user.user_metadata?.full_name || email;
-      
+
       let initials = '';
       if (fullName && fullName !== email) {
         // Extract initials from full name
@@ -1858,7 +1864,7 @@ This document, this very text you are reading, is a collaboration. A testament t
         // Use first character of email
         initials = email.charAt(0).toUpperCase();
       }
-      
+
       profileInitials.textContent = initials;
       profileEmail.textContent = email;
       profileEmail.title = email; // Full email on hover
@@ -1868,11 +1874,11 @@ This document, this very text you are reading, is a collaboration. A testament t
     async function handleSignOut() {
       try {
         const { error } = await supabaseClient.auth.signOut();
-        
+
         if (error) {
           console.error('Sign out error:', error);
         }
-        
+
         // Redirect to index page
         window.location.href = '/';
       } catch (error) {
