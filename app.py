@@ -9,7 +9,7 @@ GEMINI_API_KEY = os.environ.get("AIzaSyB0vu9RLXyAGbzjyQXJWBc_aT-pTsSDBqc")
 GEMINI_API_URL = os.environ.get("GEMINI_API_URL", "https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent")
 
 # === Initialize Flask ===
-app = Flask(__name__, static_folder="static", template_folder="templates")
+app = Flask(__name__, static_folder="static", template_folder=".")
 
 
 # === ROUTES ===
