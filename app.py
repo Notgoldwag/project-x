@@ -42,8 +42,8 @@ logging.basicConfig(
 MODEL_DIR = os.getenv('MODEL_DIR', 'models/prompt_injection_detector')
 try:
     print(f"🔍 Loading prompt injection model from {MODEL_DIR}...")
-    tokenizer = AutoTokenizer.from_pretrained(MODEL_DIR)
-    model = AutoModelForSequenceClassification.from_pretrained(MODEL_DIR)
+    tokenizer = None
+    model = None
     model.eval()
     print("✅ Model loaded successfully!")
 except Exception as e:
