@@ -1,0 +1,97 @@
+# =========================
+# Python / Flask
+# =========================
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.pkl
+*.log
+*.sqlite3
+instance/
+.env
+.env.*
+venv/
+venv*/ 
+*.env
+
+# Flask-specific
+*.db
+*.pid
+*.bak
+*.swp
+
+# =========================
+# Hugging Face / ML models
+# =========================
+# Model weights and tokenizer files
+models/
+!models/.keep  # keep folder but ignore model files
+*.bin
+*.pt
+*.ckpt
+*.safetensors
+
+# Large datasets
+data/
+!data/.keep  # optional placeholder if you want the folder tracked
+*.parquet
+*.csv
+*.tsv
+*.jsonl
+
+# =========================
+# Logs and cache
+# =========================
+logs/
+*.log
+*.out
+*.err
+
+# Hugging Face cache / Transformers cache
+~/.cache/
+.cache/
+huggingface/
+hf_cache/
+transformers_cache/
+torch_cache/
+
+# =========================
+# Node / Frontend (if using npm)
+# =========================
+node_modules/
+package-lock.json
+npm-debug.log*
+
+# =========================
+# IDE / Editor settings
+# =========================
+.vscode/
+.idea/
+*.iml
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# =========================
+# Deployment
+# =========================
+__pycache__/
+.DS_Store
+*.pyc
+*.pyo
+*.pyd
+*.orig
+build/
+dist/
+*.egg-info/
+*.spec
+
+# =========================
+# Temporary or secret files
+# =========================
+secret_*
+api_keys.txt
+credentials.json
