@@ -12,16 +12,23 @@
     <link rel="stylesheet" href="../static/css/styles.css">
     <link rel="stylesheet" href="../static/css/extra.css">
 
-    <title>Wealthify - Login/Registration</title>
+    <title>Login/Registration</title>
 
 </head>
 
 <body>
 
+    <!--=============== ANIMATED BACKGROUND ===============-->
+    <div class="lava-background">
+        <div class="lava-blob blob-1"></div>
+        <div class="lava-blob blob-2"></div>
+        <div class="lava-blob blob-3"></div>
+    </div>
+    <div class="particle-overlay"></div>
+
     <!--=============== WELCOME MESSAGE ===============-->
     <div class="welcome-message">
         <h1>Welcome to Project X</h1>
-        <p></p>
     </div>
 
     <!--=============== LOGIN IMAGE ===============-->
@@ -134,10 +141,10 @@
 
     <!-- Custom Modal -->
     <div id="customModal"
-        style="display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: white; padding: 20px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); z-index: 1000; transition: opacity 0.3s ease-in-out;">
-        <p id="modalMessage" style="font-size: 16px; margin-bottom: 20px; font-weight: bold; color: black;"></p>
+        style="display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: rgba(10, 17, 22, 0.95); backdrop-filter: blur(20px); padding: 30px; border-radius: 15px; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3); border: 1px solid rgba(0, 203, 160, 0.3); z-index: 1000; transition: opacity 0.3s ease-in-out;">
+        <p id="modalMessage" style="font-size: 16px; margin-bottom: 20px; font-weight: bold; color: #ffffff;"></p>
         <button onclick="closeModal()"
-            style="padding: 10px 20px; background: #007bff; color: white; border: none; border-radius: 5px; cursor: pointer;">OK</button>
+            style="padding: 12px 24px; background: linear-gradient(135deg, #00cba0 0%, #00a085 100%); color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: 600; transition: all 0.3s ease;">OK</button>
     </div>
 
 
