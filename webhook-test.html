@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>n8n Webhook Test</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-gray-900 text-white p-8">
+    <div class="max-w-2xl mx-auto">
+        <h1 class="text-3xl font-bold mb-6">n8n Webhook Test</h1>
+
+        <div class="mb-4">
+            <label class="block mb-2">Test Message:</label>
+            <input type="text" id="testMessage" value="Hello from test page"
+                class="w-full p-3 bg-gray-800 border border-gray-600 rounded text-white">
+        </div>
+
+        <button onclick="testWebhook()" class="bg-blue-500 hover:bg-blue-600 px-6 py-2 rounded">
+            Test Webhook
+        </button>
+
+        <div id="result" class="mt-6 p-4 bg-gray-800 rounded"></div>
+    </div>
+
+    <script>
+        const CHAT_API = '/api/chat'; // Use Flask proxy to avoid CORS
+
+        async function testWebhook() {
+            const message = document.getElementById('testMessage').value;
+            const resultDiv = document.getElementById('result');
+
+            resultDiv.innerHTML = '<div class="text-yellow-400">🔄 Testing Flask proxy to n8n webhook...</div>';
+
+            try {
+                console.log('Sending to Flask proxy:', message);
+
+                const response = await fetch(CHAT_API, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        message: message
+                    })
+                });
+
+                console.log('Response status:', response.status);
+                console.log('Response headers:', Object.fromEntries(response.headers.entries()));
+
+                if (!response.ok) {
+                    const errorData = await response.json().catch(() => ({}));
+                    throw new Error(errorData.error || `HTTP ${response.status}: ${response.statusText}`);
+                }
+
+                const data = await response.json();
+                console.log('Response data:', data);
+
+                resultDiv.innerHTML = `
+                    <div class="text-green-400">✅ Success!</div>
+                    <div class="mt-2"><strong>Status:</strong> ${response.status}</div>
+                    <div><strong>Response:</strong> ${JSON.stringify(data, null, 2)}</div>
+                    <div><strong>Reply:</strong> ${data.reply || 'No reply field'}</div>
+                `;
+
+            } catch (error) {
+                console.error('Error:', error);
+                resultDiv.innerHTML = `
+                    <div class="text-red-400">❌ Error</div>
+                    <div class="mt-2">${error.message}</div>
+                    <div class="text-sm text-gray-400 mt-2">Check console for details</div>
+                `;
+            }
+        }
+
+        // Auto-test on page load
+        window.addEventListener('load', () => {
+            setTimeout(testWebhook, 1000);
+        });
+    </script>
+</body>
+
+</html>

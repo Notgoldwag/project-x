@@ -390,6 +390,23 @@
       outline: none;
       box-shadow: 0 0 0 2px rgba(0, 204, 160, 0.40);
     }
+
+    /* Line clamp utilities for text truncation */
+    .line-clamp-2 {
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .line-clamp-1 {
+      display: -webkit-box;
+      -webkit-line-clamp: 1;
+      line-clamp: 1;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
   </style>
 </head>
 
@@ -516,116 +533,33 @@
               </div>
             </div>
             <div class="flex-1 overflow-y-auto p-2">
+              <!-- Loading State -->
+              <div id="history-loading" class="hidden p-4 text-center">
+                <p class="text-gray-400 text-sm">Loading history...</p>
+              </div>
+
+              <!-- Error State -->
+              <div id="history-error" class="hidden p-4 text-center">
+                <p class="text-gray-400 text-sm mb-2">Couldn't load history.</p>
+                <button id="retry-history-btn" class="text-primary hover:text-primaryDarker text-sm underline">
+                  Retry
+                </button>
+              </div>
+
+              <!-- Empty State (Not Logged In) -->
+              <div id="history-empty-auth" class="hidden p-4 text-center">
+                <p class="text-gray-400 text-sm">Sign in to see your chats</p>
+              </div>
+
+              <!-- Empty State (No Chats) -->
+              <div id="history-empty-chats" class="hidden p-4 text-center">
+                <p class="text-gray-400 text-sm">No chats yet</p>
+                <p class="text-gray-500 text-xs mt-1">Start a conversation to see it here</p>
+              </div>
+
+              <!-- Chat List -->
               <ul id="chatList" class="space-y-1.5">
-                <li>
-                  <a class="block p-3 rounded-2xl bg-transparent hover:bg-white/5 border border-transparent hover:border-white/10 transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-lime-300/40"
-                    href="#" data-selected="true">
-                    <p class="block-title font-semibold text-white truncate text-base" data-title="Draft Brainstorming">
-                      Draft Brainstorming</p>
-                    <p class="text-[13px] text-gray-400 truncate mt-0.5">Let's start with a few ideas...</p>
-                  </a>
-                </li>
-                <li>
-                  <a class="block p-3 rounded-2xl bg-transparent hover:bg-white/5 border border-transparent hover:border-white/10 transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-lime-300/40"
-                    href="#">
-                    <p class="block-title font-medium text-white truncate text-base" data-title="Tone Adjustment">Tone
-                      Adjustment</p>
-                    <p class="text-[13px] text-gray-400 truncate mt-0.5">Can we make this more formal?</p>
-                  </a>
-                </li>
-                <li>
-                  <a class="block p-3 rounded-2xl bg-transparent hover:bg-white/5 border border-transparent hover:border-white/10 transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-lime-300/40"
-                    href="#">
-                    <p class="block-title font-medium text-white truncate text-base" data-title="Fact-Checking">
-                      Fact-Checking</p>
-                    <p class="text-[13px] text-gray-400 truncate mt-0.5">Please verify the stats in this section.</p>
-                  </a>
-                </li>
-                <li>
-                  <a class="block p-3 rounded-2xl bg-transparent hover:bg-white/5 border border-transparent hover:border-white/10 transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-lime-300/40"
-                    href="#">
-                    <p class="block-title font-medium text-white truncate text-base" data-title="Generating Titles">
-                      Generating Titles</p>
-                    <p class="text-[13px] text-gray-400 truncate mt-0.5">I need 5 catchy headlines...</p>
-                  </a>
-                </li>
-                <li>
-                  <a class="block p-3 rounded-2xl bg-transparent hover:bg-white/5 border border-transparent hover:border-white/10 transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-lime-300/40"
-                    href="#">
-                    <p class="font-medium text-white truncate text-base">Code Review Request</p>
-                    <p class="text-[13px] text-gray-400 truncate mt-0.5">Could you check this function for bugs?</p>
-                  </a>
-                </li>
-                <li>
-                  <a class="block p-3 rounded-2xl bg-transparent hover:bg-white/5 border border-transparent hover:border-white/10 transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-lime-300/40"
-                    href="#">
-                    <p class="font-medium text-white truncate text-base">Email Template</p>
-                    <p class="text-[13px] text-gray-400 truncate mt-0.5">Professional response to client inquiry</p>
-                  </a>
-                </li>
-                <li>
-                  <a class="block p-3 rounded-2xl bg-transparent hover:bg-white/5 border border-transparent hover:border-white/10 transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-lime-300/40"
-                    href="#">
-                    <p class="font-medium text-white truncate text-base">Research Summary</p>
-                    <p class="text-[13px] text-gray-400 truncate mt-0.5">Summarize these market research findings</p>
-                  </a>
-                </li>
-                <li>
-                  <a class="block p-3 rounded-2xl bg-transparent hover:bg-white/5 border border-transparent hover:border-white/10 transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-lime-300/40"
-                    href="#">
-                    <p class="font-medium text-white truncate text-base">Creative Writing</p>
-                    <p class="text-[13px] text-gray-400 truncate mt-0.5">Help me write a short story about AI</p>
-                  </a>
-                </li>
-                <li>
-                  <a class="block p-3 rounded-2xl bg-transparent hover:bg-white/5 border border-transparent hover:border-white/10 transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-lime-300/40"
-                    href="#">
-                    <p class="font-medium text-white truncate text-base">API Documentation</p>
-                    <p class="text-[13px] text-gray-400 truncate mt-0.5">Generate docs for the user endpoints</p>
-                  </a>
-                </li>
-                <li>
-                  <a class="block p-3 rounded-2xl bg-transparent hover:bg-white/5 border border-transparent hover:border-white/10 transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-lime-300/40"
-                    href="#">
-                    <p class="font-medium text-white truncate text-base">Meeting Notes</p>
-                    <p class="text-[13px] text-gray-400 truncate mt-0.5">Structure my rough notes from today</p>
-                  </a>
-                </li>
-                <li>
-                  <a class="block p-3 rounded-2xl bg-transparent hover:bg-white/5 border border-transparent hover:border-white/10 transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-lime-300/40"
-                    href="#">
-                    <p class="font-medium text-white truncate text-base">Bug Report Analysis</p>
-                    <p class="text-[13px] text-gray-400 truncate mt-0.5">Help prioritize these reported issues</p>
-                  </a>
-                </li>
-                <li>
-                  <a class="block p-3 rounded-2xl bg-transparent hover:bg-white/5 border border-transparent hover:border-white/10 transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-lime-300/40"
-                    href="#">
-                    <p class="font-medium text-white truncate text-base">Social Media Copy</p>
-                    <p class="text-[13px] text-gray-400 truncate mt-0.5">Write engaging posts for product launch</p>
-                  </a>
-                </li>
-                <li>
-                  <a class="block p-3 rounded-2xl bg-transparent hover:bg-white/5 border border-transparent hover:border-white/10 transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-lime-300/40"
-                    href="#">
-                    <p class="font-medium text-white truncate text-base">Data Analysis</p>
-                    <p class="text-[13px] text-gray-400 truncate mt-0.5">Explain trends in user engagement metrics</p>
-                  </a>
-                </li>
-                <li>
-                  <a class="block p-3 rounded-2xl bg-transparent hover:bg-white/5 border border-transparent hover:border-white/10 transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-lime-300/40"
-                    href="#">
-                    <p class="font-medium text-white truncate text-base">Product Roadmap</p>
-                    <p class="text-[13px] text-gray-400 truncate mt-0.5">Help me plan Q1 feature priorities</p>
-                  </a>
-                </li>
-                <li>
-                  <a class="block p-3 rounded-2xl bg-transparent hover:bg-white/5 border border-transparent hover:border-white/10 transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-lime-300/40"
-                    href="#">
-                    <p class="font-medium text-white truncate text-base">Performance Optimization</p>
-                    <p class="text-[13px] text-gray-400 truncate mt-0.5">Analyze and improve app loading speed</p>
-                  </a>
-                </li>
+                <!-- Chat items will be populated dynamically -->
               </ul>
             </div>
           </div> <!-- End history-content -->
@@ -1637,9 +1571,12 @@ This document, this very text you are reading, is a collaboration. A testament t
 
       })();
 
-      // Security Chat with Gemini AI
+      // Security Chat with n8n Webhook (via Flask proxy)
       (function () {
         'use strict';
+
+        // Configuration - use local proxy to avoid CORS issues
+        const CHAT_API = '/api/chat';
 
         const chatInput = document.getElementById('securityChatInput');
         const sendBtn = document.getElementById('sendSecurityMessage');
@@ -1667,7 +1604,7 @@ This document, this very text you are reading, is a collaboration. A testament t
               ${isLoading ? `
                 <div class="flex items-center gap-2">
                   <div class="animate-spin rounded-full h-4 w-4 border-b-2 border-primary"></div>
-                  <span class="text-sm text-gray-300">Security Assistant is thinking...</span>
+                  <span class="text-sm text-gray-300">AI Assistant is thinking...</span>
                 </div>
               ` : `
                 <div class="text-sm md:text-base text-gray-100">${content}</div>
@@ -1681,7 +1618,7 @@ This document, this very text you are reading, is a collaboration. A testament t
           return messageDiv;
         }
 
-        // Send message to Gemini API
+        // Send message to n8n webhook via Flask proxy
         async function sendMessage() {
           if (isTyping) return;
 
@@ -1696,43 +1633,90 @@ This document, this very text you are reading, is a collaboration. A testament t
           const loadingMessage = addMessage('', false, true);
           isTyping = true;
 
-          try {
-            // Create security-focused prompt for Gemini
-            const securityPrompt = `You are a cybersecurity expert specializing in prompt injection attacks. 
-          User question: "${message}"
-          
-          Please provide a helpful, accurate response about prompt injection security, attack patterns, 
-          protection strategies, or related cybersecurity topics. Keep your response concise but informative.
-          If the question is not related to security, politely redirect the conversation back to security topics.`;
+          // Disable send button
+          sendBtn.style.opacity = '0.5';
+          sendBtn.disabled = true;
 
-            const response = await fetch('/api/explain', {
+          try {
+            console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
+            console.log('� SENDING MESSAGE TO N8N WORKFLOW');
+            console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
+            console.log('📤 Message:', message);
+            console.log('📍 API endpoint:', CHAT_API);
+            console.log('🕐 Timestamp:', new Date().toLocaleTimeString());
+            console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
+
+            const requestBody = { message: message };
+            console.log('📦 Request payload:', JSON.stringify(requestBody, null, 2));
+
+            const response = await fetch(CHAT_API, {
               method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({ prompt: securityPrompt })
+              headers: {
+                'Content-Type': 'application/json'
+              },
+              body: JSON.stringify(requestBody)
             });
 
+            console.log('✅ Message successfully sent to Flask proxy!');
+            console.log('📥 Response status:', response.status, response.ok ? '(Success)' : '(Error)');
+            console.log('📥 Response headers:', Object.fromEntries(response.headers.entries()));
+
             if (!response.ok) {
-              throw new Error(`Server error: ${response.status}`);
+              const errorData = await response.json().catch(() => ({}));
+              console.error('❌ Server returned error:', errorData);
+              throw new Error(errorData.error || `Network error: ${response.status} ${response.statusText}`);
             }
 
             const data = await response.json();
+            console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
+            console.log('📦 RESPONSE FROM N8N WORKFLOW');
+            console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
+            console.log('Full response:', data);
+            console.log('AI Reply:', data.reply || '(No reply field found)');
+            if (data.note) console.log('ℹ️ Note:', data.note);
+            if (data.troubleshooting) console.log('🔧 Troubleshooting:', data.troubleshooting);
+            console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
 
             // Remove loading message
             loadingMessage.remove();
 
             // Add AI response
-            const aiResponse = data.explanation || 'Sorry, I could not generate a response at the moment.';
+            const aiResponse = data.reply || 'Sorry, I could not generate a response at the moment.';
             addMessage(aiResponse, false);
+            
+            // Show additional info if available
+            if (data.note) {
+              console.warn('⚠️ Configuration note from server:', data.note);
+            }
 
           } catch (error) {
-            console.error('Chat error:', error);
+            console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
+            console.error('❌ ERROR SENDING MESSAGE');
+            console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
+            console.error('Error type:', error.name);
+            console.error('Error message:', error.message);
+            console.error('Full error:', error);
+            console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
 
             // Remove loading message and show error
             loadingMessage.remove();
-            addMessage('Sorry, I encountered an error. Please check your connection and try again.', false);
+
+            // Show user-friendly error message
+            let errorMessage = 'Sorry, I encountered an error. Please check your connection and try again.';
+            if (error.message.includes('Network error')) {
+              errorMessage = 'Unable to connect to the AI service. Please try again.';
+            } else if (error.message.includes('Failed to fetch')) {
+              errorMessage = 'Network connection failed. Please check your internet and try again.';
+            }
+
+            addMessage(errorMessage, false);
 
           } finally {
             isTyping = false;
+            // Re-enable send button
+            sendBtn.disabled = false;
+            sendBtn.style.opacity = chatInput.value.trim() ? '1' : '0.5';
+            console.log('✓ Message send operation completed');
           }
         }
 
@@ -1753,6 +1737,59 @@ This document, this very text you are reading, is a collaboration. A testament t
 
         // Initialize send button state
         sendBtn.style.opacity = '0.5';
+
+        // Test function - automatically send a ping on page load
+        async function testWebhook() {
+          console.log('🔍 Testing n8n webhook connection...');
+          console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
+
+          try {
+            // Wait a bit for the page to fully load
+            setTimeout(async () => {
+              console.log('⏰ Performing initial API connectivity test...');
+
+              // Test the Flask proxy endpoint first
+              try {
+                console.log('🧪 Test #1: Sending connection test...');
+                const testResponse = await fetch(CHAT_API, {
+                  method: 'POST',
+                  headers: { 'Content-Type': 'application/json' },
+                  body: JSON.stringify({ message: 'connection test' })
+                });
+
+                console.log('📊 Test response status:', testResponse.status);
+
+                if (testResponse.ok) {
+                  const testData = await testResponse.json();
+                  console.log('✅ Flask proxy is accessible');
+                  console.log('📦 Test response:', testData);
+                  
+                  // Send a visible test message
+                  console.log('🧪 Test #2: Sending visible ping message...');
+                  chatInput.value = 'ping';
+                  await sendMessage();
+                } else {
+                  const errorData = await testResponse.json().catch(() => ({}));
+                  console.log('⚠️ Flask proxy returned non-OK status:', testResponse.status, errorData);
+                  addMessage(`Note: ${errorData.reply || 'The AI service appears to be offline.'}`, false);
+                }
+              } catch (error) {
+                console.log('❌ Flask proxy test failed:', error.message);
+                console.error('Full error:', error);
+                addMessage('Note: Unable to connect to the AI service. Please check if the Flask server is running.', false);
+              }
+            }, 1500);
+          } catch (error) {
+            console.error('❌ Test setup failed:', error);
+          }
+        }
+
+        // Run test on page load
+        if (document.readyState === 'loading') {
+          document.addEventListener('DOMContentLoaded', testWebhook);
+        } else {
+          testWebhook();
+        }
 
       })();
     </script>
@@ -2318,6 +2355,469 @@ This document, this very text you are reading, is a collaboration. A testament t
 
   </div> <!-- End main-content -->
 
+  <!-- Chat History Management -->
+  <script type="module">
+    // Wait for the main auth script to initialize Supabase client
+    // then reuse it to avoid multiple client instances
+
+    // DOM elements
+    const historyLoading = document.getElementById('history-loading');
+    const historyError = document.getElementById('history-error');
+    const historyEmptyAuth = document.getElementById('history-empty-auth');
+    const historyEmptyChats = document.getElementById('history-empty-chats');
+    const chatList = document.getElementById('chatList');
+    const retryHistoryBtn = document.getElementById('retry-history-btn');
+    const blockSearch = document.getElementById('blockSearch');
+
+    let currentUser = null;
+    let allChats = [];
+    let filteredChats = [];
+    let supabaseClientForHistory = null;
+
+    // Get Supabase client from window (shared with main auth script)
+    function getSupabaseClient() {
+      if (window.supabaseClient) {
+        return window.supabaseClient;
+      }
+
+      // Fallback: create our own client if not available
+      const { createClient } = supabase;
+      const supabaseUrl = 'https://qnbvnczctgbclolvkjcb.supabase.co';
+      const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFuYnZuY3pjdGdiY2xvbHZramNiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjI1NTg3NDIsImV4cCI6MjA3ODEzNDc0Mn0.v5t8eMJjpPtdIn6oKXshjuIH0shlztIp9fWBrRjnrGg';
+      return createClient(supabaseUrl, supabaseKey);
+    }
+
+    // Show specific state and hide others
+    function showHistoryState(state) {
+      historyLoading.classList.add('hidden');
+      historyError.classList.add('hidden');
+      historyEmptyAuth.classList.add('hidden');
+      historyEmptyChats.classList.add('hidden');
+      chatList.classList.add('hidden');
+
+      switch (state) {
+        case 'loading':
+          historyLoading.classList.remove('hidden');
+          break;
+        case 'error':
+          historyError.classList.remove('hidden');
+          break;
+        case 'empty-auth':
+          historyEmptyAuth.classList.remove('hidden');
+          break;
+        case 'empty-chats':
+          historyEmptyChats.classList.remove('hidden');
+          break;
+        case 'data':
+          chatList.classList.remove('hidden');
+          break;
+      }
+    }
+
+    // Load chat history from Supabase
+    async function loadChatHistory() {
+      if (!currentUser) {
+        showHistoryState('empty-auth');
+        return;
+      }
+
+      // Get the shared Supabase client
+      supabaseClientForHistory = getSupabaseClient();
+
+      if (!supabaseClientForHistory) {
+        console.error('Supabase client not available');
+        showHistoryState('error');
+        return;
+      }
+
+      showHistoryState('loading');
+
+      try {
+        // Debug: Let's see what columns are actually available
+        console.log('Attempting to load chat history for user:', currentUser.id);
+
+        // First, try a simple select to see what happens
+        let { data, error } = await supabaseClientForHistory
+          .from('Chats')
+          .select('*')
+          .eq('user_id', currentUser.id)
+          .limit(5);
+
+        console.log('Initial query result:', { data, error });
+
+        if (error) {
+          console.log('Error occurred, trying alternative approaches...');
+
+          if (error.code === '42703') {
+            // Column doesn't exist, let's try common column name variations
+            console.log('Trying alternative column names...');
+
+            // Try different possible column names for content
+            const contentColumns = ['content', 'message', 'body', 'description', 'prompt', 'chat_content', 'conversation', 'prompt_text'];
+            let workingQuery = null;
+
+            for (const contentCol of contentColumns) {
+              try {
+                console.log(`Trying column: ${contentCol}`);
+                const testResult = await supabaseClientForHistory
+                  .from('Chats')
+                  .select(`id, title, ${contentCol}, user_id, created_at`)
+                  .eq('user_id', currentUser.id)
+                  .limit(1);
+
+                console.log(`Result for ${contentCol}:`, testResult);
+
+                if (!testResult.error) {
+                  workingQuery = contentCol;
+                  console.log(`Found working column: ${contentCol}`);
+                  break;
+                }
+              } catch (e) {
+                console.log(`Column ${contentCol} failed:`, e);
+                // Continue to next column name
+              }
+            }
+
+            if (workingQuery) {
+              // Use the working column name
+              const result = await supabaseClientForHistory
+                .from('Chats')
+                .select(`id, title, ${workingQuery}, user_id, created_at`)
+                .eq('user_id', currentUser.id)
+                .order('created_at', { ascending: false });
+
+              data = result.data;
+              error = result.error;
+
+              // Map the working column to 'text' for consistency while preserving original data
+              if (data) {
+                data = data.map(chat => ({
+                  ...chat, // Keep all original columns
+                  text: chat[workingQuery] || 'No content available' // Add text for preview
+                }));
+              }
+            } else {
+              // If no content column found, just get basic columns without content
+              console.log('No content column found, getting basic columns only');
+              const result = await supabaseClientForHistory
+                .from('Chats')
+                .select('id, title, user_id, created_at')
+                .eq('user_id', currentUser.id)
+                .order('created_at', { ascending: false });
+
+              data = result.data;
+              error = result.error;
+
+              // Add placeholder text while preserving original data
+              if (data) {
+                data = data.map(chat => ({
+                  ...chat, // Keep all original columns
+                  text: 'Content column not found' // Add text for preview
+                }));
+              }
+            }
+          } else {
+            // Some other error
+            console.error('Other error occurred:', error);
+            showHistoryState('error');
+            return;
+          }
+        } else {
+          // The select * worked, so let's use it but normalize the data
+          console.log('Select * worked, normalizing data...');
+          if (data && data.length > 0) {
+            // Look at the first row to see what columns we have
+            const firstRow = data[0];
+            const availableColumns = Object.keys(firstRow);
+            console.log('Available columns:', availableColumns);
+
+            // Find a content column
+            const contentColumn = availableColumns.find(col =>
+              ['text', 'content', 'message', 'body', 'description', 'prompt', 'chat_content', 'conversation'].includes(col.toLowerCase())
+            );
+
+            // Map to standardized format while preserving original data
+            if (contentColumn) {
+              console.log('Using content column:', contentColumn);
+              // Map to standardized format but keep original columns
+              data = data.map(chat => ({
+                ...chat, // Keep all original columns
+                text: chat[contentColumn] || 'No content' // Add text for preview
+              }));
+            } else {
+              console.log('No recognized content column found');
+              // Add placeholder but keep original data
+              data = data.map(chat => ({
+                ...chat, // Keep all original columns
+                text: 'Content column not found' // Add text for preview
+              }));
+            }
+          }
+
+          // Get full data with proper ordering
+          const result = await supabaseClientForHistory
+            .from('Chats')
+            .select('*')
+            .eq('user_id', currentUser.id)
+            .order('created_at', { ascending: false });
+
+          data = result.data;
+          error = result.error;
+        }
+
+        console.log('Final data:', data);
+        console.log('Final error:', error);
+
+        if (error) {
+          console.error('Error loading chat history:', error);
+          showHistoryState('error');
+          return;
+        }
+
+        allChats = data || [];
+        filteredChats = [...allChats];
+
+        if (allChats.length === 0) {
+          console.log('No chats found, showing empty state');
+          showHistoryState('empty-chats');
+        } else {
+          console.log(`Found ${allChats.length} chats, rendering...`);
+          renderChatHistory(filteredChats);
+          showHistoryState('data');
+        }
+      } catch (error) {
+        console.error('Failed to load chat history:', error);
+        showHistoryState('error');
+      }
+    }
+
+    // Create preview text from chat content
+    function createPreview(text, maxLength = 60) {
+      if (!text) return 'No preview available';
+
+      // Strip HTML tags if present and get plain text
+      const plainText = text.replace(/<[^>]*>/g, '').trim();
+
+      if (plainText.length <= maxLength) return plainText;
+
+      // Find the last space before maxLength to avoid cutting words
+      const truncated = plainText.substring(0, maxLength);
+      const lastSpace = truncated.lastIndexOf(' ');
+
+      if (lastSpace > maxLength * 0.7) {
+        return truncated.substring(0, lastSpace) + '...';
+      }
+
+      return truncated + '...';
+    }
+
+    // Render chat history items
+    function renderChatHistory(chats) {
+      chatList.innerHTML = '';
+
+      chats.forEach((chat, index) => {
+        const li = document.createElement('li');
+        const isSelected = index === 0; // First item selected by default
+
+        li.innerHTML = `
+          <a class="block p-3 rounded-2xl bg-transparent hover:bg-white/5 border border-transparent hover:border-white/10 transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-lime-300/40"
+            href="#" 
+            data-chat-id="${chat.id}" 
+            ${isSelected ? 'data-selected="true"' : ''}>
+            <p class="block-title font-${isSelected ? 'semibold' : 'medium'} text-white truncate text-base" 
+               data-title="${chat.title || 'Untitled Chat'}">
+              ${chat.title || 'Untitled Chat'}
+            </p>
+            <p class="text-[13px] text-gray-400 line-clamp-2 mt-0.5">
+              ${createPreview(chat.text)}
+            </p>
+          </a>
+        `;
+
+        // Add click handler for chat selection
+        const link = li.querySelector('a');
+        link.addEventListener('click', (e) => {
+          e.preventDefault();
+          selectChat(chat);
+        });
+
+        chatList.appendChild(li);
+      });
+    }
+
+    // Handle chat selection
+    function selectChat(chat) {
+      // Remove selection from all items
+      chatList.querySelectorAll('a').forEach(link => {
+        link.removeAttribute('data-selected');
+        const title = link.querySelector('.block-title');
+        title.className = title.className.replace('font-semibold', 'font-medium');
+      });
+
+      // Add selection to clicked item
+      const selectedLink = chatList.querySelector(`a[data-chat-id="${chat.id}"]`);
+      if (selectedLink) {
+        selectedLink.setAttribute('data-selected', 'true');
+        const title = selectedLink.querySelector('.block-title');
+        title.className = title.className.replace('font-medium', 'font-semibold');
+      }
+
+      // Load the chat content into the main editor
+      loadChatContent(chat);
+      console.log('Selected chat:', chat);
+    }
+
+    // Load chat content into the main text editor
+    function loadChatContent(chat) {
+      const textEditor = document.getElementById('textEditor');
+      if (textEditor && chat) {
+        // Use the content from the chat, fallback to text if content doesn't exist
+        let content = chat.content || chat.text || chat.message || 'No content available';
+
+        // If content is the mapped text from our query, try to get original content
+        if (content === 'Content column not found' || content === 'No content available') {
+          // Try to find the actual content in the chat object
+          const possibleContentKeys = ['content', 'message', 'body', 'description', 'prompt', 'chat_content', 'conversation', 'prompt_text'];
+          for (const key of possibleContentKeys) {
+            if (chat[key] && chat[key] !== content) {
+              content = chat[key];
+              break;
+            }
+          }
+        }
+
+        textEditor.value = content;
+
+        // Update the editor title if there's a title element
+        const editorTitle = document.querySelector('#editor-pane h1');
+        if (editorTitle && chat.title) {
+          editorTitle.textContent = chat.title;
+        }
+
+        // Trigger any change events that might be needed
+        textEditor.dispatchEvent(new Event('input', { bubbles: true }));
+
+        console.log('Loaded content into editor:', content.substring(0, 100) + '...');
+      }
+    }
+
+    // Filter chats based on search
+    function filterChats(searchTerm) {
+      if (!searchTerm.trim()) {
+        filteredChats = [...allChats];
+      } else {
+        const term = searchTerm.toLowerCase();
+        filteredChats = allChats.filter(chat =>
+          (chat.title && chat.title.toLowerCase().includes(term)) ||
+          (chat.text && chat.text.toLowerCase().includes(term))
+        );
+      }
+
+      if (filteredChats.length === 0 && allChats.length > 0) {
+        // Show "no results" message
+        chatList.innerHTML = `
+          <li class="p-4 text-center">
+            <p class="text-gray-400 text-sm">No chats found matching your search</p>
+          </li>
+        `;
+        chatList.classList.remove('hidden');
+      } else if (filteredChats.length > 0) {
+        renderChatHistory(filteredChats);
+        showHistoryState('data');
+      } else {
+        showHistoryState(currentUser ? 'empty-chats' : 'empty-auth');
+      }
+    }
+
+    // Set up real-time subscription for chat updates
+    function setupRealtimeSubscription() {
+      if (!currentUser) return;
+
+      const client = getSupabaseClient();
+      if (!client) return;
+
+      const subscription = client
+        .channel('chat-changes')
+        .on('postgres_changes',
+          {
+            event: '*',
+            schema: 'public',
+            table: 'Chats',
+            filter: `user_id=eq.${currentUser.id}`
+          },
+          (payload) => {
+            console.log('Chat update:', payload);
+            // Reload chat history when changes occur
+            loadChatHistory();
+          }
+        )
+        .subscribe();
+
+      // Store subscription for cleanup
+      window.chatSubscription = subscription;
+    }
+
+    // Initialize history for authenticated user
+    function initializeHistory(user) {
+      currentUser = user;
+      loadChatHistory();
+      setupRealtimeSubscription();
+    }
+
+    // Reset history for unauthenticated state
+    function resetHistory() {
+      currentUser = null;
+      allChats = [];
+      filteredChats = [];
+
+      // Cleanup subscription
+      if (window.chatSubscription) {
+        const client = getSupabaseClient();
+        if (client) {
+          client.removeChannel(window.chatSubscription);
+        }
+        window.chatSubscription = null;
+      }
+
+      showHistoryState('empty-auth');
+    }
+
+    // Event listeners
+    retryHistoryBtn.addEventListener('click', loadChatHistory);
+
+    // Search functionality
+    blockSearch.addEventListener('input', (e) => {
+      filterChats(e.target.value);
+    });
+
+    // Initialize when page loads
+    document.addEventListener('DOMContentLoaded', () => {
+      // Wait a bit for the main auth script to initialize
+      setTimeout(() => {
+        const client = getSupabaseClient();
+        if (client) {
+          // Listen for auth state changes from the main auth script
+          client.auth.onAuthStateChange((event, session) => {
+            if (session?.user) {
+              initializeHistory(session.user);
+            } else {
+              resetHistory();
+            }
+          });
+
+          // Initial check for current session
+          client.auth.getSession().then(({ data: { session } }) => {
+            if (session?.user) {
+              initializeHistory(session.user);
+            } else {
+              resetHistory();
+            }
+          });
+        }
+      }, 500); // Small delay to ensure main auth script loads first
+    });
+  </script>
+
   <!-- Auth & Profile Management -->
   <script type="module">
     // Initialize Supabase
@@ -2325,6 +2825,9 @@ This document, this very text you are reading, is a collaboration. A testament t
     const supabaseUrl = 'https://qnbvnczctgbclolvkjcb.supabase.co';
     const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFuYnZuY3pjdGdiY2xvbHZramNiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjI1NTg3NDIsImV4cCI6MjA3ODEzNDc0Mn0.v5t8eMJjpPtdIn6oKXshjuIH0shlztIp9fWBrRjnrGg';
     const supabaseClient = createClient(supabaseUrl, supabaseKey);
+
+    // Make supabase client available globally to avoid multiple instances
+    window.supabaseClient = supabaseClient;
 
     // DOM elements
     const authLoading = document.getElementById('auth-loading');

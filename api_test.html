@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>API Test</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; }
+        .result { padding: 10px; margin: 10px 0; border-radius: 5px; }
+        .error { background-color: #ffe6e6; border: 1px solid #ff9999; }
+        .success { background-color: #e6ffe6; border: 1px solid #99ff99; }
+        .info { background-color: #e6f3ff; border: 1px solid #99ccff; }
+    </style>
+</head>
+<body>
+    <h1>AI Assistant API Test</h1>
+    <p>This page tests the connection to the AI assistant API.</p>
+    
+    <button onclick="testAPI()">Test API Connection</button>
+    
+    <div id="results"></div>
+
+    <script>
+        async function testAPI() {
+            const resultsDiv = document.getElementById('results');
+            resultsDiv.innerHTML = '<div class="info">Testing API connection...</div>';
+            
+            try {
+                const response = await fetch('/api/chat', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ message: 'Hello, this is a test message' })
+                });
+                
+                const data = await response.json();
+                console.log('API Response:', data);
+                
+                if (response.ok) {
+                    if (data.error) {
+                        resultsDiv.innerHTML = `
+                            <div class="error">
+                                <h3>API Error (${data.error})</h3>
+                                <p><strong>Reply:</strong> ${data.reply || 'No reply'}</p>
+                                ${data.troubleshooting ? `
+                                    <details>
+                                        <summary>Troubleshooting Information</summary>
+                                        <p><strong>Issue:</strong> ${data.troubleshooting.issue}</p>
+                                        <p><strong>Webhook URL:</strong> ${data.troubleshooting.webhook_url || 'N/A'}</p>
+                                        ${data.troubleshooting.steps ? `
+                                            <p><strong>Steps to fix:</strong></p>
+                                            <ul>
+                                                ${data.troubleshooting.steps.map(step => `<li>${step}</li>`).join('')}
+                                            </ul>
+                                        ` : ''}
+                                        ${data.troubleshooting.possible_causes ? `
+                                            <p><strong>Possible causes:</strong></p>
+                                            <ul>
+                                                ${data.troubleshooting.possible_causes.map(cause => `<li>${cause}</li>`).join('')}
+                                            </ul>
+                                        ` : ''}
+                                    </details>
+                                ` : ''}
+                            </div>
+                        `;
+                    } else {
+                        resultsDiv.innerHTML = `
+                            <div class="success">
+                                <h3>✅ API Connection Successful!</h3>
+                                <p><strong>Response:</strong> ${JSON.stringify(data, null, 2)}</p>
+                            </div>
+                        `;
+                    }
+                } else {
+                    resultsDiv.innerHTML = `
+                        <div class="error">
+                            <h3>❌ API Request Failed</h3>
+                            <p><strong>Status:</strong> ${response.status}</p>
+                            <p><strong>Response:</strong> ${JSON.stringify(data, null, 2)}</p>
+                        </div>
+                    `;
+                }
+            } catch (error) {
+                console.error('API Test Error:', error);
+                resultsDiv.innerHTML = `
+                    <div class="error">
+                        <h3>❌ Connection Failed</h3>
+                        <p><strong>Error:</strong> ${error.message}</p>
+                        <p>Make sure the Flask server is running on port 5001.</p>
+                    </div>
+                `;
+            }
+        }
+        
+        // Auto-test on page load
+        window.addEventListener('load', testAPI);
+    </script>
+</body>
+</html>
