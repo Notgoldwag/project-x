@@ -12,3 +12,4 @@ pydantic>=2.5.0             # Required by LangChain (~10-15 MB)
 # === Deployment ===
 gunicorn==22.0.0
 # uvicorn==0.30.6            # Remove - not needed for Flask
+
