@@ -1,3 +1,6 @@
+/* THIS IS FOR ONLY LOGIN/SIGNUP PAGES ONLY
+/* DON'T CHANGE UNLESS MAKING MODIFICATIONS TO LOGIN/SIGNUP PAGES ONLY
+
 /*=============== GOOGLE FONTS ===============*/
 @import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@100..900&display=swap");
 
@@ -5,12 +8,12 @@
 :root {
   /*========== Colors ==========*/
   /*Color mode HSL(hue, saturation, lightness)*/
-  --first-color: rgb(0, 191, 255);
-  --first-color-alt: hsl(208, 88%, 50%);
-  --title-color: hsl(220, 68%, 4%);
+  --first-color: #00cba0;
+  --first-color-alt: #00cba0;
+  --title-color: #00cba0;
   --white-color: hsl(0, 0%, 100%);
   --text-color: hsl(220, 15%, 66%);
-  --body-color: hsl(0, 0%, 100%);
+  --body-color: #181828;
   --container-color: hsl(220, 50%, 97%);
 
   /*========== Font and typography ==========*/
@@ -41,6 +44,15 @@
   }
 }
 
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+
+
+
 /*=============== BASE ===============*/
 * {
   box-sizing: border-box;
@@ -60,6 +72,8 @@ body {
   color: var(--text-color);
   margin-bottom: 0px;
 }
+
+
 
 body {
     margin: 0;
@@ -98,9 +112,11 @@ img {
 /*=============== LOGIN  ===============*/
 .login {
   position: relative;
-  height: 100vh;
+  min-height: 100vh;
   align-items: center;
   overflow: hidden;
+
+  margin-top: -75px;
 }
 
 .login__blob {
@@ -360,4 +376,44 @@ img {
     transform: translate(0rem, 0rem);
     margin-bottom: 0px;
   }
+}
+
+.welcome-message {
+    text-align: center;
+    margin-top: 30px;
+    font-family: 'Montserrat', sans-serif;
+    color: var(--title-color);
+}
+
+.welcome-message h1 {
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: var(--maroon);
+    margin-top: 1rem;
+}
+
+.logo-image {
+    height: 80px; /* Adjust as needed */
+    width: auto;
+    margin-bottom: -40px;
+    margin-top: 30px;
+    margin-left: 720px;
+}
+
+/* For larger screens */
+@media screen and (min-width: 768px) {
+    .logo-image {
+        height: 100px; /* Larger logo on bigger screens */
+    }
+}
+
+
+.welcome-message p {
+    font-size: 1.2rem;
+    color: #666;
+    /* Softer text for subtitle */
+}
+
+.login__access, .login__register {
+ margin-top: -100px; /* Adjusted to move it closer to the welcome message */
 }

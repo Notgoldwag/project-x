@@ -48,7 +48,7 @@ document.addEventListener("DOMContentLoaded", function () {
         showModal("Account Registered! Redirecting to Login...");
 
         setTimeout(() => {
-          window.location.href = "/";
+          window.location.href = "/login_signup";
         }, 2000);
       } catch (error) {
         showModal("Error signing up: " + error.message);

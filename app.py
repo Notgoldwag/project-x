@@ -2,11 +2,12 @@ from flask import Flask, render_template, request, jsonify
 
 app = Flask(__name__)
 
-@app.route('/')
+@app.route('/login_signup')
 def index():
     # Example data that could be used in Jinja loops
     files = [f"File {i}" for i in range(1, 6)]
     return render_template('index.html', files=files)
+
 
 @app.route('/ask', methods=['POST'])
 def ask():
