@@ -1,0 +1,22 @@
+.welcome-message {
+    text-align: center;
+    margin-top: 20px;
+    font-family: 'Arial', sans-serif;
+}
+
+.welcome-message h1 {
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: #333;
+    /* Darker text */
+}
+
+.welcome-message p {
+    font-size: 1.2rem;
+    color: #666;
+    /* Softer text for subtitle */
+}
+
+.login__access, .login__register {
+ margin-top: -100px; /* Adjusted to move it closer to the welcome message */
+}
