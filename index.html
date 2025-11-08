@@ -16,9 +16,16 @@
   <!-- AOS (fade-in animations) -->
   <link rel="stylesheet" href="https://unpkg.com/aos@2.3.4/dist/aos.css" />
   <style>
-    html { scroll-behavior: smooth; }
+    html {
+      scroll-behavior: smooth;
+    }
+
     /* Offset for sticky header during in-page anchors */
-    section[id], h2[id] { scroll-margin-top: 112px; }
+    section[id],
+    h2[id] {
+      scroll-margin-top: 112px;
+    }
+
     /* Ensure pagination has breathing room below cards */
     .testimonials-swiper {
       padding-bottom: 3rem;
@@ -74,8 +81,10 @@
     }
 
     .faq details[open] {
-      background-color: #09bd96; /* fill whole item when open */
+      background-color: #09bd96;
+      /* fill whole item when open */
     }
+
     .faq details[open] summary {
       border-bottom-left-radius: 0;
       border-bottom-right-radius: 0;
@@ -84,8 +93,16 @@
       background-color: #09bd96;
       color: #ffffff;
     }
-    .faq details[open] summary span { color: #ffffff !important; font-weight: 700; }
-    .faq details[open] summary .chev { color: #ffffff !important; }
+
+    .faq details[open] summary span {
+      color: #ffffff !important;
+      font-weight: 700;
+    }
+
+    .faq details[open] summary .chev {
+      color: #ffffff !important;
+    }
+
     .faq details[open]>div {
       border-color: #09bd96;
       background-color: #09bd96;
@@ -117,19 +134,47 @@
 
     /* Contrast and spacing tweaks (MVP) */
     /* Increase card/module contrast */
-    .bg-slate-900\/50 { background-color: rgba(30, 41, 59, 0.9) !important; }
-    .border-border-dark { border-color: #334155 !important; }
-    .text-text-secondary-dark { color: #cbd5e1 !important; }
+    .bg-slate-900\/50 {
+      background-color: rgba(30, 41, 59, 0.9) !important;
+    }
+
+    .border-border-dark {
+      border-color: #334155 !important;
+    }
+
+    .text-text-secondary-dark {
+      color: #cbd5e1 !important;
+    }
 
     /* Tighten vertical rhythm between sections */
-    .py-20 { padding-top: 3rem !important; padding-bottom: 3rem !important; }
-    @media (min-width: 768px) {
-      .md\:py-24 { padding-top: 4rem !important; padding-bottom: 4rem !important; }
+    .py-20 {
+      padding-top: 3rem !important;
+      padding-bottom: 3rem !important;
     }
-    .py-16 { padding-top: 2.5rem !important; padding-bottom: 2.5rem !important; }
-    .mb-16 { margin-bottom: 2.5rem !important; }
-    .mt-24 { margin-top: 4rem !important; }
-    .space-y-16 > :not([hidden]) ~ :not([hidden]) { margin-top: 2.5rem !important; }
+
+    @media (min-width: 768px) {
+      .md\:py-24 {
+        padding-top: 4rem !important;
+        padding-bottom: 4rem !important;
+      }
+    }
+
+    .py-16 {
+      padding-top: 2.5rem !important;
+      padding-bottom: 2.5rem !important;
+    }
+
+    .mb-16 {
+      margin-bottom: 2.5rem !important;
+    }
+
+    .mt-24 {
+      margin-top: 4rem !important;
+    }
+
+    .space-y-16> :not([hidden])~ :not([hidden]) {
+      margin-top: 2.5rem !important;
+    }
 
     /* Gradient title style for subtle color pop */
     .gradient-title {
@@ -142,12 +187,15 @@
     /* Teal/Cyan wash on cards for more color */
     .bg-slate-900\/50,
     .bg-slate-800\/60 {
-      background-image: linear-gradient(135deg, rgba(16,185,129,0.08), rgba(56,189,248,0.06));
+      background-image: linear-gradient(135deg, rgba(16, 185, 129, 0.08), rgba(56, 189, 248, 0.06));
       background-blend-mode: overlay;
     }
 
     /* Disable gradient overlay for specific elements */
-    .no-gradient { background-image: none !important; background-blend-mode: normal !important; }
+    .no-gradient {
+      background-image: none !important;
+      background-blend-mode: normal !important;
+    }
 
     /* Subtle gradient outline glow */
     .border-border-dark {
@@ -155,27 +203,138 @@
     }
 
     /* Prefer Inter across the app for better readability */
-    .font-display { font-family: "Inter", "Plus Jakarta Sans", system-ui, Arial, sans-serif !important; }
+    .font-display {
+      font-family: "Inter", "Plus Jakarta Sans", system-ui, Arial, sans-serif !important;
+    }
 
     /* Teal gradient transformation (from home.html) */
-    .blob { position: absolute; border-radius: 50%; filter: blur(55px); opacity: .25; mix-blend-mode: screen; }
-    .blob.one { width: 42vw; height: 42vw; background: radial-gradient(circle at 30% 30%, #09bd96, transparent 60%); left: -10vw; top: -10vh; animation: float1 26s ease-in-out infinite; }
-    .blob.two { width: 36vw; height: 36vw; background: radial-gradient(circle at 70% 40%, #38bdf8, transparent 60%); right: -8vw; top: 10vh; animation: float2 24s ease-in-out infinite; }
-    .blob.three { width: 44vw; height: 44vw; background: radial-gradient(circle at 40% 60%, #09bd96, transparent 60%); left: 10vw; bottom: -12vh; animation: float3 28s ease-in-out infinite; }
-    .blob.four { width: 36vw; height: 36vw; background: radial-gradient(circle at 60% 70%, #22d3ee, transparent 60%); right: 10vw; bottom: -10vh; animation: float4 30s ease-in-out infinite; }
-    @keyframes float1 { 0%,100% { transform: translate(0,0) scale(1) } 50% { transform: translate(6vw,4vh) scale(1.06) } }
-    @keyframes float2 { 0%,100% { transform: translate(0,0) scale(1) } 50% { transform: translate(-5vw,3vh) scale(0.97) } }
-    @keyframes float3 { 0%,100% { transform: translate(0,0) scale(1) } 50% { transform: translate(4vw,-4vh) scale(1.03) } }
-    @keyframes float4 { 0%,100% { transform: translate(0,0) scale(1) } 50% { transform: translate(-4vw,-3vh) scale(1.04) } }
+    .blob {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(55px);
+      opacity: .25;
+      mix-blend-mode: screen;
+    }
+
+    .blob.one {
+      width: 42vw;
+      height: 42vw;
+      background: radial-gradient(circle at 30% 30%, #09bd96, transparent 60%);
+      left: -10vw;
+      top: -10vh;
+      animation: float1 26s ease-in-out infinite;
+    }
+
+    .blob.two {
+      width: 36vw;
+      height: 36vw;
+      background: radial-gradient(circle at 70% 40%, #38bdf8, transparent 60%);
+      right: -8vw;
+      top: 10vh;
+      animation: float2 24s ease-in-out infinite;
+    }
+
+    .blob.three {
+      width: 44vw;
+      height: 44vw;
+      background: radial-gradient(circle at 40% 60%, #09bd96, transparent 60%);
+      left: 10vw;
+      bottom: -12vh;
+      animation: float3 28s ease-in-out infinite;
+    }
+
+    .blob.four {
+      width: 36vw;
+      height: 36vw;
+      background: radial-gradient(circle at 60% 70%, #22d3ee, transparent 60%);
+      right: 10vw;
+      bottom: -10vh;
+      animation: float4 30s ease-in-out infinite;
+    }
+
+    @keyframes float1 {
+
+      0%,
+      100% {
+        transform: translate(0, 0) scale(1)
+      }
+
+      50% {
+        transform: translate(6vw, 4vh) scale(1.06)
+      }
+    }
+
+    @keyframes float2 {
+
+      0%,
+      100% {
+        transform: translate(0, 0) scale(1)
+      }
+
+      50% {
+        transform: translate(-5vw, 3vh) scale(0.97)
+      }
+    }
+
+    @keyframes float3 {
+
+      0%,
+      100% {
+        transform: translate(0, 0) scale(1)
+      }
+
+      50% {
+        transform: translate(4vw, -4vh) scale(1.03)
+      }
+    }
+
+    @keyframes float4 {
+
+      0%,
+      100% {
+        transform: translate(0, 0) scale(1)
+      }
+
+      50% {
+        transform: translate(-4vw, -3vh) scale(1.04)
+      }
+    }
 
     /* Section-scoped subtle blobs */
-    .sblob { position: absolute; border-radius: 50%; filter: blur(40px); opacity: .20; mix-blend-mode: screen; }
-    .sblob.sm { width: 220px; height: 220px; }
-    .sblob.md { width: 320px; height: 320px; }
-    .sblob.lg { width: 400px; height: 400px; }
-    .sblob-teal { background: radial-gradient(circle at 30% 30%, #09bd96, transparent 60%); }
-    .sblob-cyan { background: radial-gradient(circle at 70% 40%, #38bdf8, transparent 60%); }
-    .sblob-emerald { background: radial-gradient(circle at 40% 60%, #22c55e, transparent 60%); }
+    .sblob {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(40px);
+      opacity: .20;
+      mix-blend-mode: screen;
+    }
+
+    .sblob.sm {
+      width: 220px;
+      height: 220px;
+    }
+
+    .sblob.md {
+      width: 320px;
+      height: 320px;
+    }
+
+    .sblob.lg {
+      width: 400px;
+      height: 400px;
+    }
+
+    .sblob-teal {
+      background: radial-gradient(circle at 30% 30%, #09bd96, transparent 60%);
+    }
+
+    .sblob-cyan {
+      background: radial-gradient(circle at 70% 40%, #38bdf8, transparent 60%);
+    }
+
+    .sblob-emerald {
+      background: radial-gradient(circle at 40% 60%, #22c55e, transparent 60%);
+    }
   </style>
   <script>
     tailwind.config = {
@@ -238,21 +397,25 @@
       <div
         class="absolute left-[18%] -bottom-[12%] h-[48vh] w-[48vw] rounded-full blur-3xl bg-[radial-gradient(circle_at_center,rgba(34,197,94,0.22),transparent_60%)]">
       </div>
-      
+
     </div>
     <header class="sticky top-0 z-50 bg-background-dark/80 backdrop-blur-sm">
       <div class="container mx-auto flex items-center px-4 py-5 md:py-6">
         <div class="flex items-center gap-3">
-          <span class="material-symbols-outlined text-4xl md:text-5xl text-primary">grain</span>
-          <h2 class="text-xl md:text-2xl font-extrabold leading-tight tracking-[-0.02em]">Synergy</h2>
+          <img src="static/images/logo.png" alt="Promptliy logo" class="h-8 md:h-10" />
+          <h2 class="text-xl md:text-2xl font-extrabold leading-tight tracking-[-0.02em]">Promptliy</h2>
         </div>
         <nav class="hidden md:flex items-center gap-8 ml-12">
-          <a class="text-base font-semibold text-text-secondary-dark hover:text-text-dark transition-colors" href="#about">About</a>
-          <a class="text-base font-semibold text-text-secondary-dark hover:text-text-dark transition-colors" href="#features">Features</a>
-          <a class="text-base font-semibold text-text-secondary-dark hover:text-text-dark transition-colors" href="#how-it-works">How It Works</a>
-          <a class="text-base font-semibold text-text-secondary-dark hover:text-text-dark transition-colors" href="#logos">Trusted by</a>
-          <a class="text-base font-semibold text-text-secondary-dark hover:text-text-dark transition-colors" href="#testimonials">Testimonials</a>
-          <a class="text-base font-semibold text-text-secondary-dark hover:text-text-dark transition-colors" href="#faq">FAQ</a>
+          <a class="text-base font-semibold text-text-secondary-dark hover:text-text-dark transition-colors"
+            href="#about">About</a>
+          <a class="text-base font-semibold text-text-secondary-dark hover:text-text-dark transition-colors"
+            href="#features">Features</a>
+          <a class="text-base font-semibold text-text-secondary-dark hover:text-text-dark transition-colors"
+            href="#logos">Trusted by</a>
+          <a class="text-base font-semibold text-text-secondary-dark hover:text-text-dark transition-colors"
+            href="#testimonials">Testimonials</a>
+          <a class="text-base font-semibold text-text-secondary-dark hover:text-text-dark transition-colors"
+            href="#faq">FAQ</a>
         </nav>
         <div class="ml-auto flex items-center gap-5">
           <a class="hidden sm:inline text-base font-semibold text-text-secondary-dark hover:text-text-dark transition-colors"
@@ -269,10 +432,11 @@
     </header>
     <main>
       <section id="hero" class="container mx-auto">
-          <div class="@container">
+        <div class="@container">
           <div class="flex flex-col gap-8 px-4 py-16 @[864px]:flex-row @[864px]:py-24" data-aos="fade-up">
             <div
-              class="flex flex-col gap-6 text-center @[864px]:text-left @[864px]:w-1/2 @[864px]:justify-center @[864px]:gap-8" data-aos="fade-up" data-aos-delay="50">
+              class="flex flex-col gap-6 text-center @[864px]:text-left @[864px]:w-1/2 @[864px]:justify-center @[864px]:gap-8"
+              data-aos="fade-up" data-aos-delay="50">
               <div class="flex flex-col gap-4">
                 <h1
                   class="text-4xl font-black leading-tight tracking-[-0.033em] @[480px]:text-5xl @[864px]:text-6xl text-white gradient-title">
@@ -293,9 +457,9 @@
                 </a>
               </div>
             </div>
-            <div class="w-full bg-center bg-no-repeat aspect-video bg-cover rounded-xl @[864px]:w-1/2" data-aos="fade-left" data-aos-delay="120"
-              data-alt="Abstract gradient waves in shades of yellow and green"
-              style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuA8qqD5UiGWpBhmNzU1c74UVZsjsFcKF82XVZOba-qac9tHrQgNJqVZYbCevCfTugRjDjK_NYdI_6Srq_1Radca1Bi2dlwUzshWvkWuWR-vhC49PW3YkzBgJFFdDM2qs7K7K6jgrxtrB10Ost8fGhFpPmDmnxaoRcXfxLIfo0JeRRxbZ3CrWzRuTsw3LBFmCHrdxgTqKyXgZl98-6OhpB_pJk_b1HM_e8L8j6I7tv3xqb-FBdeEQUrg0lE2lk5svxGnhOM7KHwVZKo");'>
+            <div class="w-full bg-center bg-no-repeat aspect-video bg-cover rounded-xl @[864px]:w-1/2"
+              data-aos="fade-left" data-aos-delay="120" data-alt="dashboard.png"
+              style='background-image: url("static/images/dashboard.png");'>
             </div>
           </div>
         </div>
@@ -310,31 +474,12 @@
         <div class="px-4 @container">
           <div class="mx-auto max-w-5xl mb-20 space-y-4 text-center" data-aos="fade-up">
             <h2 id="about" class="text-4xl @[480px]:text-5xl font-extrabold text-white gradient-title">About Us</h2>
-            <p class="text-lg md:text-xl text-text-secondary-dark">We’re building a safe, multi‑agent prompting platform that helps teams ship reliable LLM features — without guesswork. Our mission is to combine security, performance, and developer productivity into one workflow.</p>
+            <p class="text-lg md:text-xl text-text-secondary-dark">We’re building a safe, multi‑agent prompting platform
+              that helps teams ship reliable LLM features — without guesswork. Our mission is to combine security,
+              performance, and developer productivity into one workflow.</p>
           </div>
 
-          <div class="mx-auto max-w-6xl" data-aos="fade-up" data-aos-delay="100">
-            <h2 id="how-it-works" class="text-4xl @[480px]:text-5xl font-extrabold text-white text-center mb-8 gradient-title">How It Works</h2>
-            <div class="grid gap-5 md:gap-6 md:grid-cols-4">
-              <div class="rounded-xl border-2 border-border-dark bg-slate-900/50 p-6 md:p-7 shadow-md">
-                <p class="text-base md:text-lg text-white font-semibold">1. Write or paste your prompt</p>
-                <p class="text-base text-text-secondary-dark">Start with a draft or existing system prompt.</p>
-              </div>
-              <div class="rounded-xl border-2 border-border-dark bg-slate-900/50 p-6 md:p-7 shadow-md">
-                <p class="text-base md:text-lg text-white font-semibold">2. Choose models</p>
-                <p class="text-base text-text-secondary-dark">Pick Grok, GPT, Gemini, Claude — or all four.</p>
-              </div>
-              <div class="rounded-xl border-2 border-border-dark bg-slate-900/50 p-6 md:p-7 shadow-md">
-                <p class="text-base md:text-lg text-white font-semibold">3. Agents refine, test, validate</p>
-                <p class="text-base text-text-secondary-dark">Orchestrated critique cycles + safety checks.</p>
-              </div>
-              <div class="rounded-xl border-2 border-border-dark bg-slate-900/50 p-6 md:p-7 shadow-md">
-                <p class="text-base md:text-lg text-white font-semibold">4. Export</p>
-                <p class="text-base text-text-secondary-dark">Download optimized, safe prompts for prod.</p>
-              </div>
-            </div>
-            <p class="mt-5 text-center text-sm text-text-secondary-dark">Diagram (text): prompts flow → multi‑model agents → refinement loop → benchmarks → safety gate → export.</p>
-          </div>
+
         </div>
       </section>
 
@@ -346,28 +491,39 @@
         </div>
         <div class="flex flex-col gap-12 px-4 py-16 @container">
           <div class="flex flex-col gap-4 text-center items-center">
-            <h2 class="text-4xl @[480px]:text-5xl font-extrabold leading-tight tracking-[-0.033em] max-w-3xl text-white gradient-title">Product Overview — Three Tools, One Platform</h2>
-            <p class="text-base font-normal leading-normal text-text-secondary-dark max-w-3xl">Prompt Engineer, Prompt Playground, and Prompt Injection Detector — built for safety, speed, and measurable quality across models.</p>
+            <h2
+              class="text-4xl @[480px]:text-5xl font-extrabold leading-tight tracking-[-0.033em] max-w-3xl text-white gradient-title">
+              Product Overview — Three Tools, One Platform</h2>
+            <p class="text-base font-normal leading-normal text-text-secondary-dark max-w-3xl">Prompt Engineer, Prompt
+              Playground, and Prompt Injection Detector — built for safety, speed, and measurable quality across models.
+            </p>
           </div>
-          <div class="grid grid-cols-[repeat(auto-fit,minmax(380px,1fr))] gap-x-10 gap-y-16 p-0" data-aos="fade-up" data-aos-delay="100">
+          <div class="grid grid-cols-[repeat(auto-fit,minmax(380px,1fr))] gap-x-10 gap-y-16 p-0" data-aos="fade-up"
+            data-aos-delay="100">
             <!-- Prompt Engineer -->
-            <div class="flex flex-1 flex-col gap-5 rounded-xl border-2 border-border-dark bg-slate-800/60 hover:bg-slate-800/70 transition-all p-8 md:p-10 shadow-lg hover:shadow-xl hover:-translate-y-1 min-h-[260px]">
+            <div
+              class="flex flex-1 flex-col gap-5 rounded-xl border-2 border-border-dark bg-slate-800/60 hover:bg-slate-800/70 transition-all p-8 md:p-10 shadow-lg hover:shadow-xl hover:-translate-y-1 min-h-[260px]">
               <span class="material-symbols-outlined text-4xl md:text-5xl text-primary">hub</span>
               <div class="flex flex-col gap-3">
                 <h3 class="text-xl md:text-2xl font-bold leading-tight text-white">Prompt Engineer</h3>
-                <p class="text-base text-text-secondary-dark">Multi-agent orchestration across Grok, GPT, Gemini, and Claude to refine prompts with critique → revise loops.</p>
+                <p class="text-base text-text-secondary-dark">Multi-agent orchestration across Grok, GPT, Gemini, and
+                  Claude to refine prompts with critique → revise loops.</p>
                 <ul class="text-base text-text-secondary-dark list-disc pl-5 space-y-1">
-                  <li><span class="text-white/90">Why it matters:</span> stronger prompts through diverse model feedback.</li>
-                  <li><span class="text-white/90">Use cases:</span> production prompts, support auto-replies, eval prompts.</li>
+                  <li><span class="text-white/90">Why it matters:</span> stronger prompts through diverse model
+                    feedback.</li>
+                  <li><span class="text-white/90">Use cases:</span> production prompts, support auto-replies, eval
+                    prompts.</li>
                 </ul>
               </div>
             </div>
             <!-- Prompt Playground -->
-            <div class="flex flex-1 flex-col gap-5 rounded-xl border-2 border-border-dark bg-slate-800/60 hover:bg-slate-800/70 transition-all p-8 md:p-10 shadow-lg hover:shadow-xl hover:-translate-y-1 min-h-[260px]">
+            <div
+              class="flex flex-1 flex-col gap-5 rounded-xl border-2 border-border-dark bg-slate-800/60 hover:bg-slate-800/70 transition-all p-8 md:p-10 shadow-lg hover:shadow-xl hover:-translate-y-1 min-h-[260px]">
               <span class="material-symbols-outlined text-4xl md:text-5xl text-primary">speed</span>
               <div class="flex flex-col gap-3">
                 <h3 class="text-xl md:text-2xl font-bold leading-tight text-white">Prompt Playground</h3>
-                <p class="text-base text-text-secondary-dark">Benchmark prompts across models with latency, cost, determinism, and output-quality scoring.</p>
+                <p class="text-base text-text-secondary-dark">Benchmark prompts across models with latency, cost,
+                  determinism, and output-quality scoring.</p>
                 <ul class="text-base text-text-secondary-dark list-disc pl-5 space-y-1">
                   <li><span class="text-white/90">Why it matters:</span> choose the best model objectively.</li>
                   <li><span class="text-white/90">Use cases:</span> side-by-side comparisons, regression checks.</li>
@@ -375,11 +531,13 @@
               </div>
             </div>
             <!-- Prompt Injection Detector -->
-            <div class="flex flex-1 flex-col gap-5 rounded-xl border-2 border-border-dark bg-slate-800/60 hover:bg-slate-800/70 transition-all p-8 md:p-10 shadow-lg hover:shadow-xl hover:-translate-y-1 min-h-[260px]">
+            <div
+              class="flex flex-1 flex-col gap-5 rounded-xl border-2 border-border-dark bg-slate-800/60 hover:bg-slate-800/70 transition-all p-8 md:p-10 shadow-lg hover:shadow-xl hover:-translate-y-1 min-h-[260px]">
               <span class="material-symbols-outlined text-4xl md:text-5xl text-primary">shield_person</span>
               <div class="flex flex-col gap-3">
                 <h3 class="text-xl md:text-2xl font-bold leading-tight text-white">Prompt Injection Detector</h3>
-                <p class="text-base text-text-secondary-dark">Score jailbreak risk, data leakage, and indirect injection; get safe rewrites instantly.</p>
+                <p class="text-base text-text-secondary-dark">Score jailbreak risk, data leakage, and indirect
+                  injection; get safe rewrites instantly.</p>
                 <ul class="text-base text-text-secondary-dark list-disc pl-5 space-y-1">
                   <li><span class="text-white/90">Why it matters:</span> protect apps, users, and data.</li>
                   <li><span class="text-white/90">Use cases:</span> trust & safety gates, CI checks.</li>
@@ -402,14 +560,17 @@
           <div class="grid gap-8 md:grid-cols-2 items-center" data-aos="fade-up">
             <div class="space-y-4 md:self-center">
               <h3 class="text-3xl font-extrabold text-white">Prompt Engineer — Multi‑Agent Orchestration</h3>
-              <p class="text-lg text-text-secondary-dark">Coordinate Grok, GPT, Gemini, and Claude in critique → respond loops.
+              <p class="text-lg text-text-secondary-dark">Coordinate Grok, GPT, Gemini, and Claude in critique → respond
+                loops.
                 Each agent proposes improvements, another critiques, and a selector converges on a stronger prompt.</p>
               <ul class="list-disc pl-5 text-base text-text-secondary-dark space-y-1">
                 <li>Role specialization: reasoning (Grok), breadth (GPT), tools (Gemini), safety/tone (Claude).</li>
                 <li>Auto‑refinement with guardrails, lexical/semantic checks, and style constraints.</li>
               </ul>
             </div>
-            <div class="rounded-xl border-2 border-border-dark bg-slate-900/50 no-gradient p-8 md:p-10 space-y-4 shadow-lg" data-aos="fade-up" data-aos-delay="100">
+            <div
+              class="rounded-xl border-2 border-border-dark bg-slate-900/50 no-gradient p-8 md:p-10 space-y-4 shadow-lg"
+              data-aos="fade-up" data-aos-delay="100">
               <p class="text-sm font-semibold text-white">Before → After</p>
               <div class="grid gap-3 md:grid-cols-2">
                 <div class="rounded-md border border-border-dark p-3 bg-slate-800/40">
@@ -430,7 +591,9 @@
 
           <!-- Prompt Playground Deep Dive -->
           <div class="grid gap-8 md:grid-cols-2 items-center" data-aos="fade-up">
-            <div class="rounded-xl border-2 border-border-dark bg-slate-900/50 p-8 md:p-10 space-y-4 order-last md:order-none shadow-lg" data-aos="fade-up" data-aos-delay="100">
+            <div
+              class="rounded-xl border-2 border-border-dark bg-slate-900/50 p-8 md:p-10 space-y-4 order-last md:order-none shadow-lg"
+              data-aos="fade-up" data-aos-delay="100">
               <p class="text-sm font-semibold text-white">Benchmark Snapshot</p>
               <ul class="text-base text-text-secondary-dark list-disc pl-5 space-y-1">
                 <li>Latency: p50/p95 per model</li>
@@ -440,12 +603,14 @@
               </ul>
               <p class="text-sm text-text-secondary-dark">Visualization (text): bar chart comparing 4 models for
                 latency/cost; heatmap for quality × determinism.</p>
-              <p class="text-base text-text-secondary-dark">Example: run your prompt across 4 models instantly and export
+              <p class="text-base text-text-secondary-dark">Example: run your prompt across 4 models instantly and
+                export
                 a side‑by‑side report.</p>
             </div>
             <div class="space-y-4 md:self-center">
               <h3 class="text-3xl font-extrabold text-white">Prompt Playground — Model Benchmarking</h3>
-              <p class="text-lg text-text-secondary-dark">Measure what matters: speed, stability, quality, and spend — so your
+              <p class="text-lg text-text-secondary-dark">Measure what matters: speed, stability, quality, and spend —
+                so your
                 team picks the right model with data, not guesses.</p>
               <ul class="list-disc pl-5 text-base text-text-secondary-dark space-y-1">
                 <li>Comparable runs with consistent temperature/seed controls.</li>
@@ -458,14 +623,16 @@
           <div class="grid gap-8 md:grid-cols-2 items-center" data-aos="fade-up">
             <div class="space-y-4 md:self-center">
               <h3 class="text-3xl font-extrabold text-white">Prompt Injection Detector — Risk Scoring</h3>
-              <p class="text-lg text-text-secondary-dark">Detect jailbreak attempts, prompt leaks, and indirect injections. Get
+              <p class="text-lg text-text-secondary-dark">Detect jailbreak attempts, prompt leaks, and indirect
+                injections. Get
                 a risk score with rationale, plus a safe rewritten version.</p>
               <ul class="list-disc pl-5 text-base text-text-secondary-dark space-y-1">
                 <li>Checks: model override, data exfiltration, tool misuse, policy evasion.</li>
                 <li>Outputs: risk score (0–100), categories, and safe rewrite suggestions.</li>
               </ul>
             </div>
-            <div class="rounded-xl border-2 border-border-dark bg-slate-900/50 p-8 md:p-10 space-y-4 shadow-lg" data-aos="fade-up" data-aos-delay="100">
+            <div class="rounded-xl border-2 border-border-dark bg-slate-900/50 p-8 md:p-10 space-y-4 shadow-lg"
+              data-aos="fade-up" data-aos-delay="100">
               <p class="text-sm font-semibold text-white">Example</p>
               <div class="grid gap-3 md:grid-cols-2">
                 <div class="rounded-md border border-border-dark p-3 bg-slate-800/40">
@@ -493,61 +660,86 @@
         </div>
         <div class="px-4 pt-1 pb-4">
           <div class="flex flex-col items-center gap-8" data-aos="fade-up">
-            <p class="text-base md:text-lg font-extrabold uppercase tracking-widest text-text-secondary-dark">Trusted by forward-thinking teams</p>
+            <p class="text-base md:text-lg font-extrabold uppercase tracking-widest text-text-secondary-dark">Trusted by
+              forward-thinking teams</p>
             <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-8 md:gap-10 opacity-95">
               <!-- Fake brand: Synergia -->
-              <div class="group flex flex-col items-center gap-2 rounded-xl border border-border-dark bg-slate-900/50 p-4 md:p-5 shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all" data-aos="fade-up" data-aos-delay="0">
+              <div
+                class="group flex flex-col items-center gap-2 rounded-xl border border-border-dark bg-slate-900/50 p-4 md:p-5 shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all"
+                data-aos="fade-up" data-aos-delay="0">
                 <div class="h-12 md:h-14 flex items-center justify-center">
-                  <svg viewBox="0 0 64 64" class="h-10 md:h-12 text-white/80 group-hover:text-white group-hover:scale-110 transition-transform duration-200" fill="currentColor" aria-hidden="true">
-                    <path d="M32 4l18 10v20l-18 10L14 34V14L32 4zM14 40l18 10 18-10v8L32 56 14 48v-8z"/>
+                  <svg viewBox="0 0 64 64"
+                    class="h-10 md:h-12 text-white/80 group-hover:text-white group-hover:scale-110 transition-transform duration-200"
+                    fill="currentColor" aria-hidden="true">
+                    <path d="M32 4l18 10v20l-18 10L14 34V14L32 4zM14 40l18 10 18-10v8L32 56 14 48v-8z" />
                   </svg>
                 </div>
                 <p class="text-[11px] md:text-xs text-text-secondary-dark">Synergia</p>
               </div>
               <!-- Fake brand: Helix Labs -->
-              <div class="group flex flex-col items-center gap-2 rounded-xl border border-border-dark bg-slate-900/50 p-4 md:p-5 shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all" data-aos="fade-up" data-aos-delay="60">
+              <div
+                class="group flex flex-col items-center gap-2 rounded-xl border border-border-dark bg-slate-900/50 p-4 md:p-5 shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all"
+                data-aos="fade-up" data-aos-delay="60">
                 <div class="h-12 md:h-14 flex items-center justify-center">
-                  <svg viewBox="0 0 64 64" class="h-10 md:h-12 text-white/80 group-hover:text-white group-hover:scale-110 transition-transform duration-200" fill="none" stroke="currentColor" stroke-width="4" aria-hidden="true">
-                    <path d="M16 12c10 10 22 10 32 0M16 52c10-10 22-10 32 0"/>
-                    <path d="M22 20c6 8 14 8 20 0M22 44c6-8 14-8 20 0"/>
+                  <svg viewBox="0 0 64 64"
+                    class="h-10 md:h-12 text-white/80 group-hover:text-white group-hover:scale-110 transition-transform duration-200"
+                    fill="none" stroke="currentColor" stroke-width="4" aria-hidden="true">
+                    <path d="M16 12c10 10 22 10 32 0M16 52c10-10 22-10 32 0" />
+                    <path d="M22 20c6 8 14 8 20 0M22 44c6-8 14-8 20 0" />
                   </svg>
                 </div>
                 <p class="text-[11px] md:text-xs text-text-secondary-dark">Helix Labs</p>
               </div>
               <!-- Fake brand: NimbusWorks -->
-              <div class="group flex flex-col items-center gap-2 rounded-xl border border-border-dark bg-slate-900/50 p-4 md:p-5 shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all" data-aos="fade-up" data-aos-delay="120">
+              <div
+                class="group flex flex-col items-center gap-2 rounded-xl border border-border-dark bg-slate-900/50 p-4 md:p-5 shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all"
+                data-aos="fade-up" data-aos-delay="120">
                 <div class="h-12 md:h-14 flex items-center justify-center">
-                  <svg viewBox="0 0 64 64" class="h-10 md:h-12 text-white/80 group-hover:text-white group-hover:scale-110 transition-transform duration-200" fill="currentColor" aria-hidden="true">
-                    <path d="M20 38h24a10 10 0 100-20 14 14 0 10-27 4A10 10 0 1020 38z"/>
+                  <svg viewBox="0 0 64 64"
+                    class="h-10 md:h-12 text-white/80 group-hover:text-white group-hover:scale-110 transition-transform duration-200"
+                    fill="currentColor" aria-hidden="true">
+                    <path d="M20 38h24a10 10 0 100-20 14 14 0 10-27 4A10 10 0 1020 38z" />
                   </svg>
                 </div>
                 <p class="text-[11px] md:text-xs text-text-secondary-dark">NimbusWorks</p>
               </div>
               <!-- Fake brand: VectorForge -->
-              <div class="group flex flex-col items-center gap-2 rounded-xl border border-border-dark bg-slate-900/50 p-4 md:p-5 shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all" data-aos="fade-up" data-aos-delay="180">
+              <div
+                class="group flex flex-col items-center gap-2 rounded-xl border border-border-dark bg-slate-900/50 p-4 md:p-5 shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all"
+                data-aos="fade-up" data-aos-delay="180">
                 <div class="h-12 md:h-14 flex items-center justify-center">
-                  <svg viewBox="0 0 64 64" class="h-10 md:h-12 text-white/80 group-hover:text-white group-hover:scale-110 transition-transform duration-200" fill="currentColor" aria-hidden="true">
-                    <path d="M8 48l24-32 24 32H8zm24-10l10 10H22l10-10z"/>
+                  <svg viewBox="0 0 64 64"
+                    class="h-10 md:h-12 text-white/80 group-hover:text-white group-hover:scale-110 transition-transform duration-200"
+                    fill="currentColor" aria-hidden="true">
+                    <path d="M8 48l24-32 24 32H8zm24-10l10 10H22l10-10z" />
                   </svg>
                 </div>
                 <p class="text-[11px] md:text-xs text-text-secondary-dark">VectorForge</p>
               </div>
               <!-- Fake brand: LuminaCloud -->
-              <div class="group flex flex-col items-center gap-2 rounded-xl border border-border-dark bg-slate-900/50 p-4 md:p-5 shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all" data-aos="fade-up" data-aos-delay="240">
+              <div
+                class="group flex flex-col items-center gap-2 rounded-xl border border-border-dark bg-slate-900/50 p-4 md:p-5 shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all"
+                data-aos="fade-up" data-aos-delay="240">
                 <div class="h-12 md:h-14 flex items-center justify-center">
-                  <svg viewBox="0 0 64 64" class="h-10 md:h-12 text-white/80 group-hover:text-white group-hover:scale-110 transition-transform duration-200" fill="none" stroke="currentColor" stroke-width="4" aria-hidden="true">
-                    <circle cx="32" cy="32" r="14"/>
-                    <path d="M32 8v8M32 48v8M8 32h8M48 32h8M14 14l6 6M44 44l6 6M50 14l-6 6M14 50l6-6"/>
+                  <svg viewBox="0 0 64 64"
+                    class="h-10 md:h-12 text-white/80 group-hover:text-white group-hover:scale-110 transition-transform duration-200"
+                    fill="none" stroke="currentColor" stroke-width="4" aria-hidden="true">
+                    <circle cx="32" cy="32" r="14" />
+                    <path d="M32 8v8M32 48v8M8 32h8M48 32h8M14 14l6 6M44 44l6 6M50 14l-6 6M14 50l6-6" />
                   </svg>
                 </div>
                 <p class="text-[11px] md:text-xs text-text-secondary-dark">LuminaCloud</p>
               </div>
               <!-- Fake brand: OrbitSoft -->
-              <div class="group flex flex-col items-center gap-2 rounded-xl border border-border-dark bg-slate-900/50 p-4 md:p-5 shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all" data-aos="fade-up" data-aos-delay="300">
+              <div
+                class="group flex flex-col items-center gap-2 rounded-xl border border-border-dark bg-slate-900/50 p-4 md:p-5 shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all"
+                data-aos="fade-up" data-aos-delay="300">
                 <div class="h-12 md:h-14 flex items-center justify-center">
-                  <svg viewBox="0 0 64 64" class="h-10 md:h-12 text-white/80 group-hover:text-white group-hover:scale-110 transition-transform duration-200" fill="none" stroke="currentColor" stroke-width="4" aria-hidden="true">
-                    <circle cx="32" cy="32" r="10"/>
-                    <ellipse cx="32" cy="32" rx="24" ry="10"/>
+                  <svg viewBox="0 0 64 64"
+                    class="h-10 md:h-12 text-white/80 group-hover:text-white group-hover:scale-110 transition-transform duration-200"
+                    fill="none" stroke="currentColor" stroke-width="4" aria-hidden="true">
+                    <circle cx="32" cy="32" r="10" />
+                    <ellipse cx="32" cy="32" rx="24" ry="10" />
                   </svg>
                 </div>
                 <p class="text-[11px] md:text-xs text-text-secondary-dark">OrbitSoft</p>
@@ -615,14 +807,16 @@
           </div>
         </div>
       </section>
-      
+
       <section id="testimonials" class="container mx-auto py-20 md:py-24 relative" data-aos="fade-up">
         <div class="pointer-events-none absolute inset-0 -z-10 overflow-hidden">
           <div class="sblob md sblob-cyan" style="left:-6%; top:6%"></div>
           <div class="sblob sm sblob-teal" style="right:-6%; bottom:8%"></div>
         </div>
         <div class="flex flex-col gap-8 text-center px-4">
-          <h2 class="text-4xl @[480px]:text-5xl font-extrabold leading-tight tracking-[-0.033em] text-white gradient-title">Loved by teams
+          <h2
+            class="text-4xl @[480px]:text-5xl font-extrabold leading-tight tracking-[-0.033em] text-white gradient-title">
+            Loved by teams
             worldwide</h2>
         </div>
         <div class="mt-10 px-4">
@@ -786,39 +980,49 @@
           <div class="px-4 @container">
 
             <div class="mx-auto max-w-6xl mb-16">
-              <h2 id="features-2" class="text-4xl @[480px]:text-5xl font-extrabold text-white text-center mb-6 gradient-title">Features</h2>
+              <h2 id="features-2"
+                class="text-4xl @[480px]:text-5xl font-extrabold text-white text-center mb-6 gradient-title">Features
+              </h2>
               <div class="grid gap-8 md:gap-10 sm:grid-cols-2 lg:grid-cols-3">
-                <div class="rounded-xl border-2 border-border-dark bg-slate-900/50 p-6 md:p-7 shadow-md hover:shadow-lg hover:-translate-y-0.5 transition-all min-h-[160px] flex flex-col items-center justify-center text-center">
+                <div
+                  class="rounded-xl border-2 border-border-dark bg-slate-900/50 p-6 md:p-7 shadow-md hover:shadow-lg hover:-translate-y-0.5 transition-all min-h-[160px] flex flex-col items-center justify-center text-center">
                   <p class="text-base md:text-lg text-white font-semibold">Multi‑agent orchestration</p>
                   <p class="text-base text-text-secondary-dark">Coordinated critique‑respond loops across models.</p>
                 </div>
-                <div class="rounded-xl border-2 border-border-dark bg-slate-900/50 p-6 md:p-7 shadow-md hover:shadow-lg hover:-translate-y-0.5 transition-all min-h-[160px] flex flex-col items-center justify-center text-center">
+                <div
+                  class="rounded-xl border-2 border-border-dark bg-slate-900/50 p-6 md:p-7 shadow-md hover:shadow-lg hover:-translate-y-0.5 transition-all min-h-[160px] flex flex-col items-center justify-center text-center">
                   <p class="text-base md:text-lg text-white font-semibold">Real‑time latency charts</p>
                   <p class="text-base text-text-secondary-dark">Track p50/p95 and throughput trends.</p>
                 </div>
-                <div class="rounded-xl border-2 border-border-dark bg-slate-900/50 p-6 md:p-7 shadow-md hover:shadow-lg hover:-translate-y-0.5 transition-all min-h-[160px] flex flex-col items-center justify-center text-center">
+                <div
+                  class="rounded-xl border-2 border-border-dark bg-slate-900/50 p-6 md:p-7 shadow-md hover:shadow-lg hover:-translate-y-0.5 transition-all min-h-[160px] flex flex-col items-center justify-center text-center">
                   <p class="text-base md:text-lg text-white font-semibold">Safety scoring</p>
                   <p class="text-base text-text-secondary-dark">Jailbreak and data‑leak detection with rewrites.</p>
                 </div>
-                <div class="rounded-xl border-2 border-border-dark bg-slate-900/50 p-6 md:p-7 shadow-md hover:shadow-lg hover:-translate-y-0.5 transition-all min-h-[160px] flex flex-col items-center justify-center text-center">
+                <div
+                  class="rounded-xl border-2 border-border-dark bg-slate-900/50 p-6 md:p-7 shadow-md hover:shadow-lg hover:-translate-y-0.5 transition-all min-h-[160px] flex flex-col items-center justify-center text-center">
                   <p class="text-base md:text-lg text-white font-semibold">Exportable prompts</p>
                   <p class="text-base text-text-secondary-dark">Download JSON/YAML or copy to clipboard.</p>
                 </div>
-                <div class="rounded-xl border-2 border-border-dark bg-slate-900/50 p-6 md:p-7 shadow-md hover:shadow-lg hover:-translate-y-0.5 transition-all min-h-[160px] flex flex-col items-center justify-center text-center">
+                <div
+                  class="rounded-xl border-2 border-border-dark bg-slate-900/50 p-6 md:p-7 shadow-md hover:shadow-lg hover:-translate-y-0.5 transition-all min-h-[160px] flex flex-col items-center justify-center text-center">
                   <p class="text-base md:text-lg text-white font-semibold">Model comparisons</p>
                   <p class="text-base text-text-secondary-dark">Side‑by‑side runs with scoring.</p>
                 </div>
-                <div class="rounded-xl border-2 border-border-dark bg-slate-900/50 p-6 md:p-7 shadow-md hover:shadow-lg hover:-translate-y-0.5 transition-all min-h-[160px] flex flex-col items-center justify-center text-center">
+                <div
+                  class="rounded-xl border-2 border-border-dark bg-slate-900/50 p-6 md:p-7 shadow-md hover:shadow-lg hover:-translate-y-0.5 transition-all min-h-[160px] flex flex-col items-center justify-center text-center">
                   <p class="text-base md:text-lg text-white font-semibold">Developer‑first UX</p>
                   <p class="text-base text-text-secondary-dark">Keyboard shortcuts, logs, and diffs.</p>
                 </div>
               </div>
             </div>
 
-            
 
-            <div class="flex flex-col gap-4 text-center items-center mt-30 md:mt-28" data-aos="fade-up" data-aos-delay="50">
-              <h2 id="faq" class="text-4xl @[480px]:text-5xl font-extrabold leading-tight tracking-[-0.033em] max-w-2xl text-white gradient-title">
+
+            <div class="flex flex-col gap-4 text-center items-center mt-30 md:mt-28" data-aos="fade-up"
+              data-aos-delay="50">
+              <h2 id="faq"
+                class="text-4xl @[480px]:text-5xl font-extrabold leading-tight tracking-[-0.033em] max-w-2xl text-white gradient-title">
                 Frequently Asked Questions</h2>
               <p class="text-base font-normal leading-normal text-text-secondary-dark max-w-2xl">Quick answers to common
                 questions. Reach out if you need more details.</p>
@@ -959,9 +1163,11 @@
         <section id="cta" class="container mx-auto py-20 md:py-24">
           <div class="bg-primary/15 rounded-lg @container mx-4">
             <div
-              class="flex flex-col items-center justify-end gap-6 px-4 py-16 text-center @[480px]:gap-8 @[480px]:px-10 @[480px]:py-20" data-aos="fade-up">
+              class="flex flex-col items-center justify-end gap-6 px-4 py-16 text-center @[480px]:gap-8 @[480px]:px-10 @[480px]:py-20"
+              data-aos="fade-up">
               <div class="flex flex-col gap-2">
-                <h2 class="text-3xl font-bold leading-tight tracking-[-0.033em] @[480px]:text-4xl max-w-3xl text-white gradient-title">
+                <h2
+                  class="text-3xl font-bold leading-tight tracking-[-0.033em] @[480px]:text-4xl max-w-3xl text-white gradient-title">
                   Start engineering better prompts today</h2>
                 <p class="text-base font-normal leading-normal text-text-secondary-dark max-w-2xl">Safer prompts, faster
                   decisions, measurable quality — all in one place.</p>
@@ -985,8 +1191,8 @@
         <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
           <div class="col-span-2 md:col-span-1">
             <div class="flex items-center gap-2 mb-4">
-              <span class="material-symbols-outlined text-3xl text-primary">grain</span>
-              <h2 class="text-lg font-bold leading-tight tracking-[-0.015em]">Synergy</h2>
+              <img src="static/images/logo.png" alt="Promptliy logo" class="h-6" />
+              <h2 class="text-lg font-bold leading-tight tracking-[-0.015em]">Promptliy</h2>
             </div>
             <p class="text-sm text-text-secondary-dark">Safer prompting for modern AI teams — multi‑agent orchestration,
               benchmarking, and injection defense.</p>
@@ -995,8 +1201,8 @@
             <h3 class="font-bold mb-4 text-white">Product</h3>
             <ul class="space-y-2">
               <li><a class="text-sm text-text-secondary-dark hover:text-text-dark" href="#features">Features</a></li>
-              <li><a class="text-sm text-text-secondary-dark hover:text-text-dark" href="#testimonials">Testimonials</a></li>
-              <li><a class="text-sm text-text-secondary-dark hover:text-text-dark" href="#how-it-works">How It Works</a></li>
+              <li><a class="text-sm text-text-secondary-dark hover:text-text-dark" href="#testimonials">Testimonials</a>
+              </li>
               <li><a class="text-sm text-text-secondary-dark hover:text-text-dark" href="#product">Deep Dive</a></li>
             </ul>
           </div>
@@ -1004,7 +1210,8 @@
             <h3 class="font-bold mb-4 text-white">Company</h3>
             <ul class="space-y-2">
               <li><a class="text-sm text-text-secondary-dark hover:text-text-dark" href="#about">About</a></li>
-              <li><a class="text-sm text-text-secondary-dark hover:text-text-dark" href="#testimonials">Testimonials</a></li>
+              <li><a class="text-sm text-text-secondary-dark hover:text-text-dark" href="#testimonials">Testimonials</a>
+              </li>
               <li><a class="text-sm text-text-secondary-dark hover:text-text-dark" href="#logos">Trusted by</a></li>
               <li><a class="text-sm text-text-secondary-dark hover:text-text-dark" href="#faq">FAQ</a></li>
             </ul>
@@ -1019,16 +1226,19 @@
         </div>
         <div
           class="mt-12 border-t border-[#334155] pt-8 flex flex-col sm:flex-row justify-between items-center text-sm text-text-secondary-dark">
-          <p>&copy; 2025 Synergy. All rights reserved.</p>
+          <p>&copy; 2025 Promptliy. All rights reserved.</p>
           <div class="flex gap-4 mt-4 sm:mt-0">
             <a aria-label="Twitter" href="#">
-              <img alt="Twitter" class="h-5 w-5 opacity-80 hover:opacity-100 transition-opacity filter invert" src="https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/x.svg" />
+              <img alt="Twitter" class="h-5 w-5 opacity-80 hover:opacity-100 transition-opacity filter invert"
+                src="https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/x.svg" />
             </a>
             <a aria-label="LinkedIn" href="#">
-              <img alt="LinkedIn" class="h-5 w-5 opacity-80 hover:opacity-100 transition-opacity filter invert" src="https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/linkedin.svg" />
+              <img alt="LinkedIn" class="h-5 w-5 opacity-80 hover:opacity-100 transition-opacity filter invert"
+                src="https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/linkedin.svg" />
             </a>
             <a aria-label="Facebook" href="#">
-              <img alt="Facebook" class="h-5 w-5 opacity-80 hover:opacity-100 transition-opacity filter invert" src="https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/facebook.svg" />
+              <img alt="Facebook" class="h-5 w-5 opacity-80 hover:opacity-100 transition-opacity filter invert"
+                src="https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/facebook.svg" />
             </a>
           </div>
         </div>

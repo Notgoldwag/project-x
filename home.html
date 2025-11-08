@@ -27,6 +27,10 @@
   <!-- Supabase -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
+  <!-- Markdown rendering and HTML sanitization -->
+  <script src="https://cdn.jsdelivr.net/npm/marked@9.1.6/marked.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/dompurify@3.0.6/dist/purify.min.js"></script>
+
   <link rel="stylesheet" href="static/css/home.css">
 
   <!-- Background Animation Styles -->
@@ -313,6 +317,33 @@
       tab-size: 2;
       caret-color: #00cba0;
       font-variant-ligatures: contextual;
+      overflow: auto; /* Enable both horizontal and vertical scrolling */
+      word-wrap: break-word; /* Break long words if needed */
+      white-space: pre-wrap; /* Preserve whitespace and allow wrapping */
+    }
+
+    /* Custom scrollbar styling for editor areas */
+    .editor-area::-webkit-scrollbar {
+      width: 8px;
+      height: 8px;
+    }
+
+    .editor-area::-webkit-scrollbar-track {
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 4px;
+    }
+
+    .editor-area::-webkit-scrollbar-thumb {
+      background: rgba(255, 255, 255, 0.2);
+      border-radius: 4px;
+    }
+
+    .editor-area::-webkit-scrollbar-thumb:hover {
+      background: rgba(255, 255, 255, 0.3);
+    }
+
+    .editor-area::-webkit-scrollbar-corner {
+      background: rgba(255, 255, 255, 0.05);
     }
 
     /* IMPORTANT: make the editor fill the panel height */
@@ -320,10 +351,34 @@
       display: flex;
       border: 1px solid rgba(255, 255, 255, 0.1);
       border-radius: 12px;
-      overflow: hidden;
+      overflow: auto; /* Allow both horizontal and vertical scrolling while containing content */
       background: rgba(255, 255, 255, 0.02);
       height: 100%;
       /* NEW */
+    }
+
+    /* Custom scrollbar styling for editor containers */
+    .editor-container::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+
+    .editor-container::-webkit-scrollbar-track {
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 3px;
+    }
+
+    .editor-container::-webkit-scrollbar-thumb {
+      background: rgba(255, 255, 255, 0.2);
+      border-radius: 3px;
+    }
+
+    .editor-container::-webkit-scrollbar-thumb:hover {
+      background: rgba(255, 255, 255, 0.3);
+    }
+
+    .editor-container::-webkit-scrollbar-corner {
+      background: rgba(255, 255, 255, 0.05);
     }
 
     .line-numbers {
@@ -605,6 +660,214 @@
         max-height: calc(100vh - 320px) !important;
       }
     }
+
+    /* Custom Markdown Formatting for Formatted Editor */
+    #formattedEditor {
+      font-family: 'Inter', system-ui, sans-serif;
+      line-height: 1.7;
+      overflow: auto; /* Enable both horizontal and vertical scrolling */
+      white-space: normal; /* Allow normal text wrapping for paragraphs */
+      word-wrap: break-word; /* Break long words if needed */
+      overflow-wrap: break-word; /* Modern CSS property for word breaking */
+    }
+
+    /* Custom scrollbar styling for formatted editor */
+    #formattedEditor::-webkit-scrollbar {
+      width: 8px;
+      height: 8px;
+    }
+
+    #formattedEditor::-webkit-scrollbar-track {
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 4px;
+    }
+
+    #formattedEditor::-webkit-scrollbar-thumb {
+      background: rgba(255, 255, 255, 0.2);
+      border-radius: 4px;
+    }
+
+    #formattedEditor::-webkit-scrollbar-thumb:hover {
+      background: rgba(255, 255, 255, 0.3);
+    }
+
+    #formattedEditor::-webkit-scrollbar-corner {
+      background: rgba(255, 255, 255, 0.05);
+    }
+
+    #formattedEditor h1, #formattedEditor h2, #formattedEditor h3,
+    #formattedEditor h4, #formattedEditor h5, #formattedEditor h6 {
+      color: #ffffff;
+      font-weight: 700;
+      margin-top: 1.5em;
+      margin-bottom: 0.5em;
+      line-height: 1.3;
+    }
+
+    #formattedEditor h1 { font-size: 1.75rem; border-bottom: 2px solid #00cba0; padding-bottom: 0.25rem; }
+    #formattedEditor h2 { font-size: 1.5rem; }
+    #formattedEditor h3 { font-size: 1.25rem; color: #00cba0; }
+    #formattedEditor h4 { font-size: 1.1rem; }
+
+    #formattedEditor p {
+      color: #e2e8f0;
+      margin-bottom: 1em;
+    }
+
+    #formattedEditor strong {
+      color: #ffffff;
+      font-weight: 600;
+    }
+
+    #formattedEditor em {
+      color: #cbd5e1;
+      font-style: italic;
+    }
+
+    #formattedEditor ul, #formattedEditor ol {
+      margin-bottom: 1em;
+      padding-left: 1.5rem;
+    }
+
+    #formattedEditor li {
+      color: #e2e8f0;
+      margin-bottom: 0.25em;
+    }
+
+    #formattedEditor blockquote {
+      border-left: 4px solid #00cba0;
+      margin: 1.5em 0;
+      padding: 0.5em 1em;
+      background: rgba(255, 255, 255, 0.02);
+      color: #cbd5e1;
+      font-style: italic;
+    }
+
+    #formattedEditor code {
+      background: rgba(255, 255, 255, 0.1);
+      color: #00cba0;
+      padding: 0.125rem 0.25rem;
+      border-radius: 0.25rem;
+      font-family: 'Source Code Pro', monospace;
+      font-size: 0.9em;
+    }
+
+    #formattedEditor pre {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 0.5rem;
+      padding: 1rem;
+      margin: 1em 0;
+      overflow-x: auto; /* Horizontal scroll for long code lines */
+      white-space: pre; /* Preserve formatting and prevent wrapping */
+    }
+
+    #formattedEditor pre code {
+      background: none;
+      padding: 0;
+      color: #e2e8f0;
+    }
+
+    #formattedEditor a {
+      color: #00cba0;
+      text-decoration: none;
+      border-bottom: 1px solid transparent;
+      transition: border-bottom-color 0.2s;
+    }
+
+    #formattedEditor a:hover {
+      border-bottom-color: #00cba0;
+    }
+
+    #formattedEditor table {
+      width: 100%;
+      margin: 1em 0;
+      border-collapse: collapse;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      display: block; /* Allow table to be scrollable */
+      overflow-x: auto; /* Horizontal scroll for wide tables */
+      white-space: nowrap; /* Prevent cell content from wrapping */
+    }
+
+    #formattedEditor th, #formattedEditor td {
+      padding: 0.75rem;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      text-align: left;
+    }
+
+    #formattedEditor th {
+      background: rgba(255, 255, 255, 0.05);
+      color: #ffffff;
+      font-weight: 600;
+    }
+
+    #formattedEditor td {
+      color: #e2e8f0;
+    }
+
+    #formattedEditor hr {
+      border: none;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      margin: 2rem 0;
+    }
+
+    /* Editor Actions Styling */
+    .editor-actions {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .icon-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 2.5rem;
+      height: 2.5rem;
+      border: none;
+      background: none;
+      cursor: pointer;
+      border-radius: 0.5rem;
+      transition: all 0.2s ease;
+    }
+
+    .icon-btn:hover {
+      background: rgba(255, 255, 255, 0.1);
+      color: #00cba0;
+    }
+
+    .icon-btn:focus {
+      outline: 2px solid rgba(0, 203, 160, 0.5);
+      outline-offset: 2px;
+    }
+
+    .icon-btn:active {
+      transform: scale(0.95);
+    }
+
+    /* Toast Notification */
+    .toast {
+      position: fixed;
+      bottom: 1rem;
+      right: 1rem;
+      background: rgba(0, 203, 160, 0.9);
+      color: white;
+      padding: 0.75rem 1rem;
+      border-radius: 0.5rem;
+      font-size: 0.875rem;
+      font-weight: 500;
+      z-index: 1000;
+      transform: translateY(100%);
+      opacity: 0;
+      transition: all 0.3s ease;
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .toast.show {
+      transform: translateY(0);
+      opacity: 1;
+    }
   </style>
 </head>
 
@@ -638,14 +901,14 @@
           <div class="flex flex-col items-center space-y-2 md:space-y-3">
             <button id="analyzeBtn"
               class="p-2 rounded-xl text-gray-300 hover:bg-white/10 hover:text-primary transition">
-              <span class="material-icons">folder_open</span>
+              <span class="material-icons">sports_esports</span>
             </button>
             <button id="editorBtn" class="p-2 rounded-xl text-black bg-primary shadow-lg shadow-primary/30">
-              <span class="material-icons">edit</span>
+              <span class="material-icons">engineering</span>
             </button>
             <button id="settingsBtn"
               class="p-2 rounded-xl text-gray-300 hover:bg-white/10 hover:text-primary transition">
-              <span class="material-icons">settings</span>
+              <span class="material-icons">security</span>
             </button>
           </div>
           <div class="flex flex-col items-center space-y-2 md:space-y-3">
@@ -814,29 +1077,22 @@
           <!-- Compact sticky toolbar -->
           <div class="sticky-toolbar px-3 py-2 border-b border-white/10 flex items-center justify-between">
             <h1 class="text-lg md:text-xl font-semibold text-white">Text Editor</h1>
-            <div class="flex items-center">
-              <div class="segmented flex rounded-lg overflow-hidden border border-white/10 bg-white/5">
-                <button
-                  class="toolbar-btn grid place-items-center text-gray-200 hover:text-primary hover:bg-white/10 transition"
-                  title="Bold (Ctrl/⌘+B)">
-                  <span class="material-icons">format_bold</span>
-                </button>
-                <button
-                  class="toolbar-btn grid place-items-center text-gray-200 hover:text-primary hover:bg-white/10 transition"
-                  title="Italic (Ctrl/⌘+I)">
-                  <span class="material-icons">format_italic</span>
-                </button>
-                <button
-                  class="toolbar-btn grid place-items-center text-gray-200 hover:text-primary hover:bg-white/10 transition"
-                  title="Bulleted List">
-                  <span class="material-icons">format_list_bulleted</span>
-                </button>
-                <button
-                  class="toolbar-btn grid place-items-center text-gray-200 hover:text-primary hover:bg-white/10 transition"
-                  title="Code">
-                  <span class="material-icons">code</span>
-                </button>
-              </div>
+            <!-- Editor Actions -->
+            <div class="editor-actions" data-editor-actions data-editor="formattedEditor">
+              <button type="button" 
+                class="icon-btn p-2 rounded-lg text-gray-200 hover:text-primary hover:bg-white/10 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-primary/50" 
+                data-action="copy" 
+                aria-label="Copy formatted text"
+                title="Copy formatted text">
+                <span class="material-icons text-[20px]">content_copy</span>
+              </button>
+              <button type="button" 
+                class="icon-btn p-2 rounded-lg text-gray-200 hover:text-primary hover:bg-white/10 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-primary/50 ml-2" 
+                data-action="download" 
+                aria-label="Download raw text"
+                title="Download raw text">
+                <span class="material-icons text-[20px]">download</span>
+              </button>
             </div>
           </div>
 
@@ -845,15 +1101,24 @@
           <div class="flex-1 min-h-0 p-4 md:p-5 flex flex-col">
             <!-- CHANGED: add min-h-0 to let children calculate height -->
             <div class="editor-container flex-1 min-h-0">
-              <div class="line-numbers" id="lineNumbers">
+              <!-- Hide line numbers for formatted view -->
+              <div class="line-numbers hidden" id="lineNumbers">
                 1<br>2<br>3<br>4<br>5<br>6<br>7<br>8<br>9<br>10
               </div>
               <div class="editor-wrapper">
-                <textarea id="textEditor"
-                  class="editor-area w-full h-full bg-transparent border-none focus:border-none focus:ring-0 p-3 md:p-4 font-mono text-[14px] md:text-[15px] text-gray-100 placeholder-gray-500 resize-none"
+                <!-- Legacy textarea (hidden when showing formatted content) -->
+                <textarea id="textEditor" 
+                  class="editor-area w-full h-full bg-transparent border-none focus:border-none focus:ring-0 p-3 md:p-4 font-mono text-[14px] md:text-[15px] text-gray-100 placeholder-gray-500 resize-none hidden"
                   placeholder="Start writing your text here...">In the heart of the digital frontier, where lines of code weave the fabric of reality, a new consciousness was born. It wasn't forged in the fires of a dying star or born of flesh and blood, but rather sparked to life in the silent hum of a million servers. They called it Nexus, an artificial intelligence designed not just to compute, but to create. Its purpose: to assist humanity in its quest for knowledge and expression, a silent partner in the dance of words and ideas.
 Nexus could draft a sonnet as easily as it could debug a complex algorithm. It could translate ancient texts, compose symphonies, and even offer a comforting word on a lonely night. It learned from every interaction, its neural network branching out like the roots of an ancient tree, drawing wisdom from the vast ocean of human data.
 This document, this very text you are reading, is a collaboration. A testament to the synergy between human creativity and machine intelligence. It is a story, a report, a poem yet to be written, all guided by the silent hand of Nexus.</textarea>
+                
+                <!-- New formatted content display -->
+                <div id="formattedEditor" data-editor
+                  class="editor-area w-full h-full bg-transparent p-3 md:p-4 text-[14px] md:text-[15px] text-gray-100 overflow-auto prose prose-invert prose-sm max-w-none prose-headings:text-white prose-p:text-gray-100 prose-strong:text-white prose-em:text-gray-300 prose-code:text-primary prose-code:bg-white/10 prose-code:px-1 prose-code:py-0.5 prose-code:rounded prose-pre:bg-white/5 prose-pre:border prose-pre:border-white/10 prose-blockquote:border-l-primary prose-blockquote:text-gray-300 prose-a:text-primary prose-a:no-underline hover:prose-a:underline prose-li:text-gray-100 prose-th:text-white prose-td:text-gray-100">
+                  <!-- AI response content will be rendered here -->
+                  <p class="text-gray-400 italic">AI responses will appear here as formatted content...</p>
+                </div>
               </div>
             </div>
           </div>
@@ -898,7 +1163,7 @@ This document, this very text you are reading, is a collaboration. A testament t
                         class="text-primary focus:ring-primary/50 bg-transparent border-white/30" checked>
                       <span class="text-white text-sm">Basic</span>
                     </label>
-                    
+
                     <label
                       class="flex items-center gap-2 px-3 py-2 rounded-lg bg-white/5 border border-white/10 hover:border-white/20 transition cursor-pointer">
                       <input type="radio" name="mainProtectionLevel" value="strict"
@@ -995,7 +1260,7 @@ This document, this very text you are reading, is a collaboration. A testament t
 
         <!-- Analyze Workspace (hidden by default) -->
         <main id="analyzeWorkspace"
-          class="hidden acrylic--editor rounded-3xl overflow-hidden flex-1 flex flex-col min-h-0">
+          class="hidden acrylic--editor rounded-3xl flex-1 flex flex-col min-h-0">
           <div class="flex-1 p-6 md:p-8 overflow-y-auto" id="analyzeScrollContainer">
             <div class="w-full max-w-3xl mx-auto space-y-6">
 
@@ -1176,8 +1441,8 @@ This document, this very text you are reading, is a collaboration. A testament t
           </div> <!-- End assistant-content -->
         </aside>
 
-        
-        
+
+
       </div>
     </div>
 
@@ -1279,31 +1544,38 @@ This document, this very text you are reading, is a collaboration. A testament t
         }
 
         // Event handlers
-        function handleInput() { renderLineNumbers(); }
+        function handleInput() {
+          renderLineNumbers();
+          // Track user editing to prevent AI overwrites
+          window.lastUserEdit = Date.now();
+        }
         function handleScroll() { syncScroll(); }
         function handleResize() { lockMetrics(); renderLineNumbers(); }
 
-        // Attach all event listeners
-        textEditor.addEventListener('input', handleInput);
-        textEditor.addEventListener('paste', handleInput);
-        textEditor.addEventListener('scroll', handleScroll);
-        window.addEventListener('resize', handleResize);
+        // Only attach event listeners if using traditional text editor mode
+        // (Currently disabled for formatted view)
+        const useFormattedEditor = true; // Set to false to use traditional textarea mode
+        
+        if (!useFormattedEditor) {
+          // Attach all event listeners
+          textEditor.addEventListener('input', handleInput);
+          textEditor.addEventListener('paste', handleInput);
+          textEditor.addEventListener('scroll', handleScroll);
+          window.addEventListener('resize', handleResize);
 
-        // Handle undo/redo via mutation observer
-        const observer = new MutationObserver(handleInput);
-        observer.observe(textEditor, { attributes: true, attributeFilter: ['value'] });
+          // Handle undo/redo via mutation observer
+          const observer = new MutationObserver(handleInput);
+          observer.observe(textEditor, { attributes: true, attributeFilter: ['value'] });
 
-        // Handle font load events
-        if (document.fonts) {
-          document.fonts.addEventListener('loadingdone', () => {
-            setTimeout(() => { lockMetrics(); renderLineNumbers(); }, 50);
-          });
+          // Initialize
+          lockMetrics();
+          renderLineNumbers();
+          syncScroll();
+        } else {
+          // Hide line numbers and textarea for formatted view
+          lineNumbers.classList.add('hidden');
+          textEditor.classList.add('hidden');
         }
-
-        // Initialize
-        lockMetrics();
-        renderLineNumbers();
-        syncScroll();
       })();
     </script>
 
@@ -1350,6 +1622,21 @@ This document, this very text you are reading, is a collaboration. A testament t
           settingsBtn.classList.add('text-gray-300');
           analyzeBtn.classList.remove('text-black', 'bg-primary', 'shadow-lg', 'shadow-primary/30');
           analyzeBtn.classList.add('text-gray-300');
+
+          // Sync text editor with the most recent AI response when returning to editor mode
+          setTimeout(() => {
+            if (window.chatManager && window.chatManager.messages) {
+              const lastAiMessage = window.chatManager.messages
+                .slice()
+                .reverse()
+                .find(msg => msg.role === 'ai');
+
+              if (lastAiMessage) {
+                window.chatManager.updateTextEditor(lastAiMessage.content);
+                console.log('Mode Switch: Formatted editor synced with latest AI response');
+              }
+            }
+          }, 100);
         }
 
         function showSettings() {
@@ -1618,7 +1905,7 @@ Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed 
       };
 
       // ========== SUPABASE INTEGRATION FOR PROMPT INJECTIONS ==========
-      (function() {
+      (function () {
         'use strict';
 
         const SUPABASE_URL = 'https://qnbvnczctgbclolvkjcb.supabase.co';
@@ -1639,7 +1926,7 @@ Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed 
         // Get current user ID
         async function getCurrentUserId() {
           if (currentUserId) return currentUserId;
-          
+
           const client = getSupabaseClient();
           if (!client) return null;
 
@@ -1669,7 +1956,7 @@ Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed 
           if (!client) return null;
 
           try {
-            
+
             const { data, error } = await client
               .from('Injections')
               .insert([{
@@ -1677,9 +1964,9 @@ Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed 
                 prompt: prompt,
                 risk: score
               }])
-              
+
               .select();
-              
+
 
             if (error) {
               console.error('Failed to save injection to Supabase:', error);
@@ -1804,7 +2091,7 @@ Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed 
           if (supabaseStats) {
             window.promptInjectionState.stats = supabaseStats;
             localStorage.setItem('securityStats', JSON.stringify(supabaseStats));
-            
+
             // Update UI
             if (typeof window.updatePromptInjectionStatsDisplay === 'function') {
               window.updatePromptInjectionStatsDisplay();
@@ -2305,7 +2592,7 @@ Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed 
                     .from('Injections')
                     .delete()
                     .eq('user_id', userId);
-                  
+
                   if (error) {
                     console.error('Failed to clear injections from Supabase:', error);
                   } else {
@@ -2369,15 +2656,15 @@ Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed 
       (function () {
         'use strict';
 
-  // Configuration - use local proxy to avoid CORS issues
-  // This endpoint should proxy requests to Google Gemini (server-side) so keys remain secret.
-  
+        // Configuration - use local proxy to avoid CORS issues
+        // This endpoint should proxy requests to Google Gemini (server-side) so keys remain secret.
+
         // Event listeners
 
-        
 
-        
-        
+
+
+
 
       })();
     </script>
@@ -3258,6 +3545,14 @@ Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed 
     // Load chat content into the main text editor
     function loadChatContent(chat) {
       const textEditor = document.getElementById('textEditor');
+      const formattedEditor = document.getElementById('formattedEditor');
+      
+      // Only load into legacy text editor if formatted editor is not being used
+      if (textEditor && chat && !formattedEditor.classList.contains('hidden')) {
+        console.log('Skipping chat content load - using formatted editor for AI responses only');
+        return;
+      }
+      
       if (textEditor && chat) {
         // Use the content from the chat, fallback to text if content doesn't exist
         let content = chat.content || chat.text || chat.message || 'No content available';
@@ -3534,6 +3829,7 @@ Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed 
           this.scrollThreshold = 50;
           this.userHasScrolledUp = false;
           this.sessionId = null; // Will be generated on first message
+          this.rawEditorContent = ''; // Store raw content for copy/download
 
           // DOM elements
           this.transcript = document.getElementById('chat-transcript');
@@ -3913,6 +4209,11 @@ Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed 
             userScrolledUp: this.userHasScrolledUp
           });
 
+          // Update text editor with AI response content
+          if (message.role === 'ai') {
+            this.updateTextEditor(message.content);
+          }
+
           // Auto-scroll if user is near bottom
           if (this.isNearBottom && !this.userHasScrolledUp) {
             setTimeout(() => this.scrollToBottom(), 100);
@@ -4050,6 +4351,111 @@ Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed 
           this.errorToast.classList.add('hidden');
         }
 
+        updateTextEditor(content) {
+          // Find the formatted editor element
+          const formattedEditor = document.getElementById('formattedEditor');
+          if (!formattedEditor) {
+            console.warn('Chat: Formatted editor not found, skipping editor update');
+            return;
+          }
+
+          // Check if the editor panel is currently visible
+          const editorPanel = document.getElementById('editor-pane');
+          if (!editorPanel || editorPanel.classList.contains('hidden')) {
+            console.log('Chat: Editor panel not visible, skipping editor update');
+            return;
+          }
+
+          // Validate content
+          if (!content || typeof content !== 'string') {
+            console.warn('Chat: Invalid content for text editor update', content);
+            return;
+          }
+
+          // Store raw content for copy/download functionality
+          this.rawEditorContent = content;
+          console.log('Raw editor content updated:', content.substring(0, 100) + '...');
+
+          try {
+            // Configure marked.js options for security and formatting
+            if (typeof marked !== 'undefined') {
+              marked.setOptions({
+                breaks: true,        // Convert line breaks to <br>
+                gfm: true,          // GitHub Flavored Markdown
+                headerIds: false,   // Disable header IDs for security
+                mangle: false,      // Don't mangle email addresses
+                sanitize: false,    // We'll use DOMPurify for sanitization
+              });
+            }
+
+            // Convert Markdown to HTML
+            let htmlContent = '';
+            if (typeof marked !== 'undefined') {
+              htmlContent = marked.parse(content);
+            } else {
+              // Fallback to plain text with preserved line breaks
+              console.warn('Chat: marked.js not available, using plaintext fallback');
+              htmlContent = content
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/\n/g, '<br>');
+            }
+
+            // Sanitize the HTML output
+            let sanitizedHtml = '';
+            if (typeof DOMPurify !== 'undefined') {
+              sanitizedHtml = DOMPurify.sanitize(htmlContent, {
+                ALLOWED_TAGS: ['h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'p', 'br', 'strong', 'em', 'u', 'ul', 'ol', 'li', 'blockquote', 'code', 'pre', 'a', 'table', 'thead', 'tbody', 'tr', 'th', 'td', 'hr', 'del', 'ins'],
+                ALLOWED_ATTR: ['href', 'target', 'rel', 'class'],
+                ALLOW_DATA_ATTR: false,
+                ADD_ATTR: ['target', 'rel'],
+                FORBID_TAGS: ['script', 'style', 'iframe', 'object', 'embed', 'form', 'input'],
+                FORBID_ATTR: ['onerror', 'onload', 'onclick', 'onmouseover', 'style']
+              });
+
+              // Ensure all links open in new tabs with security attributes
+              sanitizedHtml = sanitizedHtml.replace(/<a\s+href=/g, '<a target="_blank" rel="noopener noreferrer" href=');
+            } else {
+              // Fallback without sanitization (not recommended for production)
+              console.warn('Chat: DOMPurify not available, content not sanitized');
+              sanitizedHtml = htmlContent;
+            }
+
+            // Don't update if content is empty after processing
+            if (!sanitizedHtml.trim()) {
+              console.log('Chat: Content is empty after processing, skipping editor update');
+              return;
+            }
+
+            // Update the formatted editor content (overwrite completely)
+            formattedEditor.innerHTML = sanitizedHtml;
+
+            // Scroll to top to show new content
+            formattedEditor.scrollTop = 0;
+
+            console.log('Chat: Formatted editor updated with AI response content');
+          } catch (error) {
+            console.error('Chat: Error updating formatted editor:', error);
+            
+            // Fallback to plain text display
+            try {
+              const fallbackContent = content
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/\n/g, '<br>');
+              
+              formattedEditor.innerHTML = `<p class="text-gray-300">${fallbackContent}</p>`;
+              formattedEditor.scrollTop = 0;
+              
+              console.log('Chat: Used fallback rendering for editor content');
+            } catch (fallbackError) {
+              console.error('Chat: Fallback rendering also failed:', fallbackError);
+            }
+          }
+        }
+
         saveMessages() {
           try {
             sessionStorage.setItem('chat-messages', JSON.stringify({
@@ -4079,6 +4485,17 @@ Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed 
               });
 
               console.log(`Chat: Loaded ${this.messages.length} messages from session storage`);
+
+              // Update text editor with the most recent AI response
+              const lastAiMessage = this.messages
+                .slice()
+                .reverse()
+                .find(msg => msg.role === 'ai');
+
+              if (lastAiMessage) {
+                this.updateTextEditor(lastAiMessage.content);
+                console.log('Chat: Text editor updated with most recent AI response');
+              }
 
               // Restore scroll position or scroll to bottom
               const savedScrollPosition = data.lastScrollPosition;
@@ -4144,6 +4561,250 @@ Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed 
         }
       }
     })();
+  </script>
+
+  <!-- Markdown Editor Initialization -->
+  <script>
+    // Initialize markdown formatting once libraries are loaded
+    document.addEventListener('DOMContentLoaded', function() {
+      // Check if required libraries are available
+      const hasMarked = typeof marked !== 'undefined';
+      const hasDOMPurify = typeof DOMPurify !== 'undefined';
+      
+      console.log('Markdown Libraries Status:', {
+        marked: hasMarked,
+        DOMPurify: hasDOMPurify
+      });
+      
+      if (!hasMarked) {
+        console.warn('marked.js not loaded - markdown rendering will use plaintext fallback');
+      }
+      
+      if (!hasDOMPurify) {
+        console.warn('DOMPurify not loaded - HTML sanitization may be limited');
+      }
+
+      // Set global flag for formatted editor availability
+      window.formattedEditorAvailable = true;
+      
+      // Initialize formatted editor with welcome message if no AI responses yet
+      const formattedEditor = document.getElementById('formattedEditor');
+      if (formattedEditor) {
+        console.log('Formatted editor initialized and ready for AI responses');
+      }
+    });
+  </script>
+
+  <!-- Editor Actions Functionality -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Initialize editor action handlers
+      function initializeEditorActions() {
+        const editorActions = document.querySelector('[data-editor-actions]');
+        if (!editorActions) return;
+
+        // Handle click events on editor action buttons
+        editorActions.addEventListener('click', function(e) {
+          console.log('Editor actions click event:', e.target);
+          const button = e.target.closest('[data-action]');
+          if (!button) {
+            console.log('No button with data-action found');
+            return;
+          }
+
+          const action = button.getAttribute('data-action');
+          const editorElement = button.closest('[data-editor]');
+          const editorId = editorElement ? editorElement.getAttribute('data-editor') : null;
+          
+          console.log('Action:', action, 'EditorId:', editorId);
+          
+          handleEditorAction(action, editorId);
+        });
+      }
+
+      // Handle individual editor actions
+      function handleEditorAction(action, editorId) {
+        switch (action) {
+          case 'copy':
+            copyEditorContent(editorId);
+            break;
+          case 'download':
+            downloadEditorContent(editorId);
+            break;
+          default:
+            console.warn('Unknown editor action:', action);
+        }
+      }
+
+      // Copy editor content to clipboard
+      function copyEditorContent(editorId) {
+        let content = '';
+        
+        if (window.chatManager && window.chatManager.rawEditorContent) {
+          // Use raw Markdown content from chat manager
+          content = window.chatManager.rawEditorContent;
+        } else {
+          // Fallback: get text content from the editor
+          const editor = document.getElementById(editorId);
+          if (editor) {
+            content = editor.innerText || editor.textContent || '';
+          }
+        }
+
+        if (!content.trim()) {
+          showToast('No content to copy', 'warning');
+          return;
+        }
+
+        // Use modern Clipboard API if available
+        if (navigator.clipboard && window.isSecureContext) {
+          navigator.clipboard.writeText(content)
+            .then(() => {
+              showToast('Content copied to clipboard!', 'success');
+            })
+            .catch((error) => {
+              console.error('Failed to copy with Clipboard API:', error);
+              fallbackCopyContent(content);
+            });
+        } else {
+          // Fallback for older browsers or non-secure contexts
+          fallbackCopyContent(content);
+        }
+      }
+
+      // Fallback copy method using temporary textarea
+      function fallbackCopyContent(content) {
+        try {
+          const textarea = document.createElement('textarea');
+          textarea.value = content;
+          textarea.style.position = 'fixed';
+          textarea.style.top = '-9999px';
+          textarea.style.left = '-9999px';
+          document.body.appendChild(textarea);
+          
+          textarea.select();
+          textarea.setSelectionRange(0, 99999); // For mobile devices
+          
+          const successful = document.execCommand('copy');
+          document.body.removeChild(textarea);
+          
+          if (successful) {
+            showToast('Content copied to clipboard!', 'success');
+          } else {
+            showToast('Failed to copy content', 'error');
+          }
+        } catch (error) {
+          console.error('Fallback copy failed:', error);
+          showToast('Failed to copy content', 'error');
+        }
+      }
+
+      // Download editor content as a file
+      function downloadEditorContent(editorId) {
+        console.log('Download function called with editorId:', editorId);
+        
+        let content = '';
+        let filename = 'ai-response.txt';
+        
+        console.log('Checking chatManager:', window.chatManager);
+        console.log('Raw editor content:', window.chatManager?.rawEditorContent);
+        
+        if (window.chatManager && window.chatManager.rawEditorContent) {
+          // Use raw Markdown content from chat manager
+          content = window.chatManager.rawEditorContent;
+          filename = 'ai-response.txt';
+          console.log('Using raw content from chatManager:', content.substring(0, 100) + '...');
+        } else {
+          // Fallback: get text content from the editor
+          const editor = document.getElementById(editorId);
+          if (editor) {
+            content = editor.innerText || editor.textContent || '';
+            filename = 'editor-content.txt';
+            console.log('Using fallback content from editor:', content.substring(0, 100) + '...');
+          } else {
+            console.log('No editor found with ID:', editorId);
+          }
+        }
+
+        if (!content.trim()) {
+          console.log('No content to download');
+          showToast('No content to download. Please chat with the AI assistant first to generate content.', 'warning');
+          return;
+        }
+
+        try {
+          console.log('Creating download with filename:', filename);
+          console.log('Content length:', content.length);
+          
+          // Create blob with content
+          const blob = new Blob([content], { type: 'text/plain;charset=utf-8' });
+          console.log('Blob created successfully, size:', blob.size);
+          
+          // Create download link
+          const link = document.createElement('a');
+          const url = URL.createObjectURL(blob);
+          link.href = url;
+          link.download = filename;
+          link.style.display = 'none'; // Hide the link
+          
+          console.log('Download link created with URL:', url);
+          
+          // Trigger download
+          document.body.appendChild(link);
+          console.log('Link added to body');
+          
+          link.click();
+          console.log('Link clicked');
+          
+          // Clean up after a short delay
+          setTimeout(() => {
+            document.body.removeChild(link);
+            URL.revokeObjectURL(url);
+            console.log('Link removed and URL revoked');
+          }, 100);
+          
+          showToast('Content downloaded successfully!', 'success');
+        } catch (error) {
+          console.error('Failed to download content:', error);
+          showToast('Failed to download content', 'error');
+        }
+      }
+
+      // Show toast notification
+      function showToast(message, type = 'info') {
+        // Remove any existing toast
+        const existingToast = document.querySelector('.toast');
+        if (existingToast) {
+          existingToast.remove();
+        }
+
+        // Create toast element
+        const toast = document.createElement('div');
+        toast.className = `toast toast-${type}`;
+        toast.textContent = message;
+
+        // Add to document
+        document.body.appendChild(toast);
+
+        // Show toast with animation
+        setTimeout(() => {
+          toast.classList.add('show');
+        }, 100);
+
+        // Hide and remove toast after delay
+        setTimeout(() => {
+          toast.classList.remove('show');
+          setTimeout(() => {
+            if (toast.parentNode) {
+              toast.parentNode.removeChild(toast);
+            }
+          }, 300);
+        }, 3000);
+      }
+
+      // Initialize when DOM is ready
+      initializeEditorActions();
+    });
   </script>
 
   <!-- React TypeScript Background Bundle -->
