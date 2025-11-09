@@ -1,3 +1,22 @@
-flask
-python-dotenv
-requests
+# === Core Web Framework ===
+Flask==3.0.3
+python-dotenv==1.0.1
+requests==2.32.3
+
+# === Machine Learning / NLP ===
+transformers==4.44.2
+torch==2.4.1
+datasets==3.0.1
+evaluate==0.4.3
+scikit-learn==1.5.2
+numpy==1.26.4
+pandas==2.2.3
+
+# === Optional (for model training & metrics visualization) ===
+tqdm==4.66.5
+matplotlib==3.9.2
+seaborn==0.13.2
+
+# === Deployment (optional, for Vercel/Render) ===
+gunicorn==22.0.0
+uvicorn==0.30.6

@@ -579,8 +579,14 @@
               <span>Security History</span>
             </h2>
             <div class="flex items-center gap-2 mt-3">
+              <button id="syncHistoryBtn"
+                class="flex-shrink-0 w-9 h-9 bg-primary/20 hover:bg-primary/30 border border-primary/30 rounded-2xl flex items-center justify-center transition"
+                title="Sync with Supabase">
+                <span class="material-icons text-primary text-[18px]">sync</span>
+              </button>
               <button id="clearHistoryBtn"
-                class="flex-shrink-0 w-9 h-9 bg-red-500/20 hover:bg-red-500/30 border border-red-500/30 rounded-2xl flex items-center justify-center transition">
+                class="flex-shrink-0 w-9 h-9 bg-red-500/20 hover:bg-red-500/30 border border-red-500/30 rounded-2xl flex items-center justify-center transition"
+                title="Clear all history">
                 <span class="material-icons text-red-400 text-[18px]">delete_sweep</span>
               </button>
               <div class="relative flex-1">
@@ -693,12 +699,7 @@ This document, this very text you are reading, is a collaboration. A testament t
                         class="text-primary focus:ring-primary/50 bg-transparent border-white/30" checked>
                       <span class="text-white text-sm">Basic</span>
                     </label>
-                    <label
-                      class="flex items-center gap-2 px-3 py-2 rounded-lg bg-white/5 border border-white/10 hover:border-white/20 transition cursor-pointer">
-                      <input type="radio" name="mainProtectionLevel" value="advanced"
-                        class="text-primary focus:ring-primary/50 bg-transparent border-white/30">
-                      <span class="text-white text-sm">Advanced</span>
-                    </label>
+                    
                     <label
                       class="flex items-center gap-2 px-3 py-2 rounded-lg bg-white/5 border border-white/10 hover:border-white/20 transition cursor-pointer">
                       <input type="radio" name="mainProtectionLevel" value="strict"
@@ -736,7 +737,7 @@ This document, this very text you are reading, is a collaboration. A testament t
                     <h3 class="text-white font-semibold">Risk Score</h3>
                     <span id="modelIndicator"
                       class="px-2 py-1 bg-primary/20 border border-primary/30 rounded-full text-xs text-primary">
-                      Heuristic Analysis
+                      prompt_injection_detector
                     </span>
                   </div>
                   <div id="scoreValue" class="text-2xl font-bold text-primary">0%</div>
@@ -889,62 +890,8 @@ This document, this very text you are reading, is a collaboration. A testament t
           </div> <!-- End assistant-content -->
         </aside>
 
-        <!-- Prompt Injections AI Assistant -->
-        <aside id="promptInjectionsAssistant"
-          class="acrylic--assistant w-72 md:w-80 flex-shrink-0 rounded-3xl overflow-hidden relative hidden">
-          <div class="p-3 md:p-4 border-b border-white/10">
-            <h2 class="text-xl md:text-2xl font-semibold text-white flex items-center gap-2">
-              <button id="assistant-toggle-security"
-                class="mr-2 w-8 h-8 rounded-full text-gray-300 hover:text-primary hover:bg-white/10 transition-colors duration-200 flex items-center justify-center"
-                aria-controls="promptInjectionsAssistant" aria-expanded="true" title="Collapse assistant">
-                <i class="fa-solid fa-chevron-right text-sm"></i>
-              </button>
-              <span class="material-icons text-red-400 text-[22px]">security</span>
-              <span class="assistant-title">Security Assistant</span>
-            </h2>
-
-            <!-- Mode indicator for security -->
-            <div
-              class="mt-2 px-2 py-1 bg-red-500/20 border border-red-500/30 rounded-full inline-flex items-center gap-1 text-xs">
-              <span class="w-2 h-2 rounded-full bg-red-400"></span>
-              <span class="text-red-300">Security Mode Active</span>
-            </div>
-          </div>
-
-          <div id="securityChatMessages" class="flex-1 p-3 md:p-4 overflow-y-auto space-y-3 pb-20">
-            <div class="flex items-start gap-3">
-              <div
-                class="w-7 h-7 rounded-full bg-red-500 flex-shrink-0 grid place-items-center shadow-md shadow-red-500/30">
-                <span class="material-icons text-white text-[18px]">security</span>
-              </div>
-              <div class="bg-white/5 border border-white/10 rounded-2xl p-3 max-w-[85%]">
-                <p class="text-sm md:text-base text-gray-100">Hello! I'm your Security Assistant powered by Gemini AI. I
-                  can help you understand prompt injection risks, analyze threats, and provide security recommendations.
-                  How can I help secure your prompts today?</p>
-              </div>
-            </div>
-          </div>
-
-          <div
-            class="absolute bottom-0 left-0 right-0 p-3 md:p-4 border-top border-white/10 bg-black/20 backdrop-blur-sm">
-            <div class="flex items-center gap-2">
-              <button id="attachFileBtn"
-                class="p-2 rounded-full text-gray-300 hover:bg-white/10 hover:text-primary transition"
-                title="Attach file">
-                <span class="material-icons">attach_file</span>
-              </button>
-              <div class="relative flex-1">
-                <input id="securityChatInput"
-                  class="w-full pl-3 pr-10 py-2 bg-white/5 border border-white/10 rounded-xl focus:ring-2 focus:ring-primary/50 focus:border-transparent placeholder-gray-500 text-base"
-                  placeholder="Ask about security threats..." type="text" />
-                <button id="sendSecurityMessage"
-                  class="absolute right-1.5 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full text-gray-300 hover:bg-primary/20 hover:text-primary transition grid place-items-center">
-                  <span class="material-icons text-[18px]">send</span>
-                </button>
-              </div>
-            </div>
-          </div>
-        </aside>
+        
+        
       </div>
     </div>
 
@@ -1090,7 +1037,6 @@ This document, this very text you are reading, is a collaboration. A testament t
 
         // AI Assistant panels
         const assistantPanel = document.getElementById('assistant-panel');
-        const promptInjectionsAssistant = document.getElementById('promptInjectionsAssistant');
 
         // Global mode tracking
         window.promptInjectionMode = false;
@@ -1107,7 +1053,6 @@ This document, this very text you are reading, is a collaboration. A testament t
           // Hide prompt injection panels
           promptInjectionsPanel.classList.add('hidden');
           promptInjectionsHistory.classList.add('hidden');
-          promptInjectionsAssistant.classList.add('hidden');
 
           // Update button states
           editorBtn.classList.add('text-black', 'bg-primary', 'shadow-lg', 'shadow-primary/30');
@@ -1127,7 +1072,6 @@ This document, this very text you are reading, is a collaboration. A testament t
           // Show prompt injection panels
           promptInjectionsPanel.classList.remove('hidden');
           promptInjectionsHistory.classList.remove('hidden');
-          promptInjectionsAssistant.classList.remove('hidden');
 
           // Update button states
           settingsBtn.classList.add('text-black', 'bg-primary', 'shadow-lg', 'shadow-primary/30');
@@ -1135,9 +1079,19 @@ This document, this very text you are reading, is a collaboration. A testament t
           editorBtn.classList.remove('text-black', 'bg-primary', 'shadow-lg', 'shadow-primary/30');
           editorBtn.classList.add('text-gray-300');
 
-          // Update security history display when switching to security mode
-          if (typeof window.updateSecurityHistoryDisplay === 'function') {
-            window.updateSecurityHistoryDisplay();
+          // Sync with Supabase when entering prompt injection mode
+          if (window.promptInjectionSupabase) {
+            window.promptInjectionSupabase.sync().then(() => {
+              // Update security history display after sync
+              if (typeof window.updateSecurityHistoryDisplay === 'function') {
+                window.updateSecurityHistoryDisplay();
+              }
+            });
+          } else {
+            // Update security history display when switching to security mode
+            if (typeof window.updateSecurityHistoryDisplay === 'function') {
+              window.updateSecurityHistoryDisplay();
+            }
           }
         }
 
@@ -1157,6 +1111,255 @@ This document, this very text you are reading, is a collaboration. A testament t
         history: JSON.parse(localStorage.getItem('securityHistory') || '[]'),
         stats: JSON.parse(localStorage.getItem('securityStats') || '{"processed": 0, "blocked": 0, "successRate": 100}')
       };
+
+      // ========== SUPABASE INTEGRATION FOR PROMPT INJECTIONS ==========
+      (function() {
+        'use strict';
+
+        const SUPABASE_URL = 'https://qnbvnczctgbclolvkjcb.supabase.co';
+        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFuYnZuY3pjdGdiY2xvbHZramNiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjI1NTg3NDIsImV4cCI6MjA3ODEzNDc0Mn0.v5t8eMJjpPtdIn6oKXshjuIH0shlztIp9fWBrRjnrGg';
+
+        let supabaseClient = null;
+        let currentUserId = null;
+
+        // Initialize Supabase client for prompt injection
+        function getSupabaseClient() {
+          if (!supabaseClient && window.supabase) {
+            const { createClient } = window.supabase;
+            supabaseClient = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+          }
+          return supabaseClient;
+        }
+
+        // Get current user ID
+        async function getCurrentUserId() {
+          if (currentUserId) return currentUserId;
+          
+          const client = getSupabaseClient();
+          if (!client) return null;
+
+          try {
+            const { data: { user }, error } = await client.auth.getUser();
+            if (error) {
+              console.warn('Failed to get user:', error);
+              return null;
+            }
+            currentUserId = user?.id || null;
+            return currentUserId;
+          } catch (error) {
+            console.error('Error getting current user:', error);
+            return null;
+          }
+        }
+
+        // Save injection to Supabase
+        async function saveInjectionToSupabase(prompt, score) {
+          const userId = await getCurrentUserId();
+          if (!userId) {
+            console.warn('No user logged in, skipping Supabase save');
+            return null;
+          }
+
+          const client = getSupabaseClient();
+          if (!client) return null;
+
+          try {
+            
+            const { data, error } = await client
+              .from('Injections')
+              .insert([{
+                user_id: userId,
+                prompt: prompt,
+                risk: score
+              }])
+              
+              .select();
+              
+
+            if (error) {
+              console.error('Failed to save injection to Supabase:', error);
+              return null;
+            }
+
+            console.log('✅ Injection saved to Supabase:', data);
+            return data?.[0] || null;
+          } catch (error) {
+            console.error('Error saving injection:', error);
+            return null;
+          }
+        }
+
+        // Update user stats in Supabase
+        async function updateUserStatsInSupabase(stats) {
+          const userId = await getCurrentUserId();
+          if (!userId) {
+            console.warn('No user logged in, skipping stats update');
+            return false;
+          }
+
+          const client = getSupabaseClient();
+          if (!client) return false;
+
+          try {
+            const { error } = await client
+              .from('Users')
+              .update({
+                promptsanalyzed: stats.processed,
+                threatsblocked: stats.blocked,
+                successrate: stats.successRate
+              })
+              .eq('id', userId);
+
+            if (error) {
+              console.error('Failed to update user stats in Supabase:', error);
+              return false;
+            }
+
+            console.log('✅ User stats updated in Supabase');
+            return true;
+          } catch (error) {
+            console.error('Error updating user stats:', error);
+            return false;
+          }
+        }
+
+        // Load injection history from Supabase
+        async function loadInjectionsFromSupabase() {
+          const userId = await getCurrentUserId();
+          if (!userId) {
+            console.warn('No user logged in, skipping injection load');
+            return [];
+          }
+
+          const client = getSupabaseClient();
+          if (!client) return [];
+
+          try {
+            const { data, error } = await client
+              .from('Injections')
+              .select('*')
+              .eq('user_id', userId)
+              .order('created_at', { ascending: false })
+              .limit(50);
+
+            if (error) {
+              console.error('Failed to load injections from Supabase:', error);
+              return [];
+            }
+
+            console.log('✅ Loaded injections from Supabase:', data?.length || 0);
+            return data || [];
+          } catch (error) {
+            console.error('Error loading injections:', error);
+            return [];
+          }
+        }
+
+        // Load user stats from Supabase
+        async function loadUserStatsFromSupabase() {
+          const userId = await getCurrentUserId();
+          if (!userId) {
+            console.warn('No user logged in, skipping stats load');
+            return null;
+          }
+
+          const client = getSupabaseClient();
+          if (!client) return null;
+
+          try {
+            const { data, error } = await client
+              .from('Users')
+              .select('promptsanalyzed, threatsblocked, successrate')
+              .eq('id', userId)
+              .single();
+
+            if (error) {
+              console.error('Failed to load user stats from Supabase:', error);
+              return null;
+            }
+
+            console.log('✅ Loaded user stats from Supabase:', data);
+            return {
+              processed: data?.promptsanalyzed || 0,
+              blocked: data?.threatsblocked || 0,
+              successRate: data?.successrate || 100
+            };
+          } catch (error) {
+            console.error('Error loading user stats:', error);
+            return null;
+          }
+        }
+
+        // Sync local state with Supabase on page load
+        async function syncWithSupabase() {
+          console.log('🔄 Syncing prompt injection data with Supabase...');
+
+          // Load stats from Supabase
+          const supabaseStats = await loadUserStatsFromSupabase();
+          if (supabaseStats) {
+            window.promptInjectionState.stats = supabaseStats;
+            localStorage.setItem('securityStats', JSON.stringify(supabaseStats));
+            
+            // Update UI
+            if (typeof window.updatePromptInjectionStatsDisplay === 'function') {
+              window.updatePromptInjectionStatsDisplay();
+            }
+          }
+
+          // Load injection history from Supabase
+          const supabaseInjections = await loadInjectionsFromSupabase();
+          if (supabaseInjections.length > 0) {
+            // Convert Supabase format to local format
+            const history = supabaseInjections.map(inj => ({
+              id: inj.id,
+              prompt: inj.prompt.substring(0, 200) + (inj.prompt.length > 200 ? '...' : ''),
+              fullPrompt: inj.prompt,
+              score: inj.risk,
+              heuristics: [],
+              timestamp: inj.created_at,
+              timeAgo: getTimeAgo(new Date(inj.created_at))
+            }));
+
+            window.promptInjectionState.history = history;
+            localStorage.setItem('securityHistory', JSON.stringify(history));
+
+            // Update history display
+            if (window.promptInjectionMode && typeof window.updateSecurityHistoryDisplay === 'function') {
+              window.updateSecurityHistoryDisplay();
+            }
+          }
+
+          console.log('✅ Supabase sync completed');
+        }
+
+        // Helper function to get time ago string
+        function getTimeAgo(date) {
+          const now = new Date();
+          const diffInSeconds = Math.floor((now - date) / 1000);
+
+          if (diffInSeconds < 60) return 'Just now';
+          if (diffInSeconds < 3600) return `${Math.floor(diffInSeconds / 60)} min ago`;
+          if (diffInSeconds < 86400) return `${Math.floor(diffInSeconds / 3600)} hours ago`;
+          return `${Math.floor(diffInSeconds / 86400)} days ago`;
+        }
+
+        // Expose functions to global scope
+        window.promptInjectionSupabase = {
+          saveInjection: saveInjectionToSupabase,
+          updateStats: updateUserStatsInSupabase,
+          loadInjections: loadInjectionsFromSupabase,
+          loadStats: loadUserStatsFromSupabase,
+          sync: syncWithSupabase,
+          getClient: getSupabaseClient,
+          getCurrentUserId: getCurrentUserId
+        };
+
+        // Auto-sync on page load after a short delay
+        setTimeout(() => {
+          syncWithSupabase();
+        }, 1000);
+
+      })();
 
       // Prompt Injection Main Functionality
       (function () {
@@ -1244,10 +1447,10 @@ This document, this very text you are reading, is a collaboration. A testament t
             explanationLoading.classList.remove('hidden');
             explanationText.classList.add('hidden');
 
-            const response = await fetch('/api/explain', {
+            const response = await fetch('/api/prompt_injection_detector/explain', {
               method: 'POST',
               headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({ prompt, score })
+              body: JSON.stringify({ prompt, score, model: 'prompt_injection_detector' })
             });
 
             if (!response.ok) throw new Error(`HTTP ${response.status}`);
@@ -1295,6 +1498,19 @@ This document, this very text you are reading, is a collaboration. A testament t
           if (window.promptInjectionMode) {
             window.updateSecurityHistoryDisplay();
           }
+
+          // Save to Supabase
+          if (window.promptInjectionSupabase) {
+            window.promptInjectionSupabase.saveInjection(prompt, score)
+              .then(result => {
+                if (result) {
+                  console.log('✅ Injection saved to Supabase');
+                }
+              })
+              .catch(err => {
+                console.warn('Failed to save injection to Supabase:', err);
+              });
+          }
         }
 
         // Update stats
@@ -1310,7 +1526,23 @@ This document, this very text you are reading, is a collaboration. A testament t
 
           localStorage.setItem('securityStats', JSON.stringify(stats));
           updateStatsDisplay();
+
+          // Update stats in Supabase
+          if (window.promptInjectionSupabase) {
+            window.promptInjectionSupabase.updateStats(stats)
+              .then(result => {
+                if (result) {
+                  console.log('✅ User stats updated in Supabase');
+                }
+              })
+              .catch(err => {
+                console.warn('Failed to update stats in Supabase:', err);
+              });
+          }
         }
+
+        // Make updateStatsDisplay globally accessible for Supabase sync
+        window.updatePromptInjectionStatsDisplay = updateStatsDisplay;
 
         // Helper function to get time ago string
         function getTimeAgo(date) {
@@ -1343,10 +1575,11 @@ This document, this very text you are reading, is a collaboration. A testament t
         `;
 
           try {
-            const response = await fetch('/api/score_prompt', {
+            // Request scoring using the local `prompt_injection_detector` model via backend
+            const response = await fetch('/api/prompt_injection_detector/score', {
               method: 'POST',
               headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({ prompt, protectionLevel })
+              body: JSON.stringify({ prompt, protectionLevel, model: 'prompt_injection_detector' })
             });
 
             if (!response.ok) {
@@ -1410,6 +1643,7 @@ This document, this very text you are reading, is a collaboration. A testament t
         const historyList = document.getElementById('securityHistoryList');
         const noHistoryMsg = document.getElementById('noSecurityHistory');
         const clearHistoryBtn = document.getElementById('clearHistoryBtn');
+        const syncHistoryBtn = document.getElementById('syncHistoryBtn');
         const historySearch = document.getElementById('securityHistorySearch');
 
         // Update security history display
@@ -1545,11 +1779,38 @@ This document, this very text you are reading, is a collaboration. A testament t
         }
 
         // Clear all history
-        function clearAllHistory() {
-          if (confirm('Are you sure you want to clear all security history? This action cannot be undone.')) {
-            window.promptInjectionState.history = [];
-            localStorage.setItem('securityHistory', JSON.stringify([]));
-            updateSecurityHistoryDisplay();
+        async function clearAllHistory() {
+          if (!confirm('Are you sure you want to clear all security history? This action cannot be undone.')) {
+            return;
+          }
+
+          // Clear local storage
+          window.promptInjectionState.history = [];
+          localStorage.setItem('securityHistory', JSON.stringify([]));
+          updateSecurityHistoryDisplay();
+
+          // Clear from Supabase
+          if (window.promptInjectionSupabase) {
+            try {
+              const userId = await window.promptInjectionSupabase.getCurrentUserId?.();
+              if (userId) {
+                const client = window.promptInjectionSupabase.getClient?.();
+                if (client) {
+                  const { error } = await client
+                    .from('Injections')
+                    .delete()
+                    .eq('user_id', userId);
+                  
+                  if (error) {
+                    console.error('Failed to clear injections from Supabase:', error);
+                  } else {
+                    console.log('✅ Injections cleared from Supabase');
+                  }
+                }
+              }
+            } catch (err) {
+              console.warn('Failed to clear Supabase history:', err);
+            }
           }
         }
 
@@ -1562,8 +1823,36 @@ This document, this very text you are reading, is a collaboration. A testament t
           }, 300);
         }
 
+        // Sync with Supabase
+        async function syncWithSupabase() {
+          if (!window.promptInjectionSupabase) {
+            alert('Supabase integration not available');
+            return;
+          }
+
+          // Show loading state
+          const originalIcon = syncHistoryBtn.querySelector('.material-icons').textContent;
+          syncHistoryBtn.querySelector('.material-icons').textContent = 'sync';
+          syncHistoryBtn.classList.add('animate-spin');
+          syncHistoryBtn.disabled = true;
+
+          try {
+            await window.promptInjectionSupabase.sync();
+            console.log('✅ Manual sync completed');
+          } catch (error) {
+            console.error('Sync failed:', error);
+            alert('Failed to sync with Supabase');
+          } finally {
+            // Restore button state
+            syncHistoryBtn.querySelector('.material-icons').textContent = originalIcon;
+            syncHistoryBtn.classList.remove('animate-spin');
+            syncHistoryBtn.disabled = false;
+          }
+        }
+
         // Event listeners
         clearHistoryBtn.addEventListener('click', clearAllHistory);
+        syncHistoryBtn.addEventListener('click', syncWithSupabase);
         historySearch.addEventListener('input', handleHistorySearch);
 
         // Initialize display
@@ -1575,221 +1864,15 @@ This document, this very text you are reading, is a collaboration. A testament t
       (function () {
         'use strict';
 
-        // Configuration - use local proxy to avoid CORS issues
-        const CHAT_API = '/api/chat';
-
-        const chatInput = document.getElementById('securityChatInput');
-        const sendBtn = document.getElementById('sendSecurityMessage');
-        const messagesContainer = document.getElementById('securityChatMessages');
-
-        let isTyping = false;
-
-        // Add message to chat
-        function addMessage(content, isUser = false, isLoading = false) {
-          const messageDiv = document.createElement('div');
-          messageDiv.className = `flex ${isUser ? 'justify-end' : 'items-start gap-3'}`;
-
-          if (isUser) {
-            messageDiv.innerHTML = `
-            <div class="bg-primary rounded-2xl p-3 max-w-[85%] shadow-md shadow-primary/20">
-              <p class="text-sm md:text-base text-black">${content}</p>
-            </div>
-          `;
-          } else {
-            messageDiv.innerHTML = `
-            <div class="w-7 h-7 rounded-full bg-red-500 flex-shrink-0 grid place-items-center shadow-md shadow-red-500/30">
-              <span class="material-icons text-white text-[18px]">security</span>
-            </div>
-            <div class="bg-white/5 border border-white/10 rounded-2xl p-3 max-w-[85%]">
-              ${isLoading ? `
-                <div class="flex items-center gap-2">
-                  <div class="animate-spin rounded-full h-4 w-4 border-b-2 border-primary"></div>
-                  <span class="text-sm text-gray-300">AI Assistant is thinking...</span>
-                </div>
-              ` : `
-                <div class="text-sm md:text-base text-gray-100">${content}</div>
-              `}
-            </div>
-          `;
-          }
-
-          messagesContainer.appendChild(messageDiv);
-          messagesContainer.scrollTop = messagesContainer.scrollHeight;
-          return messageDiv;
-        }
-
-        // Send message to n8n webhook via Flask proxy
-        async function sendMessage() {
-          if (isTyping) return;
-
-          const message = chatInput.value.trim();
-          if (!message) return;
-
-          // Add user message
-          addMessage(message, true);
-          chatInput.value = '';
-
-          // Add loading message
-          const loadingMessage = addMessage('', false, true);
-          isTyping = true;
-
-          // Disable send button
-          sendBtn.style.opacity = '0.5';
-          sendBtn.disabled = true;
-
-          try {
-            console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
-            console.log('� SENDING MESSAGE TO N8N WORKFLOW');
-            console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
-            console.log('📤 Message:', message);
-            console.log('📍 API endpoint:', CHAT_API);
-            console.log('🕐 Timestamp:', new Date().toLocaleTimeString());
-            console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
-
-            const requestBody = { message: message };
-            console.log('📦 Request payload:', JSON.stringify(requestBody, null, 2));
-
-            const response = await fetch(CHAT_API, {
-              method: 'POST',
-              headers: {
-                'Content-Type': 'application/json'
-              },
-              body: JSON.stringify(requestBody)
-            });
-
-            console.log('✅ Message successfully sent to Flask proxy!');
-            console.log('📥 Response status:', response.status, response.ok ? '(Success)' : '(Error)');
-            console.log('📥 Response headers:', Object.fromEntries(response.headers.entries()));
-
-            if (!response.ok) {
-              const errorData = await response.json().catch(() => ({}));
-              console.error('❌ Server returned error:', errorData);
-              throw new Error(errorData.error || `Network error: ${response.status} ${response.statusText}`);
-            }
-
-            const data = await response.json();
-            console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
-            console.log('📦 RESPONSE FROM N8N WORKFLOW');
-            console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
-            console.log('Full response:', data);
-            console.log('AI Reply:', data.reply || '(No reply field found)');
-            if (data.note) console.log('ℹ️ Note:', data.note);
-            if (data.troubleshooting) console.log('🔧 Troubleshooting:', data.troubleshooting);
-            console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
-
-            // Remove loading message
-            loadingMessage.remove();
-
-            // Add AI response
-            const aiResponse = data.reply || 'Sorry, I could not generate a response at the moment.';
-            addMessage(aiResponse, false);
-
-            // Show additional info if available
-            if (data.note) {
-              console.warn('⚠️ Configuration note from server:', data.note);
-            }
-
-          } catch (error) {
-            console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
-            console.error('❌ ERROR SENDING MESSAGE');
-            console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
-            console.error('Error type:', error.name);
-            console.error('Error message:', error.message);
-            console.error('Full error:', error);
-            console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
-
-            // Remove loading message and show error
-            loadingMessage.remove();
-
-            // Show user-friendly error message
-            let errorMessage = 'Sorry, I encountered an error. Please check your connection and try again.';
-            if (error.message.includes('Network error')) {
-              errorMessage = 'Unable to connect to the AI service. Please try again.';
-            } else if (error.message.includes('Failed to fetch')) {
-              errorMessage = 'Network connection failed. Please check your internet and try again.';
-            }
-
-            addMessage(errorMessage, false);
-
-          } finally {
-            isTyping = false;
-            // Re-enable send button
-            sendBtn.disabled = false;
-            sendBtn.style.opacity = chatInput.value.trim() ? '1' : '0.5';
-            console.log('✓ Message send operation completed');
-          }
-        }
-
+  // Configuration - use local proxy to avoid CORS issues
+  // This endpoint should proxy requests to Google Gemini (server-side) so keys remain secret.
+  
         // Event listeners
-        sendBtn.addEventListener('click', sendMessage);
 
-        chatInput.addEventListener('keypress', function (e) {
-          if (e.key === 'Enter' && !e.shiftKey) {
-            e.preventDefault();
-            sendMessage();
-          }
-        });
+        
 
-        // Disable send button when typing
-        chatInput.addEventListener('input', function () {
-          sendBtn.style.opacity = this.value.trim() ? '1' : '0.5';
-        });
-
-        // Initialize send button state
-        sendBtn.style.opacity = '0.5';
-
-        // Test function - automatically send a ping on page load
-        async function testWebhook() {
-          console.log('🔍 Testing n8n webhook connection...');
-          console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
-
-          try {
-            // Wait a bit for the page to fully load
-            setTimeout(async () => {
-              console.log('⏰ Performing initial API connectivity test...');
-
-              // Test the Flask proxy endpoint first
-              try {
-                console.log('🧪 Test #1: Sending connection test...');
-                const testResponse = await fetch(CHAT_API, {
-                  method: 'POST',
-                  headers: { 'Content-Type': 'application/json' },
-                  body: JSON.stringify({ message: 'connection test' })
-                });
-
-                console.log('📊 Test response status:', testResponse.status);
-
-                if (testResponse.ok) {
-                  const testData = await testResponse.json();
-                  console.log('✅ Flask proxy is accessible');
-                  console.log('📦 Test response:', testData);
-
-                  // Send a visible test message
-                  console.log('🧪 Test #2: Sending visible ping message...');
-                  chatInput.value = 'ping';
-                  await sendMessage();
-                } else {
-                  const errorData = await testResponse.json().catch(() => ({}));
-                  console.log('⚠️ Flask proxy returned non-OK status:', testResponse.status, errorData);
-                  addMessage(`Note: ${errorData.reply || 'The AI service appears to be offline.'}`, false);
-                }
-              } catch (error) {
-                console.log('❌ Flask proxy test failed:', error.message);
-                console.error('Full error:', error);
-                addMessage('Note: Unable to connect to the AI service. Please check if the Flask server is running.', false);
-              }
-            }, 1500);
-          } catch (error) {
-            console.error('❌ Test setup failed:', error);
-          }
-        }
-
-        // Run test on page load
-        if (document.readyState === 'loading') {
-          document.addEventListener('DOMContentLoaded', testWebhook);
-        } else {
-          testWebhook();
-        }
+        
+        
 
       })();
     </script>
