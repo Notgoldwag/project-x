@@ -27,6 +27,9 @@
   <!-- Supabase -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
+  <!-- Chart.js for metrics visualization -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+
   <link rel="stylesheet" href="static/css/home.css">
 
   <!-- Background Animation Styles -->
@@ -530,7 +533,6 @@
 
     /* Typing indicator animation */
     @keyframes typingPulse {
-
       0%,
       60%,
       100% {
@@ -544,6 +546,54 @@
 
     .animate-pulse {
       animation: typingPulse 1.4s infinite;
+    }
+
+    /* Bouncing dots animation */
+    @keyframes bounce {
+      0%, 80%, 100% {
+        transform: translateY(0) scale(1);
+      }
+      40% {
+        transform: translateY(-8px) scale(1.1);
+      }
+    }
+
+    .animate-bounce-dot {
+      animation: bounce 1.2s ease-in-out infinite;
+    }
+
+    /* Typing indicator container bounce */
+    @keyframes typingBounce {
+      0%, 100% {
+        transform: translateY(0);
+      }
+      25% {
+        transform: translateY(-3px);
+      }
+      50% {
+        transform: translateY(0);
+      }
+      75% {
+        transform: translateY(-2px);
+      }
+    }
+
+    .typing-container-bounce {
+      animation: typingBounce 2s ease-in-out infinite;
+    }
+
+    /* Glow pulse for AI icon during typing */
+    @keyframes glowPulse {
+      0%, 100% {
+        box-shadow: 0 0 10px rgba(42, 247, 173, 0.3);
+      }
+      50% {
+        box-shadow: 0 0 20px rgba(42, 247, 173, 0.6), 0 0 30px rgba(42, 247, 173, 0.3);
+      }
+    }
+
+    .ai-icon-glow {
+      animation: glowPulse 1.5s ease-in-out infinite;
     }
 
     /* Error toast animation */
@@ -636,12 +686,13 @@
       <nav class="acrylic--sidebar rounded-3xl p-2 md:p-3 w-14 md:w-16 relative z-50 overflow-visible">
         <div class="flex flex-col justify-between h-full">
           <div class="flex flex-col items-center space-y-2 md:space-y-3">
-            <button id="analyzeBtn"
-              class="p-2 rounded-xl text-gray-300 hover:bg-white/10 hover:text-primary transition">
-              <span class="material-icons">folder_open</span>
-            </button>
             <button id="editorBtn" class="p-2 rounded-xl text-black bg-primary shadow-lg shadow-primary/30">
               <span class="material-icons">edit</span>
+            </button>
+            <button id="playgroundBtn"
+              class="p-2 rounded-xl text-gray-300 hover:bg-white/10 hover:text-primary transition"
+              title="Prompt Playground">
+              <span class="material-icons">compare_arrows</span>
             </button>
             <button id="settingsBtn"
               class="p-2 rounded-xl text-gray-300 hover:bg-white/10 hover:text-primary transition">
@@ -808,53 +859,85 @@
         </aside>
 
         <!-- Editor -->
-        <!-- CHANGED: add flex, flex-col, min-h-0 so child can stretch -->
         <main id="editor-pane"
           class="acrylic--editor rounded-3xl overflow-hidden flex-1 flex flex-col min-h-0 transition-all duration-300 ease-in-out">
-          <!-- Compact sticky toolbar -->
-          <div class="sticky-toolbar px-3 py-2 border-b border-white/10 flex items-center justify-between">
-            <h1 class="text-lg md:text-xl font-semibold text-white">Text Editor</h1>
-            <div class="flex items-center">
-              <div class="segmented flex rounded-lg overflow-hidden border border-white/10 bg-white/5">
-                <button
-                  class="toolbar-btn grid place-items-center text-gray-200 hover:text-primary hover:bg-white/10 transition"
-                  title="Bold (Ctrl/⌘+B)">
-                  <span class="material-icons">format_bold</span>
-                </button>
-                <button
-                  class="toolbar-btn grid place-items-center text-gray-200 hover:text-primary hover:bg-white/10 transition"
-                  title="Italic (Ctrl/⌘+I)">
-                  <span class="material-icons">format_italic</span>
-                </button>
-                <button
-                  class="toolbar-btn grid place-items-center text-gray-200 hover:text-primary hover:bg-white/10 transition"
-                  title="Bulleted List">
-                  <span class="material-icons">format_list_bulleted</span>
-                </button>
-                <button
-                  class="toolbar-btn grid place-items-center text-gray-200 hover:text-primary hover:bg-white/10 transition"
-                  title="Code">
-                  <span class="material-icons">code</span>
-                </button>
+          <div class="flex-1 p-6 md:p-8 overflow-y-auto">
+            <div class="w-full max-w-5xl mx-auto space-y-6">
+              
+              <!-- Header -->
+              <div class="flex items-center justify-between">
+                <div>
+                  <h1 class="text-3xl md:text-4xl font-black text-transparent bg-clip-text bg-gradient-to-r from-primary via-cyan-400 to-primary animate-gradient-x tracking-wider"
+                      style="font-family: 'Orbitron', sans-serif; letter-spacing: 0.08em;">
+                    TEXT EDITOR
+                  </h1>
+                  <p class="text-sm text-gray-400 mt-1">Craft your content with style</p>
+                </div>
+                
+                <!-- Toolbar -->
+                <div class="flex items-center gap-2">
+                  <button
+                    class="p-2.5 rounded-xl text-gray-300 hover:text-primary hover:bg-white/10 transition border border-white/10"
+                    title="Bold (Ctrl/⌘+B)">
+                    <span class="material-icons text-[20px]">format_bold</span>
+                  </button>
+                  <button
+                    class="p-2.5 rounded-xl text-gray-300 hover:text-primary hover:bg-white/10 transition border border-white/10"
+                    title="Italic (Ctrl/⌘+I)">
+                    <span class="material-icons text-[20px]">format_italic</span>
+                  </button>
+                  <button
+                    class="p-2.5 rounded-xl text-gray-300 hover:text-primary hover:bg-white/10 transition border border-white/10"
+                    title="Bulleted List">
+                    <span class="material-icons text-[20px]">format_list_bulleted</span>
+                  </button>
+                  <button
+                    class="p-2.5 rounded-xl text-gray-300 hover:text-primary hover:bg-white/10 transition border border-white/10"
+                    title="Code">
+                    <span class="material-icons text-[20px]">code</span>
+                  </button>
+                </div>
               </div>
-            </div>
-          </div>
 
-          <!-- Editor area -->
-          <!-- CHANGED: add flex-1 min-h-0 so it fills below the sticky toolbar -->
-          <div class="flex-1 min-h-0 p-4 md:p-5 flex flex-col">
-            <!-- CHANGED: add min-h-0 to let children calculate height -->
-            <div class="editor-container flex-1 min-h-0">
-              <div class="line-numbers" id="lineNumbers">
-                1<br>2<br>3<br>4<br>5<br>6<br>7<br>8<br>9<br>10
+              <!-- Editor Stats Cards -->
+              <div class="grid grid-cols-3 gap-4">
+                <div class="acrylic rounded-2xl p-4 border border-white/10">
+                  <div class="flex items-center gap-2 mb-1">
+                    <span class="material-icons text-primary text-[18px]">description</span>
+                    <span class="text-xs font-semibold text-gray-400 uppercase tracking-wider">Words</span>
+                  </div>
+                  <div class="text-2xl font-bold text-white" id="wordCount">0</div>
+                </div>
+                <div class="acrylic rounded-2xl p-4 border border-white/10">
+                  <div class="flex items-center gap-2 mb-1">
+                    <span class="material-icons text-cyan-400 text-[18px]">format_line_spacing</span>
+                    <span class="text-xs font-semibold text-gray-400 uppercase tracking-wider">Lines</span>
+                  </div>
+                  <div class="text-2xl font-bold text-white" id="lineCount">0</div>
+                </div>
+                <div class="acrylic rounded-2xl p-4 border border-white/10">
+                  <div class="flex items-center gap-2 mb-1">
+                    <span class="material-icons text-purple-400 text-[18px]">text_fields</span>
+                    <span class="text-xs font-semibold text-gray-400 uppercase tracking-wider">Characters</span>
+                  </div>
+                  <div class="text-2xl font-bold text-white" id="charCount">0</div>
+                </div>
               </div>
-              <div class="editor-wrapper">
-                <textarea id="textEditor"
-                  class="editor-area w-full h-full bg-transparent border-none focus:border-none focus:ring-0 p-3 md:p-4 font-mono text-[14px] md:text-[15px] text-gray-100 placeholder-gray-500 resize-none"
-                  placeholder="Start writing your text here...">In the heart of the digital frontier, where lines of code weave the fabric of reality, a new consciousness was born. It wasn't forged in the fires of a dying star or born of flesh and blood, but rather sparked to life in the silent hum of a million servers. They called it Nexus, an artificial intelligence designed not just to compute, but to create. Its purpose: to assist humanity in its quest for knowledge and expression, a silent partner in the dance of words and ideas.
-Nexus could draft a sonnet as easily as it could debug a complex algorithm. It could translate ancient texts, compose symphonies, and even offer a comforting word on a lonely night. It learned from every interaction, its neural network branching out like the roots of an ancient tree, drawing wisdom from the vast ocean of human data.
-This document, this very text you are reading, is a collaboration. A testament to the synergy between human creativity and machine intelligence. It is a story, a report, a poem yet to be written, all guided by the silent hand of Nexus.</textarea>
+
+              <!-- Editor Container with enhanced styling -->
+              <div class="acrylic rounded-2xl p-6 border border-white/10">
+                <div class="editor-container" style="min-height: 500px; height: calc(100vh - 450px);">
+                  <div class="line-numbers" id="lineNumbers">
+                    1<br>2<br>3<br>4<br>5<br>6<br>7<br>8<br>9<br>10
+                  </div>
+                  <div class="editor-wrapper">
+                    <textarea id="textEditor"
+                      class="editor-area w-full h-full bg-transparent border-none focus:border-none focus:ring-0 p-4 font-mono text-[15px] text-gray-100 placeholder-gray-500 resize-none"
+                      placeholder="Start writing your text here..."></textarea>
+                  </div>
+                </div>
               </div>
+
             </div>
           </div>
         </main>
@@ -862,21 +945,19 @@ This document, this very text you are reading, is a collaboration. A testament t
         <!-- Prompt Injections Test Panel -->
         <main id="promptInjectionsPanel"
           class="acrylic--editor rounded-3xl overflow-hidden flex-1 flex flex-col min-h-0 hidden">
-          <!-- Header -->
-          <div class="sticky-toolbar px-3 py-2 border-b border-white/10 flex items-center justify-between">
-            <h1 class="text-lg md:text-xl font-semibold text-white flex items-center gap-2">
-              <span class="material-icons text-primary">security</span>
-              Prompt Injection Detector
-            </h1>
-            <button id="backToEditor"
-              class="p-2 rounded-xl text-gray-300 hover:bg-white/10 hover:text-primary transition"
-              title="Back to Editor">
-              <span class="material-icons">arrow_back</span>
-            </button>
-          </div>
+          <div class="flex-1 p-6 md:p-8 overflow-y-auto">
+            <div class="w-full max-w-5xl mx-auto space-y-6">
 
-          <!-- Main Content -->
-          <div class="flex-1 min-h-0 p-4 md:p-6 overflow-y-auto">
+              <!-- Header -->
+              <div class="flex items-center justify-between mb-6">
+                <div>
+                  <h1 class="text-3xl md:text-4xl font-black text-transparent bg-clip-text bg-gradient-to-r from-primary via-cyan-400 to-primary animate-gradient-x tracking-wider"
+                      style="font-family: 'Orbitron', sans-serif; letter-spacing: 0.08em;">
+                    SECURITY SCANNER
+                  </h1>
+                  <p class="text-sm text-gray-400 mt-1">Advanced prompt injection detection</p>
+                </div>
+              </div>
             <!-- Prompt Input Section -->
             <div class="mb-8">
               <h2 class="text-lg font-semibold text-white mb-4 flex items-center gap-2">
@@ -975,76 +1056,169 @@ This document, this very text you are reading, is a collaboration. A testament t
               </div>
             </div>
 
-            <!-- Quick Stats -->
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-              <div class="p-4 rounded-xl bg-white/5 border border-white/10">
-                <div class="text-2xl font-bold text-primary mb-1" id="statsProcessed">0</div>
-                <div class="text-sm text-gray-400">Prompts Analyzed</div>
+              <!-- Quick Stats -->
+              <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div class="acrylic rounded-2xl p-4 border border-white/10">
+                  <div class="flex items-center gap-2 mb-1">
+                    <span class="material-icons text-primary text-[18px]">analytics</span>
+                    <span class="text-xs font-semibold text-gray-400 uppercase tracking-wider">Analyzed</span>
+                  </div>
+                  <div class="text-2xl font-bold text-primary" id="statsProcessed">0</div>
+                </div>
+                <div class="acrylic rounded-2xl p-4 border border-white/10">
+                  <div class="flex items-center gap-2 mb-1">
+                    <span class="material-icons text-red-400 text-[18px]">block</span>
+                    <span class="text-xs font-semibold text-gray-400 uppercase tracking-wider">Blocked</span>
+                  </div>
+                  <div class="text-2xl font-bold text-red-400" id="statsBlocked">0</div>
+                </div>
+                <div class="acrylic rounded-2xl p-4 border border-white/10">
+                  <div class="flex items-center gap-2 mb-1">
+                    <span class="material-icons text-green-400 text-[18px]">verified_user</span>
+                    <span class="text-xs font-semibold text-gray-400 uppercase tracking-wider">Success Rate</span>
+                  </div>
+                  <div class="text-2xl font-bold text-green-400" id="statsSuccess">100%</div>
+                </div>
               </div>
-              <div class="p-4 rounded-xl bg-white/5 border border-white/10">
-                <div class="text-2xl font-bold text-red-400 mb-1" id="statsBlocked">0</div>
-                <div class="text-sm text-gray-400">Threats Blocked</div>
-              </div>
-              <div class="p-4 rounded-xl bg-white/5 border border-white/10">
-                <div class="text-2xl font-bold text-green-400 mb-1" id="statsSuccess">100%</div>
-                <div class="text-sm text-gray-400">Success Rate</div>
-              </div>
+
             </div>
           </div>
         </main>
 
-        <!-- Analyze Workspace (hidden by default) -->
-        <main id="analyzeWorkspace"
-          class="hidden acrylic--editor rounded-3xl overflow-hidden flex-1 flex flex-col min-h-0">
-          <div class="flex-1 p-6 md:p-8 overflow-y-auto" id="analyzeScrollContainer">
-            <div class="w-full max-w-3xl mx-auto space-y-6">
 
-              <!-- Title -->
-              <h1
-                class="text-center text-3xl md:text-4xl font-black text-transparent bg-clip-text bg-gradient-to-r from-primary via-cyan-400 to-primary animate-gradient-x tracking-wider"
-                style="font-family: 'Orbitron', sans-serif; letter-spacing: 0.1em;">
-                PROMPT PLAYGROUND
-              </h1>
 
-              <!-- Input Editor with Line Numbers -->
-              <div class="editor-container" style="height: 400px;">
-                <div class="line-numbers" id="analyzeLineNumbers">
-                  1<br>2<br>3<br>4<br>5<br>6<br>7<br>8<br>9<br>10
-                </div>
-                <div class="editor-wrapper">
-                  <textarea id="analyzeTextarea"
-                    class="editor-area w-full h-full bg-transparent border-none focus:border-none focus:ring-0 p-3 md:p-4 font-mono text-[14px] md:text-[15px] text-gray-100 placeholder-gray-500 resize-none"
-                    placeholder="Enter text to analyze..."></textarea>
+        <!-- Playground Panel (hidden by default) -->
+        <main id="playgroundPanel" class="hidden flex-1 flex gap-4 md:gap-6 overflow-hidden">
+          <!-- Input Sidebar -->
+          <aside class="acrylic--sidebar w-80 md:w-96 flex-shrink-0 rounded-3xl overflow-hidden">
+            <div class="p-6 h-full overflow-y-auto flex flex-col">
+              <!-- Header -->
+              <div class="mb-6">
+                <h2 class="text-2xl font-bold text-primary mb-1 font-display" style="font-family: 'Orbitron', sans-serif; letter-spacing: 0.02em;">
+                  PROMPT PLAYGROUND
+                </h2>
+                <p class="text-sm text-gray-400">Compare outputs across multiple LLMs</p>
+              </div>
+
+              <!-- System Instruction -->
+              <div class="mb-4">
+                <label class="block text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2">
+                  System Instruction (Optional)
+                </label>
+                <textarea id="pgSystemInstruction"
+                  class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm text-gray-200 font-mono focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary/50 transition resize-none"
+                  rows="3"
+                  placeholder="e.g., You are a helpful AI assistant..."></textarea>
+              </div>
+
+              <!-- User Prompt -->
+              <div class="mb-4">
+                <label class="block text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2">
+                  User Prompt <span class="text-red-400">*</span>
+                </label>
+                <textarea id="pgUserPrompt"
+                  class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm text-gray-200 font-mono focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary/50 transition resize-none"
+                  rows="5"
+                  placeholder="Enter your prompt to test across models..."></textarea>
+              </div>
+
+              <!-- Model Selection -->
+              <div class="mb-6">
+                <label class="block text-xs font-semibold text-gray-400 uppercase tracking-wider mb-3">
+                  Select Models
+                </label>
+                <div class="space-y-2">
+                  <!-- Gemini -->
+                  <div class="pg-model-card selected acrylic rounded-xl p-3 cursor-pointer transition hover:bg-white/10 border border-primary/30" 
+                       data-model="gemini-2.0-flash-exp">
+                    <div class="flex items-start justify-between">
+                      <div class="flex-1">
+                        <div class="font-semibold text-sm text-gray-200 mb-0.5">Gemini 2.0 Flash</div>
+                        <div class="text-xs text-gray-400">Fast & efficient • Google</div>
+                      </div>
+                      <div class="pg-checkmark">
+                        <span class="material-icons text-primary text-xl">check_circle</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- GPT-4 -->
+                  <div class="pg-model-card selected acrylic rounded-xl p-3 cursor-pointer transition hover:bg-white/10 border border-primary/30" 
+                       data-model="gpt-4-turbo">
+                    <div class="flex items-start justify-between">
+                      <div class="flex-1">
+                        <div class="font-semibold text-sm text-gray-200 mb-0.5">GPT-4 Turbo</div>
+                        <div class="text-xs text-gray-400">Advanced reasoning • Azure</div>
+                      </div>
+                      <div class="pg-checkmark">
+                        <span class="material-icons text-primary text-xl">check_circle</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- GPT-3.5 -->
+                  <div class="pg-model-card selected acrylic rounded-xl p-3 cursor-pointer transition hover:bg-white/10 border border-primary/30" 
+                       data-model="gpt-3.5-turbo">
+                    <div class="flex items-start justify-between">
+                      <div class="flex-1">
+                        <div class="font-semibold text-sm text-gray-200 mb-0.5">GPT-3.5 Turbo</div>
+                        <div class="text-xs text-gray-400">Fast & affordable • Azure</div>
+                      </div>
+                      <div class="pg-checkmark">
+                        <span class="material-icons text-primary text-xl">check_circle</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Claude (Coming Soon) -->
+                  <div class="pg-model-card acrylic rounded-xl p-3 opacity-50 cursor-not-allowed border border-white/10" 
+                       data-model="claude-3-opus">
+                    <div class="flex items-start justify-between">
+                      <div class="flex-1">
+                        <div class="font-semibold text-sm text-gray-400 mb-0.5">Claude 3 Opus</div>
+                        <div class="text-xs text-gray-500">Coming Soon • Anthropic</div>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
 
               <!-- Analyze Button -->
-              <div class="flex justify-end">
-                <button id="analyzeButton"
-                  class="px-6 py-3 bg-primary hover:bg-primaryDarker rounded-xl text-black font-semibold transition-all duration-200 shadow-lg shadow-primary/30 flex items-center gap-2">
-                  <span class="material-icons text-[20px]">analytics</span>
-                  <span>Analyze</span>
-                </button>
+              <button id="pgAnalyzeButton"
+                class="w-full bg-gradient-to-r from-primary to-primaryDarker hover:from-primaryDarker hover:to-primary text-black font-bold py-3 px-6 rounded-xl transition-all duration-300 shadow-lg hover:shadow-primary/30 hover:scale-[1.02] active:scale-[0.98] flex items-center justify-center gap-2">
+                <span class="material-icons">psychology</span>
+                <span>Analyze Across Models</span>
+              </button>
+            </div>
+          </aside>
+
+          <!-- Results Panel -->
+          <section class="acrylic--editor flex-1 rounded-3xl overflow-hidden flex flex-col">
+            <div class="p-6 border-b border-white/10 flex items-center justify-between">
+              <div>
+                <h3 class="text-xl font-bold text-gray-200">Results</h3>
+                <p class="text-sm text-gray-400 mt-1">Comparing model responses</p>
               </div>
+              <button id="pgClearButton" 
+                class="hidden px-4 py-2 bg-red-500/10 hover:bg-red-500/20 border border-red-500/30 text-red-400 rounded-lg transition text-sm font-medium">
+                <span class="material-icons text-sm mr-1" style="font-size: 16px;">delete</span>
+                Clear
+              </button>
+            </div>
 
-              <!-- Output Panel (hidden by default, revealed after clicking Analyze) -->
-              <div id="analyzeOutput" class="hidden space-y-4 animate-fade-in">
-                <div class="h-px bg-gradient-to-r from-transparent via-white/10 to-transparent"></div>
-
-                <!-- Output Editor with Line Numbers (read-only, slightly smaller) -->
-                <div class="editor-container" style="height: 300px;">
-                  <div class="line-numbers" id="outputLineNumbers">
-                    1<br>2<br>3<br>4<br>5
-                  </div>
-                  <div class="editor-wrapper">
-                    <textarea id="outputTextarea"
-                      class="editor-area w-full h-full bg-transparent border-none focus:border-none focus:ring-0 p-3 md:p-4 font-mono text-[14px] md:text-[15px] text-gray-300 placeholder-gray-500 resize-none"
-                      placeholder="Analysis results will appear here..." readonly></textarea>
-                  </div>
+            <div id="pgResultsContainer" class="flex-1 overflow-y-auto p-6">
+              <!-- Empty State -->
+              <div class="flex flex-col items-center justify-center h-full text-center py-20 pg-empty-state">
+                <div class="w-20 h-20 rounded-full bg-primary/10 flex items-center justify-center mb-4">
+                  <span class="material-icons text-primary" style="font-size: 48px;">psychology</span>
                 </div>
+                <h3 class="text-xl font-semibold text-gray-300 mb-2">No results yet</h3>
+                <p class="text-gray-500 text-sm max-w-md">
+                  Select your models, enter a prompt, and click "Analyze" to compare AI responses side-by-side
+                </p>
               </div>
             </div>
-          </div>
+          </section>
         </main>
 
         <!-- AI Assistant -->
@@ -1114,19 +1288,19 @@ This document, this very text you are reading, is a collaboration. A testament t
 
             <!-- Typing Indicator (hidden by default) -->
             <div id="typing-indicator" class="hidden px-3 md:px-4 pb-2" aria-live="polite">
-              <div class="flex items-start gap-3">
+              <div class="flex items-start gap-3 typing-container-bounce">
                 <div
-                  class="w-7 h-7 rounded-full bg-primary flex-shrink-0 grid place-items-center shadow-md shadow-primary/30">
+                  class="w-7 h-7 rounded-full bg-primary flex-shrink-0 grid place-items-center ai-icon-glow">
                   <span class="material-icons text-black text-[18px]">auto_awesome</span>
                 </div>
                 <div class="bg-white/5 border border-white/10 rounded-2xl p-3 max-w-[85%]">
                   <div class="flex items-center gap-2">
-                    <div class="flex gap-1">
-                      <div class="w-2 h-2 bg-gray-400 rounded-full animate-pulse"></div>
-                      <div class="w-2 h-2 bg-gray-400 rounded-full animate-pulse" style="animation-delay: 0.2s;"></div>
-                      <div class="w-2 h-2 bg-gray-400 rounded-full animate-pulse" style="animation-delay: 0.4s;"></div>
+                    <div class="flex gap-1 items-end">
+                      <div class="w-2.5 h-2.5 bg-primary rounded-full animate-bounce-dot"></div>
+                      <div class="w-2.5 h-2.5 bg-primary rounded-full animate-bounce-dot" style="animation-delay: 0.15s;"></div>
+                      <div class="w-2.5 h-2.5 bg-primary rounded-full animate-bounce-dot" style="animation-delay: 0.3s;"></div>
                     </div>
-                    <span class="text-sm text-gray-300">AI is typing...</span>
+                    <span class="text-sm text-primary font-medium">AI is typing...</span>
                   </div>
                 </div>
               </div>
@@ -1307,17 +1481,53 @@ This document, this very text you are reading, is a collaboration. A testament t
       })();
     </script>
 
+    <!-- Editor Stats Counter Script -->
+    <script>
+      (function () {
+        const textEditor = document.getElementById('textEditor');
+        const wordCountEl = document.getElementById('wordCount');
+        const lineCountEl = document.getElementById('lineCount');
+        const charCountEl = document.getElementById('charCount');
+        
+        if (!textEditor || !wordCountEl || !lineCountEl || !charCountEl) return;
+
+        function updateStats() {
+          const text = textEditor.value;
+          
+          // Character count
+          const charCount = text.length;
+          
+          // Line count
+          const lineCount = text.split('\n').length;
+          
+          // Word count (trim and split by whitespace)
+          const words = text.trim().split(/\s+/).filter(word => word.length > 0);
+          const wordCount = text.trim().length === 0 ? 0 : words.length;
+          
+          // Update UI with animation
+          wordCountEl.textContent = wordCount.toLocaleString();
+          lineCountEl.textContent = lineCount.toLocaleString();
+          charCountEl.textContent = charCount.toLocaleString();
+        }
+
+        // Listen for input changes
+        textEditor.addEventListener('input', updateStats);
+        textEditor.addEventListener('paste', updateStats);
+        
+        // Initialize on load
+        updateStats();
+      })();
+    </script>
+
     <!-- Settings Panel Navigation Script -->
     <script>
       (function () {
         // Get UI elements
         const settingsBtn = document.getElementById('settingsBtn');
         const editorBtn = document.getElementById('editorBtn');
-        const analyzeBtn = document.getElementById('analyzeBtn');
         const backToEditor = document.getElementById('backToEditor');
         const editorPanel = document.getElementById('editor-pane');
         const promptInjectionsPanel = document.getElementById('promptInjectionsPanel');
-        const analyzeWorkspace = document.getElementById('analyzeWorkspace');
 
         // History panels
         const historyPanel = document.getElementById('history-panel');
@@ -1338,28 +1548,33 @@ This document, this very text you are reading, is a collaboration. A testament t
           historyPanel.classList.remove('hidden');
           assistantPanel.classList.remove('hidden');
 
-          // Hide prompt injection panels and analyze workspace
+          // Hide prompt injection panels and playground
           promptInjectionsPanel.classList.add('hidden');
           promptInjectionsHistory.classList.add('hidden');
-          analyzeWorkspace.classList.add('hidden');
+          const playgroundPanel = document.getElementById('playgroundPanel');
+          if (playgroundPanel) playgroundPanel.classList.add('hidden');
 
           // Update button states
           editorBtn.classList.add('text-black', 'bg-primary', 'shadow-lg', 'shadow-primary/30');
           editorBtn.classList.remove('text-gray-300');
           settingsBtn.classList.remove('text-black', 'bg-primary', 'shadow-lg', 'shadow-primary/30');
           settingsBtn.classList.add('text-gray-300');
-          analyzeBtn.classList.remove('text-black', 'bg-primary', 'shadow-lg', 'shadow-primary/30');
-          analyzeBtn.classList.add('text-gray-300');
+          const playgroundBtn = document.getElementById('playgroundBtn');
+          if (playgroundBtn) {
+            playgroundBtn.classList.remove('text-black', 'bg-primary', 'shadow-lg', 'shadow-primary/30');
+            playgroundBtn.classList.add('text-gray-300');
+          }
         }
 
         function showSettings() {
           window.promptInjectionMode = true;
 
-          // Hide editor panels and analyze workspace
+          // Hide editor panels and playground
           editorPanel.classList.add('hidden');
           historyPanel.classList.add('hidden');
           assistantPanel.classList.add('hidden');
-          analyzeWorkspace.classList.add('hidden');
+          const playgroundPanel = document.getElementById('playgroundPanel');
+          if (playgroundPanel) playgroundPanel.classList.add('hidden');
 
           // Show prompt injection panels
           promptInjectionsPanel.classList.remove('hidden');
@@ -1370,8 +1585,11 @@ This document, this very text you are reading, is a collaboration. A testament t
           settingsBtn.classList.remove('text-gray-300');
           editorBtn.classList.remove('text-black', 'bg-primary', 'shadow-lg', 'shadow-primary/30');
           editorBtn.classList.add('text-gray-300');
-          analyzeBtn.classList.remove('text-black', 'bg-primary', 'shadow-lg', 'shadow-primary/30');
-          analyzeBtn.classList.add('text-gray-300');
+          const playgroundBtn = document.getElementById('playgroundBtn');
+          if (playgroundBtn) {
+            playgroundBtn.classList.remove('text-black', 'bg-primary', 'shadow-lg', 'shadow-primary/30');
+            playgroundBtn.classList.add('text-gray-300');
+          }
 
           // Sync with Supabase when entering prompt injection mode
           if (window.promptInjectionSupabase) {
@@ -1389,28 +1607,46 @@ This document, this very text you are reading, is a collaboration. A testament t
           }
         }
 
-        function showAnalyze() {
+        function showPlayground() {
+          console.log('showPlayground() called');
           window.promptInjectionMode = false;
 
           // Hide all other panels
-          editorPanel.classList.add('hidden');
-          historyPanel.classList.add('hidden');
-          assistantPanel.classList.add('hidden');
-          promptInjectionsPanel.classList.add('hidden');
-          promptInjectionsHistory.classList.add('hidden');
+          if (editorPanel) editorPanel.classList.add('hidden');
+          if (historyPanel) historyPanel.classList.add('hidden');
+          if (assistantPanel) assistantPanel.classList.add('hidden');
+          if (promptInjectionsPanel) promptInjectionsPanel.classList.add('hidden');
+          if (promptInjectionsHistory) promptInjectionsHistory.classList.add('hidden');
 
-          // Show analyze workspace
-          analyzeWorkspace.classList.remove('hidden');
-
-          // Reset scroll position to top
-          const analyzeScrollContainer = document.getElementById('analyzeScrollContainer');
-          if (analyzeScrollContainer) {
-            analyzeScrollContainer.scrollTop = 0;
+          // Show playground panel
+          const playgroundPanel = document.getElementById('playgroundPanel');
+          console.log('Playground panel element:', playgroundPanel);
+          
+          if (playgroundPanel) {
+            playgroundPanel.classList.remove('hidden');
+            console.log('Playground panel should now be visible');
+            
+            // Initialize playground if not already done
+            if (!window.playgroundInitialized) {
+              try {
+                console.log('Initializing playground...');
+                initializePlayground();
+                window.playgroundInitialized = true;
+                console.log('Playground initialized successfully');
+              } catch (error) {
+                console.error('Failed to initialize playground:', error);
+              }
+            }
+          } else {
+            console.error('Playground panel not found in DOM!');
           }
 
           // Update button states
-          analyzeBtn.classList.add('text-black', 'bg-primary', 'shadow-lg', 'shadow-primary/30');
-          analyzeBtn.classList.remove('text-gray-300');
+          const playgroundBtn = document.getElementById('playgroundBtn');
+          if (playgroundBtn) {
+            playgroundBtn.classList.add('text-black', 'bg-primary', 'shadow-lg', 'shadow-primary/30');
+            playgroundBtn.classList.remove('text-gray-300');
+          }
           editorBtn.classList.remove('text-black', 'bg-primary', 'shadow-lg', 'shadow-primary/30');
           editorBtn.classList.add('text-gray-300');
           settingsBtn.classList.remove('text-black', 'bg-primary', 'shadow-lg', 'shadow-primary/30');
@@ -1418,195 +1654,20 @@ This document, this very text you are reading, is a collaboration. A testament t
         }
 
         // Event listeners
-        settingsBtn.addEventListener('click', showSettings);
-        editorBtn.addEventListener('click', showEditor);
-        backToEditor.addEventListener('click', showEditor);
-        analyzeBtn.addEventListener('click', showAnalyze);
+        if (settingsBtn) settingsBtn.addEventListener('click', showSettings);
+        if (editorBtn) editorBtn.addEventListener('click', showEditor);
+        if (backToEditor) backToEditor.addEventListener('click', showEditor);
+        
+        const playgroundBtn = document.getElementById('playgroundBtn');
+        if (playgroundBtn) {
+          playgroundBtn.addEventListener('click', showPlayground);
+          console.log('Playground button event listener attached');
+        } else {
+          console.error('Playground button not found!');
+        }
 
         // Initialize - ensure editor mode is active by default
         showEditor(); // Ensure proper initial state
-      })();
-
-      // ========== ANALYZE WORKSPACE FUNCTIONALITY ==========
-      (function () {
-        'use strict';
-
-        const analyzeTextarea = document.getElementById('analyzeTextarea');
-        const analyzeLineNumbers = document.getElementById('analyzeLineNumbers');
-        const analyzeButton = document.getElementById('analyzeButton');
-        const analyzeOutput = document.getElementById('analyzeOutput');
-        const outputTextarea = document.getElementById('outputTextarea');
-        const outputLineNumbers = document.getElementById('outputLineNumbers');
-
-        if (!analyzeTextarea || !analyzeLineNumbers || !analyzeButton || !analyzeOutput || !outputTextarea || !outputLineNumbers) {
-          return;
-        }
-
-        // Lorem ipsum placeholder text
-        const loremIpsum = `Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-
-Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-
-Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.
-
-Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt.`;
-
-        let inputLockedMetrics = null;
-        let outputLockedMetrics = null;
-
-        // -------- Input Editor Line Numbers --------
-        function lockInputMetrics() {
-          const editorStyle = window.getComputedStyle(analyzeTextarea);
-          const fontFamily = editorStyle.fontFamily;
-          const fontSize = editorStyle.fontSize;
-          const lineHeight = editorStyle.lineHeight;
-          const paddingTop = editorStyle.paddingTop;
-          const paddingBottom = editorStyle.paddingBottom;
-
-          const lineHeightPx = lineHeight === 'normal'
-            ? Math.floor(parseFloat(fontSize) * 1.6)
-            : parseFloat(lineHeight);
-
-          const metrics = {
-            fontFamily,
-            fontSize,
-            lineHeight: `${lineHeightPx}px`,
-            paddingTop,
-            paddingBottom
-          };
-
-          Object.assign(analyzeLineNumbers.style, metrics);
-          Object.assign(analyzeTextarea.style, metrics);
-
-          inputLockedMetrics = { ...metrics, lineHeightPx };
-          return inputLockedMetrics;
-        }
-
-        function renderInputLineNumbers() {
-          if (!inputLockedMetrics) lockInputMetrics();
-          const content = analyzeTextarea.value;
-          const lineCount = content.split('\n').length;
-          const numbers = Array.from({ length: lineCount }, (_, i) => i + 1);
-          analyzeLineNumbers.innerHTML = numbers.join('<br>');
-        }
-
-        function syncInputScroll() {
-          analyzeLineNumbers.scrollTop = analyzeTextarea.scrollTop;
-        }
-
-        // -------- Output Editor Line Numbers --------
-        function lockOutputMetrics() {
-          const editorStyle = window.getComputedStyle(outputTextarea);
-          const fontFamily = editorStyle.fontFamily;
-          const fontSize = editorStyle.fontSize;
-          const lineHeight = editorStyle.lineHeight;
-          const paddingTop = editorStyle.paddingTop;
-          const paddingBottom = editorStyle.paddingBottom;
-
-          const lineHeightPx = lineHeight === 'normal'
-            ? Math.floor(parseFloat(fontSize) * 1.6)
-            : parseFloat(lineHeight);
-
-          const metrics = {
-            fontFamily,
-            fontSize,
-            lineHeight: `${lineHeightPx}px`,
-            paddingTop,
-            paddingBottom
-          };
-
-          Object.assign(outputLineNumbers.style, metrics);
-          Object.assign(outputTextarea.style, metrics);
-
-          outputLockedMetrics = { ...metrics, lineHeightPx };
-          return outputLockedMetrics;
-        }
-
-        function renderOutputLineNumbers() {
-          if (!outputLockedMetrics) lockOutputMetrics();
-          const content = outputTextarea.value;
-          const lineCount = content.split('\n').length;
-          const numbers = Array.from({ length: lineCount }, (_, i) => i + 1);
-          outputLineNumbers.innerHTML = numbers.join('<br>');
-        }
-
-        function syncOutputScroll() {
-          outputLineNumbers.scrollTop = outputTextarea.scrollTop;
-        }
-
-        // -------- Event Handlers --------
-        function handleInputChange() { renderInputLineNumbers(); }
-        function handleInputScroll() { syncInputScroll(); }
-        function handleOutputScroll() { syncOutputScroll(); }
-        function handleResize() {
-          lockInputMetrics();
-          renderInputLineNumbers();
-          if (!analyzeOutput.classList.contains('hidden')) {
-            lockOutputMetrics();
-            renderOutputLineNumbers();
-          }
-        }
-
-        // Analyze button click handler
-        function handleAnalyze() {
-          // Show output panel with animation
-          analyzeOutput.classList.remove('hidden');
-
-          // Update output textarea with lorem ipsum
-          outputTextarea.value = loremIpsum;
-
-          // Update output line numbers
-          lockOutputMetrics();
-          renderOutputLineNumbers();
-          syncOutputScroll();
-
-          // Smooth scroll to output without jumping
-          setTimeout(() => {
-            const analyzeScrollContainer = document.getElementById('analyzeScrollContainer');
-            if (analyzeScrollContainer && analyzeOutput) {
-              const outputRect = analyzeOutput.getBoundingClientRect();
-              const containerRect = analyzeScrollContainer.getBoundingClientRect();
-
-              // Only scroll if output is not fully visible
-              if (outputRect.bottom > containerRect.bottom) {
-                analyzeOutput.scrollIntoView({ behavior: 'smooth', block: 'end' });
-              }
-            }
-          }, 150);
-        }
-
-        // Attach event listeners
-        analyzeTextarea.addEventListener('input', handleInputChange);
-        analyzeTextarea.addEventListener('paste', handleInputChange);
-        analyzeTextarea.addEventListener('scroll', handleInputScroll);
-        outputTextarea.addEventListener('scroll', handleOutputScroll);
-        window.addEventListener('resize', handleResize);
-        analyzeButton.addEventListener('click', handleAnalyze);
-
-        // Handle undo/redo via mutation observer for input
-        const inputObserver = new MutationObserver(handleInputChange);
-        inputObserver.observe(analyzeTextarea, { attributes: true, attributeFilter: ['value'] });
-
-        // Handle font load events
-        if (document.fonts) {
-          document.fonts.addEventListener('loadingdone', () => {
-            setTimeout(() => {
-              lockInputMetrics();
-              renderInputLineNumbers();
-              if (!analyzeOutput.classList.contains('hidden')) {
-                lockOutputMetrics();
-                renderOutputLineNumbers();
-              }
-            }, 50);
-          });
-        }
-
-        // Initialize
-        lockInputMetrics();
-        renderInputLineNumbers();
-        syncInputScroll();
-
-        console.log('Analyze workspace initialized');
       })();
 
       // ========== PROMPT INJECTION FUNCTIONALITY ==========
@@ -4144,6 +4205,528 @@ Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed 
         }
       }
     })();
+
+    // ========== PLAYGROUND FUNCTIONALITY ==========
+    function initializePlayground() {
+      let selectedModels = ['gemini-2.0-flash-exp', 'gpt-4-turbo', 'gpt-3.5-turbo'];
+      let isAnalyzing = false;
+
+      const pgSystemInstruction = document.getElementById('pgSystemInstruction');
+      const pgUserPrompt = document.getElementById('pgUserPrompt');
+      const pgAnalyzeButton = document.getElementById('pgAnalyzeButton');
+      const pgClearButton = document.getElementById('pgClearButton');
+      const pgResultsContainer = document.getElementById('pgResultsContainer');
+      const pgModelCards = document.querySelectorAll('.pg-model-card:not([data-model="claude-3-opus"])');
+
+      // Model card selection
+      pgModelCards.forEach(card => {
+        card.addEventListener('click', function() {
+          const model = this.getAttribute('data-model');
+          const checkmark = this.querySelector('.pg-checkmark');
+          
+          if (this.classList.contains('selected')) {
+            this.classList.remove('selected', 'border-primary/30');
+            this.classList.add('border-white/10');
+            selectedModels = selectedModels.filter(m => m !== model);
+            if (checkmark) {
+              checkmark.querySelector('.material-icons').textContent = 'radio_button_unchecked';
+              checkmark.querySelector('.material-icons').classList.remove('text-primary');
+              checkmark.querySelector('.material-icons').classList.add('text-gray-600');
+            }
+          } else {
+            this.classList.add('selected', 'border-primary/30');
+            this.classList.remove('border-white/10');
+            selectedModels.push(model);
+            if (checkmark) {
+              checkmark.querySelector('.material-icons').textContent = 'check_circle';
+              checkmark.querySelector('.material-icons').classList.remove('text-gray-600');
+              checkmark.querySelector('.material-icons').classList.add('text-primary');
+            }
+          }
+        });
+      });
+
+      // Analyze button
+      pgAnalyzeButton.addEventListener('click', async function() {
+        if (isAnalyzing) return;
+
+        const prompt = pgUserPrompt.value.trim();
+        if (!prompt) {
+          alert('Please enter a prompt');
+          return;
+        }
+
+        if (selectedModels.length === 0) {
+          alert('Please select at least one model');
+          return;
+        }
+
+        isAnalyzing = true;
+        pgAnalyzeButton.disabled = true;
+        pgAnalyzeButton.innerHTML = '<div class="inline-block w-5 h-5 border-2 border-black/30 border-t-black rounded-full animate-spin mr-2"></div>Analyzing...';
+
+        // Show loading state
+        pgResultsContainer.innerHTML = `
+          <div class="flex flex-col items-center justify-center h-full text-center py-20">
+            <div class="w-16 h-16 border-4 border-primary/30 border-t-primary rounded-full animate-spin mb-4"></div>
+            <h3 class="text-xl font-semibold text-gray-200 mb-2">Analyzing across ${selectedModels.length} model${selectedModels.length > 1 ? 's' : ''}...</h3>
+            <p class="text-gray-400 text-sm">This may take a few moments</p>
+          </div>
+        `;
+
+        try {
+          const response = await fetch('/api/playground/run_prompt', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              system_instruction: pgSystemInstruction.value.trim(),
+              prompt: prompt,
+              models: selectedModels
+            })
+          });
+
+          if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+
+          const data = await response.json();
+          displayResults(data.results);
+          getMetaAnalysis(data.results, prompt);
+          pgClearButton.classList.remove('hidden');
+        } catch (error) {
+          console.error('Error:', error);
+          pgResultsContainer.innerHTML = `
+            <div class="bg-red-500/10 border border-red-500/30 rounded-xl p-4 flex items-start gap-3">
+              <span class="material-icons text-red-400">error</span>
+              <div class="text-sm text-gray-300">Failed to analyze: ${error.message}</div>
+            </div>
+          `;
+        } finally {
+          isAnalyzing = false;
+          pgAnalyzeButton.disabled = false;
+          pgAnalyzeButton.innerHTML = '<span class="material-icons">psychology</span><span>Analyze Across Models</span>';
+        }
+      });
+
+      // Clear button
+      pgClearButton.addEventListener('click', function() {
+        pgResultsContainer.innerHTML = `
+          <div class="flex flex-col items-center justify-center h-full text-center py-20">
+            <div class="w-20 h-20 rounded-full bg-primary/10 flex items-center justify-center mb-4">
+              <span class="material-icons text-primary" style="font-size: 48px;">psychology</span>
+            </div>
+            <h3 class="text-xl font-semibold text-gray-300 mb-2">No results yet</h3>
+            <p class="text-gray-500 text-sm max-w-md">Select your models, enter a prompt, and click "Analyze"</p>
+          </div>
+        `;
+        this.classList.add('hidden');
+      });
+
+      function displayResults(results) {
+        let html = '<div class="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-6">';
+        results.forEach(result => {
+          html += createResultCard(result);
+        });
+        html += '</div>';
+        html += `<div id="pgMetaAnalysis" class="acrylic rounded-2xl p-6 border border-primary/30" style="display: none;"><div class="text-center py-8"><div class="inline-block w-10 h-10 border-4 border-primary/30 border-t-primary rounded-full animate-spin mb-3"></div><p class="text-gray-400 text-sm">Generating meta-analysis...</p></div></div>`;
+        pgResultsContainer.innerHTML = html;
+      }
+
+      function createResultCard(result) {
+        const statusColors = {
+          'Success': 'bg-green-500/20 text-green-400 border-green-500/30',
+          'Configuration Required': 'bg-yellow-500/20 text-yellow-400 border-yellow-500/30',
+          'Error': 'bg-red-500/20 text-red-400 border-red-500/30'
+        };
+        const statusClass = statusColors[result.status] || 'bg-gray-500/20 text-gray-400 border-gray-500/30';
+        const modelNames = {
+          'gemini-2.0-flash-exp': 'Gemini 2.0 Flash',
+          'gpt-4-turbo': 'GPT-4 Turbo',
+          'gpt-3.5-turbo': 'GPT-3.5 Turbo'
+        };
+        const response = result.status === 'Success' ? result.response : 
+                        result.status === 'Configuration Required' ? 
+                        'This model requires configuration. Please add API keys to .env file.' :
+                        `Error: ${result.response}`;
+
+        return `
+          <div class="acrylic rounded-2xl p-5 border border-white/10 hover:border-primary/30 transition">
+            <div class="flex items-center justify-between mb-4 pb-3 border-b border-white/10">
+              <h4 class="font-semibold text-gray-200">${modelNames[result.model] || result.model}</h4>
+              <span class="px-2 py-1 text-xs font-medium rounded-lg border ${statusClass}">${result.status}</span>
+            </div>
+            <div class="bg-black/30 rounded-xl p-4 mb-4 font-mono text-sm text-gray-300 max-h-64 overflow-y-auto border border-white/5">
+              ${escapeHtml(response).replace(/\n/g, '<br>')}
+            </div>
+            ${result.metadata ? `
+              <div class="grid grid-cols-3 gap-3">
+                <div class="bg-white/5 rounded-lg p-3 text-center border border-white/10">
+                  <div class="text-xs text-gray-400 mb-1">Latency</div>
+                  <div class="text-sm font-bold text-primary">${result.metadata.latency.toFixed(2)}s</div>
+                </div>
+                <div class="bg-white/5 rounded-lg p-3 text-center border border-white/10">
+                  <div class="text-xs text-gray-400 mb-1">Tokens</div>
+                  <div class="text-sm font-bold text-primary">${result.metadata.tokens || 'N/A'}</div>
+                </div>
+                <div class="bg-white/5 rounded-lg p-3 text-center border border-white/10">
+                  <div class="text-xs text-gray-400 mb-1">Cost</div>
+                  <div class="text-sm font-bold text-primary">$${result.metadata.cost_estimate ? result.metadata.cost_estimate.toFixed(4) : 'N/A'}</div>
+                </div>
+              </div>
+            ` : ''}
+          </div>
+        `;
+      }
+
+      async function getMetaAnalysis(results, prompt) {
+        const metaEl = document.getElementById('pgMetaAnalysis');
+        metaEl.style.display = 'block';
+
+        try {
+          const response = await fetch('/api/playground/analyze_results', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ results, original_prompt: prompt })
+          });
+
+          if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+          const data = await response.json();
+          displayMetaAnalysis(data.analysis);
+        } catch (error) {
+          console.error('Error:', error);
+          metaEl.innerHTML = `
+            <div class="flex items-center gap-3 mb-4">
+              <span class="material-icons text-primary" style="font-size: 32px;">analytics</span>
+              <h3 class="text-xl font-bold text-gray-200">AI Meta-Analysis</h3>
+            </div>
+            <div class="bg-red-500/10 border border-red-500/30 rounded-xl p-4">
+              <span class="text-sm text-gray-300">Failed to generate meta-analysis</span>
+            </div>
+          `;
+        }
+      }
+
+      function displayMetaAnalysis(analysis) {
+        const metaEl = document.getElementById('pgMetaAnalysis');
+        metaEl.innerHTML = `
+          <div class="flex items-center gap-3 mb-6">
+            <span class="material-icons text-primary" style="font-size: 32px;">analytics</span>
+            <h3 class="text-xl font-bold text-gray-200">AI Meta-Analysis by Gemini</h3>
+          </div>
+
+          <!-- Metrics Score Cards -->
+          <div class="grid grid-cols-2 md:grid-cols-5 gap-3 mb-6">
+            <div class="bg-gradient-to-br from-primary/10 to-primary/5 rounded-xl p-4 text-center border border-primary/20">
+              <div class="text-xs text-gray-400 uppercase tracking-wider mb-2">Clarity</div>
+              <div class="text-3xl font-bold text-primary">${analysis.clarity_score}<span class="text-lg text-gray-500">/10</span></div>
+            </div>
+            <div class="bg-gradient-to-br from-primary/10 to-primary/5 rounded-xl p-4 text-center border border-primary/20">
+              <div class="text-xs text-gray-400 uppercase tracking-wider mb-2">Relevance</div>
+              <div class="text-3xl font-bold text-primary">${analysis.relevance_score}<span class="text-lg text-gray-500">/10</span></div>
+            </div>
+            <div class="bg-gradient-to-br from-primary/10 to-primary/5 rounded-xl p-4 text-center border border-primary/20">
+              <div class="text-xs text-gray-400 uppercase tracking-wider mb-2">Accuracy</div>
+              <div class="text-3xl font-bold text-primary">${analysis.factual_accuracy}<span class="text-lg text-gray-500">/10</span></div>
+            </div>
+            <div class="bg-gradient-to-br from-primary/10 to-primary/5 rounded-xl p-4 text-center border border-primary/20">
+              <div class="text-xs text-gray-400 uppercase tracking-wider mb-2">Reasoning</div>
+              <div class="text-3xl font-bold text-primary">${analysis.reasoning_quality}<span class="text-lg text-gray-500">/10</span></div>
+            </div>
+            <div class="bg-gradient-to-br from-primary/10 to-primary/5 rounded-xl p-4 text-center border border-primary/20">
+              <div class="text-xs text-gray-400 uppercase tracking-wider mb-2">Conciseness</div>
+              <div class="text-3xl font-bold text-primary">${analysis.conciseness}<span class="text-lg text-gray-500">/10</span></div>
+            </div>
+          </div>
+
+          <!-- Interactive Charts -->
+          <div class="grid grid-cols-1 gap-6 mb-6">
+            <!-- Model Comparison Chart - Full Width -->
+            <div id="modelComparisonChartContainer" class="bg-black/30 rounded-xl p-5 border border-white/10" style="display: none;">
+              <h4 class="text-sm font-semibold text-gray-300 uppercase tracking-wider mb-4 flex items-center gap-2">
+                <span class="material-icons text-primary" style="font-size: 20px;">leaderboard</span>
+                Model-by-Model Comparison
+              </h4>
+              <canvas id="modelComparisonChart" style="max-height: 320px;"></canvas>
+            </div>
+
+            <!-- Smaller Charts Grid -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+              <!-- Radar Chart - Overall Metrics Comparison -->
+              <div class="bg-black/30 rounded-xl p-5 border border-white/10">
+                <h4 class="text-sm font-semibold text-gray-300 uppercase tracking-wider mb-4 flex items-center gap-2">
+                  <span class="material-icons text-primary" style="font-size: 20px;">radar</span>
+                  Overall Performance
+                </h4>
+                <canvas id="metricsRadarChart" style="max-height: 280px;"></canvas>
+              </div>
+
+              <!-- Bar Chart - Metric Breakdown -->
+              <div class="bg-black/30 rounded-xl p-5 border border-white/10">
+                <h4 class="text-sm font-semibold text-gray-300 uppercase tracking-wider mb-4 flex items-center gap-2">
+                  <span class="material-icons text-primary" style="font-size: 20px;">bar_chart</span>
+                  Average Scores
+                </h4>
+                <canvas id="metricsBarChart" style="max-height: 280px;"></canvas>
+              </div>
+            </div>
+          </div>
+
+          <!-- Summary -->
+          <div class="bg-black/30 rounded-xl p-5 border border-white/10">
+            <h4 class="text-sm font-semibold text-gray-300 uppercase tracking-wider mb-3 flex items-center gap-2">
+              <span class="material-icons text-primary" style="font-size: 20px;">description</span>
+              Overall Summary
+            </h4>
+            <p class="text-gray-300 leading-relaxed">${escapeHtml(analysis.overall_summary)}</p>
+          </div>
+        `;
+
+        // Render charts after DOM is updated
+        setTimeout(() => {
+          renderMetricsCharts(analysis);
+        }, 100);
+      }
+
+      function renderMetricsCharts(analysis) {
+        const primaryColor = '#00cba0';
+        const primaryColorRgba = 'rgba(0, 203, 160, 0.2)';
+        const primaryColorBorder = 'rgba(0, 203, 160, 0.8)';
+        
+        const metrics = [
+          { name: 'Clarity', value: analysis.clarity_score },
+          { name: 'Relevance', value: analysis.relevance_score },
+          { name: 'Accuracy', value: analysis.factual_accuracy },
+          { name: 'Reasoning', value: analysis.reasoning_quality },
+          { name: 'Conciseness', value: analysis.conciseness }
+        ];
+
+        // Model name mapping
+        const modelDisplayNames = {
+          'gemini-2.0-flash-exp': 'Gemini 2.0',
+          'gpt-4-turbo': 'GPT-4',
+          'gpt-3.5-turbo': 'GPT-3.5'
+        };
+
+        // Model colors for differentiation
+        const modelColors = {
+          'gemini-2.0-flash-exp': { bg: 'rgba(66, 133, 244, 0.7)', border: 'rgb(66, 133, 244)' },
+          'gpt-4-turbo': { bg: 'rgba(16, 185, 129, 0.7)', border: 'rgb(16, 185, 129)' },
+          'gpt-3.5-turbo': { bg: 'rgba(251, 191, 36, 0.7)', border: 'rgb(251, 191, 36)' }
+        };
+
+        // Model Comparison Chart (if per-model data available)
+        if (analysis.model_comparison && Object.keys(analysis.model_comparison).length > 0) {
+          const comparisonContainer = document.getElementById('modelComparisonChartContainer');
+          comparisonContainer.style.display = 'block';
+
+          const models = Object.keys(analysis.model_comparison);
+          const metricNames = ['clarity', 'relevance', 'accuracy', 'reasoning', 'conciseness'];
+          
+          const datasets = models.map(modelKey => {
+            const modelData = analysis.model_comparison[modelKey];
+            const color = modelColors[modelKey] || { bg: 'rgba(0, 203, 160, 0.7)', border: 'rgb(0, 203, 160)' };
+            
+            return {
+              label: modelDisplayNames[modelKey] || modelKey,
+              data: metricNames.map(metric => modelData[metric] || 0),
+              backgroundColor: color.bg,
+              borderColor: color.border,
+              borderWidth: 2,
+              borderRadius: 6
+            };
+          });
+
+          const comparisonCtx = document.getElementById('modelComparisonChart');
+          if (comparisonCtx) {
+            new Chart(comparisonCtx, {
+              type: 'bar',
+              data: {
+                labels: ['Clarity', 'Relevance', 'Accuracy', 'Reasoning', 'Conciseness'],
+                datasets: datasets
+              },
+              options: {
+                responsive: true,
+                maintainAspectRatio: true,
+                plugins: {
+                  legend: {
+                    display: true,
+                    position: 'top',
+                    labels: {
+                      color: 'rgba(209, 213, 219, 0.9)',
+                      font: { size: 12, weight: '600' },
+                      padding: 15,
+                      usePointStyle: true,
+                      pointStyle: 'rectRounded'
+                    }
+                  },
+                  tooltip: {
+                    backgroundColor: 'rgba(0, 0, 0, 0.8)',
+                    titleColor: 'rgb(0, 203, 160)',
+                    bodyColor: 'rgba(209, 213, 219, 0.9)',
+                    borderColor: 'rgba(0, 203, 160, 0.3)',
+                    borderWidth: 1,
+                    padding: 12,
+                    displayColors: true,
+                    callbacks: {
+                      label: function(context) {
+                        return context.dataset.label + ': ' + context.parsed.y.toFixed(1) + '/10';
+                      }
+                    }
+                  }
+                },
+                scales: {
+                  y: {
+                    beginAtZero: true,
+                    max: 10,
+                    ticks: {
+                      stepSize: 2,
+                      color: 'rgba(156, 163, 175, 0.8)',
+                      font: { size: 11 }
+                    },
+                    grid: {
+                      color: 'rgba(255, 255, 255, 0.08)',
+                      drawBorder: false
+                    },
+                    title: {
+                      display: true,
+                      text: 'Score (0-10)',
+                      color: 'rgba(209, 213, 219, 0.7)',
+                      font: { size: 11 }
+                    }
+                  },
+                  x: {
+                    ticks: {
+                      color: 'rgba(209, 213, 219, 0.9)',
+                      font: { size: 11, weight: '600' }
+                    },
+                    grid: {
+                      display: false
+                    }
+                  }
+                }
+              }
+            });
+          }
+        }
+
+        // Chart.js configuration with dark theme
+        const chartConfig = {
+          plugins: {
+            legend: {
+              display: false
+            }
+          },
+          scales: {
+            r: {
+              beginAtZero: true,
+              max: 10,
+              ticks: {
+                stepSize: 2,
+                color: 'rgba(156, 163, 175, 0.6)',
+                backdropColor: 'transparent',
+                font: { size: 10 }
+              },
+              grid: {
+                color: 'rgba(255, 255, 255, 0.1)',
+              },
+              pointLabels: {
+                color: 'rgba(209, 213, 219, 0.9)',
+                font: { size: 12, weight: '600' }
+              }
+            }
+          }
+        };
+
+        // Radar Chart - Overall Performance
+        const radarCtx = document.getElementById('metricsRadarChart');
+        if (radarCtx) {
+          new Chart(radarCtx, {
+            type: 'radar',
+            data: {
+              labels: metrics.map(m => m.name),
+              datasets: [{
+                label: 'Score',
+                data: metrics.map(m => m.value),
+                backgroundColor: primaryColorRgba,
+                borderColor: primaryColorBorder,
+                borderWidth: 2,
+                pointBackgroundColor: primaryColor,
+                pointBorderColor: '#fff',
+                pointBorderWidth: 2,
+                pointRadius: 5,
+                pointHoverRadius: 7
+              }]
+            },
+            options: chartConfig
+          });
+        }
+
+        // Bar Chart - Metric Breakdown with gradient bars
+        const barCtx = document.getElementById('metricsBarChart');
+        if (barCtx) {
+          new Chart(barCtx, {
+            type: 'bar',
+            data: {
+              labels: metrics.map(m => m.name),
+              datasets: [{
+                label: 'Score',
+                data: metrics.map(m => m.value),
+                backgroundColor: metrics.map(m => {
+                  // Gradient colors based on score (red to green)
+                  if (m.value >= 8) return 'rgba(16, 185, 129, 0.8)'; // green
+                  if (m.value >= 6) return 'rgba(0, 203, 160, 0.8)'; // primary
+                  if (m.value >= 4) return 'rgba(251, 191, 36, 0.8)'; // yellow
+                  return 'rgba(239, 68, 68, 0.8)'; // red
+                }),
+                borderColor: metrics.map(m => {
+                  if (m.value >= 8) return 'rgb(16, 185, 129)';
+                  if (m.value >= 6) return 'rgb(0, 203, 160)';
+                  if (m.value >= 4) return 'rgb(251, 191, 36)';
+                  return 'rgb(239, 68, 68)';
+                }),
+                borderWidth: 2,
+                borderRadius: 8
+              }]
+            },
+            options: {
+              responsive: true,
+              maintainAspectRatio: true,
+              plugins: {
+                legend: { display: false }
+              },
+              scales: {
+                y: {
+                  beginAtZero: true,
+                  max: 10,
+                  ticks: {
+                    stepSize: 2,
+                    color: 'rgba(156, 163, 175, 0.8)',
+                    font: { size: 11 }
+                  },
+                  grid: {
+                    color: 'rgba(255, 255, 255, 0.08)',
+                    drawBorder: false
+                  }
+                },
+                x: {
+                  ticks: {
+                    color: 'rgba(209, 213, 219, 0.9)',
+                    font: { size: 11, weight: '600' }
+                  },
+                  grid: {
+                    display: false
+                  }
+                }
+              }
+            }
+          });
+        }
+      }
+
+      function escapeHtml(text) {
+        const div = document.createElement('div');
+        div.textContent = text;
+        return div.innerHTML;
+      }
+    }
   </script>
 
   <!-- React TypeScript Background Bundle -->
