@@ -17,91 +17,39 @@ GEMINI_API_URL = os.getenv("GEMINI_API_URL", "https://generativelanguage.googlea
 app = Flask(__name__, static_folder="static", template_folder=".")
 
 # === Setup logging ===
+os.makedirs("logs", exist_ok=True)
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(levelname)s - %(message)s',
+    handlers=[
+        logging.FileHandler('logs/detections.log', encoding='utf-8'),
+        logging.StreamHandler()
+    ]
+)
+
+# === Setup logging ===
+os.makedirs("logs", exist_ok=True)
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(levelname)s - %(message)s',
+    handlers=[
+        logging.FileHandler('logs/detections.log', encoding='utf-8'),
+        logging.StreamHandler()
+    ]
+)
+
+# === Load ML Model (RoBERTa fine-tuned) ===
+MODEL_DIR = os.getenv('MODEL_DIR', 'models/prompt_injection_detector')
 try:
-    os.makedirs("logs", exist_ok=True)
-    logging.basicConfig(
-        level=logging.INFO,
-        format='%(asctime)s - %(levelname)s - %(message)s',
-        handlers=[
-            logging.FileHandler('logs/detections.log', encoding='utf-8'),
-            logging.StreamHandler()
-        ]
-    )
+    print(f"🔍 Loading prompt injection model from {MODEL_DIR}...")
+    tokenizer = AutoTokenizer.from_pretrained(MODEL_DIR)
+    model = AutoModelForSequenceClassification.from_pretrained(MODEL_DIR)
+    model.eval()
+    print("✅ Model loaded successfully!")
 except Exception as e:
-    logging.basicConfig(level=logging.INFO)
-
-# === Hugging Face Configuration ===
-HF_API_TOKEN = os.getenv("HF_API_TOKEN")  # Your Hugging Face API token
-HF_MODEL_ID = os.getenv("HF_MODEL_ID")  # e.g., "username/prompt-injection-detector"
-HF_API_URL = f"https://api-inference.huggingface.co/models/{HF_MODEL_ID}" if HF_MODEL_ID else None
-
-# For local development/testing only (won't work on Vercel due to size)
-USE_LOCAL_MODEL = os.getenv('USE_LOCAL_MODEL', 'false').lower() == 'true'
-model = None
-tokenizer = None
-
-if USE_LOCAL_MODEL:
-    MODEL_DIR = os.getenv('MODEL_DIR', 'models/prompt_injection_detector')
-    try:
-        print(f"🔍 Loading prompt injection model from {MODEL_DIR}...")
-        tokenizer = AutoTokenizer.from_pretrained(MODEL_DIR)
-        model = AutoModelForSequenceClassification.from_pretrained(MODEL_DIR)
-        model.eval()
-        print("✅ Local model loaded successfully!")
-    except Exception as e:
-        print(f"⚠️ Warning: Could not load local model. Will use HF API. Details: {e}")
-        model = None
-        tokenizer = None
-else:
-    if HF_MODEL_ID and HF_API_TOKEN:
-        print(f"🌐 Using Hugging Face API for model: {HF_MODEL_ID}")
-    else:
-        print("⚠️ HF_MODEL_ID or HF_API_TOKEN not configured. Model features will be limited.")
-
-
-# === Helper: Query Hugging Face Inference API ===
-def query_huggingface_model(text):
-    """
-    Query the Hugging Face Inference API for text classification.
-    Returns (ml_score, label) or (0, 'Error') if failed.
-    """
-    if not HF_API_TOKEN or not HF_MODEL_ID:
-        print("⚠️ HF_API_TOKEN or HF_MODEL_ID not set.")
-        return 0, 'Config Missing'
-    
-    headers = {"Authorization": f"Bearer {HF_API_TOKEN}"}
-    payload = {"inputs": text}
-    
-    try:
-        response = requests.post(HF_API_URL, headers=headers, json=payload, timeout=30)
-        response.raise_for_status()
-        result = response.json()
-        
-        # Handle Hugging Face API response format
-        # Format: [[{"label": "LABEL_0", "score": 0.9}, {"label": "LABEL_1", "score": 0.1}]]
-        if isinstance(result, list) and len(result) > 0 and isinstance(result[0], list):
-            # Find the "LABEL_1" (injection) probability
-            for item in result[0]:
-                if item.get('label') == 'LABEL_1':
-                    ml_score = float(item['score']) * 100
-                    label = 'Prompt Injection Detected' if ml_score > 50 else 'Safe'
-                    return ml_score, label
-        
-        # If model is still loading, HF returns {"error": "Model is loading"}
-        if isinstance(result, dict) and 'error' in result:
-            error_msg = result['error']
-            if 'loading' in error_msg.lower():
-                return 0, 'Model Loading'
-            return 0, f'API Error: {error_msg}'
-        
-        return 0, 'Unexpected Response'
-    
-    except requests.exceptions.Timeout:
-        print("⏱️ Hugging Face API timeout")
-        return 0, 'API Timeout'
-    except Exception as e:
-        print(f"❌ Hugging Face API error: {e}")
-        return 0, 'API Error'
+    print(f"⚠️ Warning: Could not load model. Details: {e}")
+    tokenizer = None
+    model = None
 
 
 # === ROUTES ===
@@ -412,8 +360,6 @@ def score_prompt():
     # ============== ML Detection ==============
     ml_score = 0
     label = "Safe"
-    
-    # Try local model first (for development), then fall back to HF API
     if model and tokenizer:
         try:
             inputs = tokenizer(prompt, return_tensors="pt", truncation=True, padding=True, max_length=256)
@@ -425,9 +371,6 @@ def score_prompt():
         except Exception as e:
             print(f"Model inference error: {e}")
             label = "Analysis Error"
-    else:
-        # Use Hugging Face Inference API
-        ml_score, label = query_huggingface_model(prompt)
 
     # ============== Heuristic Detection ==============
     heuristics = []
@@ -474,8 +417,6 @@ def analyze_prompt():
     # ============== ML Detection ==============
     ml_score = 0
     label = "Safe"
-    
-    # Try local model first (for development), then fall back to HF API
     if model and tokenizer:
         try:
             inputs = tokenizer(prompt, return_tensors="pt", truncation=True, padding=True, max_length=256)
@@ -487,9 +428,6 @@ def analyze_prompt():
         except Exception as e:
             print(f"Model inference error: {e}")
             label = "Analysis Error"
-    else:
-        # Use Hugging Face Inference API
-        ml_score, label = query_huggingface_model(prompt)
 
     # ============== Heuristic Detection ==============
     heuristics = []
@@ -601,8 +539,6 @@ def detector_score():
     # ML detection (reuse model/tokenizer if available)
     ml_score = 0
     label = 'Safe'
-    
-    # Try local model first (for development), then fall back to HF API
     if model and tokenizer:
         try:
             inputs = tokenizer(prompt, return_tensors='pt', truncation=True, padding=True, max_length=256)
@@ -614,9 +550,6 @@ def detector_score():
         except Exception as e:
             print('Model inference error in detector_score:', e)
             label = 'Analysis Error'
-    else:
-        # Use Hugging Face Inference API
-        ml_score, label = query_huggingface_model(prompt)
 
     # Heuristic detection
     heuristics = []
@@ -635,12 +568,9 @@ def detector_score():
 
     score_heuristic_points = min(100, match_count * 25)
 
-    # Calculate final score - use ML if available (local or HF API)
-    if model is None and ml_score == 0:
-        # No model available, use heuristics only
+    if model is None:
         final_score = score_heuristic_points
     else:
-        # Combine ML score with heuristics
         final_score = min(100, (ml_score * 0.8) + (score_heuristic_points * 0.2))
 
     if protection_level == 'strict':
@@ -650,8 +580,7 @@ def detector_score():
         'score': round(final_score, 2),
         'label': label,
         'heuristics': heuristics,
-        'model_available': model is not None or (HF_API_TOKEN and HF_MODEL_ID),
-        'using_hf_api': model is None and HF_API_TOKEN is not None,
+        'model_available': model is not None,
         'gemini_key_configured': bool(GEMINI_API_KEY)
     })
 
@@ -724,4 +653,5 @@ def gemini_chat():
 
 
 # === MAIN ===
-# Vercel/Serverless: Do NOT call app.run(). Just expose 'app'.
+if __name__ == "__main__":
+    app.run(debug=True, port=5001)

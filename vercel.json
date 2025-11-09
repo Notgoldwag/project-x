@@ -1,21 +1,16 @@
 {
-  "functions": {
-    "app.py": {
-      "runtime": "@vercel/python@4.3.0"
-    }
-  },
   "routes": [
     {
-      "src": "/api/(.*)",
-      "dest": "/app.py"
+      "src": "/login_signup",
+      "dest": "/login_signup.html"
     },
     {
-      "src": "/static/(.*)",
-      "dest": "/static/$1"
+      "src": "/home", 
+      "dest": "/home.html"
     },
     {
       "src": "/(.*)",
-      "dest": "/app.py"
+      "dest": "/$1"
     }
   ]
 }
