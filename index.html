@@ -8,10 +8,13 @@
   <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
   <link href="https://fonts.googleapis.com" rel="preconnect" />
   <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
-  <link href="https://fonts.googleapis.com/css2?family=Spline+Sans:wght@400;500;700;800&amp;display=swap"
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
     rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
   <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+  <!-- AOS (fade-in animations) -->
+  <link rel="stylesheet" href="https://unpkg.com/aos@2.3.4/dist/aos.css" />
   <style>
     /* Ensure pagination has breathing room below cards */
     .testimonials-swiper {
@@ -73,11 +76,13 @@
       border-color: #00cba0;
       box-shadow: 0 0 0 1px rgba(0, 203, 160, 0.35), 0 6px 18px rgba(0, 203, 160, 0.12) inset;
       background: linear-gradient(180deg, rgba(0, 203, 160, 0.10), rgba(0, 203, 160, 0.04));
+      border-width: 2px;
     }
 
     .faq details[open]>div {
       border-color: #00cba0;
     }
+    .faq details[open] summary .chev { color: #00cba0; }
 
     /* Make slides stretch uniformly and avoid variable heights */
     .testimonials-swiper .swiper-wrapper {
@@ -91,7 +96,7 @@
 
     /* Consistent card height; adjust if you want taller/shorter */
     .testimonial-card {
-      height: 280px;
+      height: 320px;
     }
 
     /* Multi-line clamp without Tailwind plugin */
@@ -117,6 +122,40 @@
     .mb-16 { margin-bottom: 2.5rem !important; }
     .mt-24 { margin-top: 4rem !important; }
     .space-y-16 > :not([hidden]) ~ :not([hidden]) { margin-top: 2.5rem !important; }
+
+    /* Gradient title style for subtle color pop */
+    .gradient-title {
+      background: linear-gradient(90deg, #22d3ee, #00cba0);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    /* Teal/Cyan wash on cards for more color */
+    .bg-slate-900\/50,
+    .bg-slate-800\/60 {
+      background-image: linear-gradient(135deg, rgba(16,185,129,0.08), rgba(56,189,248,0.06));
+      background-blend-mode: overlay;
+    }
+
+    /* Subtle gradient outline glow */
+    .border-border-dark {
+      box-shadow: 0 0 0 1px rgba(56, 189, 248, 0.12) inset, 0 0 0 1px rgba(16, 185, 129, 0.10) inset;
+    }
+
+    /* Prefer Inter across the app for better readability */
+    .font-display { font-family: "Inter", "Plus Jakarta Sans", system-ui, Arial, sans-serif !important; }
+
+    /* Teal gradient transformation (from home.html) */
+    .blob { position: absolute; border-radius: 50%; filter: blur(55px); opacity: .25; mix-blend-mode: screen; }
+    .blob.one { width: 42vw; height: 42vw; background: radial-gradient(circle at 30% 30%, #00cba0, transparent 60%); left: -10vw; top: -10vh; animation: float1 26s ease-in-out infinite; }
+    .blob.two { width: 36vw; height: 36vw; background: radial-gradient(circle at 70% 40%, #38bdf8, transparent 60%); right: -8vw; top: 10vh; animation: float2 24s ease-in-out infinite; }
+    .blob.three { width: 44vw; height: 44vw; background: radial-gradient(circle at 40% 60%, #00cba0, transparent 60%); left: 10vw; bottom: -12vh; animation: float3 28s ease-in-out infinite; }
+    .blob.four { width: 36vw; height: 36vw; background: radial-gradient(circle at 60% 70%, #22d3ee, transparent 60%); right: 10vw; bottom: -10vh; animation: float4 30s ease-in-out infinite; }
+    @keyframes float1 { 0%,100% { transform: translate(0,0) scale(1) } 50% { transform: translate(6vw,4vh) scale(1.06) } }
+    @keyframes float2 { 0%,100% { transform: translate(0,0) scale(1) } 50% { transform: translate(-5vw,3vh) scale(0.97) } }
+    @keyframes float3 { 0%,100% { transform: translate(0,0) scale(1) } 50% { transform: translate(4vw,-4vh) scale(1.03) } }
+    @keyframes float4 { 0%,100% { transform: translate(0,0) scale(1) } 50% { transform: translate(-4vw,-3vh) scale(1.04) } }
   </style>
   <script>
     tailwind.config = {
@@ -135,7 +174,7 @@
             "border-dark": "#1e293b" // slate-800
           },
           fontFamily: {
-            "display": ["Spline Sans", "sans-serif"]
+            "display": ["Plus Jakarta Sans", "Inter", "system-ui", "Arial", "sans-serif"]
           },
           borderRadius: {
             "DEFAULT": "1rem",
@@ -147,6 +186,8 @@
       },
     }
   </script>
+  <!-- AOS JS -->
+  <script defer src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
   <style>
     body {
       min-height: max(884px, 100dvh);
@@ -163,6 +204,11 @@
   <div class="relative flex min-h-screen w-full flex-col overflow-x-hidden">
     <!-- Decorative gradient layers for depth and modern feel -->
     <div class="pointer-events-none absolute inset-0 -z-10 overflow-hidden">
+      <!-- Animated teal/cyan blobs (from home.html) -->
+      <div class="blob one" aria-hidden="true"></div>
+      <div class="blob two" aria-hidden="true"></div>
+      <div class="blob three" aria-hidden="true"></div>
+      <div class="blob four" aria-hidden="true"></div>
       <div
         class="absolute -left-[12%] -top-[12%] h-[42vh] w-[42vw] rounded-full blur-3xl bg-[radial-gradient(circle_at_center,rgba(20,184,166,0.32),transparent_60%)]">
       </div>
@@ -183,12 +229,9 @@
           <h2 class="text-lg font-bold leading-tight tracking-[-0.015em]">Synergy</h2>
         </div>
         <nav class="hidden md:flex items-center gap-6 ml-10">
-          <a class="text-sm font-medium text-text-secondary-dark hover:text-text-dark transition-colors"
-            href="#">Features</a>
-          <a class="text-sm font-medium text-text-secondary-dark hover:text-text-dark transition-colors"
-            href="#">Pricing</a>
-          <a class="text-sm font-medium text-text-secondary-dark hover:text-text-dark transition-colors"
-            href="#">Blog</a>
+          <a class="text-sm font-medium text-text-secondary-dark hover:text-text-dark transition-colors" href="#features">Features</a>
+          <a class="text-sm font-medium text-text-secondary-dark hover:text-text-dark transition-colors" href="#pricing">Pricing</a>
+          <a class="text-sm font-medium text-text-secondary-dark hover:text-text-dark transition-colors" href="#how-it-works">How It Works</a>
         </nav>
         <div class="ml-auto flex items-center gap-4">
           <a class="hidden sm:inline text-sm font-medium text-text-secondary-dark hover:text-text-dark transition-colors"
@@ -204,14 +247,14 @@
       </div>
     </header>
     <main>
-      <section class="container mx-auto">
-        <div class="@container">
-          <div class="flex flex-col gap-8 px-4 py-16 @[864px]:flex-row @[864px]:py-24">
+      <section id="hero" class="container mx-auto">
+          <div class="@container">
+          <div class="flex flex-col gap-8 px-4 py-16 @[864px]:flex-row @[864px]:py-24" data-aos="fade-up">
             <div
-              class="flex flex-col gap-6 text-center @[864px]:text-left @[864px]:w-1/2 @[864px]:justify-center @[864px]:gap-8">
+              class="flex flex-col gap-6 text-center @[864px]:text-left @[864px]:w-1/2 @[864px]:justify-center @[864px]:gap-8" data-aos="fade-up" data-aos-delay="50">
               <div class="flex flex-col gap-4">
                 <h1
-                  class="text-4xl font-black leading-tight tracking-[-0.033em] @[480px]:text-5xl @[864px]:text-6xl text-white">
+                  class="text-4xl font-black leading-tight tracking-[-0.033em] @[480px]:text-5xl @[864px]:text-6xl text-white gradient-title">
                   Engineer Safer, Stronger Prompts — Fast</h1>
                 <p class="text-base font-normal leading-normal text-text-secondary-dark @[480px]:text-lg">One platform
                   with three tools: Prompt Engineer (multi‑agent refinement with Grok, GPT, Gemini, Claude), Prompt
@@ -229,28 +272,109 @@
                 </a>
               </div>
             </div>
-            <div class="w-full bg-center bg-no-repeat aspect-video bg-cover rounded-xl @[864px]:w-1/2"
+            <div class="w-full bg-center bg-no-repeat aspect-video bg-cover rounded-xl @[864px]:w-1/2" data-aos="fade-left" data-aos-delay="120"
               data-alt="Abstract gradient waves in shades of yellow and green"
               style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuA8qqD5UiGWpBhmNzU1c74UVZsjsFcKF82XVZOba-qac9tHrQgNJqVZYbCevCfTugRjDjK_NYdI_6Srq_1Radca1Bi2dlwUzshWvkWuWR-vhC49PW3YkzBgJFFdDM2qs7K7K6jgrxtrB10Ost8fGhFpPmDmnxaoRcXfxLIfo0JeRRxbZ3CrWzRuTsw3LBFmCHrdxgTqKyXgZl98-6OhpB_pJk_b1HM_e8L8j6I7tv3xqb-FBdeEQUrg0lE2lk5svxGnhOM7KHwVZKo");'>
             </div>
           </div>
         </div>
       </section>
+      <!-- About + How It Works moved directly under hero -->
+      <section id="about-how" class="container mx-auto py-20 md:py-24">
+        <div class="px-4 @container">
+          <div class="mx-auto max-w-5xl mb-20 space-y-4 text-center" data-aos="fade-up">
+            <h2 id="about" class="text-4xl @[480px]:text-5xl font-extrabold text-white gradient-title">About Us</h2>
+            <p class="text-lg md:text-xl text-text-secondary-dark">We’re building a safe, multi‑agent prompting platform that helps teams ship reliable LLM features — without guesswork. Our mission is to combine security, performance, and developer productivity into one workflow.</p>
+          </div>
+
+          <div class="mx-auto max-w-6xl" data-aos="fade-up" data-aos-delay="100">
+            <h2 id="how-it-works" class="text-4xl @[480px]:text-5xl font-extrabold text-white text-center mb-8 gradient-title">How It Works</h2>
+            <div class="grid gap-5 md:gap-6 md:grid-cols-4">
+              <div class="rounded-xl border-2 border-border-dark bg-slate-900/50 p-6 md:p-7 shadow-md">
+                <p class="text-base md:text-lg text-white font-semibold">1. Write or paste your prompt</p>
+                <p class="text-base text-text-secondary-dark">Start with a draft or existing system prompt.</p>
+              </div>
+              <div class="rounded-xl border-2 border-border-dark bg-slate-900/50 p-6 md:p-7 shadow-md">
+                <p class="text-base md:text-lg text-white font-semibold">2. Choose models</p>
+                <p class="text-base text-text-secondary-dark">Pick Grok, GPT, Gemini, Claude — or all four.</p>
+              </div>
+              <div class="rounded-xl border-2 border-border-dark bg-slate-900/50 p-6 md:p-7 shadow-md">
+                <p class="text-base md:text-lg text-white font-semibold">3. Agents refine, test, validate</p>
+                <p class="text-base text-text-secondary-dark">Orchestrated critique cycles + safety checks.</p>
+              </div>
+              <div class="rounded-xl border-2 border-border-dark bg-slate-900/50 p-6 md:p-7 shadow-md">
+                <p class="text-base md:text-lg text-white font-semibold">4. Export</p>
+                <p class="text-base text-text-secondary-dark">Download optimized, safe prompts for prod.</p>
+              </div>
+            </div>
+            <p class="mt-5 text-center text-sm text-text-secondary-dark">Diagram (text): prompts flow → multi‑model agents → refinement loop → benchmarks → safety gate → export.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Features placed after About + How It Works -->
+      <section id="features" class="container mx-auto py-20 md:py-24" data-aos="fade-up">
+        <div class="flex flex-col gap-12 px-4 py-16 @container">
+          <div class="flex flex-col gap-4 text-center items-center">
+            <h2 class="text-4xl @[480px]:text-5xl font-extrabold leading-tight tracking-[-0.033em] max-w-3xl text-white gradient-title">Product Overview — Three Tools, One Platform</h2>
+            <p class="text-base font-normal leading-normal text-text-secondary-dark max-w-3xl">Prompt Engineer, Prompt Playground, and Prompt Injection Detector — built for safety, speed, and measurable quality across models.</p>
+          </div>
+          <div class="grid grid-cols-[repeat(auto-fit,minmax(380px,1fr))] gap-x-10 gap-y-16 p-0" data-aos="fade-up" data-aos-delay="100">
+            <!-- Prompt Engineer -->
+            <div class="flex flex-1 flex-col gap-5 rounded-xl border-2 border-border-dark bg-slate-800/60 hover:bg-slate-800/70 transition-all p-8 md:p-10 shadow-lg hover:shadow-xl hover:-translate-y-1 min-h-[260px]">
+              <span class="material-symbols-outlined text-4xl md:text-5xl text-primary">hub</span>
+              <div class="flex flex-col gap-3">
+                <h3 class="text-xl md:text-2xl font-bold leading-tight text-white">Prompt Engineer</h3>
+                <p class="text-base text-text-secondary-dark">Multi-agent orchestration across Grok, GPT, Gemini, and Claude to refine prompts with critique → revise loops.</p>
+                <ul class="text-base text-text-secondary-dark list-disc pl-5 space-y-1">
+                  <li><span class="text-white/90">Why it matters:</span> stronger prompts through diverse model feedback.</li>
+                  <li><span class="text-white/90">Use cases:</span> production prompts, support auto-replies, eval prompts.</li>
+                </ul>
+              </div>
+            </div>
+            <!-- Prompt Playground -->
+            <div class="flex flex-1 flex-col gap-5 rounded-xl border-2 border-border-dark bg-slate-800/60 hover:bg-slate-800/70 transition-all p-8 md:p-10 shadow-lg hover:shadow-xl hover:-translate-y-1 min-h-[260px]">
+              <span class="material-symbols-outlined text-4xl md:text-5xl text-primary">speed</span>
+              <div class="flex flex-col gap-3">
+                <h3 class="text-xl md:text-2xl font-bold leading-tight text-white">Prompt Playground</h3>
+                <p class="text-base text-text-secondary-dark">Benchmark prompts across models with latency, cost, determinism, and output-quality scoring.</p>
+                <ul class="text-base text-text-secondary-dark list-disc pl-5 space-y-1">
+                  <li><span class="text-white/90">Why it matters:</span> choose the best model objectively.</li>
+                  <li><span class="text-white/90">Use cases:</span> side-by-side comparisons, regression checks.</li>
+                </ul>
+              </div>
+            </div>
+            <!-- Prompt Injection Detector -->
+            <div class="flex flex-1 flex-col gap-5 rounded-xl border-2 border-border-dark bg-slate-800/60 hover:bg-slate-800/70 transition-all p-8 md:p-10 shadow-lg hover:shadow-xl hover:-translate-y-1 min-h-[260px]">
+              <span class="material-symbols-outlined text-4xl md:text-5xl text-primary">shield_person</span>
+              <div class="flex flex-col gap-3">
+                <h3 class="text-xl md:text-2xl font-bold leading-tight text-white">Prompt Injection Detector</h3>
+                <p class="text-base text-text-secondary-dark">Score jailbreak risk, data leakage, and indirect injection; get safe rewrites instantly.</p>
+                <ul class="text-base text-text-secondary-dark list-disc pl-5 space-y-1">
+                  <li><span class="text-white/90">Why it matters:</span> protect apps, users, and data.</li>
+                  <li><span class="text-white/90">Use cases:</span> trust & safety gates, CI checks.</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       <!-- Deep Product Sections -->
-      <section class="container mx-auto py-20 md:py-24">
-        <div class="px-4 @container space-y-16">
+      <section id="product" class="container mx-auto py-20 md:py-24">
+        <div class="px-4 @container space-y-20">
           <!-- Prompt Engineer Deep Dive -->
-          <div class="grid gap-6 md:grid-cols-2 items-start">
+          <div class="grid gap-8 md:grid-cols-2 items-start" data-aos="fade-up">
             <div class="space-y-4">
-              <h3 class="text-2xl font-bold text-white">Prompt Engineer — Multi‑Agent Orchestration</h3>
-              <p class="text-text-secondary-dark">Coordinate Grok, GPT, Gemini, and Claude in critique → respond loops.
+              <h3 class="text-3xl font-extrabold text-white">Prompt Engineer — Multi‑Agent Orchestration</h3>
+              <p class="text-lg text-text-secondary-dark">Coordinate Grok, GPT, Gemini, and Claude in critique → respond loops.
                 Each agent proposes improvements, another critiques, and a selector converges on a stronger prompt.</p>
-              <ul class="list-disc pl-5 text-sm text-text-secondary-dark space-y-1">
+              <ul class="list-disc pl-5 text-base text-text-secondary-dark space-y-1">
                 <li>Role specialization: reasoning (Grok), breadth (GPT), tools (Gemini), safety/tone (Claude).</li>
                 <li>Auto‑refinement with guardrails, lexical/semantic checks, and style constraints.</li>
               </ul>
             </div>
-            <div class="rounded-lg border border-border-dark bg-slate-900/50 p-5 space-y-3">
+            <div class="rounded-xl border-2 border-border-dark bg-slate-900/50 p-8 md:p-10 space-y-4 shadow-lg" data-aos="fade-up" data-aos-delay="100">
               <p class="text-sm font-semibold text-white">Before → After</p>
               <div class="grid gap-3 md:grid-cols-2">
                 <div class="rounded-md border border-border-dark p-3 bg-slate-800/40">
@@ -270,25 +394,25 @@
           </div>
 
           <!-- Prompt Playground Deep Dive -->
-          <div class="grid gap-6 md:grid-cols-2 items-start">
-            <div class="rounded-lg border border-border-dark bg-slate-900/50 p-5 space-y-3 order-last md:order-none">
+          <div class="grid gap-8 md:grid-cols-2 items-start" data-aos="fade-up">
+            <div class="rounded-xl border-2 border-border-dark bg-slate-900/50 p-8 md:p-10 space-y-4 order-last md:order-none shadow-lg" data-aos="fade-up" data-aos-delay="100">
               <p class="text-sm font-semibold text-white">Benchmark Snapshot</p>
-              <ul class="text-sm text-text-secondary-dark list-disc pl-5 space-y-1">
+              <ul class="text-base text-text-secondary-dark list-disc pl-5 space-y-1">
                 <li>Latency: p50/p95 per model</li>
                 <li>Determinism: stability score across 5 trials</li>
                 <li>Quality: rubric‑based scoring (task‑specific)</li>
                 <li>Cost: tokens × unit rate</li>
               </ul>
-              <p class="text-xs text-text-secondary-dark">Visualization (text): bar chart comparing 4 models for
+              <p class="text-sm text-text-secondary-dark">Visualization (text): bar chart comparing 4 models for
                 latency/cost; heatmap for quality × determinism.</p>
-              <p class="text-sm text-text-secondary-dark">Example: run your prompt across 4 models instantly and export
+              <p class="text-base text-text-secondary-dark">Example: run your prompt across 4 models instantly and export
                 a side‑by‑side report.</p>
             </div>
             <div class="space-y-4">
-              <h3 class="text-2xl font-bold text-white">Prompt Playground — Model Benchmarking</h3>
-              <p class="text-text-secondary-dark">Measure what matters: speed, stability, quality, and spend — so your
+              <h3 class="text-3xl font-extrabold text-white">Prompt Playground — Model Benchmarking</h3>
+              <p class="text-lg text-text-secondary-dark">Measure what matters: speed, stability, quality, and spend — so your
                 team picks the right model with data, not guesses.</p>
-              <ul class="list-disc pl-5 text-sm text-text-secondary-dark space-y-1">
+              <ul class="list-disc pl-5 text-base text-text-secondary-dark space-y-1">
                 <li>Comparable runs with consistent temperature/seed controls.</li>
                 <li>Shareable results for reviews and regression tracking.</li>
               </ul>
@@ -296,17 +420,17 @@
           </div>
 
           <!-- Prompt Injection Detector Deep Dive -->
-          <div class="grid gap-6 md:grid-cols-2 items-start">
+          <div class="grid gap-8 md:grid-cols-2 items-start" data-aos="fade-up">
             <div class="space-y-4">
-              <h3 class="text-2xl font-bold text-white">Prompt Injection Detector — Risk Scoring</h3>
-              <p class="text-text-secondary-dark">Detect jailbreak attempts, prompt leaks, and indirect injections. Get
+              <h3 class="text-3xl font-extrabold text-white">Prompt Injection Detector — Risk Scoring</h3>
+              <p class="text-lg text-text-secondary-dark">Detect jailbreak attempts, prompt leaks, and indirect injections. Get
                 a risk score with rationale, plus a safe rewritten version.</p>
-              <ul class="list-disc pl-5 text-sm text-text-secondary-dark space-y-1">
+              <ul class="list-disc pl-5 text-base text-text-secondary-dark space-y-1">
                 <li>Checks: model override, data exfiltration, tool misuse, policy evasion.</li>
                 <li>Outputs: risk score (0–100), categories, and safe rewrite suggestions.</li>
               </ul>
             </div>
-            <div class="rounded-lg border border-border-dark bg-slate-900/50 p-5 space-y-3">
+            <div class="rounded-xl border-2 border-border-dark bg-slate-900/50 p-8 md:p-10 space-y-4 shadow-lg" data-aos="fade-up" data-aos-delay="100">
               <p class="text-sm font-semibold text-white">Example</p>
               <div class="grid gap-3 md:grid-cols-2">
                 <div class="rounded-md border border-border-dark p-3 bg-slate-800/40">
@@ -327,44 +451,67 @@
         </div>
       </section>
       <!-- Logos: social proof -->
-      <section class="container mx-auto py-20 md:py-24">
-        <div class="px-4 pb-8 -mt-6">
-          <div class="flex flex-col items-center gap-6">
-            <p class="text-xs uppercase tracking-widest text-text-secondary-dark">Trusted by forward-thinking teams</p>
-            <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-6 opacity-80">
-              <div class="h-10 grayscale hover:grayscale-0 transition-all flex items-center justify-center">
-                <svg viewBox="0 0 100 24" class="w-24 h-6 fill-current text-text-dark/80">
-                  <rect width="100" height="10" rx="2"></rect>
-                </svg>
+      <section id="logos" class="container mx-auto py-6 md:py-8">
+        <div class="px-4 pt-1 pb-4">
+          <div class="flex flex-col items-center gap-8" data-aos="fade-up">
+            <p class="text-base md:text-lg font-extrabold uppercase tracking-widest text-text-secondary-dark">Trusted by forward-thinking teams</p>
+            <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-8 md:gap-10 opacity-95">
+              <!-- Fake brand: Synergia -->
+              <div class="group flex flex-col items-center gap-2 rounded-xl border border-border-dark bg-slate-900/50 p-4 md:p-5 shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all" data-aos="fade-up" data-aos-delay="0">
+                <div class="h-12 md:h-14 flex items-center justify-center">
+                  <svg viewBox="0 0 64 64" class="h-10 md:h-12 text-white/80 group-hover:text-white group-hover:scale-110 transition-transform duration-200" fill="currentColor" aria-hidden="true">
+                    <path d="M32 4l18 10v20l-18 10L14 34V14L32 4zM14 40l18 10 18-10v8L32 56 14 48v-8z"/>
+                  </svg>
+                </div>
+                <p class="text-[11px] md:text-xs text-text-secondary-dark">Synergia</p>
               </div>
-              <div class="h-10 grayscale hover:grayscale-0 transition-all flex items-center justify-center">
-                <svg viewBox="0 0 100 24" class="w-24 h-6 fill-current text-text-dark/80">
-                  <circle cx="12" cy="12" r="10"></circle>
-                  <rect x="28" width="70" height="10" rx="2"></rect>
-                </svg>
+              <!-- Fake brand: Helix Labs -->
+              <div class="group flex flex-col items-center gap-2 rounded-xl border border-border-dark bg-slate-900/50 p-4 md:p-5 shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all" data-aos="fade-up" data-aos-delay="60">
+                <div class="h-12 md:h-14 flex items-center justify-center">
+                  <svg viewBox="0 0 64 64" class="h-10 md:h-12 text-white/80 group-hover:text-white group-hover:scale-110 transition-transform duration-200" fill="none" stroke="currentColor" stroke-width="4" aria-hidden="true">
+                    <path d="M16 12c10 10 22 10 32 0M16 52c10-10 22-10 32 0"/>
+                    <path d="M22 20c6 8 14 8 20 0M22 44c6-8 14-8 20 0"/>
+                  </svg>
+                </div>
+                <p class="text-[11px] md:text-xs text-text-secondary-dark">Helix Labs</p>
               </div>
-              <div class="h-10 grayscale hover:grayscale-0 transition-all flex items-center justify-center">
-                <svg viewBox="0 0 100 24" class="w-24 h-6 fill-current text-text-dark/80">
-                  <rect x="0" y="7" width="100" height="10" rx="5"></rect>
-                </svg>
+              <!-- Fake brand: NimbusWorks -->
+              <div class="group flex flex-col items-center gap-2 rounded-xl border border-border-dark bg-slate-900/50 p-4 md:p-5 shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all" data-aos="fade-up" data-aos-delay="120">
+                <div class="h-12 md:h-14 flex items-center justify-center">
+                  <svg viewBox="0 0 64 64" class="h-10 md:h-12 text-white/80 group-hover:text-white group-hover:scale-110 transition-transform duration-200" fill="currentColor" aria-hidden="true">
+                    <path d="M20 38h24a10 10 0 100-20 14 14 0 10-27 4A10 10 0 1020 38z"/>
+                  </svg>
+                </div>
+                <p class="text-[11px] md:text-xs text-text-secondary-dark">NimbusWorks</p>
               </div>
-              <div class="h-10 grayscale hover:grayscale-0 transition-all flex items-center justify-center">
-                <svg viewBox="0 0 100 24" class="w-24 h-6 fill-current text-text-dark/80">
-                  <rect x="0" y="0" width="36" height="10" rx="2"></rect>
-                  <rect x="44" y="0" width="56" height="10" rx="2"></rect>
-                </svg>
+              <!-- Fake brand: VectorForge -->
+              <div class="group flex flex-col items-center gap-2 rounded-xl border border-border-dark bg-slate-900/50 p-4 md:p-5 shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all" data-aos="fade-up" data-aos-delay="180">
+                <div class="h-12 md:h-14 flex items-center justify-center">
+                  <svg viewBox="0 0 64 64" class="h-10 md:h-12 text-white/80 group-hover:text-white group-hover:scale-110 transition-transform duration-200" fill="currentColor" aria-hidden="true">
+                    <path d="M8 48l24-32 24 32H8zm24-10l10 10H22l10-10z"/>
+                  </svg>
+                </div>
+                <p class="text-[11px] md:text-xs text-text-secondary-dark">VectorForge</p>
               </div>
-              <div class="h-10 grayscale hover:grayscale-0 transition-all flex items-center justify-center">
-                <svg viewBox="0 0 100 24" class="w-24 h-6 fill-current text-text-dark/80">
-                  <rect x="0" y="0" width="24" height="10" rx="2"></rect>
-                  <rect x="30" y="0" width="70" height="10" rx="2"></rect>
-                </svg>
+              <!-- Fake brand: LuminaCloud -->
+              <div class="group flex flex-col items-center gap-2 rounded-xl border border-border-dark bg-slate-900/50 p-4 md:p-5 shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all" data-aos="fade-up" data-aos-delay="240">
+                <div class="h-12 md:h-14 flex items-center justify-center">
+                  <svg viewBox="0 0 64 64" class="h-10 md:h-12 text-white/80 group-hover:text-white group-hover:scale-110 transition-transform duration-200" fill="none" stroke="currentColor" stroke-width="4" aria-hidden="true">
+                    <circle cx="32" cy="32" r="14"/>
+                    <path d="M32 8v8M32 48v8M8 32h8M48 32h8M14 14l6 6M44 44l6 6M50 14l-6 6M14 50l6-6"/>
+                  </svg>
+                </div>
+                <p class="text-[11px] md:text-xs text-text-secondary-dark">LuminaCloud</p>
               </div>
-              <div class="h-10 grayscale hover:grayscale-0 transition-all flex items-center justify-center">
-                <svg viewBox="0 0 100 24" class="w-24 h-6 fill-current text-text-dark/80">
-                  <rect x="0" y="7" width="60" height="10" rx="2"></rect>
-                  <rect x="66" y="7" width="34" height="10" rx="2"></rect>
-                </svg>
+              <!-- Fake brand: OrbitSoft -->
+              <div class="group flex flex-col items-center gap-2 rounded-xl border border-border-dark bg-slate-900/50 p-4 md:p-5 shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all" data-aos="fade-up" data-aos-delay="300">
+                <div class="h-12 md:h-14 flex items-center justify-center">
+                  <svg viewBox="0 0 64 64" class="h-10 md:h-12 text-white/80 group-hover:text-white group-hover:scale-110 transition-transform duration-200" fill="none" stroke="currentColor" stroke-width="4" aria-hidden="true">
+                    <circle cx="32" cy="32" r="10"/>
+                    <ellipse cx="32" cy="32" rx="24" ry="10"/>
+                  </svg>
+                </div>
+                <p class="text-[11px] md:text-xs text-text-secondary-dark">OrbitSoft</p>
               </div>
             </div>
           </div>
@@ -392,10 +539,18 @@
             },
             pagination: { el: '.swiper-pagination', clickable: true },
           });
+
+          if (window.AOS) {
+            AOS.init({
+              once: true,
+              duration: 700,
+              easing: 'ease-out-quart'
+            });
+          }
         });
       </script>
       <!-- Stats band -->
-      <section class="container mx-auto py-20 md:py-24">
+      <section id="metrics" class="container mx-auto py-20 md:py-24" data-aos="fade-up">
         <div class="px-4 pb-6">
           <div class="grid grid-cols-2 md:grid-cols-4 gap-4 rounded-lg border border-border-dark bg-slate-900/50 p-6">
             <div class="flex flex-col items-center text-center">
@@ -417,66 +572,10 @@
           </div>
         </div>
       </section>
-      <section class="container mx-auto py-20 md:py-24">
-        <div class="flex flex-col gap-10 px-4 py-16 @container">
-          <div class="flex flex-col gap-4 text-center items-center">
-            <h2 class="text-3xl font-bold leading-tight tracking-[-0.033em] @[480px]:text-4xl max-w-3xl text-white">
-              Product Overview — Three Tools, One Platform</h2>
-            <p class="text-base font-normal leading-normal text-text-secondary-dark max-w-3xl">Prompt Engineer, Prompt
-              Playground, and Prompt Injection Detector — built for safety, speed, and measurable quality across models.
-            </p>
-          </div>
-          <div class="grid grid-cols-[repeat(auto-fit,minmax(280px,1fr))] gap-6 p-0">
-            <!-- Prompt Engineer -->
-            <div
-              class="flex flex-1 flex-col gap-3 rounded-lg border border-border-dark bg-slate-800/60 hover:bg-slate-800/70 transition-colors p-6">
-              <span class="material-symbols-outlined text-3xl text-primary">hub</span>
-              <div class="flex flex-col gap-2">
-                <h3 class="text-lg font-bold leading-tight text-white">Prompt Engineer</h3>
-                <p class="text-sm text-text-secondary-dark">Multi-agent orchestration across Grok, GPT, Gemini, and
-                  Claude to refine prompts with critique → revise loops.</p>
-                <ul class="text-sm text-text-secondary-dark list-disc pl-5 space-y-1">
-                  <li><span class="text-white/90">Why it matters:</span> stronger prompts through diverse model
-                    feedback.</li>
-                  <li><span class="text-white/90">Use cases:</span> production prompts, support auto-replies, eval
-                    prompts.</li>
-                </ul>
-              </div>
-            </div>
-            <!-- Prompt Playground -->
-            <div
-              class="flex flex-1 flex-col gap-3 rounded-lg border border-border-dark bg-slate-800/60 hover:bg-slate-800/70 transition-colors p-6">
-              <span class="material-symbols-outlined text-3xl text-primary">speed</span>
-              <div class="flex flex-col gap-2">
-                <h3 class="text-lg font-bold leading-tight text-white">Prompt Playground</h3>
-                <p class="text-sm text-text-secondary-dark">Benchmark prompts across models with latency, cost,
-                  determinism, and output-quality scoring.</p>
-                <ul class="text-sm text-text-secondary-dark list-disc pl-5 space-y-1">
-                  <li><span class="text-white/90">Why it matters:</span> choose the best model objectively.</li>
-                  <li><span class="text-white/90">Use cases:</span> side-by-side comparisons, regression checks.</li>
-                </ul>
-              </div>
-            </div>
-            <!-- Prompt Injection Detector -->
-            <div
-              class="flex flex-1 flex-col gap-3 rounded-lg border border-border-dark bg-slate-800/60 hover:bg-slate-800/70 transition-colors p-6">
-              <span class="material-symbols-outlined text-3xl text-primary">shield_person</span>
-              <div class="flex flex-col gap-2">
-                <h3 class="text-lg font-bold leading-tight text-white">Prompt Injection Detector</h3>
-                <p class="text-sm text-text-secondary-dark">Score jailbreak risk, data leakage, and indirect injection;
-                  get safe rewrites instantly.</p>
-                <ul class="text-sm text-text-secondary-dark list-disc pl-5 space-y-1">
-                  <li><span class="text-white/90">Why it matters:</span> protect apps, users, and data.</li>
-                  <li><span class="text-white/90">Use cases:</span> trust & safety gates, CI checks.</li>
-                </ul>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-      <section class="container mx-auto py-20 md:py-24">
+      
+      <section id="testimonials" class="container mx-auto py-20 md:py-24" data-aos="fade-up">
         <div class="flex flex-col gap-8 text-center px-4">
-          <h2 class="text-3xl font-bold leading-tight tracking-[-0.033em] @[480px]:text-4xl text-white">Loved by teams
+          <h2 class="text-4xl @[480px]:text-5xl font-extrabold leading-tight tracking-[-0.033em] text-white gradient-title">Loved by teams
             worldwide</h2>
         </div>
         <div class="mt-10 px-4">
@@ -491,11 +590,11 @@
                       style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBecHYwkUHZDsAcUl1CT_vukkJMUiPrXGt7Qtawiry4iPCyAreaB-EnP3JEUXAqT44gi17VWXJPKQvrEMsCk08N7ePRcp2PeJ4_iaBxoXKScQ8iUubhO-5DMAF98GDnx9UUZs6GLeDRrvsOoc6wpjbQ2oxUpOZIsI4_p2radInEIyjukoO8rKYzjL_Pmm1hQqaDF_GiK4sih-_CAKM6W04n7-2hY0aRnlIpb2XY7j8qT1ZSZK0jTDdQjuksWiT_MkAvQvarKdOyut0");'>
                     </div>
                     <div>
-                      <p class="text-base font-medium leading-normal text-white">Jane Doe</p>
-                      <p class="text-sm font-normal text-text-secondary-dark">Project Manager</p>
+                      <p class="text-lg font-semibold leading-normal text-white">Jane Doe</p>
+                      <p class="text-base font-normal text-text-secondary-dark">Project Manager</p>
                     </div>
                   </div>
-                  <p class="text-base font-normal leading-normal text-text-secondary-dark clamp-4">"This app has
+                  <p class="text-lg font-normal leading-normal text-text-secondary-dark clamp-4">"This app has
                     completely transformed how our team works. We're more organized and efficient than ever before!"</p>
                 </div>
               </div>
@@ -508,11 +607,11 @@
                       style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCB-HZ-BKai_UQ914Q-vsKy8X9LkFEK9ROFKrvwXkQ9sy44OJFVarEZ66JF50E-0A4ydX1bwB4HvadZQgFrsMrJrRkHfSNrRnegPdVwdn1OuTB5qZW6p8voqOwmqJAnmvi6qDPMA3QkGpcSMsNAer1thhFessETIv4CT0qd3IlZpCzh-OlJuCZOcrcht4Sb0EGA4g0giUWquCwtu2QSI7qltmL6EClVOsZUtkccICI5f-FBECsEGlOHhoxLoiSZcPkLBF3ZA4Es-bs");'>
                     </div>
                     <div>
-                      <p class="text-base font-medium leading-normal text-white">John Smith</p>
-                      <p class="text-sm font-normal text-text-secondary-dark">Lead Developer</p>
+                      <p class="text-lg font-semibold leading-normal text-white">John Smith</p>
+                      <p class="text-base font-normal text-text-secondary-dark">Lead Developer</p>
                     </div>
                   </div>
-                  <p class="text-base font-normal leading-normal text-text-secondary-dark clamp-4">"The best
+                  <p class="text-lg font-normal leading-normal text-text-secondary-dark clamp-4">"The best
                     collaboration tool I've used. The seamless integration with our existing workflow is a
                     game-changer."</p>
                 </div>
@@ -526,11 +625,11 @@
                       style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCos1p6InQEZEZdEZ9sOMHNlR1fSrS-dPZLE9aDzkBgs76co6y7ruYrMAcZgSHfoxoNTmMc2-pSUiOHC4f1zrxzYPpKozExoo8zeD8a3ibOfiDxvu4LwW_s5rPw_tiWGpmcKB51j0bOIQ8_bR5m8OWQcY8vaTF6k2GounkKrayVVPCtEaYB_DDhlIw2_Bgh-_82PL1_f-EgwsPShrmMEyqm0B6TcwGxuAdSvPvbf68rbwYb4AGrDx0bHDnm74SPpQvun33_HMPeo7I");'>
                     </div>
                     <div>
-                      <p class="text-base font-medium leading-normal text-white">Emily White</p>
-                      <p class="text-sm font-normal text-text-secondary-dark">Marketing Head</p>
+                      <p class="text-lg font-semibold leading-normal text-white">Emily White</p>
+                      <p class="text-base font-normal text-text-secondary-dark">Marketing Head</p>
                     </div>
                   </div>
-                  <p class="text-base font-normal leading-normal text-text-secondary-dark clamp-4">"Our campaign
+                  <p class="text-lg font-normal leading-normal text-text-secondary-dark clamp-4">"Our campaign
                     tracking has improved by 50% thanks to the insightful analytics. Highly recommended!"</p>
                 </div>
               </div>
@@ -543,11 +642,11 @@
                     <div class="h-12 w-12 rounded-full bg-cover bg-center" data-alt="Portrait of Liam Patel"
                       style="background-image: radial-gradient(circle at 30% 30%, #38bdf8 0%, #00cba0 65%);"></div>
                     <div>
-                      <p class="text-base font-medium leading-normal text-white">Liam Patel</p>
-                      <p class="text-sm font-normal text-text-secondary-dark">Product Lead</p>
+                      <p class="text-lg font-semibold leading-normal text-white">Liam Patel</p>
+                      <p class="text-base font-normal text-text-secondary-dark">Product Lead</p>
                     </div>
                   </div>
-                  <p class="text-base font-normal leading-normal text-text-secondary-dark clamp-4">"We shipped our last
+                  <p class="text-lg font-normal leading-normal text-text-secondary-dark clamp-4">"We shipped our last
                     release 3x faster. The focus and clarity this brings to our workflow is unmatched."</p>
                 </div>
               </div>
@@ -559,11 +658,11 @@
                     <div class="h-12 w-12 rounded-full bg-cover bg-center" data-alt="Portrait of Sophia Chen"
                       style="background-image: radial-gradient(circle at 30% 30%, #00cba0 0%, #22c55e 65%);"></div>
                     <div>
-                      <p class="text-base font-medium leading-normal text-white">Sophia Chen</p>
-                      <p class="text-sm font-normal text-text-secondary-dark">Design Director</p>
+                      <p class="text-lg font-semibold leading-normal text-white">Sophia Chen</p>
+                      <p class="text-base font-normal text-text-secondary-dark">Design Director</p>
                     </div>
                   </div>
-                  <p class="text-base font-normal leading-normal text-text-secondary-dark clamp-4">"Polished UI and
+                  <p class="text-lg font-normal leading-normal text-text-secondary-dark clamp-4">"Polished UI and
                     thoughtful details. Our team loves using it every day."</p>
                 </div>
               </div>
@@ -575,11 +674,11 @@
                     <div class="h-12 w-12 rounded-full bg-cover bg-center" data-alt="Portrait of Carlos Rivera"
                       style="background-image: radial-gradient(circle at 30% 30%, #22c55e 0%, #38bdf8 65%);"></div>
                     <div>
-                      <p class="text-base font-medium leading-normal text-white">Carlos Rivera</p>
-                      <p class="text-sm font-normal text-text-secondary-dark">Engineering Manager</p>
+                      <p class="text-lg font-semibold leading-normal text-white">Carlos Rivera</p>
+                      <p class="text-base font-normal text-text-secondary-dark">Engineering Manager</p>
                     </div>
                   </div>
-                  <p class="text-base font-normal leading-normal text-text-secondary-dark clamp-4">"Collaboration is
+                  <p class="text-lg font-normal leading-normal text-text-secondary-dark clamp-4">"Collaboration is
                     seamless now. Standups are shorter, and tasks are crystal-clear."</p>
                 </div>
               </div>
@@ -591,11 +690,11 @@
                     <div class="h-12 w-12 rounded-full bg-cover bg-center" data-alt="Portrait of Ava Thompson"
                       style="background-image: radial-gradient(circle at 30% 30%, #0ea5e9 0%, #00cba0 65%);"></div>
                     <div>
-                      <p class="text-base font-medium leading-normal text-white">Ava Thompson</p>
-                      <p class="text-sm font-normal text-text-secondary-dark">Ops Lead</p>
+                      <p class="text-lg font-semibold leading-normal text-white">Ava Thompson</p>
+                      <p class="text-base font-normal text-text-secondary-dark">Ops Lead</p>
                     </div>
                   </div>
-                  <p class="text-base font-normal leading-normal text-text-secondary-dark clamp-4">"Reliability has been
+                  <p class="text-lg font-normal leading-normal text-text-secondary-dark clamp-4">"Reliability has been
                     outstanding. We haven’t missed a beat since switching."</p>
                 </div>
               </div>
@@ -607,11 +706,11 @@
                     <div class="h-12 w-12 rounded-full bg-cover bg-center" data-alt="Portrait of Noah Williams"
                       style="background-image: radial-gradient(circle at 30% 30%, #00cba0 0%, #0ea5e9 65%);"></div>
                     <div>
-                      <p class="text-base font-medium leading-normal text-white">Noah Williams</p>
-                      <p class="text-sm font-normal text-text-secondary-dark">CTO</p>
+                      <p class="text-lg font-semibold leading-normal text-white">Noah Williams</p>
+                      <p class="text-base font-normal text-text-secondary-dark">CTO</p>
                     </div>
                   </div>
-                  <p class="text-base font-normal leading-normal text-text-secondary-dark clamp-4">"Finally a tool our
+                  <p class="text-lg font-normal leading-normal text-text-secondary-dark clamp-4">"Finally a tool our
                     engineers and product folks both love. Worth every penny."</p>
                 </div>
               </div>
@@ -623,11 +722,11 @@
                     <div class="h-12 w-12 rounded-full bg-cover bg-center" data-alt="Portrait of Mia Johnson"
                       style="background-image: radial-gradient(circle at 30% 30%, #38bdf8 0%, #22c55e 65%);"></div>
                     <div>
-                      <p class="text-base font-medium leading-normal text-white">Mia Johnson</p>
-                      <p class="text-sm font-normal text-text-secondary-dark">Founder</p>
+                      <p class="text-lg font-semibold leading-normal text-white">Mia Johnson</p>
+                      <p class="text-base font-normal text-text-secondary-dark">Founder</p>
                     </div>
                   </div>
-                  <p class="text-base font-normal leading-normal text-text-secondary-dark clamp-4">"We onboarded in
+                  <p class="text-lg font-normal leading-normal text-text-secondary-dark clamp-4">"We onboarded in
                     minutes. The clarity and momentum we gained was immediate."</p>
                 </div>
               </div>
@@ -636,41 +735,11 @@
           </div>
         </div>
         <!-- FAQ: dropdowns -->
-        <section class="container mx-auto py-20 md:py-24">
+        <section class="container mx-auto py-20 md:py-24" data-aos="fade-up">
           <div class="px-4 @container">
-            <div class="mx-auto max-w-4xl mb-16 space-y-3 text-center">
-              <h2 class="text-3xl font-bold text-white">About Us</h2>
-              <p class="text-base text-text-secondary-dark">We’re building a safe, multi‑agent prompting platform that
-                helps teams ship reliable LLM features — without guesswork. Our mission is to combine security,
-                performance, and developer productivity into one workflow.</p>
-            </div>
-
-            <div class="mx-auto max-w-5xl mb-16">
-              <h2 class="text-2xl font-bold text-white text-center mb-6">How It Works</h2>
-              <div class="grid gap-4 md:grid-cols-4">
-                <div class="rounded-lg border border-border-dark bg-slate-900/50 p-4">
-                  <p class="text-sm text-white font-semibold">1. Write or paste your prompt</p>
-                  <p class="text-sm text-text-secondary-dark">Start with a draft or existing system prompt.</p>
-                </div>
-                <div class="rounded-lg border border-border-dark bg-slate-900/50 p-4">
-                  <p class="text-sm text-white font-semibold">2. Choose models</p>
-                  <p class="text-sm text-text-secondary-dark">Pick Grok, GPT, Gemini, Claude — or all four.</p>
-                </div>
-                <div class="rounded-lg border border-border-dark bg-slate-900/50 p-4">
-                  <p class="text-sm text-white font-semibold">3. Agents refine, test, validate</p>
-                  <p class="text-sm text-text-secondary-dark">Orchestrated critique cycles + safety checks.</p>
-                </div>
-                <div class="rounded-lg border border-border-dark bg-slate-900/50 p-4">
-                  <p class="text-sm text-white font-semibold">4. Export</p>
-                  <p class="text-sm text-text-secondary-dark">Download optimized, safe prompts for prod.</p>
-                </div>
-              </div>
-              <p class="mt-4 text-center text-xs text-text-secondary-dark">Diagram (text): prompts flow → multi‑model
-                agents → refinement loop → benchmarks → safety gate → export.</p>
-            </div>
 
             <div class="mx-auto max-w-6xl mb-16">
-              <h2 class="text-2xl font-bold text-white text-center mb-6">Features</h2>
+              <h2 id="features-2" class="text-4xl @[480px]:text-5xl font-extrabold text-white text-center mb-6 gradient-title">Features</h2>
               <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
                 <div class="rounded-lg border border-border-dark bg-slate-900/50 p-4">
                   <p class="text-sm text-white font-semibold">Multi‑agent orchestration</p>
@@ -700,7 +769,7 @@
             </div>
 
             <div class="mx-auto max-w-6xl mb-16">
-              <h2 class="text-2xl font-bold text-white text-center mb-6">Pricing</h2>
+              <h2 id="pricing" class="text-4xl @[480px]:text-5xl font-extrabold text-white text-center mb-6 gradient-title">Pricing</h2>
               <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
                 <div class="rounded-lg border border-border-dark bg-slate-900/50 p-6">
                   <h3 class="text-lg font-bold text-white">Free</h3>
@@ -729,14 +798,14 @@
               </div>
             </div>
 
-            <div class="flex flex-col gap-4 text-center items-center">
-              <h2 class="text-3xl font-bold leading-tight tracking-[-0.033em] @[480px]:text-4xl max-w-2xl text-white">
+            <div class="flex flex-col gap-4 text-center items-center" data-aos="fade-up" data-aos-delay="50">
+              <h2 id="faq" class="text-4xl @[480px]:text-5xl font-extrabold leading-tight tracking-[-0.033em] max-w-2xl text-white gradient-title">
                 Frequently Asked Questions</h2>
               <p class="text-base font-normal leading-normal text-text-secondary-dark max-w-2xl">Quick answers to common
                 questions. Reach out if you need more details.</p>
             </div>
             <div class="faq mx-auto max-w-3xl mt-8 space-y-4">
-              <details class="group">
+              <details class="group" data-aos="fade-up" data-aos-delay="0">
                 <summary
                   class="cursor-pointer select-none rounded-lg border border-border-dark bg-slate-900/50 px-5 py-4 text-left text-white flex items-center justify-between">
                   <span class="font-semibold">How does the free trial work?</span>
@@ -753,7 +822,7 @@
                 </div>
               </details>
 
-              <details class="group">
+              <details class="group" data-aos="fade-up" data-aos-delay="60">
                 <summary
                   class="cursor-pointer select-none rounded-lg border border-border-dark bg-slate-900/50 px-5 py-4 text-left text-white flex items-center justify-between">
                   <span class="font-semibold">Can we integrate with our stack?</span>
@@ -769,7 +838,7 @@
                 </div>
               </details>
 
-              <details class="group">
+              <details class="group" data-aos="fade-up" data-aos-delay="120">
                 <summary
                   class="cursor-pointer select-none rounded-lg border border-border-dark bg-slate-900/50 px-5 py-4 text-left text-white flex items-center justify-between">
                   <span class="font-semibold">Is my data secure?</span>
@@ -785,7 +854,7 @@
                 </div>
               </details>
 
-              <details class="group">
+              <details class="group" data-aos="fade-up" data-aos-delay="180">
                 <summary
                   class="cursor-pointer select-none rounded-lg border border-border-dark bg-slate-900/50 px-5 py-4 text-left text-white flex items-center justify-between">
                   <span class="font-semibold">Do you offer discounts for nonprofits?</span>
@@ -801,7 +870,7 @@
                 </div>
               </details>
 
-              <details class="group">
+              <details class="group" data-aos="fade-up" data-aos-delay="240">
                 <summary
                   class="cursor-pointer select-none rounded-lg border border-border-dark bg-slate-900/50 px-5 py-4 text-left text-white flex items-center justify-between">
                   <span class="font-semibold">Which models are supported?</span>
@@ -817,7 +886,7 @@
                 </div>
               </details>
 
-              <details class="group">
+              <details class="group" data-aos="fade-up" data-aos-delay="300">
                 <summary
                   class="cursor-pointer select-none rounded-lg border border-border-dark bg-slate-900/50 px-5 py-4 text-left text-white flex items-center justify-between">
                   <span class="font-semibold">How are scores generated?</span>
@@ -834,7 +903,7 @@
                 </div>
               </details>
 
-              <details class="group">
+              <details class="group" data-aos="fade-up" data-aos-delay="360">
                 <summary
                   class="cursor-pointer select-none rounded-lg border border-border-dark bg-slate-900/50 px-5 py-4 text-left text-white flex items-center justify-between">
                   <span class="font-semibold">Is data safe?</span>
@@ -850,7 +919,7 @@
                 </div>
               </details>
 
-              <details class="group">
+              <details class="group" data-aos="fade-up" data-aos-delay="420">
                 <summary
                   class="cursor-pointer select-none rounded-lg border border-border-dark bg-slate-900/50 px-5 py-4 text-left text-white flex items-center justify-between">
                   <span class="font-semibold">Is there an API?</span>
@@ -868,12 +937,12 @@
             </div>
           </div>
         </section>
-        <section class="container mx-auto py-20 md:py-24">
+        <section id="cta" class="container mx-auto py-20 md:py-24">
           <div class="bg-primary/15 rounded-lg @container mx-4">
             <div
-              class="flex flex-col items-center justify-end gap-6 px-4 py-16 text-center @[480px]:gap-8 @[480px]:px-10 @[480px]:py-20">
+              class="flex flex-col items-center justify-end gap-6 px-4 py-16 text-center @[480px]:gap-8 @[480px]:px-10 @[480px]:py-20" data-aos="fade-up">
               <div class="flex flex-col gap-2">
-                <h2 class="text-3xl font-bold leading-tight tracking-[-0.033em] @[480px]:text-4xl max-w-3xl text-white">
+                <h2 class="text-3xl font-bold leading-tight tracking-[-0.033em] @[480px]:text-4xl max-w-3xl text-white gradient-title">
                   Start engineering better prompts today</h2>
                 <p class="text-base font-normal leading-normal text-text-secondary-dark max-w-2xl">Safer prompts, faster
                   decisions, measurable quality — all in one place.</p>
