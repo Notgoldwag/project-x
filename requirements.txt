@@ -20,3 +20,8 @@ seaborn==0.13.2
 # === Deployment (optional, for Vercel/Render) ===
 gunicorn==22.0.0
 uvicorn==0.30.6
+
+# LangChain dependencies for AI orchestration
+langchain>=0.1.0
+langchain-openai>=0.0.5
+langchain-community>=0.0.20
