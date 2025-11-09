@@ -184,27 +184,4 @@
     testWebhook
   };
 
-    parseAIResponse(data) {
-        // Handle the actual LangChain response structure
-        if (data.final_output && typeof data.final_output === 'object') {
-            if (data.final_output.final_prompt_template) {
-                // Successful 3-agent pipeline response
-                return `**${data.immediate_response}**\n\n` +
-                       `**Final Prompt Template:**\n\n${data.final_output.final_prompt_template}\n\n` +
-                       `**Agent Pipeline:**\n` +
-                       data.final_output.agent_pipeline.map(agent => 
-                           `• **${agent.agent}**: ${agent.contribution}`
-                       ).join('\n') +
-                       `\n\n*Processing time: ${Math.round(data.total_execution_time_ms)}ms*`;
-            } else if (data.final_output.error) {
-                // Error response
-                return `**${data.immediate_response}**\n\n` +
-                       `Error details: ${data.final_output.error}`;
-            }
-        }
-        
-        // Fallback for other response formats
-        return data.immediate_response || 'Response received';
-    }
-
 })();
