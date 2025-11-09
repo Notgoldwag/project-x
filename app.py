@@ -17,26 +17,18 @@ GEMINI_API_URL = os.getenv("GEMINI_API_URL", "https://generativelanguage.googlea
 app = Flask(__name__, static_folder="static", template_folder=".")
 
 # === Setup logging ===
-os.makedirs("logs", exist_ok=True)
-logging.basicConfig(
-    level=logging.INFO,
-    format='%(asctime)s - %(levelname)s - %(message)s',
-    handlers=[
-        logging.FileHandler('logs/detections.log', encoding='utf-8'),
-        logging.StreamHandler()
-    ]
-)
-
-# === Setup logging ===
-os.makedirs("logs", exist_ok=True)
-logging.basicConfig(
-    level=logging.INFO,
-    format='%(asctime)s - %(levelname)s - %(message)s',
-    handlers=[
-        logging.FileHandler('logs/detections.log', encoding='utf-8'),
-        logging.StreamHandler()
-    ]
-)
+try:
+    os.makedirs("logs", exist_ok=True)
+    logging.basicConfig(
+        level=logging.INFO,
+        format='%(asctime)s - %(levelname)s - %(message)s',
+        handlers=[
+            logging.FileHandler('logs/detections.log', encoding='utf-8'),
+            logging.StreamHandler()
+        ]
+    )
+except Exception as e:
+    logging.basicConfig(level=logging.INFO)
 
 # === Hugging Face Configuration ===
 HF_API_TOKEN = os.getenv("HF_API_TOKEN")  # Your Hugging Face API token
@@ -732,5 +724,4 @@ def gemini_chat():
 
 
 # === MAIN ===
-if __name__ == "__main__":
-    app.run(debug=True, port=5001)
+# Vercel/Serverless: Do NOT call app.run(). Just expose 'app'.
