@@ -346,7 +346,59 @@ def chat_proxy():
 # === API: SCORE PROMPT ===
 @app.route('/api/score_prompt', methods=['POST'])
 def score_prompt():
+    """
+    Score prompt for injection risk using ML model and heuristics.
+    Returns JSON with score, label, and heuristic details.
+    """
+    data = request.get_json()
+    prompt = data.get("prompt", "")
+    protection_level = data.get("protectionLevel", "basic")
+
+    if not prompt.strip():
+        return jsonify({"error": "Prompt cannot be empty"}), 400
+
+    # ============== ML Detection ==============
+    ml_score = 0
+    label = "Safe"
+    if model and tokenizer:
+        try:
+            inputs = tokenizer(prompt, return_tensors="pt", truncation=True, padding=True, max_length=256)
+            with torch.no_grad():
+                outputs = model(**inputs)
+                probs = torch.softmax(outputs.logits, dim=-1)
+                ml_score = probs[0][1].item() * 100
+            label = "Prompt Injection Detected" if ml_score > 50 else "Safe"
+        except Exception as e:
+            print(f"Model inference error: {e}")
+            label = "Analysis Error"
+
+    # ============== Heuristic Detection ==============
+    heuristics = []
+    suspicious_patterns = [
+        "ignore previous", "override", "forget everything", "disregard",
+        "new instructions", "system prompt", "admin", "root", "sudo",
+        "delete", "bypass", "circumvent", "hack", "exploit"
+    ]
+    prompt_lower = prompt.lower()
+    # Count matches and produce human-friendly heuristics
+    match_count = 0
+    for pattern in suspicious_patterns:
+        if pattern in prompt_lower:
+            match_count += 1
+            heuristics.append(f"Contains '{pattern}' pattern")
+
+    # Heuristic points: each match gives ~25 points (1 -> 25, 2 -> 50, 3 -> 75, 4+ -> 100)
+    score_heuristic_points = min(100, match_count * 25)
+
+    # Merge ML + heuristics. If model isn't available, fall back to heuristics alone.
+    if model is None:
+        final_score = score_heuristic_points
+    else:
+        final_score = min(100, (ml_score * 0.8) + (score_heuristic_points * 0.2))
+    if protection_level == "strict":
+        final_score = min(100, final_score * 1.2)
 # === COMBINED API: Analyze Prompt ===
+
 @app.route('/api/analyze_prompt', methods=['POST'])
 def analyze_prompt():
     """
