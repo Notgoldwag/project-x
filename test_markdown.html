@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Markdown Rendering Test</title>
+    <script src="https://cdn.jsdelivr.net/npm/marked@9.1.6/marked.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/dompurify@3.0.6/dist/purify.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #0b0f14;
+            color: #e2e8f0;
+        }
+        .test-container {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        .formatted-output {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 8px;
+            padding: 15px;
+            margin-top: 10px;
+        }
+        pre {
+            background: rgba(0, 0, 0, 0.4);
+            padding: 10px;
+            border-radius: 6px;
+            overflow-x: auto;
+        }
+        code {
+            background: rgba(0, 203, 160, 0.1);
+            color: #00cba0;
+            padding: 2px 6px;
+            border-radius: 4px;
+        }
+        h1, h2, h3 { color: #ffffff; }
+    </style>
+</head>
+<body>
+    <h1>Bidirectional Integration Test</h1>
+    
+    <div class="test-container">
+        <h2>Test Markdown Content</h2>
+        <textarea id="testInput" rows="10" style="width: 100%; background: #1a1a1a; color: #fff; border: 1px solid #333; padding: 10px; border-radius: 6px;">
+# AI Response Example
+
+Here's how the **bidirectional integration** works with *formatted* content:
+
+## Features
+
+- ✅ Markdown rendering with `marked.js`
+- 🔒 Content sanitization with `DOMPurify`
+- 🎨 Beautiful styling
+- ⚡ Real-time updates
+
+### Code Example
+
+```javascript
+function updateEditor(content) {
+    const html = DOMPurify.sanitize(marked.parse(content));
+    editor.innerHTML = html;
+}
+```
+
+> **Note:** This demonstrates the formatted view that appears in the Text Editor panel when the AI responds.
+
+| Feature | Status |
+|---------|--------|
+| Markdown | ✅ Working |
+| Sanitization | ✅ Working |
+| Styling | ✅ Working |
+        </textarea>
+        
+        <button onclick="renderTest()" style="margin-top: 10px; background: #00cba0; color: black; border: none; padding: 10px 20px; border-radius: 6px; cursor: pointer;">
+            Render Test
+        </button>
+        
+        <div class="formatted-output" id="output">
+            <em>Click "Render Test" to see the formatted output...</em>
+        </div>
+    </div>
+
+    <script>
+        function renderTest() {
+            const input = document.getElementById('testInput').value;
+            const output = document.getElementById('output');
+            
+            try {
+                // Configure marked
+                if (typeof marked !== 'undefined' && marked.setOptions) {
+                    marked.setOptions({
+                        breaks: true,
+                        gfm: true,
+                        headerIds: false,
+                        mangle: false
+                    });
+                }
+                
+                // Render markdown
+                let html = marked.parse ? marked.parse(input) : marked(input);
+                
+                // Sanitize
+                if (typeof DOMPurify !== 'undefined') {
+                    html = DOMPurify.sanitize(html, {
+                        ALLOWED_TAGS: ['p', 'br', 'strong', 'b', 'em', 'i', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'ul', 'ol', 'li', 'blockquote', 'pre', 'code', 'table', 'thead', 'tbody', 'tr', 'th', 'td', 'a', 'hr'],
+                        ALLOWED_ATTR: ['href', 'target', 'rel'],
+                        ADD_ATTR: ['target', 'rel']
+                    });
+                    
+                    // Ensure links open in new tab
+                    html = html.replace(/<a\s+href="([^"]*)"[^>]*>/g, '<a href="$1" target="_blank" rel="noopener noreferrer">');
+                }
+                
+                output.innerHTML = html;
+                console.log('✅ Rendering successful');
+            } catch (error) {
+                console.error('❌ Rendering failed:', error);
+                output.innerHTML = `<div style="color: red;">Error: ${error.message}</div>`;
+            }
+        }
+        
+        // Auto-render on page load
+        document.addEventListener('DOMContentLoaded', renderTest);
+    </script>
+</body>
+</html>
