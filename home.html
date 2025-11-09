@@ -1519,6 +1519,177 @@
       })();
     </script>
 
+    <!-- Auto-Save to Supabase Script -->
+    <script>
+      (function() {
+        'use strict';
+
+        const SUPABASE_URL = 'https://qnbvnczctgbclolvkjcb.supabase.co';
+        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFuYnZuY3pjdGdiY2xvbHZramNiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjI1NTg3NDIsImV4cCI6MjA3ODEzNDc0Mn0.v5t8eMJjpPtdIn6oKXshjuIH0shlztIp9fWBrRjnrGg';
+
+        let supabaseClient = null;
+        let saveTimeout = null;
+        let currentChatId = null;
+        let currentUserId = null;
+        const SAVE_DELAY = 2000; // 2 seconds after typing stops
+
+        // Initialize Supabase client
+        function getSupabaseClient() {
+          if (!supabaseClient && window.supabase) {
+            const { createClient } = window.supabase;
+            supabaseClient = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+          }
+          return supabaseClient;
+        }
+
+        // Get current user
+        async function getCurrentUser() {
+          const client = getSupabaseClient();
+          if (!client) return null;
+          
+          const { data: { user } } = await client.auth.getUser();
+          return user;
+        }
+
+        async function saveEditorContent(content) {
+  try {
+    const client = getSupabaseClient();
+    if (!client) return console.error('❌ Supabase client not initialized');
+
+    // Get user
+    let user = currentUserId ? { id: currentUserId } : await getCurrentUser();
+    if (!user) return console.warn('⚠️ No user logged in - skipping save');
+    currentUserId = user.id;
+
+    // If chat not set, look for latest
+    if (!currentChatId) {
+      const { data: latestChat, error: fetchError } = await client
+        .from('Chats')
+        .select('id')
+        .eq('user_id', currentUserId)
+        .order('created_at', { ascending: false })
+        .limit(1)
+        .maybeSingle();
+
+      if (fetchError) throw fetchError;
+
+      if (latestChat) {
+        currentChatId = latestChat.id;
+      } else {
+        // Create new chat
+        const { data: newChat, error: createError } = await client
+          .from('Chats')
+          .insert({
+            user_id: currentUserId,
+            content: content,
+            created_at: new Date().toISOString(),
+          })
+          .select('id')
+          .single();
+
+        if (createError) throw createError;
+
+        currentChatId = newChat.id;
+        console.log('🆕 New chat created:', currentChatId);
+        return;
+      }
+    }
+
+    // Update or insert (safe upsert)
+    const { error: upsertError } = await client
+      .from('Chats')
+      .upsert({
+        id: currentChatId,
+        user_id: currentUserId,
+        content: content,
+        updated_at: new Date().toISOString(),
+      });
+
+    if (upsertError) throw upsertError;
+
+    console.log('💾 Saved at', new Date().toLocaleTimeString());
+  } catch (err) {
+    console.error('Save failed:', err.message || err);
+  }
+}
+
+// Debounce to prevent excessive writes
+function debouncedSave(content) {
+  clearTimeout(saveTimeout);
+  saveTimeout = setTimeout(() => saveEditorContent(content), SAVE_DELAY);
+}
+
+
+        // Load existing content on page load
+        async function loadEditorContent() {
+          try {
+            const client = getSupabaseClient();
+            if (!client) return;
+
+            const user = await getCurrentUser();
+            if (!user) return;
+
+            currentUserId = user.id;
+
+            // Get most recent chat
+            const { data: chats, error } = await client
+              .from('Chats')
+              .select('id, content')
+              .eq('user_id', currentUserId)
+              .order('updated_at', { ascending: false })
+              .limit(1);
+
+            if (error) {
+              console.error('Error loading content:', error);
+              return;
+            }
+
+            if (chats && chats.length > 0) {
+              const chat = chats[0];
+              currentChatId = chat.id;
+              
+              const textEditor = document.getElementById('textEditor');
+              if (textEditor && chat.content) {
+                textEditor.value = chat.content;
+                // Trigger stats update
+                textEditor.dispatchEvent(new Event('input'));
+                console.log('✅ Loaded existing content');
+              }
+            }
+          } catch (error) {
+            console.error('Load error:', error);
+          }
+        }
+
+        // Setup auto-save
+        function initAutoSave() {
+          const textEditor = document.getElementById('textEditor');
+          if (!textEditor) {
+            console.error('Text editor not found');
+            return;
+          }
+
+          // Auto-save on input
+          textEditor.addEventListener('input', function() {
+            const content = this.value;
+            debouncedSave(content);
+          });
+
+          // Load existing content
+          loadEditorContent();
+
+          console.log('✅ Auto-save initialized');
+        }
+
+        // Initialize when DOM is ready
+        if (document.readyState === 'loading') {
+          document.addEventListener('DOMContentLoaded', initAutoSave);
+        } else {
+          initAutoSave();
+        }
+      })();
+    </script>
+
     <!-- Settings Panel Navigation Script -->
     <script>
       (function () {
