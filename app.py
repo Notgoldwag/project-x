@@ -17,39 +17,34 @@ GEMINI_API_URL = os.getenv("GEMINI_API_URL", "https://generativelanguage.googlea
 app = Flask(__name__, static_folder="static", template_folder=".")
 
 # === Setup logging ===
-os.makedirs("logs", exist_ok=True)
-logging.basicConfig(
-    level=logging.INFO,
-    format='%(asctime)s - %(levelname)s - %(message)s',
-    handlers=[
-        logging.FileHandler('logs/detections.log', encoding='utf-8'),
-        logging.StreamHandler()
-    ]
-)
-
-# === Setup logging ===
-os.makedirs("logs", exist_ok=True)
-logging.basicConfig(
-    level=logging.INFO,
-    format='%(asctime)s - %(levelname)s - %(message)s',
-    handlers=[
-        logging.FileHandler('logs/detections.log', encoding='utf-8'),
-        logging.StreamHandler()
-    ]
-)
+try:
+    os.makedirs("logs", exist_ok=True)
+    logging.basicConfig(
+        level=logging.INFO,
+        format='%(asctime)s - %(levelname)s - %(message)s',
+        handlers=[
+            logging.FileHandler('logs/detections.log', encoding='utf-8'),
+            logging.StreamHandler()
+        ]
+    )
+except Exception as e:
+    logging.basicConfig(level=logging.INFO)
 
 # === Load ML Model (RoBERTa fine-tuned) ===
 MODEL_DIR = os.getenv('MODEL_DIR', 'models/prompt_injection_detector')
+tokenizer = None
+model = None
 try:
-    print(f"🔍 Loading prompt injection model from {MODEL_DIR}...")
-    tokenizer = AutoTokenizer.from_pretrained(MODEL_DIR)
-    model = AutoModelForSequenceClassification.from_pretrained(MODEL_DIR)
-    model.eval()
-    print("✅ Model loaded successfully!")
+    if os.path.exists(MODEL_DIR):
+        print(f"🔍 Loading prompt injection model from {MODEL_DIR}...")
+        tokenizer = AutoTokenizer.from_pretrained(MODEL_DIR)
+        model = AutoModelForSequenceClassification.from_pretrained(MODEL_DIR)
+        model.eval()
+        print("✅ Model loaded successfully!")
+    else:
+        print(f"⚠️ Model directory {MODEL_DIR} does not exist. Skipping model load.")
 except Exception as e:
     print(f"⚠️ Warning: Could not load model. Details: {e}")
-    tokenizer = None
-    model = None
 
 
 # === ROUTES ===
@@ -653,5 +648,4 @@ def gemini_chat():
 
 
 # === MAIN ===
-if __name__ == "__main__":
-    app.run(debug=True, port=5001)
+# Vercel/Serverless: Do NOT call app.run(). Just expose 'app'.
