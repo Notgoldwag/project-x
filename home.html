@@ -10,11 +10,11 @@
   <!-- Tailwind -->
   <script src="https://cdn.tailwindcss.com?plugins=forms,typography"></script>
 
-  <!-- Fonts: Inter (UI) + Source Code Pro (editor) -->
+  <!-- Fonts: Inter (UI) + Source Code Pro (editor) + Orbitron (Prompt Playground title) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link
-    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Source+Code+Pro:wght@400;500;600&display=swap"
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Source+Code+Pro:wght@400;500;600&family=Orbitron:wght@700;900&display=swap"
     rel="stylesheet">
 
   <!-- Icons -->
@@ -30,7 +30,7 @@
   <link rel="stylesheet" href="static/css/home.css">
 
   <!-- Background Animation Styles -->
-  <link href="{{ url_for('static', filename='css/bg.css') }}" rel="stylesheet" />
+  <link href="static/css/bg.css" rel="stylesheet" />
 
   <script>
     tailwind.config = {
@@ -273,6 +273,40 @@
       vertical-align: middle
     }
 
+    /* Animations */
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .animate-fade-in {
+      animation: fadeIn 0.4s ease-out forwards;
+    }
+
+    @keyframes gradient-x {
+
+      0%,
+      100% {
+        background-position: 0% 50%;
+      }
+
+      50% {
+        background-position: 100% 50%;
+      }
+    }
+
+    .animate-gradient-x {
+      background-size: 200% 200%;
+      animation: gradient-x 3s ease infinite;
+    }
+
     /* ---------- Compact editor tweaks ---------- */
     .editor-area {
       line-height: 1.6;
@@ -407,6 +441,170 @@
       -webkit-box-orient: vertical;
       overflow: hidden;
     }
+
+    /* Chat Assistant Specific Styles */
+    #chat-transcript {
+      scrollbar-width: thin;
+      scrollbar-color: rgba(255, 255, 255, 0.2) transparent;
+      word-wrap: break-word;
+      overflow-wrap: break-word;
+      hyphens: auto;
+    }
+
+    #chat-transcript::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    #chat-transcript::-webkit-scrollbar-track {
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 4px;
+    }
+
+    #chat-transcript::-webkit-scrollbar-thumb {
+      background-color: rgba(255, 255, 255, 0.2);
+      border-radius: 4px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    #chat-transcript::-webkit-scrollbar-thumb:hover {
+      background-color: rgba(255, 255, 255, 0.3);
+    }
+
+    /* Message animations */
+    .message-user,
+    .message-ai {
+      animation: slideIn 0.3s ease-out;
+    }
+
+    @keyframes slideIn {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* Jump to latest button */
+    #jump-to-latest {
+      animation: slideInFromBottom 0.3s ease-out;
+    }
+
+    @keyframes slideInFromBottom {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    #jump-to-latest.fade-out {
+      animation: fadeOut 0.2s ease-out forwards;
+    }
+
+    @keyframes fadeOut {
+      from {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      to {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+    }
+
+    /* Textarea auto-resize transition */
+    #message-input {
+      transition: height 0.2s ease-out;
+      word-wrap: break-word;
+      overflow-wrap: break-word;
+    }
+
+    /* Typing indicator animation */
+    @keyframes typingPulse {
+
+      0%,
+      60%,
+      100% {
+        opacity: 0.4;
+      }
+
+      30% {
+        opacity: 1;
+      }
+    }
+
+    .animate-pulse {
+      animation: typingPulse 1.4s infinite;
+    }
+
+    /* Error toast animation */
+    #error-toast {
+      animation: slideInFromTop 0.3s ease-out;
+    }
+
+    #new-messages-notification {
+      animation: slideInFromTop 0.3s ease-out;
+    }
+
+    @keyframes slideInFromTop {
+      from {
+        opacity: 0;
+        transform: translateY(-10px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* Focus states */
+    #message-input:focus {
+      outline: none;
+    }
+
+    /* Disabled button styles */
+    #send-button:disabled {
+      cursor: not-allowed;
+    }
+
+    #send-button:disabled:hover {
+      transform: none !important;
+    }
+
+    /* Smooth scrolling */
+    #chat-transcript {
+      scroll-behavior: smooth;
+    }
+
+    /* Message content word wrapping */
+    .message-content {
+      word-wrap: break-word;
+      overflow-wrap: break-word;
+      max-width: 100%;
+    }
+
+    /* Responsive scroll height */
+    @media (max-height: 600px) {
+      #chat-transcript {
+        max-height: calc(100vh - 220px) !important;
+      }
+    }
+
+    @media (min-height: 800px) {
+      #chat-transcript {
+        max-height: calc(100vh - 320px) !important;
+      }
+    }
   </style>
 </head>
 
@@ -438,7 +636,8 @@
       <nav class="acrylic--sidebar rounded-3xl p-2 md:p-3 w-14 md:w-16 relative z-50 overflow-visible">
         <div class="flex flex-col justify-between h-full">
           <div class="flex flex-col items-center space-y-2 md:space-y-3">
-            <button class="p-2 rounded-xl text-gray-300 hover:bg-white/10 hover:text-primary transition">
+            <button id="analyzeBtn"
+              class="p-2 rounded-xl text-gray-300 hover:bg-white/10 hover:text-primary transition">
               <span class="material-icons">folder_open</span>
             </button>
             <button id="editorBtn" class="p-2 rounded-xl text-black bg-primary shadow-lg shadow-primary/30">
@@ -793,6 +992,60 @@ This document, this very text you are reading, is a collaboration. A testament t
           </div>
         </main>
 
+        <!-- Analyze Workspace (hidden by default) -->
+        <main id="analyzeWorkspace"
+          class="hidden acrylic--editor rounded-3xl overflow-hidden flex-1 flex flex-col min-h-0">
+          <div class="flex-1 p-6 md:p-8 overflow-y-auto" id="analyzeScrollContainer">
+            <div class="w-full max-w-3xl mx-auto space-y-6">
+
+              <!-- Title -->
+              <h1
+                class="text-center text-3xl md:text-4xl font-black text-transparent bg-clip-text bg-gradient-to-r from-primary via-cyan-400 to-primary animate-gradient-x tracking-wider"
+                style="font-family: 'Orbitron', sans-serif; letter-spacing: 0.1em;">
+                PROMPT PLAYGROUND
+              </h1>
+
+              <!-- Input Editor with Line Numbers -->
+              <div class="editor-container" style="height: 400px;">
+                <div class="line-numbers" id="analyzeLineNumbers">
+                  1<br>2<br>3<br>4<br>5<br>6<br>7<br>8<br>9<br>10
+                </div>
+                <div class="editor-wrapper">
+                  <textarea id="analyzeTextarea"
+                    class="editor-area w-full h-full bg-transparent border-none focus:border-none focus:ring-0 p-3 md:p-4 font-mono text-[14px] md:text-[15px] text-gray-100 placeholder-gray-500 resize-none"
+                    placeholder="Enter text to analyze..."></textarea>
+                </div>
+              </div>
+
+              <!-- Analyze Button -->
+              <div class="flex justify-end">
+                <button id="analyzeButton"
+                  class="px-6 py-3 bg-primary hover:bg-primaryDarker rounded-xl text-black font-semibold transition-all duration-200 shadow-lg shadow-primary/30 flex items-center gap-2">
+                  <span class="material-icons text-[20px]">analytics</span>
+                  <span>Analyze</span>
+                </button>
+              </div>
+
+              <!-- Output Panel (hidden by default, revealed after clicking Analyze) -->
+              <div id="analyzeOutput" class="hidden space-y-4 animate-fade-in">
+                <div class="h-px bg-gradient-to-r from-transparent via-white/10 to-transparent"></div>
+
+                <!-- Output Editor with Line Numbers (read-only, slightly smaller) -->
+                <div class="editor-container" style="height: 300px;">
+                  <div class="line-numbers" id="outputLineNumbers">
+                    1<br>2<br>3<br>4<br>5
+                  </div>
+                  <div class="editor-wrapper">
+                    <textarea id="outputTextarea"
+                      class="editor-area w-full h-full bg-transparent border-none focus:border-none focus:ring-0 p-3 md:p-4 font-mono text-[14px] md:text-[15px] text-gray-300 placeholder-gray-500 resize-none"
+                      placeholder="Analysis results will appear here..." readonly></textarea>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </main>
+
         <!-- AI Assistant -->
         <aside id="assistant-panel"
           class="acrylic--assistant w-72 md:w-80 flex-shrink-0 rounded-3xl overflow-hidden relative transition-all duration-300 ease-in-out">
@@ -838,52 +1091,85 @@ This document, this very text you are reading, is a collaboration. A testament t
               </div>
             </div>
 
-            <div class="flex-1 p-3 md:p-4 overflow-y-auto space-y-3 pb-20">
+            <!-- Chat Transcript Container -->
+            <div class="flex-1 relative overflow-hidden">
+              <!-- Chat Transcript -->
+              <div id="chat-transcript" class="h-full p-3 md:p-4 overflow-y-auto space-y-3 scroll-smooth"
+                style="padding-bottom: 120px; max-height: calc(100vh - 280px);" role="log"
+                aria-label="Chat conversation" tabindex="0">
+                <!-- Dynamic messages will be inserted here -->
+              </div>
+
+              <!-- Jump to Latest Button (hidden by default) -->
+              <div id="jump-to-latest" class="hidden absolute bottom-24 right-4 z-10">
+                <button
+                  class="flex items-center gap-2 px-3 py-2 bg-primary text-black rounded-full shadow-lg hover:bg-primary/90 transition-all duration-200 text-sm font-medium"
+                  aria-label="Scroll to latest message" title="Jump to latest message">
+                  <span class="material-icons text-[16px]">keyboard_arrow_down</span>
+                  <span>Latest</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- Typing Indicator (hidden by default) -->
+            <div id="typing-indicator" class="hidden px-3 md:px-4 pb-2" aria-live="polite">
               <div class="flex items-start gap-3">
                 <div
                   class="w-7 h-7 rounded-full bg-primary flex-shrink-0 grid place-items-center shadow-md shadow-primary/30">
                   <span class="material-icons text-black text-[18px]">auto_awesome</span>
                 </div>
                 <div class="bg-white/5 border border-white/10 rounded-2xl p-3 max-w-[85%]">
-                  <p class="text-sm md:text-base text-gray-100">Hello! How can I assist you with your document today?
-                  </p>
-                </div>
-              </div>
-
-              <div class="flex justify-end">
-                <div class="bg-primary rounded-2xl p-3 max-w-[85%] shadow-md shadow-primary/20">
-                  <p class="text-sm md:text-base text-black">Can you suggest a more engaging opening sentence?</p>
-                </div>
-              </div>
-
-              <div class="flex items-start gap-3">
-                <div
-                  class="w-7 h-7 rounded-full bg-primary flex-shrink-0 grid place-items-center shadow-md shadow-primary/30">
-                  <span class="material-icons text-black text-[18px]">auto_awesome</span>
-                </div>
-                <div class="bg-white/5 border border-white/10 rounded-2xl p-3 max-w-[85%]">
-                  <p class="text-sm md:text-base text-gray-100">How about: <strong>"Where code bleeds into creation, a
-                      new
-                      mind awakened."</strong></p>
+                  <div class="flex items-center gap-2">
+                    <div class="flex gap-1">
+                      <div class="w-2 h-2 bg-gray-400 rounded-full animate-pulse"></div>
+                      <div class="w-2 h-2 bg-gray-400 rounded-full animate-pulse" style="animation-delay: 0.2s;"></div>
+                      <div class="w-2 h-2 bg-gray-400 rounded-full animate-pulse" style="animation-delay: 0.4s;"></div>
+                    </div>
+                    <span class="text-sm text-gray-300">AI is typing...</span>
+                  </div>
                 </div>
               </div>
             </div>
 
+            <!-- Chat Input Area -->
             <div
               class="absolute bottom-0 left-0 right-0 p-3 md:p-4 border-top border-white/10 bg-black/20 backdrop-blur-sm">
-              <div class="flex items-center gap-2">
-                <button class="p-2 rounded-full text-gray-300 hover:bg-white/10 hover:text-primary transition">
+              <!-- Error Toast (hidden by default) -->
+              <div id="error-toast"
+                class="hidden mb-2 p-2 bg-red-500/20 border border-red-500/30 rounded-xl text-red-300 text-sm"
+                role="alert" aria-live="assertive">
+                Failed to send message. Please try again.
+              </div>
+
+              <!-- New Messages Notification (hidden by default) -->
+              <div id="new-messages-notification"
+                class="hidden mb-2 p-2 bg-primary/20 border border-primary/30 rounded-xl text-primary text-sm cursor-pointer hover:bg-primary/30 transition-colors"
+                role="button" tabindex="0" aria-label="Scroll to new messages">
+                ↓ New messages
+              </div>
+
+              <div class="flex items-end gap-2">
+                <button id="attach-button"
+                  class="p-2 rounded-full text-gray-300 hover:bg-white/10 hover:text-primary transition flex-shrink-0"
+                  aria-label="Attach file (coming soon)" disabled>
                   <span class="material-icons">add</span>
                 </button>
                 <div class="relative flex-1">
-                  <input
-                    class="w-full pl-3 pr-10 py-2 bg-white/5 border border-white/10 rounded-xl focus:ring-2 focus:ring-primary/50 focus:border-transparent placeholder-gray-500 text-base"
-                    placeholder="Ask AI Assistant..." type="text" />
-                  <button
-                    class="absolute right-1.5 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full text-gray-300 hover:bg-primary/20 hover:text-primary transition grid place-items-center">
+                  <textarea id="message-input"
+                    class="w-full pl-3 pr-10 py-2 bg-white/5 border border-white/10 rounded-xl focus:ring-2 focus:ring-primary/50 focus:border-transparent placeholder-gray-500 text-base resize-none overflow-y-auto min-h-[40px] max-h-[144px]"
+                    placeholder="Say hello..." rows="1" aria-label="Type your message"
+                    aria-describedby="input-hint"></textarea>
+                  <button id="send-button"
+                    class="absolute right-1.5 bottom-1.5 w-8 h-8 rounded-full text-gray-400 hover:bg-primary/20 hover:text-primary transition grid place-items-center disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-transparent disabled:hover:text-gray-400"
+                    disabled aria-label="Send message">
                     <span class="material-icons text-[18px]">send</span>
                   </button>
                 </div>
+              </div>
+
+              <!-- Input Hint -->
+              <div id="input-hint" class="mt-1 text-xs text-gray-500">
+                Press Enter to send, Shift+Enter for new line
               </div>
             </div>
           </div> <!-- End assistant-content -->
@@ -1080,9 +1366,11 @@ This document, this very text you are reading, is a collaboration. A testament t
         // Get UI elements
         const settingsBtn = document.getElementById('settingsBtn');
         const editorBtn = document.getElementById('editorBtn');
+        const analyzeBtn = document.getElementById('analyzeBtn');
         const backToEditor = document.getElementById('backToEditor');
         const editorPanel = document.getElementById('editor-pane');
         const promptInjectionsPanel = document.getElementById('promptInjectionsPanel');
+        const analyzeWorkspace = document.getElementById('analyzeWorkspace');
 
         // History panels
         const historyPanel = document.getElementById('history-panel');
@@ -1104,25 +1392,29 @@ This document, this very text you are reading, is a collaboration. A testament t
           historyPanel.classList.remove('hidden');
           assistantPanel.classList.remove('hidden');
 
-          // Hide prompt injection panels
+          // Hide prompt injection panels and analyze workspace
           promptInjectionsPanel.classList.add('hidden');
           promptInjectionsHistory.classList.add('hidden');
           promptInjectionsAssistant.classList.add('hidden');
+          analyzeWorkspace.classList.add('hidden');
 
           // Update button states
           editorBtn.classList.add('text-black', 'bg-primary', 'shadow-lg', 'shadow-primary/30');
           editorBtn.classList.remove('text-gray-300');
           settingsBtn.classList.remove('text-black', 'bg-primary', 'shadow-lg', 'shadow-primary/30');
           settingsBtn.classList.add('text-gray-300');
+          analyzeBtn.classList.remove('text-black', 'bg-primary', 'shadow-lg', 'shadow-primary/30');
+          analyzeBtn.classList.add('text-gray-300');
         }
 
         function showSettings() {
           window.promptInjectionMode = true;
 
-          // Hide editor panels
+          // Hide editor panels and analyze workspace
           editorPanel.classList.add('hidden');
           historyPanel.classList.add('hidden');
           assistantPanel.classList.add('hidden');
+          analyzeWorkspace.classList.add('hidden');
 
           // Show prompt injection panels
           promptInjectionsPanel.classList.remove('hidden');
@@ -1134,6 +1426,8 @@ This document, this very text you are reading, is a collaboration. A testament t
           settingsBtn.classList.remove('text-gray-300');
           editorBtn.classList.remove('text-black', 'bg-primary', 'shadow-lg', 'shadow-primary/30');
           editorBtn.classList.add('text-gray-300');
+          analyzeBtn.classList.remove('text-black', 'bg-primary', 'shadow-lg', 'shadow-primary/30');
+          analyzeBtn.classList.add('text-gray-300');
 
           // Update security history display when switching to security mode
           if (typeof window.updateSecurityHistoryDisplay === 'function') {
@@ -1141,13 +1435,225 @@ This document, this very text you are reading, is a collaboration. A testament t
           }
         }
 
+        function showAnalyze() {
+          window.promptInjectionMode = false;
+
+          // Hide all other panels
+          editorPanel.classList.add('hidden');
+          historyPanel.classList.add('hidden');
+          assistantPanel.classList.add('hidden');
+          promptInjectionsPanel.classList.add('hidden');
+          promptInjectionsHistory.classList.add('hidden');
+          promptInjectionsAssistant.classList.add('hidden');
+
+          // Show analyze workspace
+          analyzeWorkspace.classList.remove('hidden');
+
+          // Reset scroll position to top
+          const analyzeScrollContainer = document.getElementById('analyzeScrollContainer');
+          if (analyzeScrollContainer) {
+            analyzeScrollContainer.scrollTop = 0;
+          }
+
+          // Update button states
+          analyzeBtn.classList.add('text-black', 'bg-primary', 'shadow-lg', 'shadow-primary/30');
+          analyzeBtn.classList.remove('text-gray-300');
+          editorBtn.classList.remove('text-black', 'bg-primary', 'shadow-lg', 'shadow-primary/30');
+          editorBtn.classList.add('text-gray-300');
+          settingsBtn.classList.remove('text-black', 'bg-primary', 'shadow-lg', 'shadow-primary/30');
+          settingsBtn.classList.add('text-gray-300');
+        }
+
         // Event listeners
         settingsBtn.addEventListener('click', showSettings);
         editorBtn.addEventListener('click', showEditor);
         backToEditor.addEventListener('click', showEditor);
+        analyzeBtn.addEventListener('click', showAnalyze);
 
         // Initialize - ensure editor mode is active by default
         showEditor(); // Ensure proper initial state
+      })();
+
+      // ========== ANALYZE WORKSPACE FUNCTIONALITY ==========
+      (function () {
+        'use strict';
+
+        const analyzeTextarea = document.getElementById('analyzeTextarea');
+        const analyzeLineNumbers = document.getElementById('analyzeLineNumbers');
+        const analyzeButton = document.getElementById('analyzeButton');
+        const analyzeOutput = document.getElementById('analyzeOutput');
+        const outputTextarea = document.getElementById('outputTextarea');
+        const outputLineNumbers = document.getElementById('outputLineNumbers');
+
+        if (!analyzeTextarea || !analyzeLineNumbers || !analyzeButton || !analyzeOutput || !outputTextarea || !outputLineNumbers) {
+          return;
+        }
+
+        // Lorem ipsum placeholder text
+        const loremIpsum = `Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+
+Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+
+Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.
+
+Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt.`;
+
+        let inputLockedMetrics = null;
+        let outputLockedMetrics = null;
+
+        // -------- Input Editor Line Numbers --------
+        function lockInputMetrics() {
+          const editorStyle = window.getComputedStyle(analyzeTextarea);
+          const fontFamily = editorStyle.fontFamily;
+          const fontSize = editorStyle.fontSize;
+          const lineHeight = editorStyle.lineHeight;
+          const paddingTop = editorStyle.paddingTop;
+          const paddingBottom = editorStyle.paddingBottom;
+
+          const lineHeightPx = lineHeight === 'normal'
+            ? Math.floor(parseFloat(fontSize) * 1.6)
+            : parseFloat(lineHeight);
+
+          const metrics = {
+            fontFamily,
+            fontSize,
+            lineHeight: `${lineHeightPx}px`,
+            paddingTop,
+            paddingBottom
+          };
+
+          Object.assign(analyzeLineNumbers.style, metrics);
+          Object.assign(analyzeTextarea.style, metrics);
+
+          inputLockedMetrics = { ...metrics, lineHeightPx };
+          return inputLockedMetrics;
+        }
+
+        function renderInputLineNumbers() {
+          if (!inputLockedMetrics) lockInputMetrics();
+          const content = analyzeTextarea.value;
+          const lineCount = content.split('\n').length;
+          const numbers = Array.from({ length: lineCount }, (_, i) => i + 1);
+          analyzeLineNumbers.innerHTML = numbers.join('<br>');
+        }
+
+        function syncInputScroll() {
+          analyzeLineNumbers.scrollTop = analyzeTextarea.scrollTop;
+        }
+
+        // -------- Output Editor Line Numbers --------
+        function lockOutputMetrics() {
+          const editorStyle = window.getComputedStyle(outputTextarea);
+          const fontFamily = editorStyle.fontFamily;
+          const fontSize = editorStyle.fontSize;
+          const lineHeight = editorStyle.lineHeight;
+          const paddingTop = editorStyle.paddingTop;
+          const paddingBottom = editorStyle.paddingBottom;
+
+          const lineHeightPx = lineHeight === 'normal'
+            ? Math.floor(parseFloat(fontSize) * 1.6)
+            : parseFloat(lineHeight);
+
+          const metrics = {
+            fontFamily,
+            fontSize,
+            lineHeight: `${lineHeightPx}px`,
+            paddingTop,
+            paddingBottom
+          };
+
+          Object.assign(outputLineNumbers.style, metrics);
+          Object.assign(outputTextarea.style, metrics);
+
+          outputLockedMetrics = { ...metrics, lineHeightPx };
+          return outputLockedMetrics;
+        }
+
+        function renderOutputLineNumbers() {
+          if (!outputLockedMetrics) lockOutputMetrics();
+          const content = outputTextarea.value;
+          const lineCount = content.split('\n').length;
+          const numbers = Array.from({ length: lineCount }, (_, i) => i + 1);
+          outputLineNumbers.innerHTML = numbers.join('<br>');
+        }
+
+        function syncOutputScroll() {
+          outputLineNumbers.scrollTop = outputTextarea.scrollTop;
+        }
+
+        // -------- Event Handlers --------
+        function handleInputChange() { renderInputLineNumbers(); }
+        function handleInputScroll() { syncInputScroll(); }
+        function handleOutputScroll() { syncOutputScroll(); }
+        function handleResize() {
+          lockInputMetrics();
+          renderInputLineNumbers();
+          if (!analyzeOutput.classList.contains('hidden')) {
+            lockOutputMetrics();
+            renderOutputLineNumbers();
+          }
+        }
+
+        // Analyze button click handler
+        function handleAnalyze() {
+          // Show output panel with animation
+          analyzeOutput.classList.remove('hidden');
+
+          // Update output textarea with lorem ipsum
+          outputTextarea.value = loremIpsum;
+
+          // Update output line numbers
+          lockOutputMetrics();
+          renderOutputLineNumbers();
+          syncOutputScroll();
+
+          // Smooth scroll to output without jumping
+          setTimeout(() => {
+            const analyzeScrollContainer = document.getElementById('analyzeScrollContainer');
+            if (analyzeScrollContainer && analyzeOutput) {
+              const outputRect = analyzeOutput.getBoundingClientRect();
+              const containerRect = analyzeScrollContainer.getBoundingClientRect();
+
+              // Only scroll if output is not fully visible
+              if (outputRect.bottom > containerRect.bottom) {
+                analyzeOutput.scrollIntoView({ behavior: 'smooth', block: 'end' });
+              }
+            }
+          }, 150);
+        }
+
+        // Attach event listeners
+        analyzeTextarea.addEventListener('input', handleInputChange);
+        analyzeTextarea.addEventListener('paste', handleInputChange);
+        analyzeTextarea.addEventListener('scroll', handleInputScroll);
+        outputTextarea.addEventListener('scroll', handleOutputScroll);
+        window.addEventListener('resize', handleResize);
+        analyzeButton.addEventListener('click', handleAnalyze);
+
+        // Handle undo/redo via mutation observer for input
+        const inputObserver = new MutationObserver(handleInputChange);
+        inputObserver.observe(analyzeTextarea, { attributes: true, attributeFilter: ['value'] });
+
+        // Handle font load events
+        if (document.fonts) {
+          document.fonts.addEventListener('loadingdone', () => {
+            setTimeout(() => {
+              lockInputMetrics();
+              renderInputLineNumbers();
+              if (!analyzeOutput.classList.contains('hidden')) {
+                lockOutputMetrics();
+                renderOutputLineNumbers();
+              }
+            }, 50);
+          });
+        }
+
+        // Initialize
+        lockInputMetrics();
+        renderInputLineNumbers();
+        syncInputScroll();
+
+        console.log('Analyze workspace initialized');
       })();
 
       // ========== PROMPT INJECTION FUNCTIONALITY ==========
@@ -2931,8 +3437,635 @@ This document, this very text you are reading, is a collaboration. A testament t
     checkAuth();
   </script>
 
+  <!-- AI Chat Assistant Implementation -->
+  <script>
+    (() => {
+      'use strict';
+
+      // Chat state management
+      class ChatManager {
+        constructor() {
+          this.messages = [];
+          this.messageCounter = 0;
+          this.isNearBottom = true;
+          this.isTyping = false;
+          this.scrollThreshold = 50;
+          this.userHasScrolledUp = false;
+          this.sessionId = null; // Will be generated on first message
+
+          // DOM elements
+          this.transcript = document.getElementById('chat-transcript');
+          this.messageInput = document.getElementById('message-input');
+          this.sendButton = document.getElementById('send-button');
+          this.typingIndicator = document.getElementById('typing-indicator');
+          this.errorToast = document.getElementById('error-toast');
+          this.newMessagesNotification = document.getElementById('new-messages-notification');
+          this.jumpToLatest = document.getElementById('jump-to-latest');
+
+          // Bind methods
+          this.handleSend = this.handleSend.bind(this);
+          this.handleKeyDown = this.handleKeyDown.bind(this);
+          this.handleInput = this.handleInput.bind(this);
+          this.handleScroll = this.handleScroll.bind(this);
+          this.handleJumpToLatest = this.handleJumpToLatest.bind(this);
+          this.handleKeyboardNavigation = this.handleKeyboardNavigation.bind(this);
+          this.scrollToBottom = this.scrollToBottom.bind(this);
+
+          this.init();
+        }
+
+        init() {
+          if (!this.transcript || !this.messageInput || !this.sendButton) {
+            console.error('Chat: Required elements not found');
+            return;
+          }
+
+          console.log('Chat: Initializing AI Assistant chat interface');
+
+          // Set up event listeners
+          this.sendButton.addEventListener('click', this.handleSend);
+          this.messageInput.addEventListener('keydown', this.handleKeyDown);
+          this.messageInput.addEventListener('input', this.handleInput);
+          this.transcript.addEventListener('scroll', this.handleScroll);
+          this.transcript.addEventListener('keydown', this.handleKeyboardNavigation);
+
+          if (this.jumpToLatest) {
+            this.jumpToLatest.addEventListener('click', this.handleJumpToLatest);
+          }
+
+          if (this.newMessagesNotification) {
+            this.newMessagesNotification.addEventListener('click', this.handleJumpToLatest);
+          }
+
+          // Auto-resize textarea
+          this.setupTextareaResize();
+
+          // Load existing messages if any
+          this.loadMessages();
+
+          // Show welcome message if no messages exist
+          if (this.messages.length === 0) {
+            this.addWelcomeMessage();
+          }
+
+          // Focus input and ensure we're at bottom
+          this.messageInput.focus();
+          setTimeout(() => {
+            this.checkScrollPosition();
+            this.scrollToBottom(false);
+            console.log('Chat: Mounted and scrolled to bottom');
+          }, 100);
+
+          console.log('Chat: AI Assistant chat interface initialized successfully');
+        }
+
+        setupTextareaResize() {
+          this.messageInput.style.height = 'auto';
+
+          const adjustHeight = () => {
+            const maxHeight = 6 * 24; // 6 lines * 24px line height
+            this.messageInput.style.height = 'auto';
+            const scrollHeight = this.messageInput.scrollHeight;
+
+            if (scrollHeight <= maxHeight) {
+              this.messageInput.style.height = scrollHeight + 'px';
+              this.messageInput.style.overflowY = 'hidden';
+            } else {
+              this.messageInput.style.height = maxHeight + 'px';
+              this.messageInput.style.overflowY = 'auto';
+            }
+          };
+
+          this.messageInput.addEventListener('input', adjustHeight);
+          adjustHeight(); // Initial adjustment
+        }
+
+        handleSend() {
+          const content = this.messageInput.value.trim();
+          if (!content || this.isTyping) return;
+
+          console.log('Chat: Sending user message');
+          this.sendMessage(content);
+        }
+
+        handleKeyDown(event) {
+          if (event.key === 'Enter') {
+            if (event.shiftKey) {
+              // Allow new line
+              return;
+            } else {
+              // Send message
+              event.preventDefault();
+              this.handleSend();
+            }
+          }
+        }
+
+        handleKeyboardNavigation(event) {
+          if (!this.transcript) return;
+
+          const { scrollTop, scrollHeight, clientHeight } = this.transcript;
+          const scrollAmount = clientHeight * 0.8; // 80% of visible area
+
+          switch (event.key) {
+            case 'PageUp':
+              event.preventDefault();
+              this.transcript.scrollTo({
+                top: Math.max(0, scrollTop - scrollAmount),
+                behavior: 'smooth'
+              });
+              console.log('Chat: User navigated up via PageUp');
+              break;
+
+            case 'PageDown':
+              event.preventDefault();
+              this.transcript.scrollTo({
+                top: Math.min(scrollHeight - clientHeight, scrollTop + scrollAmount),
+                behavior: 'smooth'
+              });
+              console.log('Chat: User navigated down via PageDown');
+              break;
+
+            case 'Home':
+              if (event.ctrlKey) {
+                event.preventDefault();
+                this.transcript.scrollTo({
+                  top: 0,
+                  behavior: 'smooth'
+                });
+                console.log('Chat: User navigated to top via Ctrl+Home');
+              }
+              break;
+
+            case 'End':
+              if (event.ctrlKey) {
+                event.preventDefault();
+                this.scrollToBottom();
+                console.log('Chat: User navigated to bottom via Ctrl+End');
+              }
+              break;
+          }
+        }
+
+        handleInput() {
+          const hasContent = this.messageInput.value.trim().length > 0;
+          this.sendButton.disabled = !hasContent || this.isTyping;
+
+          // Update button appearance
+          if (hasContent && !this.isTyping) {
+            this.sendButton.classList.remove('text-gray-400');
+            this.sendButton.classList.add('text-gray-300');
+          } else {
+            this.sendButton.classList.add('text-gray-400');
+            this.sendButton.classList.remove('text-gray-300');
+          }
+        }
+
+        handleScroll() {
+          this.checkScrollPosition();
+
+          // Update user scroll state
+          if (!this.isNearBottom && !this.userHasScrolledUp) {
+            this.userHasScrolledUp = true;
+            console.log('Chat: User scrolled up from bottom');
+          }
+        }
+
+        checkScrollPosition() {
+          if (!this.transcript) return;
+
+          const { scrollTop, scrollHeight, clientHeight } = this.transcript;
+          const distanceFromBottom = scrollHeight - scrollTop - clientHeight;
+          const wasNearBottom = this.isNearBottom;
+
+          this.isNearBottom = distanceFromBottom <= this.scrollThreshold;
+
+          // Show/hide jump button
+          if (this.isNearBottom) {
+            this.hideJumpToLatest();
+            if (this.userHasScrolledUp) {
+              this.userHasScrolledUp = false;
+              console.log('Chat: User returned to bottom');
+            }
+          } else if (!wasNearBottom && distanceFromBottom > this.scrollThreshold * 2) {
+            // Only show jump button if user is significantly away from bottom
+            this.showJumpToLatest();
+          }
+
+          // Hide new messages notification if user scrolls to bottom
+          if (this.isNearBottom) {
+            this.hideNewMessagesNotification();
+          }
+        }
+
+        handleJumpToLatest() {
+          console.log('Chat: User clicked jump to latest button');
+          this.scrollToBottom();
+          this.hideJumpToLatest();
+        }
+
+        scrollToBottom(smooth = true) {
+          if (!this.transcript) return;
+
+          // Use requestAnimationFrame to ensure DOM has updated
+          requestAnimationFrame(() => {
+            this.transcript.scrollTo({
+              top: this.transcript.scrollHeight,
+              behavior: smooth ? 'smooth' : 'auto'
+            });
+
+            // Update state after scroll
+            setTimeout(() => {
+              this.isNearBottom = true;
+              this.userHasScrolledUp = false;
+              this.hideNewMessagesNotification();
+              this.hideJumpToLatest();
+
+              if (smooth) {
+                console.log('Chat: Auto-scrolled to latest message');
+              }
+            }, smooth ? 300 : 50);
+          });
+        }
+
+        showJumpToLatest() {
+          if (!this.jumpToLatest || !this.jumpToLatest.classList.contains('hidden')) return;
+
+          this.jumpToLatest.classList.remove('hidden');
+          console.log('Chat: Jump to latest button shown');
+        }
+
+        hideJumpToLatest() {
+          if (!this.jumpToLatest || this.jumpToLatest.classList.contains('hidden')) return;
+
+          // Add fade-out animation
+          this.jumpToLatest.classList.add('fade-out');
+          setTimeout(() => {
+            this.jumpToLatest.classList.add('hidden');
+            this.jumpToLatest.classList.remove('fade-out');
+          }, 200);
+
+          console.log('Chat: Jump to latest button hidden');
+        }
+
+        showNewMessagesNotification() {
+          if (!this.isNearBottom && this.userHasScrolledUp) {
+            this.newMessagesNotification.classList.remove('hidden');
+            console.log('Chat: New messages notification shown');
+          }
+        }
+
+        hideNewMessagesNotification() {
+          this.newMessagesNotification.classList.add('hidden');
+        }
+
+        async sendMessage(content) {
+          // Clear input and reset height
+          this.messageInput.value = '';
+          this.messageInput.style.height = 'auto';
+          this.handleInput(); // Update button state
+          this.hideError();
+
+          // Add user message
+          const userMessage = this.createMessage('user', content);
+          this.addMessage(userMessage);
+
+          // Show typing indicator
+          this.showTyping();
+
+          try {
+            console.log('Chat: Sending message to AI Assistant API');
+
+            // Generate session ID if needed
+            if (!this.sessionId) {
+              this.sessionId = 'session-' + Date.now() + '-' + Math.random().toString(36).substr(2, 9);
+            }
+
+            const response = await fetch('/api/chat', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({
+                message: content,
+                session_id: this.sessionId
+              }),
+              signal: AbortSignal.timeout(60000) // 60 second timeout
+            });
+
+            if (!response.ok) {
+              const errorData = await response.json().catch(() => ({}));
+              throw new Error(errorData.error || `Server error: ${response.status}`);
+            }
+
+            const data = await response.json();
+            console.log('Chat: Received AI response', data);
+
+            // Hide typing indicator first
+            this.hideTyping();
+
+            // Extract response text from the API
+            let aiResponse = data.reply || data.final_output;
+
+            // Handle complex response objects
+            if (typeof aiResponse === 'object' && aiResponse !== null) {
+              aiResponse = aiResponse.text || aiResponse.content || aiResponse.response || JSON.stringify(aiResponse);
+            }
+
+            // Fallback if no response text found
+            if (!aiResponse || aiResponse.trim().length === 0) {
+              aiResponse = 'I processed your request, but I don\'t have a response to display right now.';
+            }
+
+            // Add AI response message
+            const aiMessage = this.createMessage('ai', aiResponse);
+            this.addMessage(aiMessage);
+
+            console.log('Chat: AI response added successfully');
+
+          } catch (error) {
+            console.error('Chat: API Error:', error);
+
+            // Hide typing indicator
+            this.hideTyping();
+
+            // Show error message in chat
+            let errorMessage = 'I encountered an error processing your request. Please try again.';
+
+            if (error.name === 'TimeoutError' || error.message.includes('timeout')) {
+              errorMessage = 'The request timed out. Please try again with a shorter message.';
+            } else if (error.message.includes('Failed to fetch')) {
+              errorMessage = 'Unable to connect to the AI service. Please check your connection and try again.';
+            }
+
+            const errorAIMessage = this.createMessage('ai', errorMessage);
+            this.addMessage(errorAIMessage);
+
+            // Also show the error toast
+            this.showError(error.message);
+          }
+
+          // Focus input after response/error
+          setTimeout(() => {
+            this.messageInput.focus();
+          }, 100);
+        }
+
+        createMessage(role, content) {
+          return {
+            id: ++this.messageCounter,
+            role,
+            content,
+            timestamp: new Date()
+          };
+        }
+
+        addMessage(message) {
+          this.messages.push(message);
+          this.renderMessage(message);
+          this.saveMessages();
+
+          console.log(`Chat: New ${message.role} message added`, {
+            messageId: message.id,
+            isNearBottom: this.isNearBottom,
+            userScrolledUp: this.userHasScrolledUp
+          });
+
+          // Auto-scroll if user is near bottom
+          if (this.isNearBottom && !this.userHasScrolledUp) {
+            setTimeout(() => this.scrollToBottom(), 100);
+          } else if (this.userHasScrolledUp) {
+            this.showNewMessagesNotification();
+            this.showJumpToLatest();
+            console.log('Chat: New message available, but user has scrolled up');
+          }
+        }
+
+        renderMessage(message) {
+          const messageElement = this.createMessageElement(message);
+          this.transcript.appendChild(messageElement);
+
+          // Trigger reflow to ensure proper scroll calculation
+          this.transcript.offsetHeight;
+        }
+
+        createMessageElement(message) {
+          const messageDiv = document.createElement('div');
+          messageDiv.className = `message-${message.role}`;
+          messageDiv.setAttribute('data-message-id', message.id);
+
+          const timestamp = this.formatTimestamp(message.timestamp);
+          const content = this.formatMessageContent(message.content);
+
+          if (message.role === 'user') {
+            messageDiv.innerHTML = `
+              <div class="flex justify-end">
+                <div class="bg-primary rounded-2xl p-3 max-w-[85%] shadow-md shadow-primary/20">
+                  <div class="text-xs text-black/60 mb-1">You • ${timestamp}</div>
+                  <div class="text-sm md:text-base text-black message-content">${content}</div>
+                </div>
+              </div>
+            `;
+          } else {
+            messageDiv.innerHTML = `
+              <div class="flex items-start gap-3">
+                <div class="w-7 h-7 rounded-full bg-primary flex-shrink-0 grid place-items-center shadow-md shadow-primary/30">
+                  <span class="material-icons text-black text-[18px]">auto_awesome</span>
+                </div>
+                <div class="bg-white/5 border border-white/10 rounded-2xl p-3 max-w-[85%]">
+                  <div class="text-xs text-gray-400 mb-1">AI • ${timestamp}</div>
+                  <div class="text-sm md:text-base text-gray-100 message-content">${content}</div>
+                </div>
+              </div>
+            `;
+          }
+
+          return messageDiv;
+        }
+
+        formatMessageContent(content) {
+          // Preserve line breaks and basic formatting
+          return content
+            .replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;')
+            .replace(/"/g, '&quot;')
+            .replace(/'/g, '&#39;')
+            .replace(/\n/g, '<br>');
+        }
+
+        formatTimestamp(date) {
+          return date.toLocaleTimeString('en-US', {
+            hour: 'numeric',
+            minute: '2-digit',
+            hour12: true
+          });
+        }
+
+        generateAIResponse(userContent) {
+          const responses = [
+            "I'd be happy to help you with that! Let me know if you need any clarification.",
+            "That's an interesting point. Here's what I think about it...",
+            "Great question! Based on your document, I can suggest a few improvements.",
+            "I can help you enhance that section. Would you like me to provide some specific suggestions?",
+            "Let me analyze that for you and provide some recommendations.",
+            "That's a good approach! Here are some additional ideas you might consider.",
+            "I understand what you're looking for. Let me provide some guidance on that.",
+            "Excellent! I can definitely help you refine that further."
+          ];
+
+          // Simple response selection based on content
+          const lowerContent = userContent.toLowerCase();
+
+          if (lowerContent.includes('help') || lowerContent.includes('how')) {
+            return "I'd be happy to help you with that! Can you provide more details about what you're trying to accomplish?";
+          } else if (lowerContent.includes('improve') || lowerContent.includes('better')) {
+            return "Great question! I can suggest several ways to improve that. What specific aspect would you like to focus on?";
+          } else if (lowerContent.includes('write') || lowerContent.includes('create')) {
+            return "I can definitely help you with writing! What type of content are you looking to create?";
+          } else {
+            return responses[Math.floor(Math.random() * responses.length)];
+          }
+        }
+
+        addWelcomeMessage() {
+          const welcomeMessage = this.createMessage('ai', 'Hello! I\'m your AI assistant. How can I help you with your document today?');
+          this.addMessage(welcomeMessage);
+          console.log('Chat: Welcome message added');
+        }
+
+        showTyping() {
+          this.isTyping = true;
+          this.typingIndicator.classList.remove('hidden');
+          this.sendButton.disabled = true;
+          this.handleInput(); // Update button state
+
+          // Auto-scroll if near bottom
+          if (this.isNearBottom && !this.userHasScrolledUp) {
+            setTimeout(() => this.scrollToBottom(), 100);
+          }
+
+          console.log('Chat: AI typing indicator shown');
+        }
+
+        hideTyping() {
+          this.isTyping = false;
+          this.typingIndicator.classList.add('hidden');
+          this.handleInput(); // Update button state
+
+          console.log('Chat: AI typing indicator hidden');
+        }
+
+        showError(message = 'Failed to send message. Please try again.') {
+          // Update error message
+          this.errorToast.textContent = message;
+          this.errorToast.classList.remove('hidden');
+          setTimeout(() => this.hideError(), 5000);
+          console.error('Chat: Error shown:', message);
+        }
+
+        hideError() {
+          this.errorToast.classList.add('hidden');
+        }
+
+        saveMessages() {
+          try {
+            sessionStorage.setItem('chat-messages', JSON.stringify({
+              messages: this.messages,
+              counter: this.messageCounter,
+              lastScrollPosition: this.transcript.scrollTop
+            }));
+          } catch (error) {
+            console.warn('Chat: Could not save messages to session storage:', error);
+          }
+        }
+
+        loadMessages() {
+          try {
+            const saved = sessionStorage.getItem('chat-messages');
+            if (saved) {
+              const data = JSON.parse(saved);
+              this.messages = data.messages.map(msg => ({
+                ...msg,
+                timestamp: new Date(msg.timestamp)
+              }));
+              this.messageCounter = data.counter || 0;
+
+              // Render existing messages
+              this.messages.forEach(message => {
+                this.renderMessage(message);
+              });
+
+              console.log(`Chat: Loaded ${this.messages.length} messages from session storage`);
+
+              // Restore scroll position or scroll to bottom
+              const savedScrollPosition = data.lastScrollPosition;
+              setTimeout(() => {
+                if (savedScrollPosition && savedScrollPosition > 0) {
+                  this.transcript.scrollTop = savedScrollPosition;
+                  this.checkScrollPosition();
+                  console.log('Chat: Restored scroll position');
+                } else {
+                  this.scrollToBottom(false);
+                  console.log('Chat: Scrolled to bottom after loading messages');
+                }
+              }, 150);
+            }
+          } catch (error) {
+            console.warn('Chat: Could not load messages from session storage:', error);
+          }
+        }
+
+        // Method to handle tab switching/visibility changes
+        handleVisibilityChange() {
+          if (!document.hidden) {
+            // Page became visible again
+            this.checkScrollPosition();
+            console.log('Chat: Page became visible, scroll position checked');
+          } else {
+            // Page became hidden, save current state
+            this.saveMessages();
+            console.log('Chat: Page hidden, state saved');
+          }
+        }
+      }
+
+      // Initialize chat when DOM is ready
+      document.addEventListener('DOMContentLoaded', () => {
+        // Only initialize if we're on a page with the chat assistant
+        if (document.getElementById('chat-transcript')) {
+          window.chatManager = new ChatManager();
+
+          // Handle visibility changes for tab switching
+          document.addEventListener('visibilitychange', () => {
+            if (window.chatManager) {
+              window.chatManager.handleVisibilityChange();
+            }
+          });
+        }
+      });
+
+      // Initialize immediately if DOM is already ready
+      if (document.readyState === 'loading') {
+        // DOM not ready, wait for DOMContentLoaded
+      } else {
+        // DOM is ready
+        if (document.getElementById('chat-transcript')) {
+          window.chatManager = new ChatManager();
+
+          // Handle visibility changes for tab switching
+          document.addEventListener('visibilitychange', () => {
+            if (window.chatManager) {
+              window.chatManager.handleVisibilityChange();
+            }
+          });
+        }
+      }
+    })();
+  </script>
+
   <!-- React TypeScript Background Bundle -->
-  <script src="{{ url_for('static', filename='js/bundle.js') }}" defer></script>
+  <script src="static/js/bundle.js" defer></script>
 </body>
 
 </html>

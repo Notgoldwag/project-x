@@ -1,3 +1,8 @@
 flask
 python-dotenv
 requests
+
+# LangChain dependencies for AI orchestration
+langchain>=0.1.0
+langchain-openai>=0.0.5
+langchain-community>=0.0.20

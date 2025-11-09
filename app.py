@@ -2,6 +2,8 @@ from flask import Flask, render_template, request, jsonify, redirect, url_for, s
 from dotenv import load_dotenv
 import os
 import requests
+import time
+import logging
 
 # === Load environment variables ===
 load_dotenv()
@@ -10,6 +12,17 @@ GEMINI_API_URL = os.environ.get("GEMINI_API_URL", "https://generativelanguage.go
 
 # === Initialize Flask ===
 app = Flask(__name__, static_folder="static", template_folder=".")
+
+# === Setup logging ===
+os.makedirs("logs", exist_ok=True)
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(levelname)s - %(message)s',
+    handlers=[
+        logging.FileHandler('logs/detections.log', encoding='utf-8'),
+        logging.StreamHandler()
+    ]
+)
 
 
 # === ROUTES ===
@@ -53,8 +66,137 @@ def prompt_injections():
     return render_template('promptinjections.html')
 
 
-# === API: N8N WEBHOOK PROXY ===
+# === API: AI CHAT (LangChain Orchestration) ===
 @app.route('/api/chat', methods=['POST'])
+def ai_chat():
+    """New chat endpoint using three-agent orchestration from main_enhanced.py"""
+    start_time = time.time()
+    
+    try:
+        data = request.get_json()
+        message = data.get("message", "").strip()
+        session_id = data.get("session_id")
+        
+        if not message:
+            return jsonify({
+                "error": "Message cannot be empty",
+                "reply": "Please enter a message to continue."
+            }), 400
+        
+        # Import and call the LangChain orchestration
+        process_prompt_engineering_sync = None
+        try:
+            # Use sys.path to import from the langchain-implement directory
+            import sys
+            import importlib.util
+            
+            # Add the langchain-implement directory to the path
+            langchain_dir = os.path.join(os.path.dirname(__file__), 'langchain-implement')
+            if langchain_dir not in sys.path:
+                sys.path.insert(0, langchain_dir)
+            
+            # Import from the standalone orchestration module (no FastAPI dependencies)
+            spec = importlib.util.spec_from_file_location(
+                "orchestration", 
+                os.path.join(langchain_dir, "orchestration.py")
+            )
+            orchestration = importlib.util.module_from_spec(spec)
+            spec.loader.exec_module(orchestration)
+            
+            process_prompt_engineering_sync = orchestration.process_prompt_engineering
+            logging.info("✅ Successfully imported LangChain orchestration from orchestration.py")
+                
+        except Exception as import_error:
+            logging.error(f"❌ Failed to import LangChain orchestration: {import_error}", exc_info=True)
+            # Try to provide helpful error message
+            error_msg = str(import_error)
+            if "langchain" in error_msg.lower():
+                hint = "Missing LangChain dependencies. Install with: pip install langchain langchain-openai"
+            elif "pydantic" in error_msg.lower():
+                hint = "Missing Pydantic. Install with: pip install pydantic"
+            elif "fastapi" in error_msg.lower():
+                hint = "Missing FastAPI. Install with: pip install fastapi"
+            else:
+                hint = f"Check the error: {error_msg}"
+            
+            return jsonify({
+                "error": "LangChain orchestration unavailable",
+                "reply": f"The AI system is not fully configured. {hint}",
+                "debug": str(import_error) if app.debug else None
+            }), 503
+        
+        if not process_prompt_engineering_sync:
+            return jsonify({
+                "error": "Import failed",
+                "reply": "Could not load the AI orchestration system."
+            }), 503
+        
+        # Process through three-agent orchestration
+        try:
+            logging.info(f"Processing message through LangChain 3-agent pipeline: '{message[:50]}...'")
+            result = process_prompt_engineering_sync(message, session_id)
+            
+            logging.info(f"LangChain result status: {result.get('status')}")
+            
+            # Extract response from the orchestration result
+            # Handle the structured format from main_enhanced.py
+            final_output = result.get('final_output', {})
+            
+            if isinstance(final_output, dict):
+                # Extract the final prompt template from the 3-agent pipeline
+                ai_response = final_output.get('final_prompt_template')
+                
+                if not ai_response:
+                    # Fallback to other possible fields
+                    ai_response = final_output.get('response', 
+                                                   final_output.get('text', 
+                                                   final_output.get('error', 
+                                                   str(final_output))))
+            else:
+                # If final_output is just a string
+                ai_response = str(final_output)
+            
+            # Prepare response with all metadata
+            response_data = {
+                "reply": ai_response,
+                "session_id": result.get('session_id'),
+                "status": result.get('status', 'completed'),
+                "execution_time_ms": result.get('total_execution_time_ms', 0),
+                "immediate_response": result.get('immediate_response'),
+                "workflow_id": result.get('workflow_id')
+            }
+            
+            # Add execution history if available (for debugging)
+            if app.debug and result.get('execution_history'):
+                response_data['execution_history'] = result.get('execution_history')
+            
+            # Log successful request
+            total_latency = (time.time() - start_time) * 1000
+            logging.info(f"✅ Chat request completed - Total: {total_latency:.2f}ms, LangChain: {result.get('total_execution_time_ms', 0):.2f}ms")
+            
+            return jsonify(response_data)
+            
+        except Exception as e:
+            logging.error(f"LangChain orchestration error: {e}")
+            return jsonify({
+                "error": "AI processing failed",
+                "reply": "I encountered an error processing your request. Please try again.",
+                "debug": str(e) if app.debug else None
+            }), 500
+            
+    except Exception as e:
+        # Log total latency even for errors
+        total_latency = (time.time() - start_time) * 1000
+        logging.error(f"Chat request failed after {total_latency:.2f}ms: {e}")
+        return jsonify({
+            "error": "Internal server error",
+            "reply": "Something unexpected happened. Please try again.",
+            "debug": str(e) if app.debug else None
+        }), 500
+
+
+# === API: N8N WEBHOOK PROXY (Legacy) ===
+@app.route('/api/chat/webhook', methods=['POST'])
 def chat_proxy():
     """Proxy endpoint to forward chat messages to n8n webhook"""
     try:

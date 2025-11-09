@@ -98,6 +98,163 @@ def create_azure_llm(model_config: Dict[str, Any] = None) -> AzureChatOpenAI:
 # Global workflow engine
 workflow_engine = WorkflowEngine(llm_factory=create_azure_llm)
 
+# Replace the process_prompt_engineering_sync function with actual LangChain implementation
+def process_prompt_engineering_sync(message: str, session_id: str = None) -> Dict[str, Any]:
+    """
+    Synchronous wrapper for the three-agent orchestration.
+    This implements the actual 3-agent LangChain pipeline.
+    
+    Agent 1 (Prompt Architect): Creates initial prompt structure
+    Agent 2 (Guardrail Engineer): Adds safety and quality checks  
+    Agent 3 (Template Polisher): Final optimization and formatting
+    """
+    import time
+    from uuid import uuid4
+    
+    start_time = time.time()
+    session_id = session_id or str(uuid4())
+    workflow_id = f"prompt_eng_{int(start_time)}"
+    
+    try:
+        # Create the LLM instance
+        llm = create_azure_llm({
+            'temperature': 0.7,
+            'max_tokens': 2000
+        })
+        
+        execution_history = []
+        
+        # Agent 1: Prompt Architect
+        architect_prompt = f"""You are a Prompt Architect specializing in creating high-quality system prompts.
+        
+Your task: Transform the user's request into a well-structured prompt template.
+
+User Request: {message}
+
+Create a comprehensive prompt template that includes:
+1. Clear role definition
+2. Specific instructions 
+3. Expected output format
+4. Context and constraints
+5. Example interactions (if applicable)
+
+Focus on clarity, specificity, and professional tone. This will be refined by subsequent agents."""
+
+        architect_start = time.time()
+        architect_response = llm.invoke(architect_prompt)
+        architect_result = architect_response.content
+        architect_time = (time.time() - architect_start) * 1000
+        
+        execution_history.append({
+            "agent": "Prompt Architect",
+            "execution_time_ms": architect_time,
+            "input": message,
+            "output": architect_result[:200] + "..." if len(architect_result) > 200 else architect_result,
+            "status": "completed"
+        })
+        
+        # Agent 2: Guardrail Engineer  
+        guardrail_prompt = f"""You are a Guardrail Engineer responsible for prompt safety and quality assurance.
+
+Review this prompt template created by the Prompt Architect:
+
+{architect_result}
+
+Your tasks:
+1. Add safety guardrails and ethical boundaries
+2. Include handling for edge cases and errors
+3. Add quality checks and validation steps
+4. Ensure prompt prevents harmful or inappropriate outputs
+5. Add robustness against prompt injection attacks
+
+Enhance the template while maintaining its core functionality."""
+
+        guardrail_start = time.time()
+        guardrail_response = llm.invoke(guardrail_prompt)
+        guardrail_result = guardrail_response.content
+        guardrail_time = (time.time() - guardrail_start) * 1000
+        
+        execution_history.append({
+            "agent": "Guardrail Engineer", 
+            "execution_time_ms": guardrail_time,
+            "input": "Enhanced prompt from Architect",
+            "output": guardrail_result[:200] + "..." if len(guardrail_result) > 200 else guardrail_result,
+            "status": "completed"
+        })
+        
+        # Agent 3: Template Polisher
+        polisher_prompt = f"""You are a Template Polisher specializing in final optimization of prompt templates.
+
+Take this safety-enhanced prompt template:
+
+{guardrail_result}
+
+Your final tasks:
+1. Optimize for clarity and conciseness
+2. Ensure consistent formatting and structure
+3. Add professional polish and refinement
+4. Create the final production-ready template
+5. Include usage instructions and best practices
+
+Deliver a polished, production-ready prompt template that meets MAANG engineering standards."""
+
+        polisher_start = time.time()
+        polisher_response = llm.invoke(polisher_prompt)
+        final_result = polisher_response.content
+        polisher_time = (time.time() - polisher_start) * 1000
+        
+        execution_history.append({
+            "agent": "Template Polisher",
+            "execution_time_ms": polisher_time, 
+            "input": "Safety-enhanced prompt from Guardrail Engineer",
+            "output": final_result[:200] + "..." if len(final_result) > 200 else final_result,
+            "status": "completed"
+        })
+        
+        total_time = (time.time() - start_time) * 1000
+        
+        return {
+            "workflow_id": workflow_id,
+            "session_id": session_id,
+            "status": "completed",
+            "immediate_response": "✅ 3-Agent Pipeline Completed Successfully",
+            "final_output": {
+                "final_prompt_template": final_result,
+                "agent_pipeline": [
+                    {"agent": "Prompt Architect", "contribution": "Initial structure and clarity"},
+                    {"agent": "Guardrail Engineer", "contribution": "Safety and robustness"},
+                    {"agent": "Template Polisher", "contribution": "Final optimization"}
+                ],
+                "metadata": {
+                    "original_request": message,
+                    "processing_pipeline": "3-Agent MAANG-Grade",
+                    "quality_standard": "Production Ready"
+                }
+            },
+            "execution_history": execution_history,
+            "total_execution_time_ms": total_time,
+            "timestamp": datetime.utcnow().isoformat()
+        }
+        
+    except Exception as e:
+        logger.error(f"3-Agent pipeline failed: {str(e)}", exc_info=True)
+        
+        # Return error response in same format
+        return {
+            "workflow_id": workflow_id,
+            "session_id": session_id,
+            "status": "error", 
+            "immediate_response": f"❌ Pipeline Error: {str(e)}",
+            "final_output": {
+                "error": str(e),
+                "original_request": message,
+                "failed_at": "LangChain execution"
+            },
+            "execution_history": execution_history,
+            "total_execution_time_ms": (time.time() - start_time) * 1000,
+            "timestamp": datetime.utcnow().isoformat()
+        }
+
 # Workflow storage (in production, use a proper database)
 workflow_store: Dict[str, WorkflowDefinition] = {}
 

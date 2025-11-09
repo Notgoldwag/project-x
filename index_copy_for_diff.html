@@ -73,23 +73,22 @@
       display: none;
     }
 
-    .faq details[open] {
-      background-color: #09bd96; /* fill whole item when open */
-    }
     .faq details[open] summary {
       border-bottom-left-radius: 0;
       border-bottom-right-radius: 0;
-      border-color: #09bd96;
+      border-color: #00cba0;
       border-width: 2px;
-      background-color: #09bd96;
-      color: #ffffff;
+      background-color: #00cba0; /* fill selected FAQ header */
+      color: #0f172a; /* ensure readable text if any inherits */
     }
-    .faq details[open] summary span { color: #ffffff !important; font-weight: 700; }
-    .faq details[open] summary .chev { color: #ffffff !important; }
+
+    .faq details[open] summary span { color: #0f172a !important; font-weight: 700; }
+    .faq details[open] summary .chev { color: #0f172a !important; }
+
     .faq details[open]>div {
-      border-color: #09bd96;
-      background-color: #09bd96;
-      color: #ffffff;
+      border-color: #00cba0;
+      background-color: rgba(0, 203, 160, 0.18); /* teal fill for body */
+      color: #0f172a; /* readable body text */
     }
 
     /* Make slides stretch uniformly and avoid variable heights */
@@ -133,7 +132,7 @@
 
     /* Gradient title style for subtle color pop */
     .gradient-title {
-      background: linear-gradient(90deg, #22d3ee, #09bd96);
+      background: linear-gradient(90deg, #22d3ee, #00cba0);
       -webkit-background-clip: text;
       background-clip: text;
       color: transparent;
@@ -159,9 +158,9 @@
 
     /* Teal gradient transformation (from home.html) */
     .blob { position: absolute; border-radius: 50%; filter: blur(55px); opacity: .25; mix-blend-mode: screen; }
-    .blob.one { width: 42vw; height: 42vw; background: radial-gradient(circle at 30% 30%, #09bd96, transparent 60%); left: -10vw; top: -10vh; animation: float1 26s ease-in-out infinite; }
+    .blob.one { width: 42vw; height: 42vw; background: radial-gradient(circle at 30% 30%, #00cba0, transparent 60%); left: -10vw; top: -10vh; animation: float1 26s ease-in-out infinite; }
     .blob.two { width: 36vw; height: 36vw; background: radial-gradient(circle at 70% 40%, #38bdf8, transparent 60%); right: -8vw; top: 10vh; animation: float2 24s ease-in-out infinite; }
-    .blob.three { width: 44vw; height: 44vw; background: radial-gradient(circle at 40% 60%, #09bd96, transparent 60%); left: 10vw; bottom: -12vh; animation: float3 28s ease-in-out infinite; }
+    .blob.three { width: 44vw; height: 44vw; background: radial-gradient(circle at 40% 60%, #00cba0, transparent 60%); left: 10vw; bottom: -12vh; animation: float3 28s ease-in-out infinite; }
     .blob.four { width: 36vw; height: 36vw; background: radial-gradient(circle at 60% 70%, #22d3ee, transparent 60%); right: 10vw; bottom: -10vh; animation: float4 30s ease-in-out infinite; }
     @keyframes float1 { 0%,100% { transform: translate(0,0) scale(1) } 50% { transform: translate(6vw,4vh) scale(1.06) } }
     @keyframes float2 { 0%,100% { transform: translate(0,0) scale(1) } 50% { transform: translate(-5vw,3vh) scale(0.97) } }
@@ -173,7 +172,7 @@
     .sblob.sm { width: 220px; height: 220px; }
     .sblob.md { width: 320px; height: 320px; }
     .sblob.lg { width: 400px; height: 400px; }
-    .sblob-teal { background: radial-gradient(circle at 30% 30%, #09bd96, transparent 60%); }
+    .sblob-teal { background: radial-gradient(circle at 30% 30%, #00cba0, transparent 60%); }
     .sblob-cyan { background: radial-gradient(circle at 70% 40%, #38bdf8, transparent 60%); }
     .sblob-emerald { background: radial-gradient(circle at 40% 60%, #22c55e, transparent 60%); }
   </style>
@@ -183,7 +182,7 @@
       theme: {
         extend: {
           colors: {
-            "primary": "#09bd96", // theme teal
+            "primary": "#00cba0", // theme teal
             "background-light": "#f8f8f5",
             "background-dark": "#0f172a", // slate-900
             "text-light": "#1c1c0d",
@@ -399,8 +398,8 @@
         </div>
         <div class="px-4 @container space-y-20">
           <!-- Prompt Engineer Deep Dive -->
-          <div class="grid gap-8 md:grid-cols-2 items-center" data-aos="fade-up">
-            <div class="space-y-4 md:self-center">
+          <div class="grid gap-8 md:grid-cols-2 items-start" data-aos="fade-up">
+            <div class="space-y-4">
               <h3 class="text-3xl font-extrabold text-white">Prompt Engineer — Multi‑Agent Orchestration</h3>
               <p class="text-lg text-text-secondary-dark">Coordinate Grok, GPT, Gemini, and Claude in critique → respond loops.
                 Each agent proposes improvements, another critiques, and a selector converges on a stronger prompt.</p>
@@ -429,7 +428,7 @@
           </div>
 
           <!-- Prompt Playground Deep Dive -->
-          <div class="grid gap-8 md:grid-cols-2 items-center" data-aos="fade-up">
+          <div class="grid gap-8 md:grid-cols-2 items-start" data-aos="fade-up">
             <div class="rounded-xl border-2 border-border-dark bg-slate-900/50 p-8 md:p-10 space-y-4 order-last md:order-none shadow-lg" data-aos="fade-up" data-aos-delay="100">
               <p class="text-sm font-semibold text-white">Benchmark Snapshot</p>
               <ul class="text-base text-text-secondary-dark list-disc pl-5 space-y-1">
@@ -443,7 +442,7 @@
               <p class="text-base text-text-secondary-dark">Example: run your prompt across 4 models instantly and export
                 a side‑by‑side report.</p>
             </div>
-            <div class="space-y-4 md:self-center">
+            <div class="space-y-4">
               <h3 class="text-3xl font-extrabold text-white">Prompt Playground — Model Benchmarking</h3>
               <p class="text-lg text-text-secondary-dark">Measure what matters: speed, stability, quality, and spend — so your
                 team picks the right model with data, not guesses.</p>
@@ -455,8 +454,8 @@
           </div>
 
           <!-- Prompt Injection Detector Deep Dive -->
-          <div class="grid gap-8 md:grid-cols-2 items-center" data-aos="fade-up">
-            <div class="space-y-4 md:self-center">
+          <div class="grid gap-8 md:grid-cols-2 items-start" data-aos="fade-up">
+            <div class="space-y-4">
               <h3 class="text-3xl font-extrabold text-white">Prompt Injection Detector — Risk Scoring</h3>
               <p class="text-lg text-text-secondary-dark">Detect jailbreak attempts, prompt leaks, and indirect injections. Get
                 a risk score with rationale, plus a safe rewritten version.</p>
@@ -687,7 +686,7 @@
                   class="testimonial-card flex w-full flex-col gap-4 rounded-lg border border-border-dark bg-slate-800/60 hover:bg-slate-800/70 transition-colors p-6 text-left overflow-hidden">
                   <div class="flex items-center gap-4">
                     <div class="h-12 w-12 rounded-full bg-cover bg-center" data-alt="Portrait of Liam Patel"
-                      style="background-image: radial-gradient(circle at 30% 30%, #38bdf8 0%, #09bd96 65%);"></div>
+                      style="background-image: radial-gradient(circle at 30% 30%, #38bdf8 0%, #00cba0 65%);"></div>
                     <div>
                       <p class="text-lg font-semibold leading-normal text-white">Liam Patel</p>
                       <p class="text-base font-normal text-text-secondary-dark">Product Lead</p>
@@ -703,7 +702,7 @@
                   class="testimonial-card flex w-full flex-col gap-4 rounded-lg border border-border-dark bg-slate-800/60 hover:bg-slate-800/70 transition-colors p-6 text-left overflow-hidden">
                   <div class="flex items-center gap-4">
                     <div class="h-12 w-12 rounded-full bg-cover bg-center" data-alt="Portrait of Sophia Chen"
-                      style="background-image: radial-gradient(circle at 30% 30%, #09bd96 0%, #22c55e 65%);"></div>
+                      style="background-image: radial-gradient(circle at 30% 30%, #00cba0 0%, #22c55e 65%);"></div>
                     <div>
                       <p class="text-lg font-semibold leading-normal text-white">Sophia Chen</p>
                       <p class="text-base font-normal text-text-secondary-dark">Design Director</p>
@@ -735,7 +734,7 @@
                   class="testimonial-card flex w-full flex-col gap-4 rounded-lg border border-border-dark bg-slate-800/60 hover:bg-slate-800/70 transition-colors p-6 text-left overflow-hidden">
                   <div class="flex items-center gap-4">
                     <div class="h-12 w-12 rounded-full bg-cover bg-center" data-alt="Portrait of Ava Thompson"
-                      style="background-image: radial-gradient(circle at 30% 30%, #0ea5e9 0%, #09bd96 65%);"></div>
+                      style="background-image: radial-gradient(circle at 30% 30%, #0ea5e9 0%, #00cba0 65%);"></div>
                     <div>
                       <p class="text-lg font-semibold leading-normal text-white">Ava Thompson</p>
                       <p class="text-base font-normal text-text-secondary-dark">Ops Lead</p>
@@ -751,7 +750,7 @@
                   class="testimonial-card flex w-full flex-col gap-4 rounded-lg border border-border-dark bg-slate-800/60 hover:bg-slate-800/70 transition-colors p-6 text-left overflow-hidden">
                   <div class="flex items-center gap-4">
                     <div class="h-12 w-12 rounded-full bg-cover bg-center" data-alt="Portrait of Noah Williams"
-                      style="background-image: radial-gradient(circle at 30% 30%, #09bd96 0%, #0ea5e9 65%);"></div>
+                      style="background-image: radial-gradient(circle at 30% 30%, #00cba0 0%, #0ea5e9 65%);"></div>
                     <div>
                       <p class="text-lg font-semibold leading-normal text-white">Noah Williams</p>
                       <p class="text-base font-normal text-text-secondary-dark">CTO</p>
@@ -1018,17 +1017,29 @@
           </div>
         </div>
         <div
-          class="mt-12 border-t border-[#334155] pt-8 flex flex-col sm:flex-row justify-between items-center text-sm text-text-secondary-dark">
-          <p>&copy; 2025 Synergy. All rights reserved.</p>
+          class="mt-12 border-t border-border-dark pt-8 flex flex-col sm:flex-row justify-between items-center text-sm text-text-secondary-dark">
+          <p>© 2024 Synergy. All rights reserved.</p>
           <div class="flex gap-4 mt-4 sm:mt-0">
             <a aria-label="Twitter" href="#">
-              <img alt="Twitter" class="h-5 w-5 opacity-80 hover:opacity-100 transition-opacity filter invert" src="https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/x.svg" />
+              <svg class="h-5 w-5 fill-current" viewBox="0 0 24 24">
+                <path
+                  d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-.424.727-.666 1.58-.">
+                </path>
+              </svg>
             </a>
             <a aria-label="LinkedIn" href="#">
-              <img alt="LinkedIn" class="h-5 w-5 opacity-80 hover:opacity-100 transition-opacity filter invert" src="https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/linkedin.svg" />
+              <svg class="h-5 w-5 fill-current" viewBox="0 0 24 24">
+                <path
+                  d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.225 0z">
+                </path>
+              </svg>
             </a>
             <a aria-label="Facebook" href="#">
-              <img alt="Facebook" class="h-5 w-5 opacity-80 hover:opacity-100 transition-opacity filter invert" src="https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/facebook.svg" />
+              <svg class="h-5 w-5 fill-current" viewBox="0 0 24 24">
+                <path
+                  d="M22.675 0h-21.35C.59 0 0 .59 0 1.325v21.35C0 23.41.59 24 1.325 24H12.82v-9.294H9.692v-3.622h3.128V8.413c0-3.1 1.893-4.788 4.659-4.788 1.325 0 2.463.099 2.795.143v3.24l-1.918.001c-1.504 0-1.795.715-1.795 1.763v2.313h3.587l-.467 3.622h-3.12V24h6.116c.735 0 1.325-.59 1.325-1.325V1.325C24 .59 23.41 0 22.675 0z">
+                </path>
+              </svg>
             </a>
           </div>
         </div>
