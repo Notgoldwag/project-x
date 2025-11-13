@@ -1,0 +1,33 @@
+<!-- Profile Widget in Sidebar -->
+<div class="relative group">
+  <!-- Profile Avatar Button -->
+  <button id="profile-avatar"
+    class="w-8 h-8 md:w-10 md:h-10 rounded-full bg-primary hover:bg-primaryDarker transition-colors duration-200 flex items-center justify-center text-black font-bold text-xs md:text-sm shadow-lg"
+    title="Profile">
+    <span id="profile-initials">U</span>
+  </button>
+
+  <!-- iMessage-style Speech Bubble Popover -->
+  <div
+    class="absolute top-1/2 left-full transform -translate-y-1/2 ml-3 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 -translate-x-2 group-hover:translate-x-0 z-[9999]">
+    <!-- Speech Bubble Container -->
+    <div class="relative">
+      <!-- Bubble Tail (Triangle pointing left) -->
+      <div class="absolute top-1/2 left-0 transform -translate-y-1/2 -translate-x-full">
+        <div
+          class="w-0 h-0 border-t-4 border-b-4 border-r-8 border-t-transparent border-b-transparent border-r-black/90">
+        </div>
+      </div>
+
+      <!-- Bubble Content -->
+      <div
+        class="bg-black/90 backdrop-blur-md border border-white/30 rounded-lg px-4 py-3 shadow-xl min-w-[140px]">
+        <p id="profile-email" class="text-xs text-gray-300 mb-2 truncate max-w-[120px]">user@example.com</p>
+        <button id="sign-out-btn"
+          class="w-full text-left text-sm text-red-400 hover:text-red-300 transition-colors duration-200 font-medium">
+          Sign out
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
