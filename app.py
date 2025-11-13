@@ -1,11 +1,21 @@
 from flask import Flask, render_template, request, jsonify, send_from_directory
 from dotenv import load_dotenv
-from transformers import AutoTokenizer, AutoModelForSequenceClassification
-import torch
 import requests
 import time
 import logging
 import os
+
+# Try to import transformers, but make it optional for testing
+try:
+    from transformers import AutoTokenizer, AutoModelForSequenceClassification
+    import torch
+    TRANSFORMERS_AVAILABLE = True
+except ImportError:
+    print("⚠️ Warning: transformers not available. ML features will be disabled.")
+    TRANSFORMERS_AVAILABLE = False
+    AutoTokenizer = None
+    AutoModelForSequenceClassification = None
+    torch = None
 
 # === Load environment variables ===
 load_dotenv()
@@ -57,16 +67,22 @@ logging.basicConfig(
 
 # === Load ML Model (RoBERTa fine-tuned) ===
 MODEL_DIR = os.getenv('MODEL_DIR', 'models/prompt_injection_detector')
-try:
-    print(f"🔍 Loading prompt injection model from {MODEL_DIR}...")
-    tokenizer = AutoTokenizer.from_pretrained(MODEL_DIR)
-    model = AutoModelForSequenceClassification.from_pretrained(MODEL_DIR)
-    model.eval()
-    print("✅ Model loaded successfully!")
-except Exception as e:
-    print(f"⚠️ Warning: Could not load model. Details: {e}")
-    tokenizer = None
-    model = None
+tokenizer = None
+model = None
+
+if TRANSFORMERS_AVAILABLE:
+    try:
+        print(f"🔍 Loading prompt injection model from {MODEL_DIR}...")
+        tokenizer = AutoTokenizer.from_pretrained(MODEL_DIR)
+        model = AutoModelForSequenceClassification.from_pretrained(MODEL_DIR)
+        model.eval()
+        print("✅ Model loaded successfully!")
+    except Exception as e:
+        print(f"⚠️ Warning: Could not load model. Details: {e}")
+        tokenizer = None
+        model = None
+else:
+    print("⚠️ Transformers not available - ML model loading skipped")
 
 
 # === ROUTES ===
