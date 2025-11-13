@@ -25,7 +25,10 @@ app = Flask(__name__, static_folder="static", template_folder=".")
 
 # === Register Feature Blueprints ===
 from features.prompt_playground.backend import playground_bp
+from features.prompt_injection.backend import injection_bp, init_model as init_injection_model
+
 app.register_blueprint(playground_bp)
+app.register_blueprint(injection_bp)
 
 # === Setup logging ===
 os.makedirs("logs", exist_ok=True)
@@ -61,6 +64,10 @@ except Exception as e:
     print(f"⚠️ Warning: Could not load model. Details: {e}")
     tokenizer = None
     model = None
+
+# Share model with injection blueprint
+if 'init_injection_model' in dir():
+    init_injection_model(model, tokenizer)
 
 
 # === ROUTES ===
