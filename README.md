@@ -1,160 +1,198 @@
 # 🚀 Project X
 
-## ✨ Experience the Future of Authentication
+## AI-Powered Prompt Engineering Platform
 
-Welcome to Project X's revolutionary login interface - where minimalism meets AI startup polish, creating a luminous gateway into your digital ecosystem.
+Welcome to Project X - a comprehensive AI platform featuring prompt engineering, prompt playground, and prompt injection detection capabilities.
 
-## 🎨 Features
+## 📁 Project Structure
 
-### 🌌 **Immersive Background Environment**
-- **Gradient Backdrop**: Smooth transition from `#0A1116` → `#051216` with subtle noise texture
-- **Floating Lava Blobs**: 3 animated orbs glowing in `#00CBA0`, `#00FFE0`, and soft purples
-- **Particle System**: 30+ floating particles creating a living atmosphere with pulsing effects
-- **Dynamic Animations**: Smooth 8-second floating cycles with organic movement
+The repository is organized with a clean feature-based structure:
 
-### 🪟 **Glassmorphic Design**
-- **Advanced Blur Effects**: `backdrop-filter: blur(20px)` for authentic glass appearance
-- **Neon Glow Borders**: Linear gradients with `#00CBA0` and `#00FFE0`
-- **3D Hover Animations**: Real-time card tilting based on mouse position
-- **Responsive Shadows**: Dynamic lighting that responds to user interaction
+```
+project-x/
+├── .env                        # Environment variables
+├── .gitignore                  # Git ignore rules
+├── app.py                      # Main Flask application
+├── requirements.txt            # Python dependencies
+├── README.md                   # This file
+├── index.html                  # Landing page
+├── login_signup.html          # Authentication page
+├── vercel.json                # Vercel deployment config
+│
+├── static/                    # Global shared assets
+│   ├── css/
+│   │   ├── global.css         # Shared styles
+│   │   └── bg.css             # Background animation
+│   ├── js/
+│   │   ├── auth.js            # Authentication logic
+│   │   └── bundle.js          # Background animation
+│   └── images/                # Shared images
+│
+├── features/                  # Feature modules
+│   ├── prompt_engineering/    # Prompt Engineering feature
+│   │   ├── index.html
+│   │   └── static/
+│   │       ├── css/
+│   │       │   └── prompt_engineering.css
+│   │       └── js/
+│   │           └── prompt_engineering.js
+│   │
+│   ├── prompt_playground/     # Prompt Playground feature
+│   │   ├── index.html
+│   │   └── static/
+│   │       ├── css/
+│   │       └── js/
+│   │           └── prompt_playground.js
+│   │
+│   └── prompt_injection/      # Prompt Injection Detection
+│       ├── index.html
+│       └── static/
+│           ├── css/
+│           │   └── prompt_injection.css
+│           └── js/
+│               └── prompt_injection.js
+│
+├── api/                       # API modules (future)
+├── data/                      # Data files
+├── logs/                      # Application logs
+│
+└── unwanted_files/           # Archive of old/test files
+    ├── test_files/           # Test scripts and files
+    ├── backup_files/         # Backup/duplicate files
+    ├── langchain_old/        # Old langchain implementation
+    └── docs/                 # Archived documentation
+```
 
-### 🎭 **Interactive Animations**
-- **Welcome Message**: Fade-in with glowing underline animation
-- **Sonar Text Effects**: Ripple pulses on hover with expanding glow
-- **Typing Particles**: Visual feedback particles on input interaction
-- **Mouse Trail**: Glowing particle trail following cursor movement
-- **Button Shimmer**: Elegant light sweep animation on hover
+## ✨ Features
 
-### 📱 **Responsive Experience**
-- **Mobile Optimized**: Adaptive layouts for all screen sizes
-- **Performance Optimized**: Efficient particle rendering with requestAnimationFrame
-- **Touch Friendly**: Hover effects adapted for touch devices
-- **Cross-browser**: Modern CSS with fallbacks
+### 🎯 **Prompt Engineering**
+- AI-powered text editing with real-time suggestions
+- LangChain orchestration with multiple agents
+- Session-based chat interface
+- Metrics visualization and analysis
+- Supabase integration for history tracking
 
-## 🛠 Technical Implementation
+### 🎮 **Prompt Playground**
+- Multi-model prompt testing (Gemini, OpenAI, Claude)
+- Side-by-side comparison of model outputs
+- Customizable system instructions
+- Results analysis and comparison
+- Performance metrics
 
-### **Frontend Stack**
-- **HTML5**: Semantic structure with accessibility considerations
-- **CSS3**: Advanced features including backdrop-filter, gradients, and animations
-- **Vanilla JavaScript**: Lightweight particle systems and effect management
-- **Canvas API**: Hardware-accelerated particle rendering
+### 🛡️ **Prompt Injection Detection**
+- ML-based injection detection using fine-tuned RoBERTa
+- Real-time prompt analysis
+- Confidence scoring
+- Security logging and monitoring
+
+### 🌌 **Immersive UI**
+- Glassmorphic design with advanced blur effects
+- Animated background with floating particles
+- Dark mode optimized interface
+- Responsive and mobile-friendly
+
+## 🛠 Technical Stack
 
 ### **Backend**
-- **Flask**: Python web framework for routing and templating
-- **Jinja2**: Template engine for dynamic content rendering
+- **Flask**: Python web framework
+- **Transformers**: ML models for prompt injection detection
+- **LangChain**: AI orchestration and agent workflows
+- **PyTorch**: Deep learning framework
 
-## 🎯 Key Components
+### **Frontend**
+- **HTML5/CSS3**: Modern semantic markup
+- **Tailwind CSS**: Utility-first styling
+- **Vanilla JavaScript**: Lightweight and fast
+- **Chart.js**: Data visualization
 
-### **ParticleSystem Class**
-```javascript
-// Manages 30+ floating particles with:
-// - Dynamic positioning and movement
-// - Pulsing opacity effects
-// - Collision detection and boundary management
-// - Responsive canvas resizing
-```
-
-### **EffectsSystem Class**
-```javascript
-// Handles interactive animations:
-// - 3D card tilt effects
-// - Mouse trail generation
-// - Input focus effects
-// - Welcome message animations
-```
-
-### **CSS Custom Properties**
-```css
-:root {
-  --first-color: #00cba0;
-  --first-color-alt: #00FFE0;
-  --glass-bg: rgba(255, 255, 255, 0.1);
-  --neon-glow: 0 0 20px rgba(0, 203, 160, 0.5);
-}
-```
+### **APIs**
+- Google Gemini AI
+- Azure OpenAI
+- Anthropic Claude (planned)
 
 ## 🚀 Getting Started
 
-1. **Clone and Navigate**
+1. **Clone the Repository**
    ```bash
-   cd c:\aiatl\project-x
+   git clone https://github.com/Notgoldwag/project-x.git
+   cd project-x
    ```
 
 2. **Install Dependencies**
    ```bash
-   pip install flask
+   pip install -r requirements.txt
    ```
 
-3. **Run the Application**
+3. **Set Up Environment Variables**
+   Create a `.env` file with:
+   ```env
+   GEMINI_API_KEY=your_gemini_key
+   AZURE_OPENAI_ENDPOINT=your_azure_endpoint
+   AZURE_OPENAI_API_KEY=your_azure_key
+   ```
+
+4. **Run the Application**
    ```bash
    python app.py
    ```
 
-4. **Experience the Magic**
-   - Open `http://127.0.0.1:5000` in your browser
-   - Move your mouse to see the 3D card effects
-   - Hover over the title for sonar effects
-   - Click inputs to see typing particles
-   - Watch the floating background particles
+5. **Access the Platform**
+   - Landing Page: `http://127.0.0.1:5001/`
+   - Prompt Engineering: `http://127.0.0.1:5001/home`
+   - Prompt Playground: `http://127.0.0.1:5001/playground`
+   - Injection Detection: `http://127.0.0.1:5001/prompt-injection`
+
+## 📋 API Endpoints
+
+### Prompt Engineering
+- `POST /api/chat` - Main chat endpoint with LangChain orchestration
+- `POST /api/score_prompt` - Score prompt quality
+- `POST /api/analyze_prompt` - Analyze prompt structure
+- `POST /api/explain` - Get AI explanation
+
+### Prompt Playground
+- `POST /api/playground/run_prompt` - Run prompt across multiple models
+- `POST /api/playground/analyze_results` - Analyze and compare results
+
+### Prompt Injection Detection
+- `POST /api/prompt_injection_detector/score` - Detect injection attempts
+- `POST /api/prompt_injection_detector/explain` - Explain detection results
 
 ## 🎨 Customization
 
-### **Color Schemes**
-Modify the CSS custom properties in `styles.css` to change:
-- Particle colors
-- Glow effects
-- Gradient backgrounds
-- Border highlights
+### Adding New Features
+1. Create a new directory under `features/`
+2. Add `index.html` and `static/` subdirectories
+3. Register routes in `app.py`
+4. Update the Jinja2 loader to include the new feature path
 
-### **Animation Speeds**
-Adjust timing in:
-- `particles.js` for particle movement
-- `effects.js` for interaction speeds
-- CSS animations for transition durations
+### Styling
+- Global styles: `static/css/global.css`
+- Feature-specific styles: `features/{feature}/static/css/`
+- Background animation: `static/css/bg.css`
 
-### **Particle Density**
-Change `particleCount` in `ParticleSystem` constructor for more/fewer particles.
+## 🔒 Security
 
-## 🌟 Browser Compatibility
+- Prompt injection detection using ML models
+- Input sanitization and validation
+- Secure API key management via environment variables
+- Logging of security events
 
-- **Chrome 88+**: Full feature support
-- **Firefox 87+**: Full feature support
-- **Safari 14+**: Full feature support with vendor prefixes
-- **Edge 88+**: Full feature support
+## 📱 Browser Support
 
-## 📱 Mobile Experience
+- Chrome 88+
+- Firefox 87+
+- Safari 14+
+- Edge 88+
 
-The interface automatically adapts to mobile devices with:
-- Touch-optimized interactions
-- Reduced particle count for performance
-- Simplified animations
-- Responsive typography scaling
+## 🤝 Contributing
 
-## 🔧 Performance Notes
+This is a private project. For questions or suggestions, please contact the repository owner.
 
-- **60 FPS Rendering**: Optimized particle system using requestAnimationFrame
-- **Memory Efficient**: Automatic cleanup of DOM elements and event listeners
-- **GPU Accelerated**: CSS transforms and filters utilize hardware acceleration
-- **Lazy Loading**: Effects initialize only when needed
+## 📄 License
 
-## 🎭 Design Philosophy
-
-This interface embodies the "Claude Sonnet aesthetic meets AI startup polish" by combining:
-
-- **Minimalist Structure**: Clean, uncluttered layout focusing on essential elements
-- **Technological Sophistication**: Advanced visual effects that feel cutting-edge
-- **Organic Movement**: Natural, fluid animations that feel alive
-- **Premium Quality**: Attention to detail in every interaction and transition
-
-## 🚀 Future Enhancements
-
-Potential additions for even more immersion:
-- Sound effects for interactions
-- Advanced particle physics
-- Personalized particle themes
-- Voice authentication integration
-- Biometric login options
+Proprietary - All rights reserved
 
 ---
 
-**Project X** - *Where innovation meets interaction* ✨
+**Project X** - *Next-generation AI prompt engineering platform* ✨

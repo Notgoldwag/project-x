@@ -1,11 +1,21 @@
 from flask import Flask, render_template, request, jsonify, send_from_directory
 from dotenv import load_dotenv
-from transformers import AutoTokenizer, AutoModelForSequenceClassification
-import torch
 import requests
 import time
 import logging
 import os
+
+# Try to import transformers, but make it optional for testing
+try:
+    from transformers import AutoTokenizer, AutoModelForSequenceClassification
+    import torch
+    TRANSFORMERS_AVAILABLE = True
+except ImportError:
+    print("⚠️ Warning: transformers not available. ML features will be disabled.")
+    TRANSFORMERS_AVAILABLE = False
+    AutoTokenizer = None
+    AutoModelForSequenceClassification = None
+    torch = None
 
 # === Load environment variables ===
 load_dotenv()
@@ -21,7 +31,17 @@ AZURE_OPENAI_DEPLOYMENT_GPT4 = os.getenv("AZURE_OPENAI_DEPLOYMENT_1", "gpt-4.1")
 AZURE_OPENAI_DEPLOYMENT_GPT35 = os.getenv("AZURE_OPENAI_DEPLOYMENT_2", "gpt-35-turbo")
 
 # === Initialize Flask ===
-app = Flask(__name__, static_folder="static", template_folder=".")
+# Configure multiple template folders to support feature-based structure
+import jinja2
+app = Flask(__name__, static_folder="static")
+# Setup multiple template loaders for feature-based structure
+feature_loader = jinja2.ChoiceLoader([
+    jinja2.FileSystemLoader('.'),
+    jinja2.FileSystemLoader('features/prompt_engineering'),
+    jinja2.FileSystemLoader('features/prompt_playground'),
+    jinja2.FileSystemLoader('features/prompt_injection'),
+])
+app.jinja_loader = feature_loader
 
 # === Setup logging ===
 os.makedirs("logs", exist_ok=True)
@@ -47,19 +67,31 @@ logging.basicConfig(
 
 # === Load ML Model (RoBERTa fine-tuned) ===
 MODEL_DIR = os.getenv('MODEL_DIR', 'models/prompt_injection_detector')
-try:
-    print(f"🔍 Loading prompt injection model from {MODEL_DIR}...")
-    tokenizer = AutoTokenizer.from_pretrained(MODEL_DIR)
-    model = AutoModelForSequenceClassification.from_pretrained(MODEL_DIR)
-    model.eval()
-    print("✅ Model loaded successfully!")
-except Exception as e:
-    print(f"⚠️ Warning: Could not load model. Details: {e}")
-    tokenizer = None
-    model = None
+tokenizer = None
+model = None
+
+if TRANSFORMERS_AVAILABLE:
+    try:
+        print(f"🔍 Loading prompt injection model from {MODEL_DIR}...")
+        tokenizer = AutoTokenizer.from_pretrained(MODEL_DIR)
+        model = AutoModelForSequenceClassification.from_pretrained(MODEL_DIR)
+        model.eval()
+        print("✅ Model loaded successfully!")
+    except Exception as e:
+        print(f"⚠️ Warning: Could not load model. Details: {e}")
+        tokenizer = None
+        model = None
+else:
+    print("⚠️ Transformers not available - ML model loading skipped")
 
 
 # === ROUTES ===
+
+# Serve static files from feature directories
+@app.route('/features/<feature_name>/static/<path:filename>')
+def feature_static(feature_name, filename):
+    """Serve static files from feature directories"""
+    return send_from_directory(f'features/{feature_name}/static', filename)
 
 @app.route('/')
 def root():
@@ -69,29 +101,26 @@ def root():
 @app.route('/login_signup')
 def index():
     files = [f"File {i}" for i in range(1, 6)]
-    return render_template('login_signup.html', files=files)
+    return render_template('login_signup.html')
 
 
 @app.route('/home')
 def home():
-    return render_template('home.html')
+    return render_template('index.html')  # Now served from features/prompt_engineering/
+
+
+@app.route('/prompt-injection')
+def prompt_injection():
+    """Render the Prompt Injection Detection page"""
+    return render_template('index.html')  # Now served from features/prompt_injection/
+
+
+# Removed old test routes - files moved to unwanted_files
 
 
 
 
-@app.route('/api-test')
-def api_test():
-    return send_from_directory('.', 'api_test.html')
-
-
-@app.route('/webhook-test')
-def webhook_test():
-    return send_from_directory('.', 'webhook-test.html')
-
-
-@app.route('/prompt-injections')
-def prompt_injections():
-    return render_template('promptinjections.html')
+# Removed old test routes - files moved to unwanted_files
 
 
 # === API: AI CHAT (LangChain Orchestration) ===
@@ -666,7 +695,7 @@ def gemini_chat():
 @app.route('/playground')
 def playground():
     """Render the Multi-Model Prompt Playground page"""
-    return send_from_directory('.', 'playground.html')
+    return render_template('index.html')  # Now served from features/prompt_playground/
 
 
 @app.route('/api/playground/run_prompt', methods=['POST'])
