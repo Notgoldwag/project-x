@@ -33,6 +33,12 @@ def index():
     return send_from_directory('features/prompt_playground', 'index.html')
 
 
+@playground_bp.route('/static/<path:filename>')
+def serve_static(filename):
+    """Serve static files for the playground feature"""
+    return send_from_directory('features/prompt_playground/static', filename)
+
+
 @playground_bp.route('/api/run_prompt', methods=['POST'])
 def run_prompt():
     """

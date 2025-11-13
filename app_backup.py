@@ -23,10 +23,6 @@ AZURE_OPENAI_DEPLOYMENT_GPT35 = os.getenv("AZURE_OPENAI_DEPLOYMENT_2", "gpt-35-t
 # === Initialize Flask ===
 app = Flask(__name__, static_folder="static", template_folder=".")
 
-# === Register Feature Blueprints ===
-from features.prompt_playground.backend import playground_bp
-app.register_blueprint(playground_bp)
-
 # === Setup logging ===
 os.makedirs("logs", exist_ok=True)
 logging.basicConfig(
