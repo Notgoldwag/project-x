@@ -5,17 +5,29 @@ import time
 import logging
 import os
 
-# Try to import transformers, but make it optional for testing
-try:
-    from transformers import AutoTokenizer, AutoModelForSequenceClassification
-    import torch
-    TRANSFORMERS_AVAILABLE = True
-except ImportError:
-    print("⚠️ Warning: transformers not available. ML features will be disabled.")
-    TRANSFORMERS_AVAILABLE = False
-    AutoTokenizer = None
-    AutoModelForSequenceClassification = None
-    torch = None
+# Delay transformers import to avoid Python 3.13 compatibility issues
+# Import will happen lazily when needed
+TRANSFORMERS_AVAILABLE = False
+AutoTokenizer = None
+AutoModelForSequenceClassification = None
+torch = None
+
+def _import_transformers():
+    """Lazy import of transformers to handle compatibility issues"""
+    global TRANSFORMERS_AVAILABLE, AutoTokenizer, AutoModelForSequenceClassification, torch
+    if not TRANSFORMERS_AVAILABLE:
+        try:
+            from transformers import AutoTokenizer as AT, AutoModelForSequenceClassification as AM
+            import torch as t
+            AutoTokenizer = AT
+            AutoModelForSequenceClassification = AM
+            torch = t
+            TRANSFORMERS_AVAILABLE = True
+            return True
+        except Exception as e:
+            print(f"⚠️ Warning: transformers/torch not available. ML features will be disabled. Error: {type(e).__name__}")
+            return False
+    return True
 
 # === Load environment variables ===
 load_dotenv()
@@ -70,19 +82,9 @@ MODEL_DIR = os.getenv('MODEL_DIR', 'models/prompt_injection_detector')
 tokenizer = None
 model = None
 
-if TRANSFORMERS_AVAILABLE:
-    try:
-        print(f"🔍 Loading prompt injection model from {MODEL_DIR}...")
-        tokenizer = AutoTokenizer.from_pretrained(MODEL_DIR)
-        model = AutoModelForSequenceClassification.from_pretrained(MODEL_DIR)
-        model.eval()
-        print("✅ Model loaded successfully!")
-    except Exception as e:
-        print(f"⚠️ Warning: Could not load model. Details: {e}")
-        tokenizer = None
-        model = None
-else:
-    print("⚠️ Transformers not available - ML model loading skipped")
+# Don't try to load the model at startup - will be loaded on-demand if needed
+# This avoids Python 3.13 compatibility issues with torch
+print("⚠️ ML model loading deferred - prompt injection features may be limited")
 
 
 # === ROUTES ===
@@ -99,15 +101,18 @@ def root():
 
 
 @app.route('/login_signup')
-def index():
+def login_signup():
     files = [f"File {i}" for i in range(1, 6)]
     return render_template('login_signup.html')
 
 
-@app.route('/home')
-def home():
+@app.route('/main')
+def main():
     return render_template('index.html')  # Now served from features/prompt_engineering/
 
+@app.route('/home')
+def home():
+    return render_template('home.html') 
 
 @app.route('/prompt-injection')
 def prompt_injection():
