@@ -7,7 +7,7 @@
   'use strict';
 
   // Configuration - use Flask proxy to avoid CORS issues
-  const CHAT_API = 'https://jkathila.app.n8n.cloud/webhook-test/dd754342-79d4-4d96-9805-1a46e97cbca3';
+  const CHAT_API = '/api/chat';
 
   const chatInput = document.getElementById('securityChatInput');
   const sendBtn = document.getElementById('sendSecurityMessage');
