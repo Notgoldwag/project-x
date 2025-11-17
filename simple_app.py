@@ -7,12 +7,17 @@ from flask import Flask, render_template, request, jsonify, send_from_directory
 from dotenv import load_dotenv
 import os
 import logging
+import jinja2
 
 # === Load environment variables ===
 load_dotenv()
 
 # === Initialize Flask ===
-app = Flask(__name__, static_folder="static", template_folder=".")
+app = Flask(__name__, static_folder="static")
+app.jinja_loader = jinja2.ChoiceLoader([
+    jinja2.FileSystemLoader('.'),  # For root templates
+    jinja2.FileSystemLoader('features/prompt_playground'),  # For playground
+])
 
 # === Setup logging ===
 os.makedirs("logs", exist_ok=True)
@@ -55,7 +60,7 @@ def webhook_test():
 
 @app.route('/playground')
 def playground():
-    return send_from_directory('.', 'playground.html')
+    return render_template('index.html')  # From features/prompt_playground/
 
 # === Simple API Endpoint ===
 @app.route('/api/chat', methods=['POST'])
@@ -80,6 +85,66 @@ def simple_chat():
             'status': 'error',
             'message': 'Simple chat service error'
         }), 500
+
+# === Playground API Endpoints ===
+@app.route('/api/playground/run_prompt', methods=['POST'])
+def run_prompt():
+    """Simple playground endpoint - returns mock responses"""
+    try:
+        data = request.json
+        system_instruction = data.get('system_instruction', '')
+        prompt = data.get('prompt', '')
+        models = data.get('models', [])
+        
+        if not prompt:
+            return jsonify({'error': 'Prompt is required'}), 400
+        
+        # Mock responses for each model
+        results = []
+        for model_id in models:
+            if model_id == 'gemini-2.0-flash-exp':
+                result = {
+                    'model': model_id,
+                    'response': '🔄 Gemini API key needs to be updated (currently compromised). Please get a new key from Google AI Studio.',
+                    'status': 'Configuration Required',
+                    'metadata': {'latency': 0.5, 'tokens': 0, 'cost_estimate': 0}
+                }
+            elif model_id in ['gpt-4-turbo', 'gpt-3.5-turbo']:
+                result = {
+                    'model': model_id,
+                    'response': f'✅ This would be the {model_id} response to: "{prompt}"\n\nNote: Azure OpenAI is configured but running in demo mode.',
+                    'status': 'Demo Mode',
+                    'metadata': {'latency': 0.3, 'tokens': 50, 'cost_estimate': 0.002}
+                }
+            else:
+                result = {
+                    'model': model_id,
+                    'response': f'Model {model_id} response simulation.',
+                    'status': 'Demo Mode',
+                    'metadata': {'latency': 0.4, 'tokens': 30, 'cost_estimate': 0.001}
+                }
+            
+            results.append(result)
+        
+        return jsonify({
+            'results': results,
+            'total_time': 0.8
+        })
+        
+    except Exception as e:
+        logging.error(f"Playground error: {e}")
+        return jsonify({'error': str(e)}), 500
+
+@app.route('/api/playground/analyze_results', methods=['POST'])
+def analyze_results():
+    """Mock analysis endpoint"""
+    return jsonify({
+        'analysis': {
+            'overall_clarity_score': 8.5,
+            'overall_relevance_score': 9.0,
+            'overall_summary': '🎯 Demo mode: Analysis would appear here with proper API keys configured.'
+        }
+    })
 
 # === Static files ===
 @app.route('/static/<path:filename>')
